@@ -3,7 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Zone;
 use App\Models\Biodata;
+use App\Models\College;
+use App\Models\Program;
+use App\Models\Residence;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -21,6 +25,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username',
+        'firstname',
+        'lastname',
         'email',
         'is_student',
         'password',
@@ -47,5 +53,31 @@ class User extends Authenticatable
 
     public function biodata():HasOne{
         return $this->HasOne(Biodata::class,'user_id');
+    }
+
+    public function hasProfile() {
+
+        return exists($this->biodata()) ;
+        // return ($this->HasOne(Biodata::class,'user_id') = TRUE);
+    }
+
+    public function avatar(){
+        return $this->avatar;
+    }
+
+    public function residence(): hasOne{
+        return $this->hasOne(Residence::class);
+    }
+
+    public function zone(): hasOne{
+        return $this->hasOne(Zone::class);
+    }
+
+    public function college(): hasOne{
+        return $this->hasOne(College::class);
+    }
+
+    public function program(): hasOne{
+        return $this->hasOne(Program::class);
     }
 }

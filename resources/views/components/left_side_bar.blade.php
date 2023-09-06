@@ -37,6 +37,9 @@
                             <a class="nav-link" href="pages-login.html" target="_top"><i class="icon-user"></i> Profile</a>
                         </li>
                         <li class="nav-item">
+                        <a class="nav-link" href="{{route('logout')}}" target="_top"><i class="icon-star"></i> Log Out</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="pages-register.html" target="_top"><i class="icon-star"></i> Register</a>
                         </li>
                         <li class="nav-item">

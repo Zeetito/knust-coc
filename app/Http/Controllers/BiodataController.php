@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Biodata;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BiodataController extends Controller
 {
@@ -30,6 +31,21 @@ class BiodataController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'room' => ['required'],
+            'year' => ['required'],
+        ]);
+        $validated['user_id'] = Auth::user()->id;
+        $validated['zone_id'] = 1;
+        $validated['residence_id'] = 1;
+        // $validated['room'] = "1A";
+        $validated['program_id'] = "16";
+
+        // Program id is used to query for the college id.
+        // $validated['college_id'] = Program::find($validated['program_id'])->college()->id;
+
+        $biodata = Biodata::create($validated);
+        return redirect(route('view_profile',auth()->user()))->with('success','Profile Created Successfully');
     }
 
     /**

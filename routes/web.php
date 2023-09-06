@@ -37,10 +37,16 @@ Route::get('/login', function(){
 ->middleware('guest')
 ->name('login');
 
+
 // User Login Action 
 Route::Post('/login',[UserController::class,"login"])
 ->middleware('guest')
 ->name('log_user_in');
+
+// User Login Action 
+Route::get('/logout',[UserController::class,"logout"])
+->middleware('auth')
+->name('logout');
 
 Route::get('/', function(){
     return view('homepage');
@@ -49,24 +55,35 @@ Route::get('/', function(){
 ->name('home');
 
 // SHOW USER PROFILE
-Route::get('/profile',[UserController::class,"profile"])
+Route::get('/profile/{user}',[UserController::class,"profile"])
 ->middleware('auth')
-->name('view_profile')
-;
+->name('view_profile');
 
-// EDIT USER PROFILE
+// CREATE USER PROFILE FORM
 Route::get('/edit-profile', function(){
     $user = auth()->user();
     $profile = $user->biodata;
-    return view('profile.edit',['user'=>$user , 'profile'=>$profile]);
+    return view('profile.create',['user'=>$user , 'profile'=>$profile]);
     // return view('profile.edit',['user'=>auth()->user()]);
 })
 ->middleware('auth')
-->name('edit_user_profile_form')
+->name('create_user_profile_form')
 ;
 
-// Route::resource('/profile',BiodataController::class)
-// ->middleware('auth')
-// ->name('profile')
+// CREATE PROFILE ACTION
+Route::post('/profile',[BiodataController::class,"store"])
+->middleware('auth')
+->name('create_profile');
 
+// CHANGE USER AVATAR
 
+// View avatar change form
+Route::get('/avatar',[UserController::class,"edit_avatar"])
+->middleware('auth')
+->name('edit_avatar')
+;
+// Update Avatar action
+Route::post('/avatar',[UserController::class,"update_avatar"])
+->middleware('auth')
+->name('update_avatar')
+;

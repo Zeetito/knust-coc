@@ -19,10 +19,8 @@ class BiodataFactory extends Factory
     {
         return [
             //
-            'user_id' => User::all()->random()->id,
-            'firstname' => fake()->firstName(),
-            'othername'=> fake()->firstName(),
-            'lastname' => fake()->lastName(),
+            'user_id' => User::all()->unique()->random()->id,
+            'year' => rand(1,8),
             'zone_id' => rand(1,8),
             'residence_id' => rand(1,100),
             'room' => fake()->buildingNumber(),

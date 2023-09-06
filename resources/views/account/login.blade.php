@@ -10,7 +10,7 @@
      {{-- <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
      <meta name="author" content="Lukasz Holeczek">
      <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template"> --}}
-     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
+     <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
  
      <title>Knust Church Of Christ Register</title>
  

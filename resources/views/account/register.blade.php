@@ -10,7 +10,7 @@
      {{-- <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
      <meta name="author" content="Lukasz Holeczek">
      <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template"> --}}
-     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
+     <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
  
      <title>Knust Church Of Christ Register</title>
  
@@ -58,6 +58,27 @@
                                     <input type="text" value="{{old('username',"")}}" name="username" class="form-control" placeholder="Username">
                                 </div>
                                 @error('username')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
+                                {{-- Firstname --}}
+                                <div class="input-group mb-3">
+                                    <span class="input-group-addon"><i class="icon-user"></i>
+                                    </span>
+                                    <input type="text" value="{{old('firstname',"")}}" name="firstname" class="form-control" placeholder="firstname">
+                                </div>
+                                @error('firstname')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
+
+                                {{-- Lastname --}}
+                                <div class="input-group mb-3">
+                                    <span class="input-group-addon"><i class="icon-user"></i>
+                                    </span>
+                                    <input type="text" value="{{old('lastname',"")}}" name="lastname" class="form-control" placeholder="lastname">
+                                </div>
+                                @error('lastname')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 

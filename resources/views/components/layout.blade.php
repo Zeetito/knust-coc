@@ -10,9 +10,9 @@
      {{-- <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
      <meta name="author" content="Lukasz Holeczek">
      <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template"> --}}
-     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
+     <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
  
-     <title>Knust Church Of Christ Register</title>
+     <title>Knust Church Of Christ</title>
  
      <!-- Icons -->
      <link href="{{ asset("css/style.css") }}" rel="stylesheet">
@@ -36,7 +36,7 @@
     
             <ul class="nav navbar-nav d-md-down-none">
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">Dashboard</a>
+                <a class="nav-link" href="{{route('home')}}">Dashboard</a>
                 </li>
                 <li class="nav-item px-3">
                     <a class="nav-link" href="#">Users</a>
@@ -55,11 +55,14 @@
                 <li class="nav-item d-md-down-none">
                     <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
                 </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="{{route('view_profile',auth()->user()->id)}}" role="button" aria-haspopup="true" aria-expanded="false">
+                        {{-- User Profile Icon --}}
+                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="{{route('view_profile', auth()->id())}}" role="button" aria-haspopup="true" aria-expanded="false">
                         <img src="{{asset('img/avatars/'.auth()->user()->avatar.'.jpg')}}" class="img-avatar" alt="Profile Picture">
                         <span class="d-md-down-none">admin</span>
                     </a>
+
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-header text-center">
                             <strong>Account</strong>

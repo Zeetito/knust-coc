@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('biodatas', function (Blueprint $table) {
+        Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->integer('year');
-            $table->foreignId('zone_id');
-            $table->foreignId('residence_id');
-            $table->string('room');
-            $table->foreignId('program_id');
-            $table->foreignId('role_id')->default(0);
+            $table->string('name');
+            $table->foreignId('college_id');
+            $table->string('type');
+            $table->integer('span');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('biodatas');
+        Schema::dropIfExists('programs');
     }
 };

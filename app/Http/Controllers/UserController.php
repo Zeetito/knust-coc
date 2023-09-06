@@ -32,12 +32,14 @@ class UserController extends Controller
     {
         //
         $validated = $request->validate([
+             'firstname'=>['required','min:5','max:30'],
+            'lastname'=>['required','min:5','max:30'],
             'username'=>['required','min:3','max:30', Rule::unique('users','username')],
-            'email'=>['email','required'],
+            'email'=>['email','required', Rule::unique('users','email')],
             'password'=>['required','confirmed','max:225','min:6'],
         ]);
         $validated['is_student'] = 1;
-        $validated['password'] =  md5($validated['password']) ;
+        $validated['password'] =  bcrypt($validated['password']) ;
         $user = User::create($validated);
         auth()->login($user);
 
@@ -50,13 +52,18 @@ class UserController extends Controller
     public function login(Request $request)
     {
         //
+
+        if (Auth::check()) {
+            return redirect(route('home'))->with('info', 'You are already logged in.');
+        }
+        
         $validated = $request->validate([
             'username' => ['required','min:2'],
             'password' => ['required'],
         ]);
-        $validated['password'] = md5($request['password']);
+        // $validated['password'] = bcrypt($validated['password']);
+        if(Auth::attempt($validated)){
 
-        if(Auth::attempt(['username'=>$validated['username'], 'password'=>$validated['password'] ])){
             $request->session()->regenerate();
             
                 return redirect(route('home'))->with('success','You have successfully logged in');
@@ -90,10 +97,32 @@ class UserController extends Controller
         //
     }
 
+
+    public function logout(User $user)
+    {
+        //
+        Auth::logout();
+        return redirect(route('login'))->with('success','Logged Out Successfully');
+    }
+
+
+
+
     public function profile(User $user)
     {
-        $biodata = $user->biodata;
-        // $biodata = User::find(4)->biodata;
-        return view('profile.show',['profile' => $biodata]);
+        return $user;
+        $biodata = $user->biodata();
+        return ($biodata);
+        return view('profile.show',['profile' => $biodata , 'user' => $user]);
+    }
+
+    public function edit_avatar(){
+        $user  = auth()->user();
+        return view('profile.edit-avatar',['user'=>$user]);
+    }
+
+    public function update_avatar(){
+        $user  = auth()->user();
+        //
     }
 }

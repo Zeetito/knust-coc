@@ -19,11 +19,13 @@ class UserSeeder extends Seeder
 
         User::create([
             'username' => 'tito',
+            'firstname'=>'Ernest',
+            'lastname'=>'Agyare',
             'is_activated'=>1,
             'is_student'=> 1,
             'email' => 'tito44@gmail.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNphpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' =>  bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ]);
         User::factory(50)->create();
