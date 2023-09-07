@@ -51,19 +51,22 @@ class BiodataController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Biodata $biodata)
+    public function show(User $user)
     {
         //
-        // return 'Hello world';
+        $profile = $user->biodata;
+        return view('profile.show',['profile' => $profile , 'user' => $user]);
         
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Biodata $biodata)
+    public function edit(User $user)
     {
         //
+        $profile = $user->biodata;
+        return view('profile.edit',['profile' => $profile , 'user' => $user]);
         
     }
 

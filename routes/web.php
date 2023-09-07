@@ -16,6 +16,7 @@ use App\Http\Controllers\BiodataController;
 |
 */
 
+// ACCOUNT
 
 // Guest Register
 Route::get('/register', function(){
@@ -54,13 +55,15 @@ Route::get('/', function(){
 ->middleware('auth')
 ->name('home');
 
-// SHOW USER PROFILE
-Route::get('/profile/{user}',[UserController::class,"profile"])
+// USER PROFILE
+
+// Show User Profile
+Route::get('/profile/{user}',[BiodataController::class,"show"])
 ->middleware('auth')
 ->name('view_profile');
 
-// CREATE USER PROFILE FORM
-Route::get('/edit-profile', function(){
+// create User Profile form
+Route::get('/profile', function(){
     $user = auth()->user();
     $profile = $user->biodata;
     return view('profile.create',['user'=>$user , 'profile'=>$profile]);
@@ -70,20 +73,26 @@ Route::get('/edit-profile', function(){
 ->name('create_user_profile_form')
 ;
 
-// CREATE PROFILE ACTION
+// Create/store user profile
 Route::post('/profile',[BiodataController::class,"store"])
 ->middleware('auth')
 ->name('create_profile');
 
-// CHANGE USER AVATAR
+// edit user profile
+Route::get('/profile/{user}/edit',[BiodataController::class,"edit"])
+->middleware('auth')
+->name('edit_user_profile_form')
+;
+
+// USER AVATAR
 
 // View avatar change form
-Route::get('/avatar',[UserController::class,"edit_avatar"])
+Route::get('/avatar/{user}',[UserController::class,"edit_avatar"])
 ->middleware('auth')
-->name('edit_avatar')
+->name('edit_avatar_form')
 ;
 // Update Avatar action
-Route::post('/avatar',[UserController::class,"update_avatar"])
+Route::post('/avatar/{user}',[UserController::class,"store_avatar"])
 ->middleware('auth')
 ->name('update_avatar')
 ;

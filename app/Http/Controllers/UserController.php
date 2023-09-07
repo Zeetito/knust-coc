@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -98,7 +100,7 @@ class UserController extends Controller
     }
 
 
-    public function logout(User $user)
+    public function logout()
     {
         //
         Auth::logout();
@@ -107,22 +109,59 @@ class UserController extends Controller
 
 
 
+    // USER AVATAR
 
-    public function profile(User $user)
-    {
-        return $user;
-        $biodata = $user->biodata();
-        return ($biodata);
-        return view('profile.show',['profile' => $biodata , 'user' => $user]);
-    }
-
-    public function edit_avatar(){
-        $user  = auth()->user();
+    // View Edit Avatar Form
+    public function edit_avatar(User $user){
         return view('profile.edit-avatar',['user'=>$user]);
     }
 
-    public function update_avatar(){
-        $user  = auth()->user();
-        //
+    // Store/Update User Avatar 
+    public function  store_avatar(Request $request, User $user){
+        $request->validate([
+            'avatar'=>'required|image|max:5000'
+        ]);
+            $file = $request->file('avatar');
+            $filename = $user->username."-".uniqid().".jpg";
+            $oldAvatar = $user->avatar;
+            $user = $user;
+
+// Check if User has changed the profile pic from the default pic already
+            
+
+                // delete existing pic from avatar folder
+                Storage::delete("/public/img/avatars/".$oldAvatar);
+
+                // update the user avatar attribute
+                $user->avatar=$filename;
+                $user->save();
+                
+                // store the new user avatar in avatar folder
+                $imgData = Image::make($file)->fit(200)->encode('jpg');
+                Storage::put('/public/img/avatars/'.$filename ,$imgData);
+
+                if($oldAvatar != "/default_avatar.jpg"){
+                    $msg = "Avatar Updated Successfully";
+                }
+                $msg = "New Avatar Uploaded";
+
+                return back()->with("success",$msg);
+            // return"Successfylly Added";
+
+
+            // $this->update_avatar($file,$filename,$oldAvatar,$user);
+            
+        
     }
+
+
+// ### A function to update avatar that can be called in any usercontroller function
+    private function update_avatar($file,$filename,$oldAvatar,$user){
+        return( "yes");
+
+        
+        
+
+    } 
+
 }

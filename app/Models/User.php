@@ -9,7 +9,9 @@ use App\Models\College;
 use App\Models\Program;
 use App\Models\Residence;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,33 +53,45 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function biodata():HasOne{
-        return $this->HasOne(Biodata::class,'user_id');
+     //Nb.. if the file is deleted, it would show somthing else and not the fall-back avatar
+    //  protected function avatar(): Attribute{
+    //     return Attribute::make(get: function($value) {
+    //         return $value ? "/storage/img/avatars/".$value : "/img/default_avatar.jpg";
+    //     });
+    // }
+
+    // RELATIONSHIPS
+    public function biodata(): HasOne{
+        return $this->HasOne(Biodata::class);
     }
 
+    
+    public function residence(): HasOne{
+        return $this->HasOne(Residence::class);
+    }
+    
+    public function zone(): HasOne{
+        return $this->HasOne(Zone::class);
+    }
+    
+    public function college(): HasOne{
+        return $this->HasOne(College::class);
+    }
+    
+    public function program(): HasOne{
+        return $this->HasOne(Program::class);
+    }
+
+    // FUNCTIONS
+
+    //Flagged -> Not functioning
     public function hasProfile() {
-
         return exists($this->biodata()) ;
-        // return ($this->HasOne(Biodata::class,'user_id') = TRUE);
     }
 
-    public function avatar(){
-        return $this->avatar;
+    public function get_avatar(){
+        // return $this->avatar;
+        return Storage::get("/storage/avatars/".$this->avatar);
     }
 
-    public function residence(): hasOne{
-        return $this->hasOne(Residence::class);
-    }
-
-    public function zone(): hasOne{
-        return $this->hasOne(Zone::class);
-    }
-
-    public function college(): hasOne{
-        return $this->hasOne(College::class);
-    }
-
-    public function program(): hasOne{
-        return $this->hasOne(Program::class);
-    }
 }

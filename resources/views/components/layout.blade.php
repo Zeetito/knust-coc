@@ -59,8 +59,8 @@
                 <li class="nav-item dropdown">
                         {{-- User Profile Icon --}}
                     <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="{{route('view_profile', auth()->id())}}" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{asset('img/avatars/'.auth()->user()->avatar.'.jpg')}}" class="img-avatar" alt="Profile Picture">
-                        <span class="d-md-down-none">admin</span>
+                        <img src="{{asset('storage/img/avatars/'.auth()->user()->avatar)}}" class="img-avatar" alt="Profile Picture">
+                        <span class="d-md-down-none">User Role</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
@@ -102,12 +102,12 @@
 
         {{$slot}}
 
-    </main>
+                    </main>
         
     <x-right_side_bar/>
 
 
-</div>
+        </div>
 
         <footer class="app-footer">
                 <a href="">Knust CoC </a> © {{Date('Y')}}
