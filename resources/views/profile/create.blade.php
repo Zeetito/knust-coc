@@ -63,17 +63,15 @@
 
                             {{-- Year --}}
                             <div class="col-md-3 mb-4">
-                                    <select class="form-control" name="year" id="years">
-                                        <option>SELECT YEAR</option>
+                            <select class="form-control" value="{{old('year',$profile->year)}}" name="year" id="years">
+                                <option value=" ">SELECT YEAR</option>
 
-                                        @for($i=1; $i<=8; $i++)
-                                             <option value="{{$i}}">{{$i}}</option>
-                                        @endfor
+                                @for($i=1; $i<=8; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
 
-                                    </select>
-                                 {{-- <span class="help-block">Year</span> --}}
-                                {{-- Error Message --}}
-                                    @error('zone')
+                            </select>
+                                    @error('year')
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror
                             </div>
@@ -111,7 +109,7 @@
                             {{-- <label class="col-md-3 mb-4 form-control-label" for="file-input">File input</label> --}}
                             <div class="col-md-9">
                                 Upload a profile picture
-                                <input type="file" id="file-input" name="dp">
+                               
                             </div>
                         </div>
                     <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>

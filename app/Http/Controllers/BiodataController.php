@@ -76,6 +76,13 @@ class BiodataController extends Controller
     public function update(Request $request, Biodata $biodata)
     {
         //
+        $validated = $request->validate([
+            'room' => ['required'],
+            'year' => ['required'],
+        ]);
+
+        $biodata->update($validated);
+        return(redirect(route('view_profile',$biodata->user->id )));
     }
 
     /**

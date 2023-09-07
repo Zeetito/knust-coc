@@ -84,6 +84,12 @@ Route::get('/profile/{user}/edit',[BiodataController::class,"edit"])
 ->name('edit_user_profile_form')
 ;
 
+// Update User profile
+Route::put('/profile/{biodata}',[BiodataController::class,"update"])
+->middleware('auth')
+->name('update_profile')
+;
+
 // USER AVATAR
 
 // View avatar change form

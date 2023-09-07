@@ -7,63 +7,125 @@
                         
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-
+                    <form action="{{route('update_profile',$profile->id)}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            @csrf
+                            @method('put')
                             {{-- UserName --}}
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label">Username</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">{{$user->username}}</p>
+                                {{-- <label class="col-md-3 form-control-label">Hello</label> --}}
+                                <div class="col-md-6">
+                                    <p class="form-control-static">Hello {{$user->username}} Help us know more about you</p>
                                 </div>
                             </div>
-
-                            {{-- FirstName --}}
+    
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="text-input">First Name</label>
-                                <div class="col-md-9">
-                                <input type="text"  value="{{old('firstname', empty($profile->firstname) ? $profile->firstname : " ")}}" name="firstname" class="form-control" placeholder="Text">
-                                    <span class="help-block">Firstname</span>
-                                </div>
+                               
+    
+                                 {{-- Other Name --}}
+                                {{-- <label class="col-md-3 form-control-label" for="text-input">First Name</label> --}}
+                                {{-- <div class="col-md-3 mb-4">
+                                    <input type="text"  value="{{old('othername')}}" name="othername" class="form-control" placeholder="Other Name">
+                                        {{-- <span class="help-block">Other Name</span> --}}
+                                         {{-- Error Message --}}
+                                         {{-- @error('othername') --}}
+                                         {{-- <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p> --}}
+                                         {{-- @enderror --}}
+                                {{-- </div> --}}
+    
+                              {{-- Program List for Each College --}}
+                                {{-- Program Id --}}
+                                <div class="col-md-3 mb-4">
+                                    <input list="programs" class="form-control" name="program_id" id="program" placeholder="program search..." >
+                                    <datalist id="programs">
+                                      <option value="computer science">
+                                      <option value="environmental science">
+                                      <option value="something else">
+                                    </datalist>
+                                {{-- <span class="help-block">Residence</span> --}}
+    
                             </div>
+    
+    
+                                {{-- Zone Id --}}
+                                <div class="col-md-3 mb-4">
+                                        <select class="form-control" name="zone" id="zones">
+                                            <option>SELECT ZONE</option>
+                                            <option>BOADI</option>
+                                            <option>CAMPUS</option>
+                                            <option>SHALOM</option>
+                                            <option>NEWSITE</option>
+                                        </select>
+                                     {{-- <span class="help-block">Zone</span> --}}
+                                    {{-- Error Message --}}
+                                        @error('zone')
+                                        <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                        @enderror
+                                </div>
+    
+                                {{-- Year --}}
+                                <div class="col-md-3 mb-4">
+                                <select class="form-control" value="{{old('year',$profile->year)}}" name="year" id="years">
+                                            <option>SELECT YEAR</option>
+    
+                                            @for($i=1; $i<=8; $i++)
+                                                 <option value="{{$i}}">{{$i}}</option>
+                                            @endfor
+    
+                                        </select>
+                                     {{-- <span class="help-block">Year</span> --}}
+                                    {{-- Error Message --}}
+                                        @error('year')
+                                        <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                        @enderror
+                                </div>
+    
+                                {{-- Residence List for Each Zone --}}
+                                {{-- Residence Id --}}
+                                <div class="col-md-3 mb-4">
+                                        <input list="residences" class="form-control"  name="residence" id="residence" placeholder="Residence search..." >
+                                        <datalist id="residences">
+                                          <option value="Happy Family">
+                                          <option value="Shalom">
+                                          <option value="Independence Hall">
+                                        </datalist>
+                                    {{-- <span class="help-block">Residence</span> --}}
+    
+                                </div>
+    
+                                   {{-- Room --}}
+                                {{-- <label class="col-md-3 mb-4 form-control-label" for="text-input">First Name</label> --}}
+                                <div class="col-md-3 mb-4">
+                                    <input type="text"  value="{{old('room',$profile->room)}}" name="room" class="form-control" placeholder="Room">
+                                        {{-- <span class="help-block">Room</span> --}}
+                                         {{-- Error Message --}}
+                                         @error('room')
+                                         <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                         @enderror
+                                </div>
+    
+                            </div>
+                           
                             
-
+    
+                           {{-- Upload Profile Pic Option --}}
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label" for="file-input">File input</label>
-                                <div class="col-md-9">
-                                    <input type="file" id="file-input" name="file-input">
-                                </div>
+                                {{-- <label class="col-md-3 mb-4 form-control-label" for="file-input">File input</label> --}}
+                                <a href="{{route('edit_avatar_form',$user->id )}} ">
+                                    <div class="btn col-md-9">
+                                    Change Avatar
+                                    </div>
+                                </a>
                             </div>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Save changes</button>
                            
                         </form>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
                         {{-- <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button> --}}
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <strong>Inline</strong>
-                        Form
-                    </div>
-                    <div class="card-body">
-                        <form action="" method="post" class="form-inline">
-                            <div class="form-group">
-                                <label for="exampleInputName2">Name</label>
-                                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail2">Email</label>
-                                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-                    </div>
-                </div>
+    
+           
             </div>
        
-</x-layout>
+    </x-layout>
