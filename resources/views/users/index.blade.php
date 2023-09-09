@@ -45,9 +45,9 @@
                                                         <a href="{{route('view_profile',$user->id)}}">
                                                               <i class="fa fa-eye"></i>
                                                         </a>
-                                                        <a href="{{route('view_profile',$user->id)}}">
+                                                    <span class="btn-info get_info_modal_button "  data-url="{{route('show_modal_info',$user->id)}}">
                                                               <i class="fa fa-address-card-o"></i>
-                                                        </a>
+                                                        </span>
                                                     </td>
                                                     {{-- <td>
                                                         <span class="badge badge-success">Active</span>
@@ -73,10 +73,15 @@
                 {{-- Whole Table Screen Ends --}}
 
                 {{-- Info About Program --}}
-                <div class="process-view-container program_info">
+                <div class="process-view-container">
                     <p style="font-weight:bolder">
                         See User Info
                     </p>
+                    <div id="get_fetched_content" >
+
+                        See User Info Here
+
+                    </div>
                    
                 </div>
                 {{-- Info About Program Ends --}}

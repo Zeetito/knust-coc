@@ -106,4 +106,13 @@ class BiodataController extends Controller
     {
         //
     }
+
+
+    // MODALS VIEWW
+    // some users do not have biodata due to seeding
+    public function show_modal_info(User $user){
+
+        return view('modals.user.user-info',['profile'=>$user->biodata]);
+    }
+
 }

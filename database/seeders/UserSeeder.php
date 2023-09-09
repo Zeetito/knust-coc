@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'username' => 'tito',
             'firstname'=>'Ernest',
             'lastname'=>'Agyare',
+            'gender'=>'m',
             'is_activated'=>1,
             'is_student'=> 1,
             'email' => 'tito44@gmail.com',

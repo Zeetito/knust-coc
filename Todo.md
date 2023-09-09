@@ -55,3 +55,11 @@ checked_by
 <!-- (the id of user who checked the other user. Could be the user him/herself or a hall or residence rep.) -->
 
 timestamps()
+
+#PHASE 4
+##Create Policies 
+a.User Policy (Who Can edit user details like username, firstname email, etc.)
+
+b.BiodataPolicy (who can edit user details like )
+
+## Ajax Model view for user Info.

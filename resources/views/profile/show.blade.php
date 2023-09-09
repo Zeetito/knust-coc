@@ -12,9 +12,12 @@
             {{-- User Avatar --}}
             <div  style="border-color:blue; border-width:5px"  class="nav-link nav-link" data-toggle="dropdown" href="{{route('view_profile',auth()->user()->id)}}" role="button" aria-haspopup="true" aria-expanded="false">
                 <img src="{{$user->get_avatar()}}" class="img-avatar" alt="Profile Picture">
+                {{-- Edit User Avatar --}}
+                @can("update",$profile)
                 <a href="{{route( 'edit_avatar_form',$user->id )}}">
                     <span style="position:absolute; margin-top:25px;" class="d-md-down-none"><i title="change Profile picture" class="fa fa-pencil"></i></span>
                 </a>
+                @endcan
 
             </div>
 
@@ -25,12 +28,14 @@
                             <div class="card border-primary">
                                 <div class="card-header">
                                     <i class="fa fa-user"></i>User Profile
-
-                                <a class="btn" href="{{route('edit_user_profile_form', $user->id)}}">
+                                {{-- Update User Profile --}}
+                                    @can("update",$profile)
+                                    <a class="btn" href="{{route('edit_user_profile_form', $user->id)}}">
                                         <span class="badge badge-success float-right">
                                             Edit Profile
                                         </span>
                                     </a>
+                                    @endcan
 
                                 </div>
 

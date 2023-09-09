@@ -18,7 +18,6 @@
      <link href="{{ asset("css/style.css") }}" rel="stylesheet">
      <link href={{ asset("css/simple-line-icons.css") }} rel="stylesheet">
      <link href={{ asset("css/font-awesome.css") }} rel="stylesheet">
-     <link href={{ asset("css/font-awesome.css") }} rel="stylesheet">
  
      <!-- Main styles for this application -->
      <link href={{ asset("css/style.css") }} rel="stylesheet">
@@ -39,7 +38,7 @@
                 <a class="nav-link" href="{{route('home')}}">Dashboard</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link" href="#">Users</a>
+                    <a class="nav-link" href="{{route('view_users')}}">Users</a>
                 </li>
                 <li class="nav-item px-3">
                     <a class="nav-link" href="#">Settings</a>
@@ -117,6 +116,8 @@
      <!-- Bootstrap and necessary plugins -->
      <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
      <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
+     <script src={{asset("js/custom.js")}}></script>
+
      {{-- <script src={{asset("bower_components/tether/dist/js/tether.min.js")}}></script> --}}
      
      {{-- Plugins and scripts required by all views --}}

@@ -78,13 +78,13 @@ Route::post('/profile',[BiodataController::class,"store"])
 
 // edit user profile
 Route::get('/profile/{user}/edit',[BiodataController::class,"edit"])
-->middleware('auth')
+->middleware('auth','can:update,user')
 ->name('edit_user_profile_form')
 ;
 
 // Update User profile
 Route::put('/profile/{biodata}',[BiodataController::class,"update"])
-->middleware('auth')
+->middleware('auth','can:update,biodata')
 ->name('update_profile')
 ;
 
@@ -98,7 +98,7 @@ Route::get('/avatar/{user}',[UserController::class,"edit_avatar"])
 // Update Avatar action
 Route::post('/avatar/{user}',[UserController::class,"store_avatar"])
 ->middleware('auth')
-->name('update_avatar')
+->name('update_avatar','can:update,user')
 ;
 Route::get('/avatar/{user}/reset',[UserController::class,"reset_avatar"])
 ->middleware('auth')
@@ -112,6 +112,13 @@ Route::get('/users',[UserController::class,"view_users"])
 ->name('view_users')
 ;
 
+
+// MODAL VIEWS
+
+// modal view user profile info
+Route::get('/info/{user}',[BiodataController::class,"show_modal_info"])
+->middleware('auth')
+->name('show_modal_info');
 
 Route::get('/hello',function(){
     return College::find(2)->pg_programs();
