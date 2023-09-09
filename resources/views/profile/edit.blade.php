@@ -48,24 +48,23 @@
     
                                 {{-- Zone Id --}}
                                 <div class="col-md-3 mb-4">
-                                        <select class="form-control" name="zone" id="zones">
-                                            <option>SELECT ZONE</option>
-                                            <option>BOADI</option>
-                                            <option>CAMPUS</option>
-                                            <option>SHALOM</option>
-                                            <option>NEWSITE</option>
+                                        <select class="form-control" name="zone_id" id="zones">
+                                            <option value="">SELECT ZONE</option>
+                                        @foreach($zones as $zone)
+                                            <option value="{{$zone->id}}"> {{$zone->name}} </option>
+                                         @endforeach
                                         </select>
                                      {{-- <span class="help-block">Zone</span> --}}
                                     {{-- Error Message --}}
-                                        @error('zone')
-                                        <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                        @error('zone_id')
+                                        <p class='m=0 small alert alert-danger shadow-sm'>{{"You Must Select A Zone"}}</p>
                                         @enderror
                                 </div>
     
                                 {{-- Year --}}
                                 <div class="col-md-3 mb-4">
                                 <select class="form-control" value="{{old('year',$profile->year)}}" name="year" id="years">
-                                            <option>SELECT YEAR</option>
+                                            <option value="" >SELECT YEAR</option>
     
                                             @for($i=1; $i<=8; $i++)
                                                  <option value="{{$i}}">{{$i}}</option>

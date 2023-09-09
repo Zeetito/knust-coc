@@ -31,7 +31,7 @@
  <body class="app header-fixed  aside-menu-fixed aside-menu-hidden">
         <header class="app-header navbar">
             <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">☰</button>
-            <a class="navbar-brand" href="#"></a>
+                <a class="navbar-brand" href="{{route('home')}}"></a>
             <button class="navbar-toggler sidebar-minimizer d-md-down-none" type="button">☰</button>
     
             <ul class="nav navbar-nav d-md-down-none">
@@ -59,7 +59,7 @@
                 <li class="nav-item dropdown">
                         {{-- User Profile Icon --}}
                     <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="{{route('view_profile', auth()->id())}}" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{asset('storage/img/avatars/'.auth()->user()->avatar)}}" class="img-avatar" alt="Profile Picture">
+                        <img src="{{Auth::user()->get_avatar() }}" class="img-avatar" alt="Profile Picture">
                         <span class="d-md-down-none">User Role</span>
                     </a>
 

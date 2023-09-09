@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\User;
+use App\Models\Zone;
+use App\Models\College;
+use App\Models\Residence;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BiodataController;
@@ -63,12 +66,7 @@ Route::get('/profile/{user}',[BiodataController::class,"show"])
 ->name('view_profile');
 
 // create User Profile form
-Route::get('/profile', function(){
-    $user = auth()->user();
-    $profile = $user->biodata;
-    return view('profile.create',['user'=>$user , 'profile'=>$profile]);
-    // return view('profile.edit',['user'=>auth()->user()]);
-})
+Route::get('/profile',[BiodataController::class,"create"])
 ->middleware('auth')
 ->name('create_user_profile_form')
 ;
@@ -102,3 +100,19 @@ Route::post('/avatar/{user}',[UserController::class,"store_avatar"])
 ->middleware('auth')
 ->name('update_avatar')
 ;
+Route::get('/avatar/{user}/reset',[UserController::class,"reset_avatar"])
+->middleware('auth')
+->name('reset_avatar')
+;
+
+
+// VIEWS
+Route::get('/users',[UserController::class,"view_users"])
+->middleware('auth')
+->name('view_users')
+;
+
+
+Route::get('/hello',function(){
+    return College::find(2)->pg_programs();
+});

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Zone;
 use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,8 @@ class BiodataController extends Controller
     public function create()
     {
         //
+        $zones = Zone::all();
+        return view('profile.create',['user'=>$user , 'profile'=>$profile]);
     }
 
     /**
@@ -66,7 +69,8 @@ class BiodataController extends Controller
     {
         //
         $profile = $user->biodata;
-        return view('profile.edit',['profile' => $profile , 'user' => $user]);
+        $zones = Zone::all();
+        return view('profile.edit',['profile' => $profile , 'zones'=>$zones, 'user' => $user]);
         
     }
 
@@ -77,12 +81,22 @@ class BiodataController extends Controller
     {
         //
         $validated = $request->validate([
-            'room' => ['required'],
-            'year' => ['required'],
+            'room' => ['min:2'] ,
+            // 'room' => ['alpha_num:ascii'] ,
+            'zone_id' => ['numeric'] ,
         ]);
 
-        $biodata->update($validated);
-        return(redirect(route('view_profile',$biodata->user->id )));
+      
+        try {
+            // Attempt to update the Biodata model
+            $biodata->update($validated);
+            // Redirect to the 'view_profile' route with a success message
+            return redirect(route('view_profile', $biodata->user_id))->with('success', 'Biodata updated successfully');
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur during the update
+            // You can log the error or return an error message
+            return back()->with('failure', 'An error occurred while updating the biodata');
+        }
     }
 
     /**

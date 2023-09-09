@@ -126,7 +126,7 @@ class UserController extends Controller
             $oldAvatar = $user->avatar;
             $user = $user;
 
-// Check if User has changed the profile pic from the default pic already
+                // Check if User has changed the profile pic from the default pic already
             
 
                 // delete existing pic from avatar folder
@@ -155,13 +155,22 @@ class UserController extends Controller
     }
 
 
-// ### A function to update avatar that can be called in any usercontroller function
-    private function update_avatar($file,$filename,$oldAvatar,$user){
-        return( "yes");
+    public function reset_avatar(User $user){
+     $user['avatar'] = "default_avatar";
+     $user->save();
+     return redirect(route('view_profile',$user->id))->with('success','Avatar Reset Successful');
+    }
 
-        
-        
 
-    } 
+    // View All Users
+    public function view_users(){
+    return view('users.index',
+            [
+                'users' => User::paginate(
+                    $perPage = 25, $columns = ['*'], $pageName = "Users" 
+                ),
+            ]
+        );
+    }
 
 }

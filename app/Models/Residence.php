@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Zone;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\hasManyThrough;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -21,8 +22,8 @@ class Residence extends Model
         'rep_id',
     ];
 
-    public function users(): hasMany{
-        return $this->hasMany(User::class,"residence_id");
+    public function members(): hasManyThrough{
+        return $this->hasManyThrough(User::class,Biodata::class,"residence_id","id","id","user_id");
     }
 
     public function zone():belongsTo {

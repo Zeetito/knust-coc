@@ -47,17 +47,16 @@
 
                             {{-- Zone Id --}}
                             <div class="col-md-3 mb-4">
-                                    <select class="form-control" name="zone" id="zones">
+                                    <select class="form-control" name="zone_id" id="zones">
                                         <option>SELECT ZONE</option>
-                                        <option>BOADI</option>
-                                        <option>CAMPUS</option>
-                                        <option>SHALOM</option>
-                                        <option>NEWSITE</option>
+                                    @foreach($zones as $zone)
+                                        <option value="{{$zone->id}}"> {{$zone->name}} </option>
+                                    @endforeach
                                     </select>
                                  {{-- <span class="help-block">Zone</span> --}}
                                 {{-- Error Message --}}
-                                    @error('zone')
-                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                    @error('zone_id')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{"Please Select A Zone"}}</p>
                                     @enderror
                             </div>
 

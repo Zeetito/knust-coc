@@ -7,7 +7,7 @@
                         
                     </div>
                     <div class="card-body">
-                        <form action="{{route('update_avatar',auth()->id() )}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <form action="{{route('update_avatar',$user->id )}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                 {{-- UserName --}}
                                 <div class="form-group row">
@@ -20,7 +20,7 @@
                                     <div class="col-md-3">
                                             <div  style="color:blue; font-weight:bold; border-radius:250px; border-color:black; border-width:2px"   href="{{route('view_profile',auth()->user()->id)}}" >
                                                 Current Avatar :
-                                            <img src="{{asset('storage/img/avatars/'.$user->avatar)}}" class="img-avatar" alt="Profile Picture">
+                                            <img src="{{$user->get_avatar()}}" class="img-avatar" alt="Profile Picture">
                                             </div>
                                     </div>
 
@@ -41,7 +41,10 @@
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror
 
-                            <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update Profile Picture</button>
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary "><i class="fa fa-dot-circle-o"></i> Update Profile Picture</button>
+                            <a href="{{route('reset_avatar',$user->id)}}">
+                                <span   class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset Profile Picture</span>
+                            </a>
                             
                         </form>
 

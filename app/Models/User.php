@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -66,20 +67,20 @@ class User extends Authenticatable
     }
 
     
-    public function residence(): HasOne{
-        return $this->HasOne(Residence::class);
+    public function residence(): HasOneThrough{
+        return $this->HasOneThrough(Residence::class,Biodata::class,"user_id","id","id","residence_id");
     }
     
-    public function zone(): HasOne{
-        return $this->HasOne(Zone::class);
+    public function zone(): HasOneThrough{
+        return $this->HasOneThrough(Zone::class,Biodata::class,"user_id","id","id","zone_id");
     }
     
     public function college(): HasOne{
-        return $this->HasOne(College::class);
+        return $this->HasOne(College::class,Biodata::class,"user_id","id","id","college_id");
     }
     
-    public function program(): HasOne{
-        return $this->HasOne(Program::class);
+    public function program(): HasOneThrough{
+        return $this->HasOneThrough(Program::class,Biodata::class,"user_id","id","id","program_id");
     }
 
     // FUNCTIONS
@@ -91,7 +92,10 @@ class User extends Authenticatable
 
     public function get_avatar(){
         // return $this->avatar;
-        return Storage::get("/storage/avatars/".$this->avatar);
+        if ($this->avatar === "default_avatar"){
+            return asset('img/avatars/default_avatar.jpg');
+        }
+            return (asset('storage/img/avatars/'.$this->avatar));
     }
 
 }

@@ -15,6 +15,6 @@ class BiodataSeeder extends Seeder
     {
         //
 
-        Biodata::factory(50)->create();
+        Biodata::factory(51)->create();
     }
 }

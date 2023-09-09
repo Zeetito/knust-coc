@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Zone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,11 @@ class ResidenceFactory extends Factory
     {
         return [
             //
+            "name" => fake()->streetName(),
+            "zone_id" => Zone::all()->random()->id,
+            "description" => fake()->sentence(),
+            "landmark" => fake()->sentence(),
+            "rep_id" => null,
         ];
     }
 }

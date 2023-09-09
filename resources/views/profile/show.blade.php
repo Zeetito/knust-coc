@@ -11,8 +11,8 @@
 
             {{-- User Avatar --}}
             <div  style="border-color:blue; border-width:5px"  class="nav-link nav-link" data-toggle="dropdown" href="{{route('view_profile',auth()->user()->id)}}" role="button" aria-haspopup="true" aria-expanded="false">
-                <img src="{{asset('storage/img/avatars/'.$user->avatar)}}" class="img-avatar" alt="Profile Picture">
-                <a href="{{route( 'edit_avatar_form',auth()->id() )}}">
+                <img src="{{$user->get_avatar()}}" class="img-avatar" alt="Profile Picture">
+                <a href="{{route( 'edit_avatar_form',$user->id )}}">
                     <span style="position:absolute; margin-top:25px;" class="d-md-down-none"><i title="change Profile picture" class="fa fa-pencil"></i></span>
                 </a>
 
@@ -26,7 +26,7 @@
                                 <div class="card-header">
                                     <i class="fa fa-user"></i>User Profile
 
-                                <a class="btn" href="{{route('edit_user_profile_form', auth()->id())}}">
+                                <a class="btn" href="{{route('edit_user_profile_form', $user->id)}}">
                                         <span class="badge badge-success float-right">
                                             Edit Profile
                                         </span>
@@ -54,7 +54,11 @@
                                             </li>
 
                                             <li>
-                                                Zone: Zone Name
+                                                Zone: {{$user->zone->name}}
+                                            </li>
+
+                                            <li>
+                                                Room: {{$profile->room}}
                                             </li>
                                         </ul>
                                 </div>
