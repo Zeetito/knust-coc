@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('othernames', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('meeting_type');
-            $table->string('venue');
-            $table->boolean('is_active')->default(1);
+            $table->foreignId('user_id')->constrained();
+            $table->string('name');
+            $table->boolean('is_visible')->default(1);
             $table->timestamps();
-
-            $table->foreign('meeting_type')->references('id')->on('meetings');
         });
-
     }
 
     /**
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('othernames');
     }
 };

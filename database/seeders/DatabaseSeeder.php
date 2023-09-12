@@ -19,6 +19,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ProgramSeeder::class);
         
         $this->call(BiodataSeeder::class);
+        $this->call(OthernameSeeder::class);
+        $this->call(ContactSeeder::class);
+        
+        $this->call(MeetingSeeder::class);
+        $this->call(AttendanceSeeder::class);
+        $this->call(AttendanceUserSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

@@ -63,3 +63,26 @@ a.User Policy (Who Can edit user details like username, firstname email, etc.)
 b.BiodataPolicy (who can edit user details like )
 
 ## Ajax Model view for user Info.
+Every User should have his/her info in the small card when the address icon is pressed
+
+# Contacts Model (phone contacts)
+id
+user_id
+contact
+is_visible
+is_main
+timestamps()
+
+#Othername Model
+id
+user_id
+name
+is_visible
+timestamps()
+
+#Meeting Model
+id
+name eg:Sunday Servie, Gents training.
+description
+
+Meeting has Attendance session.

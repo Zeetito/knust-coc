@@ -98,15 +98,20 @@
                         No Info To Show
                     </div>
                     <div class="card-body">
-                        
-                        <span class="title">
-                            Help Us Know more about You.
-                        </span>
-                        <a href="{{route('create_user_profile_form')}}">
-                            <button class="btn btn-primary">
-                                Complete Profile
-                            </button>
-                        </a>
+
+                        @can('update',$user)
+                            <span class="title">
+                                Help Us Know more about You.
+                            </span>
+
+                            <a href="{{route('create_user_profile_form')}}">
+                                <button class="btn btn-primary">
+                                    Complete Profile
+                                </button>
+                            </a>
+                      
+
+                        @endcan
 
                     </div>
                 </div>

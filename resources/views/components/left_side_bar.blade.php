@@ -8,6 +8,7 @@
                 <li class="nav-title">
                     TOOLS
                 </li>
+
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-settings"></i> User Settings</a>
                     <ul class="nav-dropdown-items">
@@ -17,18 +18,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('logout' )}}"><i class="icon-user"></i> LogOut</a>
                         </li>
+                     
+                    </ul>
+                </li>
+                {{-- CONFIGURATIONS --}}
+                <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-gear"></i> Configurations</a>
+                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link" href="components-tabs.html"><i class="icon-puzzle"></i> Tabs</a>
+                            <a class="nav-link" href="{{route('attendance')}}"><i class="icon-user"></i> Attendance</a>
                         </li>
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href=""><i class="icon-user"></i> </a>
+                        </li> --}}
+                     
                     </ul>
                 </li>
                
-                <li class="nav-item">
-                    <a class="nav-link" href="widgets.html"><i class="icon-calculator"></i> Widgets <span class="badge badge-primary">NEW</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="charts.html"><i class="icon-pie-chart"></i> Charts</a>
-                </li>
+               
                 <li class="divider"></li>
                 <li class="nav-title">
                     Extras

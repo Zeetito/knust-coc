@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Zone;
 use App\Models\Biodata;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +22,11 @@ class BiodataController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(User $user)
     {
         //
         $zones = Zone::all();
-        return view('profile.create',['user'=>$user , 'profile'=>$profile]);
+        return view('profile.create',['user'=>$user , 'zones'=>$zones]);
     }
 
     /**
@@ -37,18 +38,23 @@ class BiodataController extends Controller
         $validated = $request->validate([
             'room' => ['required'],
             'year' => ['required'],
+            'zone_id' => ['required'],
+            'residence_id' => ['required'],
+            'college_id' => ['required'],
+            'program_id' => ['required'],
         ]);
         $validated['user_id'] = Auth::user()->id;
         $validated['zone_id'] = 1;
         $validated['residence_id'] = 1;
         // $validated['room'] = "1A";
-        $validated['program_id'] = "16";
+        $validated['program_id'] = 16;
+        $validated['college_id'] = 4;
 
         // Program id is used to query for the college id.
         // $validated['college_id'] = Program::find($validated['program_id'])->college()->id;
 
         $biodata = Biodata::create($validated);
-        return redirect(route('view_profile',auth()->user()))->with('success','Profile Created Successfully');
+        return redirect(route('view_profile',$biodata->user))->with('success','Profile Created Successfully');
     }
 
     /**
@@ -85,6 +91,7 @@ class BiodataController extends Controller
             // 'room' => ['alpha_num:ascii'] ,
             'zone_id' => ['numeric'] ,
         ]);
+       
 
       
         try {

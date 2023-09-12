@@ -62,7 +62,7 @@
 
                             {{-- Year --}}
                             <div class="col-md-3 mb-4">
-                            <select class="form-control" value="{{old('year',$profile->year)}}" name="year" id="years">
+                            <select class="form-control" value="{{old('year')}}" name="year" id="years">
                                 <option value=" ">SELECT YEAR</option>
 
                                 @for($i=1; $i<=8; $i++)
@@ -78,7 +78,7 @@
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
                             <div class="col-md-3 mb-4">
-                                    <input list="residences" class="form-control" name="residence" id="residence" placeholder="Residence search..." >
+                                    <input list="residences" class="form-control" name="residence_id" id="residence" placeholder="Residence search..." >
                                     <datalist id="residences">
                                       <option value="Happy Family">
                                       <option value="Shalom">
@@ -104,13 +104,13 @@
                         
 
                         {{-- Upload Profile Pic Option --}}
-                        <div class="form-group row">
+                        {{-- <div class="form-group row"> --}}
                             {{-- <label class="col-md-3 mb-4 form-control-label" for="file-input">File input</label> --}}
-                            <div class="col-md-9">
-                                Upload a profile picture
+                            {{-- <div class="col-md-9"> --}}
+                                {{-- Upload a profile picture --}}
                                
-                            </div>
-                        </div>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
                     <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
                        
                     </form>

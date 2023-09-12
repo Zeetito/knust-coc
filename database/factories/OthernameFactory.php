@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Meeting;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attendance>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Othername>
  */
-class AttendanceFactory extends Factory
+class OthernameFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,10 +19,9 @@ class AttendanceFactory extends Factory
     {
         return [
             //
-            "meeting_type" => Meeting::all()->random()->id,
-            "venue" => fake()->name(),
-            "is_active"=>0,
-
+            "name" => fake()->name(),
+            "user_id" => User::all()->random()->id,
+            "is_visible" => rand(0,1),
         ];
     }
 }

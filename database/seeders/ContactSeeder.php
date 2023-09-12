@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Attendance;
+use App\Models\Contact;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class AttendanceSeeder extends Seeder
+class ContactSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,7 @@ class AttendanceSeeder extends Seeder
     public function run(): void
     {
         //
-        Attendance::factory(50)->create();
+        Contact::factory(250)->create();
+
     }
 }

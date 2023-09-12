@@ -3,10 +3,13 @@
 use App\Models\User;
 use App\Models\Zone;
 use App\Models\College;
+use App\Models\Meeting;
 use App\Models\Residence;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +21,25 @@ use App\Http\Controllers\BiodataController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+// ATTENDANCE
+// Index page to view the various attendance sessions
+Route::get('/attendance',[AttendanceController::class,"index"])
+->middleware('auth')
+->name('attendance')
+;
+
+Route::get('/attendance/{attendance}',[AttendanceController::class,"show"])
+->middleware('auth')
+->name('show_attendance')
+;
+
+Route::post('/attendance',[AttendanceController::class,"store"])
+->middleware('auth')
+->name('create_attendance')
+;
+
 
 // ACCOUNT
 
@@ -120,6 +142,7 @@ Route::get('/info/{user}',[BiodataController::class,"show_modal_info"])
 ->middleware('auth')
 ->name('show_modal_info');
 
+
 Route::get('/hello',function(){
-    return College::find(2)->pg_programs();
+    return Meeting::find(2)->attendance_sessions;
 });

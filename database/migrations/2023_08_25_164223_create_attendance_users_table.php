@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('attendance_id')->constrained();
             $table->foreignId('user_id');
-            $table->foreignId('checked_by'); //Could be either by the user him/herself or a hall or residence rep.
+            $table->unsignedBigInteger('checked_by'); //Could be either by the user him/herself or a hall or residence rep.
 
             $table->timestamps();
 
