@@ -10,7 +10,13 @@
                     <div class="process-bar">
                         <div class="process-order">
                             <h3 style="text-align:center">Users</h3>
-                            <input type="text" placeholder="search name..." style="text-align:center; float:right;">
+                                <span style=" ">
+                                    <form >
+                                        <input type="text" class="search_box" data-url="{{route("search_user")}}" placeholder="search name..." style="text-align:center;">
+                                            <i class="fa fa-search"></i>
+                                    </form>
+                                </span>
+
                         </div>
 
                         {{-- Users Table --}}
@@ -28,7 +34,7 @@
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
-                                            <tbody>
+                                            <tbody class="search_result">
                                                 @foreach($users as $user)
                                                 <tr>
                                                     <td>
@@ -47,7 +53,7 @@
                                                               <i class="fa fa-eye"></i>
                                                         </a>
                                                         @endcan
-                                                         <span class="btn-info get_info_modal_button "  data-url="{{route('show_modal_info',$user->id)}}">
+                                                         <span class="btn-info modal_button"  data-url="{{route('show_modal_info',$user->id)}}">
                                                               <i class="fa fa-address-card-o"></i>
                                                         </span>
                                                     </td>

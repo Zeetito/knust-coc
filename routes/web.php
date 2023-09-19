@@ -24,21 +24,49 @@ use App\Http\Controllers\AttendanceController;
 
 
 // ATTENDANCE
+
 // Index page to view the various attendance sessions
 Route::get('/attendance',[AttendanceController::class,"index"])
 ->middleware('auth')
 ->name('attendance')
 ;
 
+// View Attendance Session. See who's marked or not
 Route::get('/attendance/{attendance}',[AttendanceController::class,"show"])
 ->middleware('auth')
 ->name('show_attendance')
 ;
 
+// Create New Attendance Session
 Route::post('/attendance',[AttendanceController::class,"store"])
 ->middleware('auth')
 ->name('create_attendance')
 ;
+
+// Access Attendance session to mark 
+Route::get('/attendance/{attendance}/access',[AttendanceController::class,"access_attendance_session"])
+->middleware('auth')
+->name('access_attendance_session')
+;
+
+// Switch Attendance Session
+Route::get('/attendance/{attendance}/switch',[AttendanceController::class,"switch_attendance_session"])
+->middleware('auth')
+->name('switch_attendance_session')
+;
+
+// Check Or Uncheck User
+Route::get('/attendance/{attendance}/{user}',[AttendanceController::class,"check_user"])
+->middleware('auth')
+->name('check_user')
+;
+
+// Confirmation for uncheck user
+Route::get('/attendance/{attendance}/{user}/confirm',[AttendanceController::class,"confirm_uncheck_user"])
+->middleware('auth')
+->name("confirm_uncheck_user")
+;
+
 
 
 // ACCOUNT
@@ -142,7 +170,20 @@ Route::get('/info/{user}',[BiodataController::class,"show_modal_info"])
 ->middleware('auth')
 ->name('show_modal_info');
 
+// Search User on Users table
+Route::get('/search_user',[UserController::class,"search_user"])
+->middleware('auth')
+->name('search_user')
+;
+
+// Search User on Attendance table
+Route::get('/search_attendance_user/{attendance}',[UserController::class,"search_attendance_user"])
+->middleware('auth')
+->name('search_attendance_user')
+;
 
 Route::get('/hello',function(){
-    return Meeting::find(2)->attendance_sessions;
+    return Attendance::where('is_active',1)->get();
+    // $instance = DB::table('attendance_users')->where('user_id',42)->where('attendance_id',4)->get()->first();
+    // return ($instance);
 });

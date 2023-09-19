@@ -37,7 +37,8 @@ class UserPolicy
     public function update(User $user, User $model): bool
     {
         //
-        return $model->is($user);
+        // for now I can update all
+        return ($model->is($user) || $user->id == '1') ;
     }
 
     /**
@@ -62,5 +63,11 @@ class UserPolicy
     public function forceDelete(User $user, User $model): bool
     {
         //
+    }
+
+    public function check(User $user, User $model): bool
+    {
+        // The person who checked can uncheck the user as well 
+        return ($model->is($user) || $user->id == '1') ;
     }
 }

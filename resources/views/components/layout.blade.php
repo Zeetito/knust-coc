@@ -16,14 +16,20 @@
  
      <!-- Icons -->
      <link href="{{ asset("css/style.css") }}" rel="stylesheet">
+     <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
      <link href={{ asset("css/simple-line-icons.css") }} rel="stylesheet">
      <link href={{ asset("css/font-awesome.css") }} rel="stylesheet">
  
      <!-- Main styles for this application -->
-     <link href={{ asset("css/style.css") }} rel="stylesheet">
      
      {{-- Custom Styles --}}
      <link href={{ asset("css/custom.css") }} rel="stylesheet">
+
+    <!-- Bootstrap and necessary plugins -->
+    <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
+    <script src={{asset("js/popper.min.js")}}></script>
+    <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
+    <script src={{asset("js/custom.js")}}></script>
  
  </head>
 
@@ -97,9 +103,11 @@
             
                         <!-- BREADCRUMP -->
                       {{-- <x-breadcrump/> --}}
+
+                      {{-- Session Variables for Success or Failure Messages --}}
                       @if(session()->has('success'))
                       <div class='container container--narrow'>
-                          <div class='alert alert-success text-center '>
+                          <div id="success_msg" class='alert alert-success text-center '>
                           {{session('success')}}
                         </div>
                       </div> 
@@ -111,6 +119,15 @@
                         </div>
                       </div> 
                       @endif
+
+                    <!-- Modal -->
+                    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div id="modal-content" class="container bg-white">
+                            
+                            </div>
+                        </div>
+                    </div>
 
         {{$slot}}
 
@@ -126,10 +143,7 @@
         </footer>
         
         
-     <!-- Bootstrap and necessary plugins -->
-     <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
-     <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
-     <script src={{asset("js/custom.js")}}></script>
+ 
 
      {{-- <script src={{asset("bower_components/tether/dist/js/tether.min.js")}}></script> --}}
      

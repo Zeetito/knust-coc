@@ -8,14 +8,16 @@ use App\Models\Biodata;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Residence;
+use App\Models\Attendance;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class User extends Authenticatable
 {
@@ -96,6 +98,14 @@ class User extends Authenticatable
             return asset('img/avatars/default_avatar.jpg');
         }
             return (asset('storage/img/avatars/'.$this->avatar));
+    }
+
+    public function is_checked(Attendance $attendance) {
+        // return "chief";
+        return DB::table('attendance_users')
+        ->where('user_id',$this->id)
+        ->where('attendance_id',$attendance->id)
+        ->exists();
     }
 
 }

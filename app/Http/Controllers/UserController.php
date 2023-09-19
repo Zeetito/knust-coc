@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -154,7 +155,7 @@ class UserController extends Controller
         
     }
 
-
+    // Reset Avatar
     public function reset_avatar(User $user){
      $user['avatar'] = "default_avatar";
      $user->save();
@@ -171,6 +172,52 @@ class UserController extends Controller
                 ),
             ]
         );
+    }
+
+    // Search User
+    public function search_user(Request $request){
+        // $user 
+       $string =  $request->input('str');
+       $str = "%".$string."%";
+   
+
+       if(!empty($string)){
+        $users = User::where('firstname','like',$str)->orWhere('lastname',$str)->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+
+        }else{
+            $users = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
+            
+        }
+
+       return view('modals.user.search-results',['users'=>$users]);
+                          
+        }
+
+
+    // Search User_attendance instance
+    public function search_attendance_user(Attendance $attendance, Request $request){
+       $string =  $request->input('str');
+    //    The attendance Id is parsed as attendacne. It is now used to get the attendance instance
+    //    $attendance = Attendance::find($request->input('attendance'));
+       // If String is not empty bring the results
+        if(!empty($string)){
+            $str = "%".$string."%";
+            $members = User::where('firstname','like',$str)
+                            ->orWhere('lastname','like',$str)
+                            ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+            return view('modals.attendance-users.search-results',['members'=>$members,'attendance'=>$attendance]);
+
+        }else{
+                // If string is empty, return the original paginated data
+                return view('attendance.attendance-users.index',
+                    [
+                        'members' => User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" ),
+                        'attendance'=>$attendance,
+                    ]
+                );
+        }
+       
+                          
     }
 
 }

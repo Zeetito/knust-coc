@@ -86,3 +86,14 @@ name eg:Sunday Servie, Gents training.
 description
 
 Meeting has Attendance session.
+
+#PHASE 5
+
+# Map the is_active attribute of the attendance object to the switch on the table
+## Implement an attendane session
+#Check and Uncheck user
+#Implement Search User for attendance-user page and users page as well
+#After clearning the text of the search box, the list should go back to the paginated form
+
+returning updated row after unchecking isn't really working well
+#Stop the jquery codes from returning url

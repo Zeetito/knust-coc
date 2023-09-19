@@ -29,12 +29,13 @@ class Attendance extends Model
     //     ;
     // }
 
-    public function members(): BelongsToMany
-{
+
+        // RELATIONSHIPS
+    public function members(): BelongsToMany{
     return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'user_id')
         ->withPivot('user_id','checked_by')
         ->withTimestamps();
-}
+    }
     
     public function user_marked_by($user) {
         return User::find($user);
@@ -43,6 +44,8 @@ class Attendance extends Model
     public function meeting(): BelongsTo {
         return $this->belongsTo(Meeting::class,"meeting_type");
     }
+
+
 
     
 }

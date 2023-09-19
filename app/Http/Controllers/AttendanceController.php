@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Meeting;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -81,4 +84,81 @@ class AttendanceController extends Controller
     {
         //
     }
+
+    // Access the attendance session to check user
+    public function access_attendance_session(Attendance $attendance){
+        $users = User::paginate(
+            $perPage = 25, $columns = ['*'], $pageName = "Users" 
+        );
+
+        return view('attendance.attendance-users.create',['members'=>$users, 'attendance'=>$attendance]);
+    }
+
+    // Switch Attendance Session
+    public function switch_attendance_session(Attendance $attendance){
+       if($attendance->is_active == 1){
+           $attendance['is_active'] = 0;
+           $attendance->save();
+           
+
+       }else{
+           $attendance['is_active'] = 1;
+           $attendance->save();
+           
+       }
+
+    //    return $attendance->is_active;
+       return (view('modals.attendance.updated-row',['attendance'=>$attendance]));
+    }
+
+
+    // Check or uncheck User
+    public function check_user(Attendance $attendance, User $user){
+        
+        // Check if user is already checked or not to know which action to be taken.
+        if(auth()->user()->can('update',$user)){
+
+            //    Must Check if user can update that attendance_users instance
+                if ($user->is_checked($attendance)){
+                    // Uncheck the user here by deleteing the instance
+                    DB::table('attendance_users')
+                    ->where('attendance_id',$attendance->id)
+                    ->where('user_id',$user->id)
+                    ->delete();
+                    // Return the updated row
+                    return view('modals.attendance-users.updated-row',['member'=>$user,'attendance'=>$attendance]);
+
+                }else{
+                    // Check the user here
+                    DB::table('attendance_users')->insert([
+                        'attendance_id' => $attendance->id,
+                        'user_id' => $user->id,
+                        'checked_by' => Auth::user()->id,
+                    ]);
+                    return view('modals.attendance-users.updated-row',['member'=>$user,'attendance'=>$attendance]);
+                   
+                }
+
+
+            // That code goes here
+
+            // If user Can actually update the instance, then ready to uncheck user
+
+           
+            
+        }else{
+
+            // Must check if auth user can check the user
+              return ("abort");
+
+        }
+        // redirect(route('access_attendance_session',$attendance->id))->with('success', $user->firstname.' '.$user->lastname.' Checked');
+    }
+
+    // Pop Up model to confirm whether or not to uncheck user
+    public function confirm_uncheck_user(Attendance $attendance, User $user){
+        
+        return view("modals.attendance-users.uncheck-confirmation",['member'=>$user,'attendance'=>$attendance]);
+    }
+
 }
