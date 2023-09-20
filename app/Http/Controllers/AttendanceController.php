@@ -8,6 +8,7 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Query\Builder;
 
 class AttendanceController extends Controller
 {
@@ -159,6 +160,37 @@ class AttendanceController extends Controller
     public function confirm_uncheck_user(Attendance $attendance, User $user){
         
         return view("modals.attendance-users.uncheck-confirmation",['member'=>$user,'attendance'=>$attendance]);
+    }
+
+    // Search Attendance session
+    public function search_attendance(Request $request){
+
+    $string =  $request->input('str');
+    $str = "%".$string."%";
+
+        // If the String is not empty
+        if(!empty($string)){
+            $attendances = Attendance::where(function (Builder $query) {
+                $query->select('name')
+                ->from('meetings')
+                ->whereColumn('meetings.id', 'attendances.meeting_type')
+                ->limit(1);
+            }, 'like', $str)->latest()->get();
+        }else{
+            $attendances = Attendance::latest()->paginate($perPage = 5, $columns = ['*'], $pageName = "attendances" );
+            
+        }
+
+        return view('modals.attendance.search-results',['attendances'=>$attendances]);        
+
+    }
+
+    // Reset Attendance
+    public function reset_attendance(Attendance $attendance){
+        $new_attendance = $attendance;
+        $attendance->delete();
+        $new_attendance->save();
+        return(redirect(route('attendance'))->with('success','Attendance Session Reset Successful'));
     }
 
 }

@@ -43,6 +43,13 @@ Route::post('/attendance',[AttendanceController::class,"store"])
 ->name('create_attendance')
 ;
 
+// Reset Attendance Session
+Route::get("/attendance/{attendance}/reset",[AttendanceController::class,"reset_attendance"])
+->middleware("auth")
+->name("reset_attendance")
+;
+
+
 // Access Attendance session to mark 
 Route::get('/attendance/{attendance}/access',[AttendanceController::class,"access_attendance_session"])
 ->middleware('auth')
@@ -66,6 +73,13 @@ Route::get('/attendance/{attendance}/{user}/confirm',[AttendanceController::clas
 ->middleware('auth')
 ->name("confirm_uncheck_user")
 ;
+
+// Search Attendance Session
+Route::get("/search_attendance",[AttendanceController::class, "search_attendance"])
+->middleware("auth")
+->name("search_attendance")
+;
+
 
 
 

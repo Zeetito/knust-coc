@@ -9,6 +9,17 @@
                         <div class="process-bar">
                             <div class="process-order">
                                 <h3 style="text-align:center">Attendance Sessions</h3>
+                                <span>
+                                    <form >
+                                        <input list="meetings" type="text" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
+                                            <i class="fa fa-search"></i>
+                                            <datalist id="meetings">
+                                                @foreach(App\Models\Meeting::where('is_active','=',1)->get()->sortBy('name') as $meeting)
+                                                    <option value ="{{$meeting->name}}">
+                                                @endforeach
+                                              </datalist>                                            
+                                    </form>
+                            </span>
                             </div>
     
                             {{-- Attendance Table --}}
@@ -27,7 +38,7 @@
                                                     </tr>
                                                 </thead>
                                                 {{-- Table Body --}}
-                                                <tbody>
+                                                <tbody class="search_result">
                                                    @foreach($attendances as $attendance)
 
                                                     <tr id="tr_{{$attendance->id}}">
@@ -38,18 +49,31 @@
                                                         <td> {{$attendance->venue}}</td>
                                                         <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                         <td>
+                                                            @can('view',$attendance)
                                                             {{-- View Attendance Session --}}
                                                              <a href="{{route('show_attendance',$attendance->id)}}">
                                                                 <i class="fa fa-eye"></i>
-                                                            </a>    
-                                                            {{-- Delete Attendance Session --}}
-                                                             <a href="#">
-                                                                <i class="fa fa-trash"></i>
                                                             </a>
+                                                            @endcan
+
                                                             {{-- Access Attendance Session --}}
                                                             <a href="{{route('access_attendance_session',$attendance->id)}}">
                                                                 <i class="fa fa-key"></i>
                                                             </a>
+
+                                                            @can('delete',$attendance)
+                                                             {{-- Delete Attendance Session --}}
+                                                             <a href="#">
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>
+                                                            @endcan
+
+                                                            @can('update',$attendance)
+                                                             {{-- Reset Attendance Session --}}
+                                                             <a href="{{route('reset_attendance',$attendance->id)}}">
+                                                                <i class="fa fa-undo"></i>
+                                                            </a>
+                                                            @endcan
 
                                                             <script>
                                                                     // Get the PHP variable $go and convert it to a JavaScript variable.
@@ -67,7 +91,7 @@
                                                                   <input id="{{$attendance->id}}" data-url ="{{route('switch_attendance_session',$attendance->id)}}"   type="checkbox" class="toggle_button switch-input">
                                                                         <span class="switch-label" data-on="On" data-off="Off"></span>
                                                                         <span class="switch-handle"></span>
-                                                                    </label>
+                                                                  </label>
                                                         </td>
                                                         {{-- <td>
                                                             <span class="badge badge-success">Active</span>

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('attendance_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attendance_id')->constrained();
-            $table->foreignId('user_id');
-            $table->unsignedBigInteger('checked_by'); //Could be either by the user him/herself or a hall or residence rep.
+            $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->onDelete('null');
+            $table->unsignedBigInteger('checked_by')->onDelete('null'); //Could be either by the user him/herself or a hall or residence rep.
 
             $table->timestamps();
 

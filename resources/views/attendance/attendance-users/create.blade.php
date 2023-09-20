@@ -11,7 +11,7 @@
                                 <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
                                 <span>
                                         <form >
-                                            <input type="text" class="search_box" data-url="{{route("search_attendance_user",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
+                                            <input  type="text" class="search_box" data-url="{{route("search_attendance_user",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
                                                 <i class="fa fa-search"></i>
                                         </form>
                                 </span>
