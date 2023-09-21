@@ -13,18 +13,13 @@ class AcademicYearSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        AcademicYear::create([
-            'name' => '2021-2022',
-            'started_at' => '2022-02-24 15:53:08',
-            'ended_at' => '2022-10-18 15:53:08',
-            
-        ]);
-        AcademicYear::create([
-            'name' => '2022-2023',
-            'started_at' => '2023-01-14 15:53:08',
-            
-        ]);
+        $academic_years = [
+            ['start_year' => '2021', 'end_year' => '2022'],
+            ['start_year' => '2022','end_year' => '2023'],
+        ];
 
+        foreach ($academic_years as $academic_year) {
+            AcademicYear::create($academic_year);
+        }
     }
 }

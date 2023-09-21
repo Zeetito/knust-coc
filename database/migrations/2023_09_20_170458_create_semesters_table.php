@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('semesters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('academic_year_id')->constrained();
+            $table->enum('name', ['1', '2']);
             $table->date('started_at');
-            $table->date('ended_at')->nullable();
-            $table->smallInteger('status');
+            $table->date('ended_at');
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

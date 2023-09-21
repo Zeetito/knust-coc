@@ -13,7 +13,6 @@ class ResidenceSeeder extends Seeder
      */
     public function run(): void
     {
-        //
         Residence::factory(250)->create();
     }
 }

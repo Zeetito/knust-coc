@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('avatar')->default('default_avatar');
             $table->boolean('is_student');
             $table->boolean('is_activated')->default(0);
-            $table->boolean('is_with_us')->default(1);
+            $table->boolean('is_member')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

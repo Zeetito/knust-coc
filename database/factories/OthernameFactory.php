@@ -18,7 +18,6 @@ class OthernameFactory extends Factory
     public function definition(): array
     {
         return [
-            //
             "name" => fake()->name(),
             "user_id" => User::all()->random()->id,
             "is_visible" => rand(0,1),

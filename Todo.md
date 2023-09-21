@@ -100,7 +100,7 @@ returning updated row after unchecking isn't really working well
 # PHASE 6
 ##Search attendance sessions
 ## Delete / Clear Attendance Sessions (Delete and recreate)
-Add 'is_with_us' column to the user table to show people who are currently with the congregation.
+Add 'is_member' column to the user table to show people who are currently with the congregation.
 
 # PHASE 7
 ##Create Academic Year Model

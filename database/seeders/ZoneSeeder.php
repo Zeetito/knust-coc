@@ -13,58 +13,21 @@ class ZoneSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        Zone::create([
-            'name' => 'BOADI',
-            'boundaries'=>'no description',
-            // 'rep_id'=>'Agyare',
-        ]);
+        $zones = [
+            ['name' => 'BOADI'],
+            ['name' => 'BOMSO'],
+            ['name' => 'CAMPUS'],
+            ['name' => 'FORD-NYBERG-SPLENDOR'],
+            ['name' => 'GAZA-DEDUAKO'],
+            ['name' => 'KOTEI'],
+            ['name' => 'NEWSITE'],
+            ['name' => 'SHALOM'],
+            ['name' => 'WESTEND'],
+            ['name' => 'OTHERS'],
+        ];
 
-        Zone::create([
-            'name' => 'BOMSO',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'CAMPUS',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'FORD_NYBERG_SPLENDOR',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'GAZA_DEDUAKO',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'KOTEI',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'NEWSITE',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'SHALOM',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'WESTEND',
-            'boundaries'=>'no description',
-        ]);
-
-        Zone::create([
-            'name' => 'OTHERS',
-            'boundaries'=>'no description',
-        ]);
-
-
+        foreach ($zones as $zone) {
+            Zone::create($zone);
+        }
     }
 }
