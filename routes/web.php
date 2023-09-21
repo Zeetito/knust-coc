@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Zone;
+use App\Models\Helper;
 use App\Models\College;
 use App\Models\Meeting;
 use App\Models\Residence;
@@ -197,7 +198,7 @@ Route::get('/search_attendance_user/{attendance}',[UserController::class,"search
 ;
 
 Route::get('/hello',function(){
-    return Attendance::where('is_active',1)->get();
+   return Helper::getAcademicPeriod((Attendance::find(3)->created_at));
     // $instance = DB::table('attendance_users')->where('user_id',42)->where('attendance_id',4)->get()->first();
     // return ($instance);
 });

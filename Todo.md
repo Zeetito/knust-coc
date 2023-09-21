@@ -88,7 +88,6 @@ description
 Meeting has Attendance session.
 
 #PHASE 5
-
 # Map the is_active attribute of the attendance object to the switch on the table
 ## Implement an attendane session
 #Check and Uncheck user
@@ -106,11 +105,22 @@ Add 'is_with_us' column to the user table to show people who are currently with 
 # PHASE 7
 ##Create Academic Year Model
 id
-title
+name
 started_at
 ended_at
 timestamps
 
 ## Semester Model
 id
-title
+name
+started_at
+ended_at
+status (first-1,second-2 )
+timestamps
+
+## Create a Method for all dates to retrieve the Academic Date that it was created or edited.
+To acknowledge vacations,
+If No Semester Exists that has its 'Started_at' greater than the ended_at of the latest semster.
+or If the Semestar has a value for 'ended_at' (not null) yet there's no new Semester. 
+
+###Review Contraints on the foreignKeys for the migrations
