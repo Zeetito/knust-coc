@@ -10,8 +10,8 @@ class AcademicYear extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'started_at',
-        'ended_at',
+        'start_year',
+        'end_year',
     ];
 
 }

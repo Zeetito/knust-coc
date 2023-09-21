@@ -13,7 +13,6 @@ class OthernameSeeder extends Seeder
      */
     public function run(): void
     {
-        //
         Othername::factory(150)->create();
     }
 }

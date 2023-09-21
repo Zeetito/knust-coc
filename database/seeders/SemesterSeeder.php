@@ -15,30 +15,31 @@ class SemesterSeeder extends Seeder
     {
         //
         Semester::create([
-            'name' => 'First Semester',
-            'started_at' => '2022-01-14 15:53:08',
-            'ended_at' => '2022-04-28 15:53:08',
-            'status' => 1,
+            'academic_year_id' => 1,
+            'name' => 1,
+            'started_at' => '2022-01-14 00:00:00',
+            'ended_at' => '2022-04-28 23:59:59',
         ]);
 
         Semester::create([
-            'name' => 'Second Semester',
-            'started_at' => '2022-05-18 15:53:08',
-            'ended_at' => '2022-09-24 15:53:08',
-            'status' => 2,
+            'academic_year_id' => 1,
+            'name' => 2,
+            'started_at' => '2022-05-18 00:00:00',
+            'ended_at' => '2022-09-24 23:59:59',
         ]);
         Semester::create([
-            'name' => 'First Semester',
-            'started_at' => '2023-01-14 15:53:08',
-            'ended_at' => '2023-04-28 15:53:08',
-            'status' => 1,
+            'academic_year_id' => 2,
+            'name' => 1,
+            'started_at' => '2023-01-14 00:00:00',
+            'ended_at' => '2023-04-28 23:59:59',
         ]);
 
         Semester::create([
-            'name' => 'Second Semester',
-            'started_at' => '2023-05-18 15:53:08',
-            'ended_at' => '2023-09-24 15:53:08',
-            'status' => 2,
+            'academic_year_id' => 2,
+            'name' => 2,
+            'started_at' => '2023-05-18 00:00:00',
+            'ended_at' => '2023-09-24 23:59:59',
+            'is_active' => 1,
         ]);
     }
 }

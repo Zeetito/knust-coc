@@ -13,24 +13,17 @@ class CollegeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        College::create([
-            'name' => 'COLLEGE OF AGRICULTURE AND NATURAL RESOURCES',
-        ]);
-        College::create([
-            'name' => 'COLLEGE OF HUMANITY AND SOCIAL SCIENCES',
-        ]);
-        College::create([
-            'name' => 'COLLEGE OF ENGINEERING',
-        ]);
-        College::create([
-            'name' => 'COLLEGE OF ART AND BUILT ENVIRONMENT',
-        ]);
-        College::create([
-            'name' => 'COLLEGE OF SCIENCE',
-        ]);
-        College::create([
-            'name' => 'COLLEGE OF HEALTH SCIENCES',
-        ]);
+        $colleges = [
+            ['name' => 'COLLEGE OF AGRICULTURE AND NATURAL RESOURCES'],
+            ['name' => 'COLLEGE OF HUMANITY AND SOCIAL SCIENCES'],
+            ['name' => 'COLLEGE OF ENGINEERING'],
+            ['name' => 'COLLEGE OF ART AND BUILT ENVIRONMENT'],
+            ['name' => 'COLLEGE OF SCIENCE'],
+            ['name' => 'COLLEGE OF HEALTH SCIENCES'],
+        ];
+
+        foreach ($colleges as $college) {
+            College::create($college);
+        }
     }
 }

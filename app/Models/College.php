@@ -17,7 +17,7 @@ class College extends Model
 
     protected $fillable = [
         'name',
-       
+
     ];
 // RELATIONSHIPS
     public function members():hasManyThrough {
@@ -28,18 +28,18 @@ class College extends Model
         return $this->hasMany(Program::class);
     }
 
-    
+
     // FUNCTIONS
 
     // Query for UnderGraduage Programs
     public function ug_programs(){
-        return $this->programs->where("type","=","ug");
+        return $this->programs->where("type","ug");
     }
-    
+
     // Query for Post Graduate programs
     public function pg_programs(){
-        return $this->programs->where("type","=","pg");
+        return $this->programs->where("type","pg");
     }
-   
+
 
 }

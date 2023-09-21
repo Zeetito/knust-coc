@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,7 +20,7 @@ class Attendance extends Model
         'meeting_type',
         'venue',
         'checked_by',
-       
+
     ];
 
     // public function members(): hasMany{
@@ -30,22 +30,19 @@ class Attendance extends Model
     // }
 
 
-        // RELATIONSHIPS
+    // RELATIONSHIPS
     public function members(): BelongsToMany{
     return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'user_id')
         ->withPivot('user_id','checked_by')
         ->withTimestamps();
-    }
-    
-    public function user_marked_by($user) {
-        return User::find($user);
     }
 
     public function meeting(): BelongsTo {
         return $this->belongsTo(Meeting::class,"meeting_type");
     }
 
+    public function user_marked_by($user) {
+        return User::find($user);
+    }
 
-
-    
 }

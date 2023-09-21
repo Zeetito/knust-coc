@@ -17,16 +17,18 @@ class DatabaseSeeder extends Seeder
         $this->call(ResidenceSeeder::class);
         $this->call(CollegeSeeder::class);
         $this->call(ProgramSeeder::class);
-        
+
         $this->call(BiodataSeeder::class);
         $this->call(OthernameSeeder::class);
         $this->call(ContactSeeder::class);
-        
+
         $this->call(MeetingSeeder::class);
         $this->call(AttendanceSeeder::class);
         $this->call(AttendanceUserSeeder::class);
-        // \App\Models\User::factory(10)->create();
+        $this->call(AcademicYearSeeder::class);
+        $this->call(SemesterSeeder::class);
 
+        // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

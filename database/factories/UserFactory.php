@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'gender' => $gender,
             'is_activated'=>1,
             'is_student'=> rand(0,1),
-            'is_with_us'=> 1,
+            'is_member'=> 1,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // password

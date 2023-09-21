@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header">
                     <strong>User Profile</strong>
-                    
+
                 </div>
                 <div class="card-body">
                 <form action="{{route('create_profile')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -18,7 +18,7 @@
                         </div>
 
                         <div class="form-group row">
-                           
+
 
                              {{-- Other Name --}}
                             {{-- <label class="col-md-3 form-control-label" for="text-input">First Name</label> --}}
@@ -49,7 +49,7 @@
                             <div class="col-md-3 mb-4">
                                     <select class="form-control" name="zone_id" id="zones">
                                         <option>SELECT ZONE</option>
-                                    @foreach($zones as $zone)
+                                    @foreach(App\Models\Zone::all() as $zone)
                                         <option value="{{$zone->id}}"> {{$zone->name}} </option>
                                     @endforeach
                                     </select>
@@ -100,19 +100,19 @@
                             </div>
 
                         </div>
-                       
-                        
+
+
 
                         {{-- Upload Profile Pic Option --}}
                         {{-- <div class="form-group row"> --}}
                             {{-- <label class="col-md-3 mb-4 form-control-label" for="file-input">File input</label> --}}
                             {{-- <div class="col-md-9"> --}}
                                 {{-- Upload a profile picture --}}
-                               
+
                             {{-- </div> --}}
                         {{-- </div> --}}
                     <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                       
+
                     </form>
                 </div>
                 <div class="card-footer">
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-       
+
         </div>
-   
+
 </x-layout>
