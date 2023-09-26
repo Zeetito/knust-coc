@@ -29,7 +29,13 @@
     <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
     <script src={{asset("js/popper.min.js")}}></script>
     <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
+    
     <script src={{asset("js/custom.js")}}></script>
+    {{-- Some specific for view features --}}
+    <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script>
+    <script src={{asset("js/views/charts.js")}}></script>
+    <script src={{asset("js/views/main.js")}}></script>
+    <script src={{asset("js/views/widgets.js")}}></script>
  
  </head>
 

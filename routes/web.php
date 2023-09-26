@@ -5,6 +5,8 @@ use App\Models\Zone;
 use App\Models\Helper;
 use App\Models\College;
 use App\Models\Meeting;
+use App\Models\Semester;
+use App\Models\AcademicYear;
 use App\Models\Residence;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +83,17 @@ Route::get("/search_attendance",[AttendanceController::class, "search_attendance
 ->name("search_attendance")
 ;
 
+// Search User who's been checked for a particular attendance
+Route::get("/search_user/{attendance}",[AttendanceController::class, "search_user_checked"])
+->middleware("auth")
+->name("search_user_checked")
+;
+
+// Search User on Attendance table
+Route::get('/search_attendance_user/{attendance}',[UserController::class,"search_attendance_user"])
+->middleware('auth')
+->name('search_attendance_user')
+;
 
 
 
@@ -191,14 +204,11 @@ Route::get('/search_user',[UserController::class,"search_user"])
 ->name('search_user')
 ;
 
-// Search User on Attendance table
-Route::get('/search_attendance_user/{attendance}',[UserController::class,"search_attendance_user"])
-->middleware('auth')
-->name('search_attendance_user')
-;
 
 Route::get('/hello',function(){
-   return Helper::getAcademicPeriod((Attendance::find(3)->created_at));
+    // return Semester::academicYear->first_date();
+   return Semester::findByDate('2022-04-29');
+   return Semester::findByDate(Attendance::find(4)->created_at);
     // $instance = DB::table('attendance_users')->where('user_id',42)->where('attendance_id',4)->get()->first();
     // return ($instance);
 });

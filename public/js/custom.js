@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
-// Getting User Info into Static modal
+// Getting Info into Static modal
     $(document.body).on('click', '.modal_button',function () {
         var url = $(this).data('url');
         var data;

@@ -34,6 +34,7 @@ class User extends Authenticatable
         'lastname',
         'email',
         'is_student',
+        'gender',
         'password',
     ];
 
@@ -106,6 +107,18 @@ class User extends Authenticatable
         ->where('user_id',$this->id)
         ->where('attendance_id',$attendance->id)
         ->exists();
+    }
+
+    public function checked_by(Attendance $attendance) {
+       
+        return  self::
+                join('attendance_users','attendance_users.checked_by','=','users.id')
+                ->where('attendance_users.attendance_id',$attendance->id)
+                ->where('attendance_users.user_id',$this->id)
+                ->select('users.*')
+                ->limit(1)
+                ->first()
+                ;
     }
 
 }

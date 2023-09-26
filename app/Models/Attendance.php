@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,7 +33,7 @@ class Attendance extends Model
 
     // RELATIONSHIPS
     public function members(): BelongsToMany{
-    return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'user_id')
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'user_id')
         ->withPivot('user_id','checked_by')
         ->withTimestamps();
     }
@@ -43,6 +44,25 @@ class Attendance extends Model
 
     public function user_marked_by($user) {
         return User::find($user);
+    }
+
+    // Getting Males present for a particular attendance session
+    public function males_present(){
+        return User::
+                    join('attendance_users','users.id','=','attendance_users.user_id')
+                    ->where('attendance_users.attendance_id',$this->id)
+                    ->where('users.gender','m')
+                    ->get()
+                    ;
+    }
+    // Getting Males present for a particular attendance session
+    public function females_present(){
+        return User::
+                    join('attendance_users','users.id','=','attendance_users.user_id')
+                    ->where('attendance_users.attendance_id',$this->id)
+                    ->where('users.gender','f')
+                    ->get()
+                    ;
     }
 
 }

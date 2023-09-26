@@ -9,9 +9,15 @@ class AcademicYear extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
         'start_year',
         'end_year',
     ];
+
+    static function first_date(){
+        return self::all()->sortBy('start_year')->first()->start_year;
+    }
+    static function last_date(){
+        return self::all()->sortByDesc('end_year')->first()->end_year;
+    }
 
 }

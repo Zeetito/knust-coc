@@ -193,4 +193,39 @@ class AttendanceController extends Controller
         return(redirect(route('attendance'))->with('success','Attendance Session Reset Successful'));
     }
 
+
+    // Search Users who's been checked already
+    public function search_user_checked(Request $request, Attendance $attendance){
+        $string =  $request->input('str');
+
+           // If String is not empty bring the results
+            if(!empty($string)){
+                $str = "%".$string."%";
+                $members = User::join('attendance_users','users.id','=','attendance_users.user_id')
+                                ->where('attendance_users.attendance_id',$attendance->id)
+                                ->where('users.firstname','like',$str)
+                                ->orWhere('users.lastname','like',$str)
+                                ->select('users.*')
+                                ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+
+                                if(is_null($members)){
+                                    return "No results to show";
+                                }else{
+
+                                    return view('modals.attendance-users.checked_users_search_results',['members'=>$members,'attendance'=>$attendance]);
+                                }
+    
+            }else{
+                    // If string is empty, return the original paginated data
+                    return view('modals.attendance-users.checked_users_search_results',
+                        [
+                            'members' => Attendance::find($attendance->id)->members()->paginate(
+                                $perPage = 50, $columns = ['*'], $pageName = "AttendanceSessions"
+                            ),
+                            'attendance'=>$attendance,
+                        ]
+                    );
+            }
+    }
+
 }

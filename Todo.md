@@ -106,8 +106,8 @@ Add 'is_member' column to the user table to show people who are currently with t
 ##Create Academic Year Model
 id
 name
-started_at
-ended_at
+start_year
+end_year
 timestamps
 
 ## Semester Model
@@ -115,7 +115,7 @@ id
 name
 started_at
 ended_at
-status (first-1,second-2 )
+is_active
 timestamps
 
 ## Create a Method for all dates to retrieve the Academic Date that it was created or edited.
@@ -124,3 +124,8 @@ If No Semester Exists that has its 'Started_at' greater than the ended_at of the
 or If the Semestar has a value for 'ended_at' (not null) yet there's no new Semester. 
 
 ###Review Contraints on the foreignKeys for the migrations
+
+## Check For Males or Females Present for each attendance session
+
+# PHASE 8
+## Create Permissions and Roles
