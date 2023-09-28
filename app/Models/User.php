@@ -3,16 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
 use App\Models\Zone;
 use App\Models\Biodata;
 use App\Models\College;
 use App\Models\Program;
 use App\Models\Residence;
 use App\Models\Attendance;
+use App\Models\Permission;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -120,5 +123,16 @@ class User extends Authenticatable
                 ->first()
                 ;
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_users');
+    }
+
 
 }

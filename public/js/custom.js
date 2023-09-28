@@ -141,5 +141,22 @@ $(document).ready(function(){
         });
     });
 
+    // Openening Tabs
+    $(document.body).on('click', '.nav-link',function () {
+        
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-pane");
+            for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("nav-link");
+            for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            var tabName = $(this).attr('aria-controls');
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).className += " active";  
+    });
+
 })
 

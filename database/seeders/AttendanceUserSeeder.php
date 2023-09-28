@@ -24,10 +24,12 @@ class AttendanceUserSeeder extends Seeder
                         'attendance_id' =>Attendance::all()->random()->id,
                         'user_id' =>User::all()->random()->id,
                         'checked_by' =>User::all()->random()->id,
+                        'created_at'=>now(),
+                        'updated_at'=>now(),
                     ]
                 );
             }
-            $count++; // You're already incrementing $count on #18
+            // $count++; // You're already incrementing $count on #18
         }
 
     }

@@ -1,15 +1,17 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
 use App\Models\Helper;
 use App\Models\College;
 use App\Models\Meeting;
 use App\Models\Semester;
-use App\Models\AcademicYear;
 use App\Models\Residence;
 use App\Models\Attendance;
+use App\Models\AcademicYear;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\AttendanceController;
@@ -24,6 +26,21 @@ use App\Http\Controllers\AttendanceController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+// ROLES
+
+// View All Roles 
+Route::get('/roles',[RoleController::class,"index"])
+->middleware('auth')
+->name('roles')
+;
+
+// Edit Role Page
+Route::get('/roles/{role}/edit',[RoleController::class,"edit"])
+->middleware('auth')
+->name('edit_role')
+;
 
 
 // ATTENDANCE
@@ -207,8 +224,7 @@ Route::get('/search_user',[UserController::class,"search_user"])
 
 Route::get('/hello',function(){
     // return Semester::academicYear->first_date();
-   return Semester::findByDate('2022-04-29');
-   return Semester::findByDate(Attendance::find(4)->created_at);
+  Role::find(1)->assignAllPermissions();
     // $instance = DB::table('attendance_users')->where('user_id',42)->where('attendance_id',4)->get()->first();
     // return ($instance);
 });

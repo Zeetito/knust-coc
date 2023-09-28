@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AcademicYearSeeder::class);
         $this->call(SemesterSeeder::class);
 
+        $this->call(RoleSeeder::class);
+        $this->call(PermissionSeeder::class);
+
         // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
