@@ -63,8 +63,8 @@ trait HasRolesAndPermissions
         return (bool) $this->permissions->where('slug', $permission->slug)->count();
     }
 
-    protected function getAllPermissions(array $permissions) {
-        return Permission::whereIn('slug',$permissions)->get();
+    protected function getAllPermissions(array $permissionSlugs) {
+        return Permission::whereIn('slug',$permissionSlugs)->get();
     }
 
     // Assign all permissions
@@ -73,4 +73,49 @@ trait HasRolesAndPermissions
         $permissions = Permission::all();
         $this->permissions()->sync($permissions);
     }
+
+    // Assign specific permission to
+    public function assignPermissions($permissionSlugs)
+    {
+        // Call the getAllPermissions function to retrieve permission models.
+        $permissions = $this->getAllPermissions($permissionSlugs);
+
+        // Check if any permissions were found.
+        if ($permissions->isEmpty()) {
+            // Handle the case where no valid permissions were found.
+            return 'No valid permissions found.';
+        }
+
+        // Assign the retrieved permissions to the user.
+        $this->givePermissionsTo(...$permissions);
+
+        return 'Permissions assigned successfully.';
+    }
+
+
+    // Assign Role to model
+    public function giveRole(Role $role){
+       
+        $this->roles()->attach($role->id);
+    }
+
+    // Remove Role to model
+    public function removeRole(Role $role){
+   
+        $this->roles()->detach($role->id);
+    }
+
+     // Assign PErmission to model
+     public function givePermission(Permission $permission){
+       
+        $this->permissions()->attach($permission->id);
+    }
+
+    // Remove Permission from model
+    public function removePermission(Permission $permission){
+   
+        $this->permissions()->detach($permission->id);
+    }
+
+
 }

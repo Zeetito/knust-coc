@@ -108,7 +108,7 @@
                     <main class="main">
             
                         <!-- BREADCRUMP -->
-                      {{-- <x-breadcrump/> --}}
+                      <x-breadcrump/>
 
                       {{-- Session Variables for Success or Failure Messages --}}
                       @if(session()->has('success'))

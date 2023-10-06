@@ -1,4 +1,4 @@
-<!-- Breadcrumb -->
+{{-- <!-- Breadcrumb -->
 <ol class="breadcrumb">
         <li class="breadcrumb-item">Home</li>
         <li class="breadcrumb-item"><a href="#">Admin</a>
@@ -13,4 +13,6 @@
                 <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
             </div>
         </li>
-    </ol>
+    </ol> --}}
+
+    {{-- @breadcrumbs --}}

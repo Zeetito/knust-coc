@@ -9,11 +9,15 @@ use App\Models\Meeting;
 use App\Models\Semester;
 use App\Models\Residence;
 use App\Models\Attendance;
+use App\Models\Permission;
 use App\Models\AcademicYear;
 use Illuminate\Support\Facades\Route;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\AttendanceController;
 
 /*
@@ -28,6 +32,34 @@ use App\Http\Controllers\AttendanceController;
 */
 
 
+// -------------
+// ACADEMIA
+
+// COLLEGES
+
+// View All Colleges
+Route::get('/colleges',[CollegeController::class,'index'])
+->middleware('auth')
+->name('colleges')
+;
+
+// Show A single College
+Route::get('/colleges/{college}',[CollegeController::class,'show'])
+->middleware('auth')
+->name('show_college')
+;
+
+// ZONES
+
+// View all Zones
+Route::get('/zones',[ZoneController::class,'index'])
+->middleware('auth')
+->name('zones')
+;
+
+
+// ---------------
+
 // ROLES
 
 // View All Roles 
@@ -40,6 +72,58 @@ Route::get('/roles',[RoleController::class,"index"])
 Route::get('/roles/{role}/edit',[RoleController::class,"edit"])
 ->middleware('auth')
 ->name('edit_role')
+;
+
+// Add User Roles Instance
+Route::get('/create_users_roles/{role}',[RoleController::class,"create_users_roles"])
+->middleware('auth')
+->name("create_users_roles")
+;
+
+// Fetch Role Permissions
+// Route::get('/roles/{role}/permissions',[RoleController::class,"fetch_role_permissions"])
+// ->middleware('auth')
+// ->name('fetch_role_permissions')
+// ;
+
+// Search User Modal
+Route::get('/fetch_role_users_modal/{role}',[RoleController::class, "fetch_role_users_modal"])
+->middleware('auth')
+->name('fetch_role_users_modal')
+;
+
+// Search User among the users who do not have a particular role
+Route::get('/search_non_user_roles/{role}',[RoleController::class, "search_non_user_roles"])
+->middleware('auth')
+->name('search_non_user_roles')
+;
+
+// Give a user role
+Route::get('/role/{role}/{user}/assign',[RoleController::class,"give_user_role"])
+->middleware('auth')
+->name('give_user_role')
+;
+
+// Remove a user's role
+Route::get('/role/{role}/{user}/remove',[RoleController::class,"remove_user_role"])
+->middleware('auth')
+->name('remove_user_role')
+;
+
+Route::get('/role/{role}/permissions',[RoleController::class,"create_roles_permissions"])
+->middleware('auth')
+->name('create_roles_permissions')
+;
+
+Route::get('/roles/{role}/{permission}/assign',[RoleController::class,"assign_role_permission"])
+->middleware('auth')
+->name('assign_role_permission')
+;
+
+// Remove a role's permission
+Route::get('/permission/{role}/{permission}/remove',[RoleController::class,"remove_role_permission"])
+->middleware('auth')
+->name('remove_role_permission')
 ;
 
 
@@ -148,7 +232,8 @@ Route::get('/logout',[UserController::class,"logout"])
 ->name('logout');
 
 Route::get('/', function(){
-    return view('homepage');
+    $breadcrumbs = Breadcrumbs::render('home');
+    return view('homepage',compact('breadcrumbs'));
 })
 ->middleware('auth')
 ->name('home');
@@ -223,8 +308,7 @@ Route::get('/search_user',[UserController::class,"search_user"])
 
 
 Route::get('/hello',function(){
-    // return Semester::academicYear->first_date();
-  Role::find(1)->assignAllPermissions();
-    // $instance = DB::table('attendance_users')->where('user_id',42)->where('attendance_id',4)->get()->first();
-    // return ($instance);
+    return secure_url('path/to/route');
+    return User::find(14)->fullname();
+    // return Role::find(3)->non_permissions()->get();
 });

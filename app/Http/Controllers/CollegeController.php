@@ -13,6 +13,7 @@ class CollegeController extends Controller
     public function index()
     {
         //
+        return view('academia.colleges.index');
     }
 
     /**
@@ -37,6 +38,7 @@ class CollegeController extends Controller
     public function show(College $college)
     {
         //
+        return view('academia.colleges.show',['college'=>$college]);
     }
 
     /**

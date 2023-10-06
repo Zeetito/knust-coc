@@ -26,7 +26,7 @@ class Zone extends Model
     // public function users(): hasManyThrough{
     //     return $this->hasManyThrough(User::class,Residence::class);
     // }
-    public function members(): hasManyThrough{
+    public function users(): hasManyThrough{
         return $this->hasManyThrough(User::class,Biodata::class,"zone_id","id","id","user_id");
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -165,11 +166,13 @@ class UserController extends Controller
 
     // View All Users
     public function view_users(){
+    $breadcrumbs = Breadcrumbs::render('view_users');
     return view('users.index',
             [
                 'users' => User::paginate(
                     $perPage = 25, $columns = ['*'], $pageName = "Users" 
                 ),
+                'breadcrumbs' => $breadcrumbs
             ]
         );
     }

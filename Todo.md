@@ -130,5 +130,8 @@ or If the Semestar has a value for 'ended_at' (not null) yet there's no new Seme
 # PHASE 8
 ## Create Permissions and Roles
 ## Implement the user roles permissions (front and back end)
-## Apply the Breadcrumps on the layout file
 ## check attendance_users table timestamps.
+
+#PHASE 9
+## Apply the Breadcrumps on the layout file
+# Acadamia and Housing Pages 

@@ -1,17 +1,18 @@
 <x-layout>
       
         
+        
         <div class="container-fluid">
             <div class="dashboard-container">
 
                 {{-- Each Whole Table Screen --}}
-                <div class="process-bar-container">
+                <div class="process-bar">
                     <div class="process-bar">
                         <div class="process-order">
-                            <h3 style="text-align:center">Users</h3>
+                        <h3 style="text-align:center">Assign Permission Role:   <a href="{{route('edit_role',['role'=>$role])}}"> {{$role->name}}  <i class="fa fa-eye"></i> </a>  </h3>
                                 <span style=" ">
                                     <form >
-                                        <input type="text" class="search_box" data-url="{{route("search_user")}}" placeholder="search name..." style="text-align:center;">
+                                        <input type="text" class="search_box" data-url="{{route("search_non_user_roles",['role'=>$role])}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                     </form>
                                 </span>
@@ -27,34 +28,26 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Username</th>
-                                                    <th>Program Of Study</th>
+                                                   
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
                                             <tbody class="search_result">
-                                                @foreach($users as $user)
-                                                <tr>
+                                                @foreach($non_permissions as $permission)
+
+                                                <tr id="tr_{{$permission->id}}">
                                                     <td>
-                                                        {{$user->firstname." ".$user->lastname}}
-                                                        
-                                                            <a >
-                                                                <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                                            </a>
-                                                                                                       
+                                                        {{$permission->name}}
                                                     </td>
-                                                    <td>{{$user->username}}</td>
-                                                    <td>{{ $user->program !="" ? $user->program->name : "Program Name" }}</td>
+
+                                                    {{-- Actions --}}
                                                     <td>
-                                                        @can('update',$user)
-                                                        <a href="{{route('view_profile',$user->id)}}">
-                                                              <i class="fa fa-eye"></i>
-                                                        </a>
-                                                        @endcan
-                                                         <span class="btn-info modal_button"  data-url="{{route('show_modal_info',$user->id)}}">
-                                                              <i class="fa fa-address-card-o"></i>
-                                                        </span>
+                                                        {{-- @can('update',$user) --}}
+                                                         <button class="check_button" id="{{$permission->id}}" data-url="{{route('assign_role_permission',['role'=>$role,'permission'=>$permission])}}" >
+                                                              <i class="fa fa-check"></i>
+                                                        </button>
+                                                        {{-- @endcan --}}
                                                     </td>
                                                     {{-- <td>
                                                         <span class="badge badge-success">Active</span>
@@ -73,7 +66,7 @@
 
                         {{-- Pagination Links go here--}}
                         <div class="process-billing">
-                            {{$users->links()}}
+                            {{$non_permissions->links()}}
                         </div>
                     </div>
                 </div>
@@ -82,11 +75,11 @@
                 {{-- Info About Program --}}
                 <div class="process-view-container">
                     <p style="font-weight:bolder">
-                        See User Info
+                        {{-- See User Info --}}
                     </p>
                     <div id="get_fetched_content" >
 
-                        See User Info Here
+                        {{-- See User Info Here --}}
 
                     </div>
                    

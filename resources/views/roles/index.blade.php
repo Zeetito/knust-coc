@@ -10,11 +10,11 @@
                         <div class="process-order">
                             <h3 style="text-align:center">Roles</h3>
                             <span>
-                                <form >
-                                    <input type="text" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
-                                        <i class="fa fa-search"></i>
-                                </form>
-                        </span>
+                                    <form >
+                                        <input type="text" class="search_box" data-url="" placeholder="search name..." style="text-align:center;">
+                                            <i class="fa fa-search"></i>
+                                    </form>
+                            </span>
                         </div>
 
                         {{-- Attendance Table --}}

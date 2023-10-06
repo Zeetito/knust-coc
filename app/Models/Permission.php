@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Permission extends Model
 {
-    use HasFactory;
+    use HasFactory,HasRolesAndPermissions;
+
+    // protected $hidden = 'pivot';
     
     protected $fillable = ['name', 'slug', 'description'];
 

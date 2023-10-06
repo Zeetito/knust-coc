@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
-// Getting Info into Static modal
+// Getting Info into Static modal/screen
     $(document.body).on('click', '.modal_button',function () {
         var url = $(this).data('url');
         var data;
@@ -21,30 +21,31 @@ $(document).ready(function(){
             }
         });
     });
-// Confirmation Modals
-    $(document.body).on('click', '.undo_confirmation_button',function () {
-        $('#myModal').modal('show');
-        // $('#myModal').on('shown.bs.modal',function () {
-        
 
-            var url = $(this).data('url');
-            var data;
-            // console.log(url);
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: data,
-                cache: false,
-                success: function (data) {
-                    
-                    // console.log(url);
-                    $('#modal-content').html(data);
-                },
-                error: function(err) {
-                    console.log(err);
-                }
-            });
-        // });
+// Content Reciever Modals
+    $(document.body).on('click', '.get_content',function () {
+        $('#myModal').modal('show');
+        var url = $(this).data('url');
+            // $('#myModal').on('shown.bs.modal',function () {
+            
+                var data;
+                console.log(url);
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: data,
+                    cache: false,
+                    success: function (data) {
+                        
+                        // console.log(url);
+                        $('#modal-content').html(data);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                    });
+            // });
+        
     });
 
 
@@ -82,30 +83,30 @@ $(document).ready(function(){
     });
 
 
-        // Switch Toggle function
-        $(document.body).on('change','.toggle_button', function () {
-            var switchStatus ;
-        // if ($(this).is(':checked')) {
-            switchStatus = $(this).is(':checked');
-            var id = $(this).attr('id');
-            var url = $(this).data('url');
-            var data;
+    // Switch Toggle function
+    $(document.body).on('change','.toggle_button', function () {
+        var switchStatus ;
+    // if ($(this).is(':checked')) {
+        switchStatus = $(this).is(':checked');
+        var id = $(this).attr('id');
+        var url = $(this).data('url');
+        var data;
 
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: data,
-                cache: false,
-                success: function (data) {
-                    
-                    $(this).value = $(this).checked ? data.on : data.off;
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: data,
+            cache: false,
+            success: function (data) {
+                
+                $(this).value = $(this).checked ? data.on : data.off;
 
-                    $('#tr_'+id).html(data);
-                },
-                error: function(err) {
-                    console.log(err);
-                }
-            });
+                $('#tr_'+id).html(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
 
     });
 
@@ -141,7 +142,7 @@ $(document).ready(function(){
         });
     });
 
-    // Openening Tabs
+    // Switching Tabs
     $(document.body).on('click', '.nav-link',function () {
         
             var i, tabcontent, tablinks;

@@ -20,7 +20,7 @@ class College extends Model
 
     ];
 // RELATIONSHIPS
-    public function members():hasManyThrough {
+    public function users():hasManyThrough {
         return $this->hasManyThrough(User::class,Biodata::class,"college_id","id","id","user_id");
     }
 

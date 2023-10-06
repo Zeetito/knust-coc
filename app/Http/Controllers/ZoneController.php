@@ -13,6 +13,7 @@ class ZoneController extends Controller
     public function index()
     {
         //
+        return view('housing.zones.index');
     }
 
     /**

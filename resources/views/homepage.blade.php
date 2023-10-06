@@ -1,7 +1,6 @@
 <x-layout>
       
         
-        
                     <div class="container-fluid">
                         <div class="dashboard-container">
 

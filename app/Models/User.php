@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -49,6 +50,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot',
     ];
 
     /**
@@ -88,6 +90,17 @@ class User extends Authenticatable
     public function program(): HasOneThrough{
         return $this->HasOneThrough(Program::class,Biodata::class,"user_id","id","id","program_id");
     }
+    
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_users');
+    }
+
 
     // FUNCTIONS
 
@@ -96,6 +109,12 @@ class User extends Authenticatable
         return exists($this->biodata()) ;
     }
 
+    // Get user full name
+    public function fullname(){
+        return $this->firstname." ".$this->lastname;
+    }
+
+    // Get User Avatar
     public function get_avatar(){
         // return $this->avatar;
         if ($this->avatar === "default_avatar"){
@@ -104,6 +123,7 @@ class User extends Authenticatable
             return (asset('storage/img/avatars/'.$this->avatar));
     }
 
+    // Check if User is checked for a particular attendance session
     public function is_checked(Attendance $attendance) {
         // return "chief";
         return DB::table('attendance_users')
@@ -112,6 +132,7 @@ class User extends Authenticatable
         ->exists();
     }
 
+    // Return User who checkd this user
     public function checked_by(Attendance $attendance) {
        
         return  self::
@@ -124,15 +145,7 @@ class User extends Authenticatable
                 ;
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'role_users');
-    }
 
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class, 'permission_users');
-    }
 
 
 }
