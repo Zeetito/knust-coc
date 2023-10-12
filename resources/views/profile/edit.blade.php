@@ -35,22 +35,27 @@
                               {{-- Program List for Each College --}}
                                 {{-- Program Id --}}
                                 <div class="col-md-3 mb-4">
-                                    <input list="programs" class="form-control" name="program_id" id="program" placeholder="program search..." >
-                                    <datalist id="programs">
-                                      <option value="computer science">
-                                      <option value="environmental science">
-                                      <option value="something else">
-                                    </datalist>
-                                {{-- <span class="help-block">Residence</span> --}}
-    
-                            </div>
-    
+                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program->name)}}" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
+                                        <datalist id="search_result_for_program_list">
+                                            @if(empty($programs))
+                                                <option>Search Program</option>
+                                            @else
+                                            
+                                                @foreach($programs as $program)
+                                                    <option value="{{$program->id}}"> {{$program->name}} </option>
+                                                @endforeach
+        
+                                            @endif
+                                        </datalist>
+                                    {{-- <span class="help-block">Residence</span> --}}
+        
+                                </div>
     
                                 {{-- Zone Id --}}
                                 <div class="col-md-3 mb-4">
                                         <select class="form-control" name="zone_id" id="zones">
                                             <option value="">SELECT ZONE</option>
-                                        @foreach($zones as $zone)
+                                            @foreach(App\Models\Zone::all() as $zone)
                                             <option value="{{$zone->id}}"> {{$zone->name}} </option>
                                          @endforeach
                                         </select>
@@ -81,14 +86,20 @@
                                 {{-- Residence List for Each Zone --}}
                                 {{-- Residence Id --}}
                                 <div class="col-md-3 mb-4">
-                                        <input list="residences" class="form-control"  name="residence" id="residence" placeholder="Residence search..." >
-                                        <datalist id="residences">
-                                          <option value="Happy Family">
-                                          <option value="Shalom">
-                                          <option value="Independence Hall">
+                                    <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence->name)}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
+                                    <datalist id="search_result_for_residence_list">
+                                        @if(empty($residences))
+                                            <option>Search residence...</option>
+                                        @else
+                                    
+                                        @foreach($residences as $residence)
+                                            <option value="{{$residence->name}}">{{$residence->zone->name}}</option>
+                                        @endforeach
+
+                                        @endif
                                         </datalist>
                                     {{-- <span class="help-block">Residence</span> --}}
-    
+
                                 </div>
     
                                    {{-- Room --}}

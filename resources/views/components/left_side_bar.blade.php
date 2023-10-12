@@ -48,9 +48,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Colleges</a>
                         </li>
-                        {{-- Facaulty --}}
+                        {{-- Faculty --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Facaulty</a>
+                            <a class="nav-link" href="{{route('faculties')}}"><i class="fa fa-circle-o-notch"></i> Faculty</a>
                         </li>
                         {{-- Departments --}}
                         <li class="nav-item">

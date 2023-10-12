@@ -1,8 +1,7 @@
 @foreach($members as $member)
-{{-- {{$user_who_marked = $attendance->user_marked_by($member->pivot->checked_by)}} --}}
 <tr id="tr_{{$member->id}}">
-    <td>{{$member->firstname." ".$member->lastname}}</td>
-    <td>{{$member->zone !="" ? $member->zone->name : "No Zone" }}</td>
+    <td>{{$member->fullname()}}</td>
+    <td>{{$member->biodata !=null ? $member->zone->name : "No Zone" }}</td>
     <td>
         @if($member->is_checked($attendance))
 

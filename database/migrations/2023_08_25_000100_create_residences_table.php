@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('zone_id')->constrained();
-            $table->string('description');
-            $table->string('landmark');
+            $table->string('description')->nullable();
+            $table->string('landmark')->nullable();
             $table->unsignedBigInteger('rep_id')->constrained()->nullable();
             $table->timestamps();
 

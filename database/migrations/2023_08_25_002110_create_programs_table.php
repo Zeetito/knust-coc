@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('college_id');
+            $table->foreignId('faculty_id')->nullable();
+            $table->foreignId('department_id')->nullable();
             $table->string('type');
-            $table->integer('span');
+            $table->integer('span')->nullable();
             $table->timestamps();
         });
     }

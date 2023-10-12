@@ -13,6 +13,6 @@ class BiodataSeeder extends Seeder
      */
     public function run(): void
     {
-        Biodata::factory(51)->create();
+        Biodata::factory(501)->create();
     }
 }

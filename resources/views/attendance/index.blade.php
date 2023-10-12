@@ -11,13 +11,13 @@
                                 <h3 style="text-align:center">Attendance Sessions</h3>
                                 <span>
                                     <form >
-                                        <input list="meetings" type="text" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
+                                        <input list="meetings" type="text" id="for_attendance_list" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                             <datalist id="meetings">
                                                 @foreach(App\Models\Meeting::where('is_active','=',1)->get()->sortBy('name') as $meeting)
                                                     <option value ="{{$meeting->name}}">
                                                 @endforeach
-                                              </datalist>                                            
+                                            </datalist>                                            
                                     </form>
                             </span>
                             </div>
@@ -38,7 +38,7 @@
                                                     </tr>
                                                 </thead>
                                                 {{-- Table Body --}}
-                                                <tbody class="search_result">
+                                                <tbody id="search_result_for_attendance_list">
                                                    @foreach($attendances as $attendance)
 
                                                     <tr id="tr_{{$attendance->id}}">
@@ -51,7 +51,7 @@
                                                         <td>
                                                             @can('view',$attendance)
                                                             {{-- View Attendance Session --}}
-                                                             <a href="{{route('show_attendance',$attendance->id)}}">
+                                                             <a href="{{route('show_attendance_users',$attendance->id)}}">
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                             @endcan

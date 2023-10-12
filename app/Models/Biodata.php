@@ -18,6 +18,7 @@ class Biodata extends Model
         'residence_id',
         'room',
         'program_id',
+        'college_id',
     ];
 
     public function user():belongsTo {

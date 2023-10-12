@@ -77,7 +77,7 @@ class RoleController extends Controller
         $non_users = $role->non_users()->paginate(
             $perPage = 25, $columns = ['*'], $pageName = "Users" 
         );
-        return view("roles.roles-users.create",['role'=>$role,'non_users'=>$non_users]);
+        return view("roles.roles-users.components.non-users.create",['role'=>$role,'non_users'=>$non_users]);
     }
 
     // Give a user role
@@ -114,14 +114,14 @@ class RoleController extends Controller
         if(!empty($string)){
             $str = "%".$string."%";
             $users = $role->non_users()
-            ->where('firstname','like',$str)
-            ->orWhere('lastname','like',$str)
+            ->where((DB::raw("CONCAT(firstname,' ', lastname, ' ', username)")), 'like', $str )
             ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
-            return view('roles.roles-users.non_users_search_results',['non_users'=>$users, 'role'=>$role]);
         }else{
             $users = $role->non_users()->paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
-            return view('roles.roles-users.non_users_search_results',['non_users'=>$users, 'role'=>$role]);
         }
+
+        return view('roles.roles-users.components.non-users.search-results',['non_users'=>$users, 'role'=>$role]);
+
     }
 
 

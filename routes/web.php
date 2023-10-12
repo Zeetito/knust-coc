@@ -5,10 +5,13 @@ use App\Models\User;
 use App\Models\Zone;
 use App\Models\Helper;
 use App\Models\College;
+use App\Models\Faculty;
 use App\Models\Meeting;
+use App\Models\Program;
 use App\Models\Semester;
 use App\Models\Residence;
 use App\Models\Attendance;
+use App\Models\Department;
 use App\Models\Permission;
 use App\Models\AcademicYear;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +21,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\AttendanceController;
 
 /*
@@ -49,6 +53,49 @@ Route::get('/colleges/{college}',[CollegeController::class,'show'])
 ->name('show_college')
 ;
 
+// Search User in a College On Users table
+Route::get('/search_college_user/{college}',[CollegeController::class,"search_college_user"])
+->middleware('auth')
+->name('search_college_user')
+;
+
+// Search Programs in a Faculty On Programs table
+Route::get('/search_college_program/{college}',[CollegeController::class,"search_college_program"])
+->middleware('auth')
+->name('search_college_program')
+;
+
+
+// FACULTIES
+// View all faculties
+Route::get('/faculties',[FacultyController::class,'index'])
+->middleware('auth')
+->name('faculties')
+;
+
+// Show A single College
+Route::get('/faculties/{faculty}',[FacultyController::class,'show'])
+->middleware('auth')
+->name('show_faculty')
+;
+
+
+// Search User in a Faculty On Users table
+Route::get('/search_faculty_user/{faculty}',[FacultyController::class,"search_faculty_user"])
+->middleware('auth')
+->name('search_faculty_user')
+;
+
+// Search Programs in a Faculty On Programs table
+Route::get('/search_faculty_program/{faculty}',[FacultyController::class,"search_faculty_program"])
+->middleware('auth')
+->name('search_faculty_program')
+;
+
+
+
+// -----------------
+// HOUSING
 // ZONES
 
 // View all Zones
@@ -136,9 +183,9 @@ Route::get('/attendance',[AttendanceController::class,"index"])
 ;
 
 // View Attendance Session. See who's marked or not
-Route::get('/attendance/{attendance}',[AttendanceController::class,"show"])
+Route::get('/attendance_users/{attendance}',[AttendanceController::class,"show_attendance_users"])
 ->middleware('auth')
-->name('show_attendance')
+->name('show_attendance_users')
 ;
 
 // Create New Attendance Session
@@ -185,15 +232,15 @@ Route::get("/search_attendance",[AttendanceController::class, "search_attendance
 ;
 
 // Search User who's been checked for a particular attendance
-Route::get("/search_user/{attendance}",[AttendanceController::class, "search_user_checked"])
+Route::get("/search_attendance_checked_users/{attendance}",[AttendanceController::class, "search_attendance_checked_users"])
 ->middleware("auth")
-->name("search_user_checked")
+->name("search_attendance_checked_users")
 ;
 
 // Search User on Attendance table
-Route::get('/search_attendance_user/{attendance}',[UserController::class,"search_attendance_user"])
+Route::get('/search_attendance_users/{attendance}',[AttendanceController::class,"search_attendance_users"])
 ->middleware('auth')
-->name('search_attendance_user')
+->name('search_attendance_users')
 ;
 
 
@@ -238,7 +285,19 @@ Route::get('/', function(){
 ->middleware('auth')
 ->name('home');
 
+// ----------------------------
 // USER PROFILE
+
+// Search residences
+Route::get('/profile_search_residences',[BiodataController::class,"profile_search_residences"])
+->middleware('auth')
+->name('profile_search_residences')
+;
+// Search Programs
+Route::get('/profile_search_programs',[BiodataController::class,"profile_search_programs"])
+->middleware('auth')
+->name('profile_search_programs')
+;
 
 // Show User Profile
 Route::get('/profile/{user}',[BiodataController::class,"show"])
@@ -246,13 +305,13 @@ Route::get('/profile/{user}',[BiodataController::class,"show"])
 ->name('view_profile');
 
 // create User Profile form
-Route::get('/profile',[BiodataController::class,"create"])
+Route::get('/profile/{user}/new',[BiodataController::class,"create"])
 ->middleware('auth')
 ->name('create_user_profile_form')
 ;
 
-// Create/store user profile
-Route::post('/profile',[BiodataController::class,"store"])
+// /store user profile
+Route::post('/profile/{user}',[BiodataController::class,"store"])
 ->middleware('auth')
 ->name('create_profile');
 
@@ -280,6 +339,8 @@ Route::post('/avatar/{user}',[UserController::class,"store_avatar"])
 ->middleware('auth')
 ->name('update_avatar','can:update,user')
 ;
+
+// Reset User Avatar
 Route::get('/avatar/{user}/reset',[UserController::class,"reset_avatar"])
 ->middleware('auth')
 ->name('reset_avatar')
@@ -291,6 +352,8 @@ Route::get('/users',[UserController::class,"view_users"])
 ->middleware('auth')
 ->name('view_users')
 ;
+
+// -------------------------------------------------
 
 
 // MODAL VIEWS
@@ -308,7 +371,7 @@ Route::get('/search_user',[UserController::class,"search_user"])
 
 
 Route::get('/hello',function(){
-    return secure_url('path/to/route');
-    return User::find(14)->fullname();
-    // return Role::find(3)->non_permissions()->get();
+    // return Program::findProgramByName('MSc. Computer Science')->id;
+    return User::find(3)->zone->name;
+    return Semester::findByDate(College::find(2)->created_at) ;
 });

@@ -7,7 +7,7 @@
 
                 </div>
                 <div class="card-body">
-                <form action="{{route('create_profile')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{route('create_profile',['user'=>$user])}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
                         {{-- UserName --}}
                         <div class="form-group row">
@@ -34,15 +34,21 @@
                           {{-- Program List for Each College --}}
                             {{-- Program Id --}}
                             <div class="col-md-3 mb-4">
-                                <input list="programs" class="form-control" name="program_id" id="program" placeholder="program search..." >
-                                <datalist id="programs">
-                                  <option value="computer science">
-                                  <option value="environmental science">
-                                  <option value="something else">
-                                </datalist>
-                            {{-- <span class="help-block">Residence</span> --}}
+                                <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id')}}" class="search_box form-control" name="program_id" id="for_program_list"  autocomplete="off" placeholder="Search Program..." >
+                                    <datalist id="search_result_for_program_list">
+                                        @if(empty($programs))
+                                            <option>Search Program</option>
+                                        @else
+                                        
+                                            @foreach($programs as $program)
+                                                <option value="{{$program->name}}"></option>
+                                            @endforeach
 
-                        </div>
+                                        @endif
+                                    </datalist>
+                                {{-- <span class="help-block">Residence</span> --}}
+
+                            </div>
 
 
                             {{-- Zone Id --}}
@@ -78,11 +84,17 @@
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
                             <div class="col-md-3 mb-4">
-                                    <input list="residences" class="form-control" name="residence_id" id="residence" placeholder="Residence search..." >
-                                    <datalist id="residences">
-                                      <option value="Happy Family">
-                                      <option value="Shalom">
-                                      <option value="Independence Hall">
+                                    <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
+                                    <datalist id="search_result_for_residence_list">
+                                        @if(empty($residences))
+                                            <option>Search residence...</option>
+                                        @else
+                                    
+                                        @foreach($residences as $residence)
+                                            <option value="{{$residence->name}}"></option>
+                                        @endforeach
+
+                                    @endif
                                     </datalist>
                                 {{-- <span class="help-block">Residence</span> --}}
 

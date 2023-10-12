@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ZoneSeeder::class);
         $this->call(ResidenceSeeder::class);
         $this->call(CollegeSeeder::class);
+        $this->call(FacultySeeder::class);
+        $this->call(DepartmentSeeder::class);
         $this->call(ProgramSeeder::class);
 
         $this->call(BiodataSeeder::class);

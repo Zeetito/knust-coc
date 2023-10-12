@@ -133,5 +133,15 @@ or If the Semestar has a value for 'ended_at' (not null) yet there's no new Seme
 ## check attendance_users table timestamps.
 
 #PHASE 9
-## Apply the Breadcrumps on the layout file
 # Acadamia and Housing Pages 
+#Faculty,Department,and courses* model
+#Refactor the views folders to get rid of the model folder sitting in the views folder
+
+#Edit the Program Model
+name
+college_id
+faculty_id
+department_id
+type
+span
+

@@ -50,16 +50,14 @@ class AttendanceController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Attendance $attendance)
+   
+    public function show_attendance_users(Attendance $attendance)
     {
         //
-        $members = Attendance::find($attendance->id)->members()->paginate(
+        $members = Attendance::find($attendance->id)->users()->paginate(
             $perPage = 50, $columns = ['*'], $pageName = "AttendanceSessions"
         );
-        return view('attendance.show',['attendance'=>$attendance , 'members'=>$members]);
+        return view('attendance.attendance-users.show',['attendance'=>$attendance , 'members'=>$members]);
     }
 
     /**
@@ -95,7 +93,7 @@ class AttendanceController extends Controller
         return view('attendance.attendance-users.create',['members'=>$users, 'attendance'=>$attendance]);
     }
 
-    // Switch Attendance Session
+    // Switch Attendance Session on or off
     public function switch_attendance_session(Attendance $attendance){
        if($attendance->is_active == 1){
            $attendance['is_active'] = 0;
@@ -127,7 +125,6 @@ class AttendanceController extends Controller
                     ->where('user_id',$user->id)
                     ->delete();
                     // Return the updated row
-                    return view('modals.attendance-users.updated-row',['member'=>$user,'attendance'=>$attendance]);
 
                 }else{
                     // Check the user here
@@ -136,9 +133,11 @@ class AttendanceController extends Controller
                         'user_id' => $user->id,
                         'checked_by' => Auth::user()->id,
                     ]);
-                    return view('modals.attendance-users.updated-row',['member'=>$user,'attendance'=>$attendance]);
                    
                 }
+
+                return view('attendance.attendance-users.components.users.updated-row',['member'=>$user,'attendance'=>$attendance]);
+
 
 
             // That code goes here
@@ -174,14 +173,18 @@ class AttendanceController extends Controller
                 $query->select('name')
                 ->from('meetings')
                 ->whereColumn('meetings.id', 'attendances.meeting_type')
-                ->limit(1);
-            }, 'like', $str)->latest()->get();
+                ;
+            }, 'like', $str)
+            
+            ->orWhere('venue','like',$str)
+            ->latest()->get();
         }else{
+
             $attendances = Attendance::latest()->paginate($perPage = 5, $columns = ['*'], $pageName = "attendances" );
             
         }
 
-        return view('modals.attendance.search-results',['attendances'=>$attendances]);        
+        return view('attendance.components.attendance.search-results',['attendances'=>$attendances]);        
 
     }
 
@@ -194,32 +197,30 @@ class AttendanceController extends Controller
     }
 
 
-    // Search Users who's been checked already
-    public function search_user_checked(Request $request, Attendance $attendance){
+    // Search Users who've been checked already
+    public function search_attendance_checked_users(Request $request, Attendance $attendance){
         $string =  $request->input('str');
 
            // If String is not empty bring the results
             if(!empty($string)){
                 $str = "%".$string."%";
-                $members = User::join('attendance_users','users.id','=','attendance_users.user_id')
-                                ->where('attendance_users.attendance_id',$attendance->id)
-                                ->where('users.firstname','like',$str)
-                                ->orWhere('users.lastname','like',$str)
-                                ->select('users.*')
-                                ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+                $members = $attendance->users()
+                                        ->where((DB::raw("CONCAT(firstname,' ', lastname, ' ', username)")), 'like', $str )
+                                        ->get()
+                                        ;
 
                                 if(is_null($members)){
                                     return "No results to show";
                                 }else{
 
-                                    return view('modals.attendance-users.checked_users_search_results',['members'=>$members,'attendance'=>$attendance]);
+                                    return view('attendance.attendance-users.components.checked-users.search_results',['members'=>$members,'attendance'=>$attendance]);
                                 }
     
             }else{
                     // If string is empty, return the original paginated data
-                    return view('modals.attendance-users.checked_users_search_results',
+                    return view('attendance.attendance-users.components.checked-users.search_results',
                         [
-                            'members' => Attendance::find($attendance->id)->members()->paginate(
+                            'members' => Attendance::find($attendance->id)->users()->paginate(
                                 $perPage = 50, $columns = ['*'], $pageName = "AttendanceSessions"
                             ),
                             'attendance'=>$attendance,
@@ -227,5 +228,30 @@ class AttendanceController extends Controller
                     );
             }
     }
+
+
+     // Search User (marked or unmarked) on attendance table
+     public function search_attendance_users(Attendance $attendance, Request $request){
+        $string =  $request->input('str');
+     //    The attendance Id is parsed as attendacne. It is now used to get the attendance instance
+     //    $attendance = Attendance::find($request->input('attendance'));
+        // If String is not empty bring the results
+         if(!empty($string)){
+             $str = "%".$string."%";
+             $members = User::
+                             where((DB::raw("CONCAT(firstname,' ',lastname)")), 'like', $str )
+                             ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+         }else{
+                 // If string is empty, return the original paginated data
+                         $members = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
+         }
+
+         return view('attendance.attendance-users.components.users.search-results',['members'=>$members,'attendance'=>$attendance]);
+
+        
+                           
+    }
+
+
 
 }

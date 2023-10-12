@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->integer('year');
-            $table->foreignId('zone_id')->constrained();
-            $table->foreignId('residence_id')->constrained();
-            $table->string('room');
+            $table->foreignId('residence_id')->constrained()->nullable();
+            $table->string('room')->nullable();
             $table->foreignId('program_id')->constrained();
             $table->foreignId('college_id')->constrained();
             $table->foreignId('role_id')->default(0);

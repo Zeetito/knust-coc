@@ -22,16 +22,16 @@ class BiodataFactory extends Factory
     public function definition(): array
     {
         $uniqueUserIds = User::all()->pluck('id')->shuffle();
+        $programId = Program::all()->random()->id;
         return [
             
             //
             'user_id' => $uniqueUserIds->pop(),
             'year' => rand(1,8),
-            'zone_id' => Zone::all()->random()->id,
             'residence_id' => Residence::all()->random()->id,
             'room' => fake()->buildingNumber(),
-            'college_id' => College::all()->random()->id,
-            'program_id' => Program::all()->random()->id,
+            'program_id' => $programId,
+            'college_id' => Program::find($programId)->college->id,
 
         ];
     }

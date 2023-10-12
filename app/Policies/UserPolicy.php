@@ -68,6 +68,6 @@ class UserPolicy
     public function check(User $user, User $model): bool
     {
         // The person who checked can uncheck the user as well 
-        return ($model->is($user) || $user->id == '1') ;
+        return ($model->is($user) || $user->id == 1) ;
     }
 }

@@ -11,7 +11,7 @@
                             <h3 style="text-align:center">Users</h3>
                                 <span style=" ">
                                     <form >
-                                        <input type="text" class="search_box" data-url="{{route("search_user")}}" placeholder="search name..." style="text-align:center;">
+                                        <input type="text" class="search_box" id="for_user_list" data-url="{{route("search_user")}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                     </form>
                                 </span>
@@ -33,16 +33,16 @@
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
-                                            <tbody class="search_result">
+                                            <tbody id="search_result_for_user_list">
                                                 @foreach($users as $user)
                                                 <tr>
+                                                    {{-- Avatar and Fullname --}}
                                                     <td>
-                                                        {{$user->firstname." ".$user->lastname}}
+                                                         <a >
+                                                            <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                        </a>
+                                                        {{$user->fullname()}}
                                                         
-                                                            <a >
-                                                                <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                                            </a>
-                                                                                                       
                                                     </td>
                                                     <td>{{$user->username}}</td>
                                                     <td>{{ $user->program !="" ? $user->program->name : "Program Name" }}</td>

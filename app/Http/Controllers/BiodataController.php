@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Zone;
 use App\Models\Biodata;
 use App\Models\Program;
+use App\Models\Residence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,36 +26,34 @@ class BiodataController extends Controller
     public function create(User $user)
     {
         //
-        $zones = Zone::all();
-        return view('profile.create',['user'=>$user , 'zones'=>$zones]);
+        // $zones = Zone::all();
+        return view('profile.create',['user'=>$user ,'programs'=>'', 'residences'=>'']);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(User $user, Request $request)
     {
         //
         $validated = $request->validate([
             'room' => ['required'],
             'year' => ['required'],
-            'zone_id' => ['required'],
             'residence_id' => ['required'],
-            'college_id' => ['required'],
             'program_id' => ['required'],
+            'college_id'=>'',
         ]);
-        $validated['user_id'] = Auth::user()->id;
-        $validated['zone_id'] = 1;
-        $validated['residence_id'] = 1;
-        // $validated['room'] = "1A";
-        $validated['program_id'] = 16;
-        $validated['college_id'] = 4;
+        $validated['user_id'] = $user->id;
+        $validated['residence_id'] = Residence::findResidenceByName($validated['residence_id'])->id;
+        $validated['college_id'] = Program::findProgramByName($validated['program_id'])->college->id;
+        $validated['program_id'] = Program::findProgramByName($validated['program_id'])->id;
 
+        // return $user;
         // Program id is used to query for the college id.
         // $validated['college_id'] = Program::find($validated['program_id'])->college()->id;
 
-        $biodata = Biodata::create($validated);
-        return redirect(route('view_profile',$biodata->user))->with('success','Profile Created Successfully');
+        Biodata::create($validated);
+        return redirect(route('view_profile',$user))->with('success','Profile Created Successfully');
     }
 
     /**
@@ -76,7 +75,7 @@ class BiodataController extends Controller
         //
         $profile = $user->biodata;
         $zones = Zone::all();
-        return view('profile.edit',['profile' => $profile , 'zones'=>$zones, 'user' => $user]);
+        return view('profile.edit',['profile' => $profile ,'programs'=>'' , 'residences'=>'', 'user' => $user]);
         
     }
 
@@ -89,8 +88,15 @@ class BiodataController extends Controller
         $validated = $request->validate([
             'room' => ['min:2'] ,
             // 'room' => ['alpha_num:ascii'] ,
-            'zone_id' => ['numeric'] ,
+            'program_id' => ['required'] ,
+            'residence_id' => ['required'] ,
+            'college_id' => [''] ,
         ]);
+
+        $validated['college_id'] = Program::findProgramByName($validated['program_id'])->college->id;
+        $validated['program_id'] = Program::findProgramByName($validated['program_id'])->id;
+        $validated['residence_id'] = Residence::findResidenceByName($validated['residence_id'])->id;
+
        
 
       
@@ -121,5 +127,49 @@ class BiodataController extends Controller
 
         return view('modals.user.user-info',['profile'=>$user->biodata]);
     }
+
+
+    // search programs 
+    public function profile_search_programs(Request $request){
+
+        $string =  $request->input('str');
+        $str = "%".$string."%";
+
+            // If the String is not empty
+            if(!empty($string)){
+              
+            $programs = Program::where('name','like',$str)->get();
+
+            }else{
+
+            $programs = '';
+                
+            }
+
+            return view('profile.components.programs.search-results',['programs'=>$programs]);        
+
+    }
+
+    // search residences 
+    public function profile_search_residences(Request $request){
+
+        $string =  $request->input('str');
+        $str = "%".$string."%";
+
+            // If the String is not empty
+            if(!empty($string)){
+              
+            $residences = Residence::where('name','like',$str)->get();
+
+            }else{
+
+            $residences = '';
+                
+            }
+
+            return view('profile.components.residences.search-results',['residences'=>$residences]);        
+
+    }
+
 
 }

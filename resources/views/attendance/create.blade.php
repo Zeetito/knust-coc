@@ -22,7 +22,7 @@
                                     @endforeach
 
                                 </select>
-                            </div>
+                        </div>
                             @error('meeting_type')
                             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                             @enderror

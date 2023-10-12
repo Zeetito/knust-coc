@@ -11,7 +11,7 @@
                                 <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
                                 <span>
                                         <form >
-                                            <input  type="text" class="search_box" data-url="{{route("search_attendance_user",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
+                                            <input  type="text" class="search_box"  id="for_user_list" data-url="{{route("search_attendance_users",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
                                                 <i class="fa fa-search"></i>
                                         </form>
                                 </span>
@@ -31,18 +31,17 @@
                                                     </tr>
                                                 </thead>
                                                 {{-- Table Body --}}
-                                                <tbody class="search_result">
+                                                <tbody id="search_result_for_user_list">
                                                     @foreach($members as $member)
-                                                    {{-- {{$user_who_marked = $attendance->user_marked_by($member->pivot->checked_by)}} --}}
                                                     <tr id="tr_{{$member->id}}">
-                                                        <td>{{$member->firstname." ".$member->lastname}}</td>
-                                                        <td>{{$member->zone !="" ? $member->zone->name : "No Zone" }}</td>
+                                                        <td>{{$member->fullname()}}</td>
+                                                        <td>{{$member->biodata !=null ? $member->zone->name : "No Zone" }}</td>
                                                         <td>
                                                             @if($member->is_checked($attendance))
 
                                                                         @can('check',$member)
                                                                             {{-- Uncheck User button --}}
-                                                                            <span type="button" class="check_button"  data-toggle="modal" data-target="#myModal" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
+                                                                            <span type="button" class="check_button" id="{{$member->id}}" data-toggle="modal" data-target="" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
                                                                                 <i class="text-warning fa fa-check"></i>
                                                                             </span> 
                                                                          @else
@@ -73,7 +72,6 @@
                                            
                                     </div>
                             
-                             
                             </div>
                             {{--Users Table Ends--}}
     
@@ -82,8 +80,6 @@
                         </div>
                     </div>
                     {{-- Whole Table Screen Ends --}}
-    
-                    
     
                 </div> <!-- end of dashboard container -->
     

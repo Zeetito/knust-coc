@@ -5,7 +5,7 @@
     <a >
         <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
     </a>
-    {{$user->firstname." ".$user->lastname}}
+    {{$user->fullname()}}
     
                                                    
 </td>
@@ -13,7 +13,7 @@
 <td>{{$user->username}}</td>
 
 {{-- Residence of the User --}}
-<td>{{ $user->Zone !="" ? $user->Zone->name : "Zone Name" }}</td>
+<td>{{ $user->biodata !=null ? $user->Zone->name : "Zone Name" }}</td>
 
 {{-- Actions --}}
 <td>

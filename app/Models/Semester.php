@@ -41,7 +41,7 @@ class Semester extends Model
             // The semster for the particular vacation
             $semester = self::whereDate('ended_at',"<=",$date)->orderBy('ended_at','desc')->first();
             // Appedn the word vacation to the semester name
-                $semester ['name'] = $semester->name." Vacation";
+                $semester ['name'] = $semester->name."-Vacation";
                 return $semester;
         }
             // if falls within a semster range

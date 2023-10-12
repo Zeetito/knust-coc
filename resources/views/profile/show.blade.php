@@ -51,11 +51,11 @@
                                             {{-- Loop To List the othername(s)  a user has --}}
 
                                             <li>
-                                                College: College Name
+                                                College: {{$user->college == '' ? "No College" : $user->college->name}}
                                             </li>
                                             
                                             <li>
-                                                Program: Program Name
+                                                Program: {{$user->program->name == ''? "No Program" : $user->program->name}}
                                             </li>
 
                                             <li>
@@ -104,7 +104,7 @@
                                 Help Us Know more about You.
                             </span>
 
-                            <a href="{{route('create_user_profile_form')}}">
+                            <a href="{{route('create_user_profile_form',['user'=>$user])}}">
                                 <button class="btn btn-primary">
                                     Complete Profile
                                 </button>

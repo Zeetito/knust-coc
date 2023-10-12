@@ -32,7 +32,7 @@ class Attendance extends Model
 
 
     // RELATIONSHIPS
-    public function members(): BelongsToMany{
+    public function users(): BelongsToMany{
         return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'user_id')
         ->withPivot('user_id','checked_by')
         ->withTimestamps();

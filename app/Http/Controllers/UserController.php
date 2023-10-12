@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -183,44 +184,25 @@ class UserController extends Controller
        $string =  $request->input('str');
        $str = "%".$string."%";
    
-
+        // Check if the input is empty or not
+        // Define user collection if not...
        if(!empty($string)){
-        $users = User::where('firstname','like',$str)->orWhere('lastname',$str)->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+        $users = User::
+                        //Searching firstname,lastname and username
+                        where((DB::raw("CONCAT(firstname, ' ', lastname, username)")), 'like', $str )
+                        ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
 
+        // Define user collection if empty...
         }else{
             $users = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
             
         }
-
-       return view('modals.user.search-results',['users'=>$users]);
+        // Retrieve the needed component
+       return view('users.components.users.search-results',['users'=>$users]);
                           
         }
 
 
-    // Search User_attendance instance
-    public function search_attendance_user(Attendance $attendance, Request $request){
-       $string =  $request->input('str');
-    //    The attendance Id is parsed as attendacne. It is now used to get the attendance instance
-    //    $attendance = Attendance::find($request->input('attendance'));
-       // If String is not empty bring the results
-        if(!empty($string)){
-            $str = "%".$string."%";
-            $members = User::where('firstname','like',$str)
-                            ->orWhere('lastname','like',$str)
-                            ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
-            return view('modals.attendance-users.search-results',['members'=>$members,'attendance'=>$attendance]);
-
-        }else{
-                // If string is empty, return the original paginated data
-                return view('attendance.attendance-users.index',
-                    [
-                        'members' => User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" ),
-                        'attendance'=>$attendance,
-                    ]
-                );
-        }
-       
-                          
-    }
+   
 
 }

@@ -12,7 +12,7 @@
                         <h3 style="text-align:center">Give Users Role:   <a href="{{route('edit_role',['role'=>$role])}}"> {{$role->name}}  <i class="fa fa-eye"></i> </a>  </h3>
                                 <span style=" ">
                                     <form >
-                                        <input type="text" class="search_box" data-url="{{route("search_non_user_roles",['role'=>$role])}}" placeholder="search name..." style="text-align:center;">
+                                        <input type="text"  id="for_non_user_list" class="search_box" data-url="{{route("search_non_user_roles",['role'=>$role])}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                     </form>
                                 </span>
@@ -34,7 +34,7 @@
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
-                                            <tbody class="search_result">
+                                            <tbody id="search_result_for_non_user_list">
                                                 @foreach($non_users as $user)
                                                     <tr id="tr_{{$user->id}}">
                                                     {{-- Name and avatar of user --}}
@@ -42,7 +42,7 @@
                                                         <a >
                                                             <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
                                                         </a>
-                                                        {{$user->firstname." ".$user->lastname}}
+                                                        {{$user->fullname()}}
                                                         
                                                                                                        
                                                     </td>
@@ -50,7 +50,7 @@
                                                     <td>{{$user->username}}</td>
 
                                                     {{-- Residence of the User --}}
-                                                    <td>{{ $user->Zone !="" ? $user->Zone->name : "Zone Name" }}</td>
+                                                    <td>{{ $user->biodata !=null ? $user->Zone->name : "Zone Name" }}</td>
 
                                                     {{-- Actions --}}
                                                     <td>

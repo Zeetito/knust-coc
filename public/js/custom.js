@@ -22,7 +22,7 @@ $(document).ready(function(){
         });
     });
 
-// Content Reciever Modals
+// Content Reciever 
     $(document.body).on('click', '.get_content',function () {
         $('#myModal').modal('show');
         var url = $(this).data('url');
@@ -54,6 +54,10 @@ $(document).ready(function(){
     $(document.body).on('keyup','.search_box', function () {
         var url = $(this).data('url');
         var str = $(this).val();
+        // The Id identifies which particular search_result div the result should sit in
+        // In a case where there're multiple search boxes on a single page
+        var id  = $(this).attr('id');
+
 
         if (url.includes("?")) {
 
@@ -73,8 +77,8 @@ $(document).ready(function(){
             cache: false,
             success: function (data) {
                 
-        //         // console.log(url);
-                $('.search_result').html(data);
+                console.log(url);
+                $('#search_result_'+id).html(data);
             },
             error: function(err) {
                 console.log(err);

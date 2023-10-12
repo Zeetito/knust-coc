@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         {{-- Table Body --}}
-                        <tbody class="search_result">
+                        <tbody id="search_result_for_user_list">
                             @foreach($role->users as $user)
                                 <tr id="tr_{{$user->id}}">
                                   
@@ -53,7 +53,7 @@
                                         <a >
                                             <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
                                         </a>
-                                         {{$user->firstname." ".$user->lastname}}
+                                         {{$user->fullname()}}
                                     </td>
 
                                      {{-- Action  --}}

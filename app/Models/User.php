@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\Zone;
 use App\Models\Biodata;
 use App\Models\College;
+use App\Models\Faculty;
 use App\Models\Program;
 use App\Models\Residence;
 use App\Models\Attendance;
@@ -15,13 +16,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -79,16 +80,34 @@ class User extends Authenticatable
         return $this->HasOneThrough(Residence::class,Biodata::class,"user_id","id","id","residence_id");
     }
     
-    public function zone(): HasOneThrough{
-        return $this->HasOneThrough(Zone::class,Biodata::class,"user_id","id","id","zone_id");
-    }
+    // public function zone(): HasOneThrough{
+    //     return $this->HasOneThrough(Zone::class,Biodata::class,"user_id","id","id","zone_id");
+    // }
     
-    public function college(): HasOne{
-        return $this->HasOne(College::class,Biodata::class,"user_id","id","id","college_id");
-    }
+    // public function college(): HasOne{
+    //     return $this->HasOne(College::class,Biodata::class,"user_id","id","id","college_id");
+    // }
     
+        // program
     public function program(): HasOneThrough{
         return $this->HasOneThrough(Program::class,Biodata::class,"user_id","id","id","program_id");
+    }
+
+        // zone
+    public function zone(){
+        return $this->residence->zone();
+    }
+        // faculty
+    public function faculty(){
+        return $this->program->faculty;
+    }
+        // department
+    public function department(){
+        return $this->program->department;
+    }
+        // college
+    public function college(){
+        return $this->program->college();
     }
     
     public function roles()
