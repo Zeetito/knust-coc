@@ -37,7 +37,7 @@ class UserController extends Controller
     {
         //
         $validated = $request->validate([
-             'firstname'=>['required','min:5','max:30'],
+            'firstname'=>['required','min:5','max:30'],
             'lastname'=>['required','min:5','max:30'],
             'username'=>['required','min:3','max:30', Rule::unique('users','username')],
             'email'=>['email','required', Rule::unique('users','email')],
@@ -178,6 +178,8 @@ class UserController extends Controller
         );
     }
 
+    // STATIC FUNCTIONS
+
     // Search User
     public function search_user(Request $request){
         // $user 
@@ -202,7 +204,11 @@ class UserController extends Controller
                           
         }
 
+        public function search_user_officiator(Request $request){
+            User::search_user($request)->get();
+        }
 
+       
    
 
 }

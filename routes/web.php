@@ -14,15 +14,19 @@ use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\Permission;
 use App\Models\AcademicYear;
+use App\Models\SemesterProgram;
+
 use Illuminate\Support\Facades\Route;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
+use App\Http\Resources\AttendanceResource;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\SemesterProgramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +38,78 @@ use App\Http\Controllers\AttendanceController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+// ---------------
+// SEMESTER-PROGRAMS
+// View All semester Programs
+Route::get('/semester_programs',[SemesterProgramController::class,'index'])
+->middleware('auth')
+->name('semester_programs')
+;
+
+// Create Semester Program
+Route::post('/create_semester_program',[SemesterProgramController::class,'store'])
+->middleware('auth')
+->name('create_semester_program')
+;
+
+// Filter Semester Programs
+Route::get('/filter_semester_programs',[SemesterProgramController::class,'filter_semester_programs'])
+->middleware('auth')
+->name('filter_semester_programs')
+;
+
+// Show A Semester Program
+Route::get('/semester_program/{semesterProgram}',[SemesterProgramController::class,'show'])
+->middleware('auth')
+->name('show_semester_program')
+;
+
+// Add Officiator
+Route::get('/add_officiator_form/{semesterProgram}',[SemesterProgramController::class,'add_officiator_form'])
+->middleware('auth')
+->name('add_officiator_form')
+;
+
+// Store Officiator Instance
+Route::post('/officiator_store/{semesterProgram}',[SemesterProgramController::class,'store_officiator'])
+->middleware('auth')
+->name('store_officiator')
+;
+
+// Search User for officiating
+Route::get('/search_user_officiator',[SemesterProgramController::class,'search_user_officiator'])
+->middleware('auth')
+->name('search_user_officiator')
+;
+
+// Confirm Remove Officiator
+
+
+// Remove an Officiator Instance
+Route::delete('/remove_officiator/{semesterProgram}/{officiator}/{status}/{role}',[SemesterProgramController::class,"remove_officiator"])
+->middleware('auth')
+->name('remove_officiator')
+;
+
+// Edit form for officiator
+Route::get('/edit_officiator/{semesterProgram}/{officiator}/{status}/{role}',[SemesterProgramController::class,"edit_officiator"])
+->middleware('auth')
+->name('edit_officiator')
+;
+
+// Confirm officiator delete
+Route::get('/officiator_delete/{semesterProgram}/{officiator}/{status}/{role}/confirm',[SemesterProgramController::class,"confirm_officiator_delete"])
+->middleware('auth')
+->name('confirm_officiator_delete')
+;
+
+// Update an officiator Instance?
+Route::put('/update_officiator/{semesterProgram}/{officiator}/{status}/{role}',[SemesterProgramController::class,"update_officiator"])
+->middleware('auth')
+->name('update_officiator')
+;
 
 
 // -------------
@@ -243,6 +319,17 @@ Route::get('/search_attendance_users/{attendance}',[AttendanceController::class,
 ->name('search_attendance_users')
 ;
 
+// Register User Visitor
+Route::post('/register_user_visitor/{attendance}',[AttendanceController::class,"register_user_visitor"])
+->middleware('auth')
+->name("register_user_visitor")
+;
+
+// Register Guest Visitor
+Route::post('/register_guest_visitor/{attendance}',[AttendanceController::class,"register_guest_visitor"])
+->middleware('auth')
+->name("register_guest_visitor")
+;
 
 
 // ACCOUNT
@@ -273,7 +360,7 @@ Route::Post('/login',[UserController::class,"login"])
 ->middleware('guest')
 ->name('log_user_in');
 
-// User Login Action 
+// User Logout Action 
 Route::get('/logout',[UserController::class,"logout"])
 ->middleware('auth')
 ->name('logout');
@@ -369,9 +456,8 @@ Route::get('/search_user',[UserController::class,"search_user"])
 ->name('search_user')
 ;
 
-
-Route::get('/hello',function(){
-    // return Program::findProgramByName('MSc. Computer Science')->id;
-    return User::find(3)->zone->name;
-    return Semester::findByDate(College::find(2)->created_at) ;
+Route::get('/hello', function(){
+    return new AttendanceResource(Attendance::find(1));
+    // return SemesterProgram::find(1)->officiator_role(User::find(1));
+    return SemesterProgram::find(1)->officiator_roles(1);
 });

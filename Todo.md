@@ -145,3 +145,50 @@ department_id
 type
 span
 
+###PHASE 10
+<!-- activities table? -->
+
+#Create SemesterProgram Model
+id
+name
+venue
+related_ministry (role_slug)
+start_date
+end_date
+timestamps
+
+#programOfficiators table
+//
+id
+program_id
+officiating_role_name
+user_id
+
+#OfficiatingRoles table.
+these role's name is needed as values more than thier ids
+a user can type in their own role if it's not caputred in here.
+they'll be used as part of a datalist only.
+
+id
+name
+timestamps
+
+
+
+#Seed UnderGraduate programs
+
+#Get rid of Othername model and it's stuff [Using biodata table to take care of the othernames attribute]
+Started api implementation in this phase
+
+
+###PHASE 11
+#ProgramOutline table
+A program could have an outline but no Officiators lists
+Or it could have both.
+
+id
+section_name
+user_id
+start_time
+end_time
+timestamps

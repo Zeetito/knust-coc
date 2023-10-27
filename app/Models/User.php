@@ -22,7 +22,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -51,7 +53,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'pivot',
+        // 'pivot',
     ];
 
     /**
@@ -110,13 +112,11 @@ class User extends Authenticatable
         return $this->program->college();
     }
     
-    public function roles()
-    {
+    public function roles() {
         return $this->belongsToMany(Role::class, 'role_users');
     }
 
-    public function permissions()
-    {
+    public function permissions(){
         return $this->belongsToMany(Permission::class, 'permission_users');
     }
 
@@ -146,7 +146,7 @@ class User extends Authenticatable
     public function is_checked(Attendance $attendance) {
         // return "chief";
         return DB::table('attendance_users')
-        ->where('user_id',$this->id)
+        ->where('person_id',$this->id)
         ->where('attendance_id',$attendance->id)
         ->exists();
     }
@@ -157,13 +157,55 @@ class User extends Authenticatable
         return  self::
                 join('attendance_users','attendance_users.checked_by','=','users.id')
                 ->where('attendance_users.attendance_id',$attendance->id)
-                ->where('attendance_users.user_id',$this->id)
+                ->where('attendance_users.person_id',$this->id)
                 ->select('users.*')
                 ->limit(1)
                 ->first()
                 ;
     }
 
+    // Programs officiated by the user
+    public function programsOfficiated()
+{
+    return $this->belongsToMany(SemesterProgram::class, 'officiators_programs', 'officiator_id', 'semester_program_id');
+}
+
+
+
+    // STATIC FUNCTIONS
+
+    // Search User By Name/Username
+    public static function search_user(Request $request){
+
+        $string =  $request->input('str');
+        $str = "%".$string."%";
+    
+         // Check if the input is empty or not
+         // Define user collection if not...
+        if(!empty($string)){
+         $users = User::
+                         //Searching firstname,lastname and username
+                         where((DB::raw("CONCAT(firstname, ' ', lastname, username)")), 'like', $str )
+                        //  ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+                        ;
+ 
+         // Define user collection if empty...
+         }else{
+            //  $users = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
+            //  $users = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
+             $users = User::all();
+             
+         }
+         // Retrieve the needed component
+         
+        return $users;
+
+    }
+
+    // Search Users 50 paginate
+    public static function paginate50(){
+        return   User::paginate($perPage = 50, $columns = ['*'], $pageName = "Users" );
+    }
 
 
 

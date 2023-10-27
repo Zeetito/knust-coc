@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('attendance_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->onDelete('null');
+            $table->unsignedBigInteger('person_id')->onDelete('null');
+            $table->boolean('is_user');
             $table->unsignedBigInteger('checked_by')->onDelete('null'); //Could be either by the user him/herself or a hall or residence rep.
+
 
             $table->timestamps();
 

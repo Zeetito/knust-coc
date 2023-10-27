@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
-    protected $hidden = 'pivot';
+    // protected $hidden = 'pivot';
 
     use HasFactory,HasRolesAndPermissions;
 

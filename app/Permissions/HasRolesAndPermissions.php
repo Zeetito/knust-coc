@@ -4,44 +4,57 @@ namespace App\Permissions;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-trait HasRolesAndPermissions
-{
-    public function givePermissionsTo(... $permissions) {
-        $permissions = $this->getAllPermissions($permissions);
-        if($permissions === null) {
-            return $this;
+trait HasRolesAndPermissions{
+
+    public function hasPermissionTo(array $permission_slugs) {
+        $permissions = [];
+        foreach($permission_slugs as $slug){
+            $permissions[] = Permission::findBySlug($slug);
         }
 
-        $this->permissions()->saveMany($permissions);
-        return $this;
-    }
-
-    public function withdrawPermissionsTo( ... $permissions ) {
-        $permissions = $this->getAllPermissions($permissions);
-        $this->permissions()->detach($permissions);
-        return $this;
-    }
-
-    public function refreshPermissions( ... $permissions ) {
-        $this->permissions()->detach();
-        return $this->givePermissionsTo($permissions);
-    }
-
-    public function hasPermissionTo($permission) {
-        return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
-    }
-
-    public function hasPermissionThroughRole($permission) {
-        foreach ($permission->roles as $role){
-            if($this->roles->contains($role)) {
-                return true;
+        foreach($permissions as $permission){
+            if(( $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) === false){
+                return false;
             }
         }
-        return false;
+        return true;
+
+
     }
 
+    public function hasPermissionThroughRole( $permission) {
+        // return $permission;
+        // foreach ($permissions as $permission) {
+            foreach ($permission->roles as $role) {
+                    if ($this->roles->contains($role)) {
+                        return true; // User has this permission through a role.
+                    }
+            }
+            return false;
+        // }
+    }
+
+    public function hasPermission($permission) {
+        // return $permission_slugs;
+        // $permission = Permission::findBySlug($permission_slug);
+        // foreach($permission_slugs as  $permission_slug){
+            if($this->permissions->where('slug', $permission->slug)->count() == 1){
+                return true;
+            }
+        // }
+        // If all pass
+            return false;
+    }
+
+    protected function getAllPermissions(array $permissionSlugs) {
+        return Permission::whereIn('slug',$permissionSlugs)->get();
+    }
+
+    // If has role
     public function hasRole( ... $roles ) {
         foreach ($roles as $role) {
             if ($this->roles->contains('slug', $role)) {
@@ -49,22 +62,6 @@ trait HasRolesAndPermissions
             }
         }
         return false;
-    }
-
-    public function roles() {
-        return $this->belongsToMany(Role::class,'role_users');
-    }
-
-    public function permissions() {
-        return $this->belongsToMany(Permission::class,'permission_users');
-    }
-
-    protected function hasPermission($permission) {
-        return (bool) $this->permissions->where('slug', $permission->slug)->count();
-    }
-
-    protected function getAllPermissions(array $permissionSlugs) {
-        return Permission::whereIn('slug',$permissionSlugs)->get();
     }
 
     // Assign all permissions

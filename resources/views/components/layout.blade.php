@@ -7,18 +7,16 @@
      <meta charset="utf-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-     {{-- <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
-     <meta name="author" content="Lukasz Holeczek">
-     <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template"> --}}
+ 
      <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
  
      <title>Knust Church Of Christ</title>
  
      <!-- Icons -->
      <link href="{{ asset("css/style.css") }}" rel="stylesheet">
-     <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
-     <link href={{ asset("css/simple-line-icons.css") }} rel="stylesheet">
-     <link href={{ asset("css/font-awesome.css") }} rel="stylesheet">
+     {{-- <link href="{{ asset("css/bootstrap.css") }}" rel="stylesheet"> --}}
+     <link href="{{ asset("css/simple-line-icons.css") }}" rel="stylesheet">
+     <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet">
  
      <!-- Main styles for this application -->
      
@@ -26,16 +24,16 @@
      <link href={{ asset("css/custom.css") }} rel="stylesheet">
 
     <!-- Bootstrap and necessary plugins -->
-    <script src={{asset("bower_components/jquery/dist/jquery.min.js")}}></script>
+    <script src={{asset("js/jquery-3.6.0.min.js")}}></script>
     <script src={{asset("js/popper.min.js")}}></script>
     <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
     
-    <script src={{asset("js/custom.js")}}></script>
+
     {{-- Some specific for view features --}}
-    <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script>
-    <script src={{asset("js/views/charts.js")}}></script>
+    {{-- <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script> --}}
+    {{-- <script src={{asset("js/views/charts.js")}}></script> --}}
     <script src={{asset("js/views/main.js")}}></script>
-    <script src={{asset("js/views/widgets.js")}}></script>
+    {{-- <script src={{asset("js/views/widgets.js")}}></script> --}}
  
  </head>
 
@@ -127,7 +125,7 @@
                       @endif
 
                     <!-- Modal -->
-                    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" data-backdrop="true"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm" role="document">
                             <div id="modal-content" class="container bg-white">
                             
@@ -154,13 +152,15 @@
      {{-- <script src={{asset("bower_components/tether/dist/js/tether.min.js")}}></script> --}}
      
      {{-- Plugins and scripts required by all views --}}
-     <script src={{asset("bower_components/bootstrap/dist/js/Chart.min.js")}}></script>
+     {{-- <script src={{asset("bower_components/bootstrap/dist/js/Chart.min.js")}}></script> --}}
      
      {{-- GenesisUI main scripts --}}
      <script src={{asset("js/app.js")}}></script>
      
-     {{-- Custom scripts required by this view --}}
-     <script src={{asset("js/views/main.js")}}></script>
+     {{-- Custom scripts --}}
+     {{-- <script src={{asset("js/views/main.js")}}></script> --}}
+
+     <script src={{asset("js/custom.js")}}></script>
 
  </body>
  

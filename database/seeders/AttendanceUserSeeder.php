@@ -22,8 +22,9 @@ class AttendanceUserSeeder extends Seeder
                 DB::table('attendance_users')->insert(
                     [
                         'attendance_id' =>Attendance::all()->random()->id,
-                        'user_id' =>User::all()->random()->id,
+                        'person_id' =>User::all()->random()->id,
                         'checked_by' =>User::all()->random()->id,
+                        'is_user' => 1,
                         'created_at'=>now(),
                         'updated_at'=>now(),
                     ]

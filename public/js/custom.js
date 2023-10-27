@@ -23,13 +23,12 @@ $(document).ready(function(){
     });
 
 // Content Reciever 
-    $(document.body).on('click', '.get_content',function () {
-        $('#myModal').modal('show');
-        var url = $(this).data('url');
-            // $('#myModal').on('shown.bs.modal',function () {
+    $('#myModal').on('shown.bs.modal', function (event) {
+        // $('#myModal').modal('show');
+        var url = $(event.relatedTarget).data('url');
             
-                var data;
                 console.log(url);
+                var data;
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -44,13 +43,12 @@ $(document).ready(function(){
                         console.log(err);
                     }
                     });
-            // });
         
     });
 
 
 
-    // Searching for Seach Box
+    // Seach Box
     $(document.body).on('keyup','.search_box', function () {
         var url = $(this).data('url');
         var str = $(this).val();
@@ -86,6 +84,42 @@ $(document).ready(function(){
         });
     });
 
+    // Filter Box
+    $(document.body).on('change','.filter_box', function () {
+        var url = $(this).data('url');
+        var str = $(this).val();
+        // The Id identifies which particular search_result div the result should sit in
+        // In a case where there're multiple search boxes on a single page
+        var id  = $(this).attr('id');
+
+
+        if (url.includes("?")) {
+
+            var url = (url+"&str="+str);
+        }else{
+
+            var url = (url+"?str="+str);
+        }
+        
+
+        // console.log(url);
+        var data;
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: data,
+            cache: false,
+            success: function (data) {
+                
+                console.log(url);
+                $('#search_result'+id).html(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
 
     // Switch Toggle function
     $(document.body).on('change','.toggle_button', function () {
@@ -95,6 +129,9 @@ $(document).ready(function(){
         var id = $(this).attr('id');
         var url = $(this).data('url');
         var data;
+
+        
+        console.log(url);
 
         $.ajax({
             type: "GET",
@@ -121,6 +158,8 @@ $(document).ready(function(){
         var url = $(this).data('url');
         var id = $(this).attr('id');
         var data;
+
+
         console.log(url);
         $.ajax({
             type: "GET",

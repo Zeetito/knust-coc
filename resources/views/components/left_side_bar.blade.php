@@ -33,6 +33,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('roles')}}"><i class="icon-note"></i> Roles</a>
                         </li>
+                        {{-- Semester Programs --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('semester_programs')}}"><i class="fa fa-calendar-check-o"></i> Semester Programs</a>
+                        </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link" href=""><i class="icon-user"></i> </a>
                         </li> --}}

@@ -14,79 +14,31 @@
                                     {{-- Progarm Items List --}}
                                     <div class="pre-scrollable" >
                                         {{-- Each Program Item --}}
+                                        
+                                        @if(App\Models\Semester::upcoming_programs() == null )
 
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
-                                        <div class="bg-info custom_breif_list_item " >
-                                                <h3>TOC</h3>
-                                                <h3>Program Date: </h3>
-                                                <h3>Program Venue </h3>
-                                                <a class="" href="#">
-                                                    <p>More Info</p>
-                                                </a>
-                                        </div>
+                                                        <h3>NO PROGRAMS TO SHOW</h3>
+
+                                        @else
+
+                                            @foreach(App\Models\Semester::upcoming_programs() as $semester_program )
+                                                <div class="container">
+                                                    <div class="bg-Primary" >
+                                                            <h3>{{$semester_program->name }}</h3>
+                                                            <h3>{{$semester_program->academic_period() }}</h3>
+                                                            <h3>From:{{$semester_program->start_date }} </h3>
+                                                            <h3>to:{{$semester_program->end_date }} </h3>
+                                                            <h3>Venue:{{$semester_program->venue }} </h3>
+                                                            <a class="" href="#">
+                                                                <p>More Info</p>
+                                                                <hr class="warning">
+                                                            </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        @endif
+                            
                                        
                                         {{-- Each Program Ends here --}}
                                     </div>

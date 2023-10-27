@@ -10,7 +10,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "dev-master",
         "laravel/framework": "^10.8",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8"
     },
     

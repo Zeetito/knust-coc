@@ -16,6 +16,14 @@ class ProgramSeeder extends Seeder
         $programs = [
         //  COLLEGE OF AGRICULTURE AND NATURAL RESOURCES
                 // FACULTY OF AGRICULTURE 1
+
+                //  Programs without Departments in this Faculty
+                    ['name'=>'101 BSc. Agriculture', 'department_id'=>null, 'faculty_id'=>1,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'880 BSc. Agricultural Biotechnology', 'department_id'=>null, 'faculty_id'=>1,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'886 BSc. Agribusiness Management', 'department_id'=>null, 'faculty_id'=>1,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'879 BSc. Landscape Design and Management', 'department_id'=>null, 'faculty_id'=>1,'college_id'=>1, 'type'=>'ug'],
+                
+
                     // Department of Animal Science 1
                     ['name'=>'MPhil. Animal Breeding and Genetics', 'department_id'=>1, 'faculty_id'=>1,'college_id'=>1, 'type'=>'pg'],
                     ['name'=>'MPhil. Reproductive Physiology', 'department_id'=>1, 'faculty_id'=>1,'college_id'=>1, 'type'=>'pg'],
@@ -71,6 +79,14 @@ class ProgramSeeder extends Seeder
                 
   
                 // FACULTY OF RENEWABLE NATURAL RESOURCES  2
+                //      Programs without Department in this faculty
+                    ['name'=>'108 BSc. Natural Resource Management', 'department_id'=>null, 'faculty_id'=>2,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'735 BSc. Forest Resources Technology', 'department_id'=>null, 'faculty_id'=>2,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'741 BSc. Packaging Technology', 'department_id'=>null, 'faculty_id'=>2,'college_id'=>1, 'type'=>'ug'],
+                    ['name'=>'1045 BSc. Aquaculture and Water Resource Management', 'department_id'=>null, 'faculty_id'=>2,'college_id'=>1, 'type'=>'ug'],
+
+                  
+
                     //  Department of Wildlife and Range Management  5
                      ['name'=>'MPhil. Wildlife and Range Management', 'department_id'=>5, 'faculty_id'=>2, 'college_id'=>1, 'type'=>'pg'],
                      ['name'=>'MSc. Geo-Information Science for Natural Resources Management', 'department_id'=>5, 'faculty_id'=>2, 'college_id'=>1, 'type'=>'pg'],
@@ -99,6 +115,16 @@ class ProgramSeeder extends Seeder
                           
         // COLLEGE OF ART AND BUILT ENVIRONMENT
             // FACULTY OF BUILT ENVIRONMENT 3
+                //    Programs without department
+                    ['name'=>'205 BSc. Architecture', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'853 BSc. Construction Technology and Management', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'854 BSc. Quantity Surveying and Construction Economics', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'306 BSc. Development Planning', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'748 BSc. Human Settlement Planning', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'307 BSc. Land Economy', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+                    ['name'=>'877 BSc. Real Estate', 'department_id'=>null, 'faculty_id'=>3,'college_id'=>4, 'type'=>'ug'],
+
+
                     // Department Of Agriculture 10
                     ['name'=>'MSc. Architecture (Top-up) One Year', 'department_id'=>10, 'faculty_id'=>3, 'college_id'=>4, 'type'=>'pg'],
                     ['name'=>'MArch (Master of Architecture)', 'department_id'=>10, 'faculty_id'=>3, 'college_id'=>4, 'type'=>'pg'],
@@ -137,6 +163,17 @@ class ProgramSeeder extends Seeder
                      ['name'=>'PhD. Land Management and Governance', 'department_id'=>13, 'faculty_id'=>3, 'college_id'=>4, 'type'=>'pg'],
             
             //  FACULTY OF ART 4
+                //    Programs without department
+                     ['name'=>'744 BA. Communication Design', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'303 BA. Integrated Rural Art and Industry', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'304 BA. Publishing Studies', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'1373 BA. Metal Product Design', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'1276 BA. Textile Design and Technology', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'301 BFA. Painting and Sculpture', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'192 BSc. Fashion Design', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+                     ['name'=>'1444 BSc. Ceramic Technology', 'department_id'=>null, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'ug'],
+
+
                     // Department of Painting and Sculpture 14
                      ['name'=>'MFA. Painting', 'department_id'=>14, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'pg'],
                      ['name'=>'MFA. Sculpture', 'department_id'=>14, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'pg'],
@@ -174,6 +211,9 @@ class ProgramSeeder extends Seeder
                      ['name'=>'PhD. Visual Communication Design', 'department_id'=>18, 'faculty_id'=>4, 'college_id'=>4, 'type'=>'pg'],
 
             //  FACULTY OF EDUCATIONAL STUDIES 5
+                    //    Programs without department
+                    ['name'=>'1415 B.Ed. Junior High School Education (Mathematics, Science, ICT, Agricultural Science, History, Visual Arts and Geography)', 'department_id'=>null, 'faculty_id'=>5, 'college_id'=>4, 'type'=>'ug'],
+
                     // Department of Educational Innovations in Science and Technology 19
                      ['name'=>'MA. Art Education (Regular/Weekend/Sandwich)', 'department_id'=>19, 'faculty_id'=>5, 'college_id'=>4, 'type'=>'pg'],
                      ['name'=>'MPhil. Art Education (Regular/Weekend)', 'department_id'=>19, 'faculty_id'=>5, 'college_id'=>4, 'type'=>'pg'],
@@ -213,6 +253,16 @@ class ProgramSeeder extends Seeder
                     
     // COLLEGE OF ENGINEERING
             // FACULTY OF CIVIL AND GEO-ENGINEERING 6
+                //    Programs without Department
+                ['name'=>'208 BSc. Civil Engineering', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'1420 BSc. Civil Engineering (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'737 BSc. Geological Engineering', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'226 BSc. Geological Engineering (Obuasi)', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'738 BSc. Geomatic Engineering', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'227 BSc. Geomatic Engineering (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'546 BSc. Petroleum Engineering', 'department_id'=>null, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'ug'],
+
+
                     // Department of Civil Engineering 22
                     ['name'=>'MSc. Geotechnical Engineering (Regular, Weekend) ', 'department_id'=>22, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'pg'],
                     ['name'=>'MPhil. Geotechnical Engineering (Full-Time)', 'department_id'=>22, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'pg'],
@@ -256,6 +306,13 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD. Geological Engineering', 'department_id'=>25, 'faculty_id'=>6, 'college_id'=>3, 'type'=>'pg'],
 
             // FACULTY OF ELECTRICAL & COMPUTER ENGINEERING 7
+                //   Programs without Department
+                ['name'=>'871 BSc. Biomedical Engineering', 'department_id'=>null, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'212 BSc. Computer Engineering', 'department_id'=>null, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'209 BSc. Electrical/Electronic Engineering', 'department_id'=>null, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'199 BSc. Electrical/Electronic Engineering (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'732 BSc. Telecommunications Engineering', 'department_id'=>null, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'ug'],
+
                     // Department of Electrical and Electronic Engineering 26
                     ['name'=>'MPhil. Power Systems Engineering', 'department_id'=>26, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'pg'],
                     ['name'=>'PhD. Electrical Engineering', 'department_id'=>26, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'pg'],
@@ -269,6 +326,21 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD. Telecommunication Engineering', 'department_id'=>28, 'faculty_id'=>7, 'college_id'=>3, 'type'=>'pg'],
                     
             // FACULTY OF MECHANICAL & CHEMICAL ENGINEERING 8
+                // Programs without Department
+                ['name'=>'206 BSc. Agricultural Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'881 BSc. Petrochemical Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'207 BSc. Chemical Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'950 BSc. Metallurgical Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'213 2BSc. Materials Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'217 BSc. Materials Engineering (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'1377 BSc. Marine Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'1376 BSc. Industrial Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'1375 BSc. Automobile Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'211 1BSc. Mechanical Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'1421 BSc. Mechanical Engineering (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                ['name'=>'214 BSc. Aerospace Engineering', 'department_id'=>null, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'ug'],
+                    
+
                     // Department of Chemical Engineering 29
                     ['name'=>'MPhil. Chemical Engineering', 'department_id'=>29, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'pg'],
                     ['name'=>'PhD. Chemical Engineering', 'department_id'=>29, 'faculty_id'=>8, 'college_id'=>3, 'type'=>'pg'],
@@ -300,6 +372,12 @@ class ProgramSeeder extends Seeder
                     
     // COLLEGE OF HEALTH SCIENCES
             // FACULTY OF PHARMACY AND PHARMACEUTICAL SCIENCES 9
+                // Programs without Department
+                ['name'=>'110 Bachelor of Herbal Medicine (BHM)', 'department_id'=>null, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'981 Doctor of Pharmacy (Pharm D)', 'department_id'=>null, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1277 Doctor of Pharmacy (Pharm D) – 2 years Top-Up (Practicing Pharmacists only)', 'department_id'=>null, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'ug'],
+
+
                     // Department of Pharmaceutics 33
                     ['name'=>'MSc. Pharmaceutical Technology', 'department_id'=>33, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'pg'],
                     ['name'=>'MPhil. Pharmaceutics', 'department_id'=>33, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'pg'],
@@ -327,6 +405,19 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD Clinical Pharmacology', 'department_id'=>36, 'faculty_id'=>9, 'college_id'=>6, 'type'=>'pg'],
 
             // FACULTY OF ALLIED HEALTH SCIENCES 10
+                // Programs without department
+                ['name'=>'531 BSc. Nursing', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1483 BSc. Nursing (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'912 Nursing (Emergency Option for Practicing Nurses Only)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'952 BSc. Midwifery (Females only)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'418 BSc. Midwifery (Females practicing Midwives only) (Sandwich)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1484 BSc. Midwifery (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1370 BSc. Physiotherapy and Sports Science', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1374 BSc. Medical Imaging', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'106 BSc. Medical Laboratory Science', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1485 BSc. Medical Laboratory Science (Obuasi Campus)', 'department_id'=>null, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'ug'],
+                
+
                     // Department of Nursing 37                    
                     ['name'=>'MSc. Clinical Nursing ', 'department_id'=>37, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'pg'],
                     ['name'=>'MPhil. Nursing', 'department_id'=>37, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'pg'],
@@ -341,6 +432,11 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD. Medical Imaging', 'department_id'=>39, 'faculty_id'=>10, 'college_id'=>6, 'type'=>'pg'],
 
             // SCHOOL OF MEDICINE AND DENTISTRY 11
+                // Programs without Department
+                ['name'=>'105 Human Biology (Medicine) (MBChB)', 'department_id'=>null, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'802 Bachelor of Dental Surgery (BDS) (Fee-paying only)', 'department_id'=>null, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'ug'],
+                ['name'=>'1371 BSc. Physician Assistantship', 'department_id'=>null, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'ug'],
+
                     // Department of Molecular Medicine 40
                     ['name'=>'MPhil. Chemical Pathology ', 'department_id'=>40, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'pg'],
                     ['name'=>'MPhil. Molecular Medicine ', 'department_id'=>40, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'pg'],
@@ -371,8 +467,13 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD. Integrative Pathobiology', 'department_id'=>44, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'pg'],
                     ['name'=>'PhD. One Health', 'department_id'=>44, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'pg'],
                     ['name'=>'PhD. Veterinary Anatomy', 'department_id'=>44, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'pg'],
-                                    
+                    
+                    ['name'=>'- 882 Doctor of Veterinary Medicine (DVM)', 'department_id'=>44, 'faculty_id'=>11, 'college_id'=>6, 'type'=>'ug'],
             // SCHOOL OF PUBLIC HEALTH   12
+                // Programs Without Departments
+                ['name'=>'953 BSc. Disability and Rehabilitation Studies', 'faculty_id'=>12, 'college_id'=>6, 'type'=> 'ug'],
+                   
+
                     // Department Unknown
                     ['name'=>'PhD. Public health', 'faculty_id'=>12, 'college_id'=>6, 'type'=> 'pg'],
 
@@ -405,8 +506,25 @@ class ProgramSeeder extends Seeder
                     // No Known department
                     ['name'=>'Master of Laws (LLM)', 'faculty_id'=>13, 'college_id'=>2, 'type'=>'pg'],
                     ['name'=>'PhD Law', 'faculty_id'=>13, 'college_id'=>2, 'type'=>'pg'],
+                    
+                    ['name'=>'532 Bachelor of Laws (LLB)', 'faculty_id'=>13, 'college_id'=>2, 'type'=>'ug'],
+                    ['name'=>'747 LLB (Degree Holders Only) (Fee-Paying)', 'faculty_id'=>13, 'college_id'=>2, 'type'=>'ug'],
 
             // FACULTY OF SOCIAL SCIENCES 14
+                // Programs without departments
+                 ["name"=>"795 BA. Economics", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"794 BA. English", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"793 BA. Geography and Rural Development", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"894 BA. History", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"791 BA. Political Studies", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"1386 1BA. Akan Language and Culture", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"1387 BA. French and Francophone Studies", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"1388 BA. Linguistics", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"1389 BA. Media and Communication Studies", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"797 BA. Religious Studies", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"977 BA. Sociology", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+                 ["name"=>"971 BA. Social Work", "faculty_id"=>13, "college_id"=>2, "type"=>"ug"],
+
                     // Department of Economics 51
                     ['name'=>'MSc. Economics (One Year) ', 'department_id'=>51, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
                     ['name'=>' MSc. Economics and Finance (One Year) ', 'department_id'=>51, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
@@ -451,11 +569,29 @@ class ProgramSeeder extends Seeder
                     ['name'=>'MPhil. Management and Human Resource Strategy ', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
                     ['name'=>'MPhil. Logistics and Supply Chain Management (Weekend Only) ', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
                     ['name'=>'MPhil. Procurement and Supply Chain Management (Weekend Only)', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
-                     ['name'=>'MPhil. Accounting', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
+                    ['name'=>'MPhil. Accounting', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
                     ['name'=>'MPhil. Finance', 'department_id'=>57, 'faculty_id'=>14, 'college_id'=>2, 'type'=>'pg'],
+                // UnderGraduate Programs
+                ["name"=>"1272 BSc. Business Administration(Human Resource Management /Management)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1431 BSc. Business Administration(Human Resource Management /Management) (Obuasi Campus)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1273 BSc. Business Administration(Marketing/International Business)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1433 BSc. Business Administration(Marketing/International Business)(Obuasi Campus)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1274 BSc. Business Administration(Accounting / Banking and Finance)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1432 BSc. Business Administration(Accounting / Banking and Finance)(Obuasi Campus)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1275 BSc. Business Administration(Logistics and Supply Chain Management/Business Information Technology)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"1423 BSc. Business Administration(Logistics and Supply Chain Management/Business Information Technology) (Obuasi Campus)", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
+                ["name"=>"191 BSc. Hospitality and Tourism Management", "department_id"=>57, "faculty_id"=>14, "college_id"=>2, "type"=>"ug"],
 
         // COLLEGE OF SCIENCE
             // FACULTY OF BIOSCIENCES  15
+                // Programs without Departments
+                ["name"=>"102 BSc. Biochemistry", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+                ["name"=>"547 BSc. Food Science and Technology", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+                ["name"=>"103 BSc. Biological Science", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+                ["name"=>"548 BSc. Environmental Science", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+                ["name"=>"1422 BSc. Environmental Science(Obuasi Campus)", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+                ["name"=>"109 Doctor of Optometry", "department_id"=>null, "faculty_id"=>15, "college_id"=>5, "type"=>"ug"],
+
                     // Department of Biochemistry and Biotechnology 58
                     ['name' => 'MSc. Biotechnology ', 'department_id'=>58, 'faculty_id'=>15, 'college_id'=>5, 'type'=>'pg'],
                     ['name' => 'MPhil. Biotechnology', 'department_id'=>58, 'faculty_id'=>15, 'college_id'=>5, 'type'=>'pg'],
@@ -504,6 +640,15 @@ class ProgramSeeder extends Seeder
                     ['name'=>'PhD Vision Science', 'department_id'=>62, 'faculty_id'=>15, 'college_id'=>5, 'type'=>'pg'],
 
             // FACULTY OF PHYSICAL & COMPUTATIONAL SCIENCES 16
+                // Programs with no department
+                  ["name"=>"104 BSc. Chemistry", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"202 BSc. Mathematics", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"201 BSc. Physics", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"203 BSc. Computer Science", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"951 BSc. Statistics", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"750 BSc. Actuarial Science", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+                  ["name"=>"876 BSc. Meteorology and Climate Science", "faculty_id"=>16, "college_id"=>5, "type"=>"ug"],
+
                     // Department of Chemistry 63
                     ['name'=>'MPhil. Chemistry ', 'department_id'=>63, 'faculty_id'=>16, 'college_id'=>5, 'type'=>'pg'],
                     ['name'=>'MPhil. Organic and Natural Products ', 'department_id'=>63, 'faculty_id'=>16, 'college_id'=>5, 'type'=>'pg'],
