@@ -1,66 +1,72 @@
 <?php
+
 namespace App\Permissions;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Permission;
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-trait HasRolesAndPermissions{
-
-    public function hasPermissionTo(array $permission_slugs) {
+trait HasRolesAndPermissions
+{
+    public function hasPermissionTo(array $permission_slugs)
+    {
         $permissions = [];
-        foreach($permission_slugs as $slug){
+        foreach ($permission_slugs as $slug) {
             $permissions[] = Permission::findBySlug($slug);
         }
 
-        foreach($permissions as $permission){
-            if(( $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) === false){
+        foreach ($permissions as $permission) {
+            if (($this->hasPermissionThroughRole($permission) || $this->hasPermission($permission)) === false) {
                 return false;
             }
         }
-        return true;
 
+        return true;
 
     }
 
-    public function hasPermissionThroughRole( $permission) {
+    public function hasPermissionThroughRole($permission)
+    {
         // return $permission;
         // foreach ($permissions as $permission) {
-            foreach ($permission->roles as $role) {
-                    if ($this->roles->contains($role)) {
-                        return true; // User has this permission through a role.
-                    }
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains($role)) {
+                return true; // User has this permission through a role.
             }
-            return false;
+        }
+
+        return false;
         // }
     }
 
-    public function hasPermission($permission) {
+    public function hasPermission($permission)
+    {
         // return $permission_slugs;
         // $permission = Permission::findBySlug($permission_slug);
         // foreach($permission_slugs as  $permission_slug){
-            if($this->permissions->where('slug', $permission->slug)->count() == 1){
-                return true;
-            }
+        if ($this->permissions->where('slug', $permission->slug)->count() == 1) {
+            return true;
+        }
+
         // }
         // If all pass
-            return false;
+        return false;
     }
 
-    protected function getAllPermissions(array $permissionSlugs) {
-        return Permission::whereIn('slug',$permissionSlugs)->get();
+    protected function getAllPermissions(array $permissionSlugs)
+    {
+        return Permission::whereIn('slug', $permissionSlugs)->get();
     }
 
     // If has role
-    public function hasRole( ... $roles ) {
+    public function hasRole(...$roles)
+    {
         foreach ($roles as $role) {
             if ($this->roles->contains('slug', $role)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -89,30 +95,45 @@ trait HasRolesAndPermissions{
         return 'Permissions assigned successfully.';
     }
 
-
     // Assign Role to model
-    public function giveRole(Role $role){
-       
+    public function giveRole(Role $role)
+    {
+
         $this->roles()->attach($role->id);
     }
 
     // Remove Role to model
-    public function removeRole(Role $role){
-   
+    public function removeRole(Role $role)
+    {
+
         $this->roles()->detach($role->id);
     }
 
-     // Assign PErmission to model
-     public function givePermission(Permission $permission){
-       
+    // Assign PErmission to model
+    public function givePermission(Permission $permission)
+    {
+
         $this->permissions()->attach($permission->id);
     }
 
     // Remove Permission from model
-    public function removePermission(Permission $permission){
-   
+    public function removePermission(Permission $permission)
+    {
+
         $this->permissions()->detach($permission->id);
     }
 
+    // USER SPECIFIC
 
+    // User has any of given roles
+    public function hasAnyOf($roles)
+    {
+        foreach ($roles as $role) {
+            // echo $this->roles;
+            if ($this->roles->contains('slug', $role->slug)) {
+                return true;
+            }
+        }
+
+    }
 }

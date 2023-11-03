@@ -28,8 +28,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Zone</th>
-                                                    <th>Residence</th>
+
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -46,11 +45,6 @@
                                                         
                                                                                                        
                                                     </td>
-                                                    {{-- Zone of the user --}}
-                                                    <td>{{$user->username}}</td>
-
-                                                    {{-- Residence of the User --}}
-                                                    <td>{{ $user->biodata !=null ? $user->Zone->name : "Zone Name" }}</td>
 
                                                     {{-- Actions --}}
                                                     <td>

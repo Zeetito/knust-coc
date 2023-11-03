@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\SemesterProgram;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SemesterProgramPolicy
 {
@@ -38,7 +37,7 @@ class SemesterProgramPolicy
     public function update(User $user, SemesterProgram $semesterProgram): bool
     {
         //
-        return $user->id ==1;
+        return $user->id == 1;
     }
 
     /**

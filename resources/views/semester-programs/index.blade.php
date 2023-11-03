@@ -12,7 +12,6 @@
                                     <form >
                                         <input type="text" id="for_semester_program_list" class="search_box" data-url="#" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
-                                                                                    
                                     </form>
                                 </span>
                                 <span>
@@ -60,7 +59,7 @@
                                                 </thead>
                                                 {{-- Table Body --}}
                                                         <tbody id="search_result_for_semester_program_list">
-                                                        @foreach($semester_programs as $semester_program)
+                                                        @foreach($semester_programs->orderByDesc('start_date')->get() as $semester_program)
 
                                                             <tr id="tr_{{$semester_program->id}}">
                                                                 <td>
@@ -89,6 +88,7 @@
                                                         </tbody>
                                                 {{-- Table Body Ends --}}
                                             </table>
+                                            
                                         @else
                                         No Programs To show
                                         @endif
@@ -106,8 +106,9 @@
                     {{-- Whole Table Screen Ends --}}
     
                     {{-- Create new Attendance Session Div --}}
-
-                   @include('semester-programs.create')
+                    @allowedTo(['add_semester_program'])
+                        @include('semester-programs.create')
+                    @endallowedTo
     
                 </div> <!-- end of dashboard container -->
     

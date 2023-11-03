@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,11 +25,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('allowedTo', function ($expression) {
             return "<?php if (auth()->check() && ({$expression}) && \\App\\Helpers\\AuthorizationHelper::allowedTo({$expression})): ?>";
         });
-    
+
         Blade::directive('endallowedTo', function () {
             return '<?php endif; ?>';
         });
-
 
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();

@@ -17,8 +17,9 @@ return new class extends Migration
 
             $table->foreignId('semester_program_id');
             $table->string('name');
+            $table->integer('position');
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('offciator_id');
+            $table->unsignedBigInteger('officiator_id');
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
 

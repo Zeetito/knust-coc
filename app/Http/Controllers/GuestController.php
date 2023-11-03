@@ -22,12 +22,12 @@ class GuestController extends Controller
     {
         //
         $validated = $request->validate([
-           'fullname'=>['required','min:5','max:100'],
-           'local_congregation'=>['min:5'],
-           'is_member'=>['required'],
-          
-       ]);
-      Guest::create($validated);
+            'fullname' => ['required', 'min:5', 'max:100'],
+            'local_congregation' => ['min:5'],
+            'is_member' => ['required'],
+
+        ]);
+        Guest::create($validated);
     }
 
     /**

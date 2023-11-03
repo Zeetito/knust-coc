@@ -42,7 +42,7 @@
                                                         </td>
                                                         {{-- Number of Users --}}
                                                         <td>
-                                                           {{$zone->users->count()}}
+                                                           {{$zone->users()->count()}}
                                                         </td>
                                                         
                                                         {{-- Description --}}
@@ -52,14 +52,12 @@
     
                                                         {{-- Actions --}}
                                                         <td>
-                                                            @can('update',$zone)
                                                             {{-- View/Update A Role --}}
-                                                            <a href="#">
+                                                            <a href="{{route('show_zone',$zone)}}">
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
-                                                            @endcan
     
-                                                            @can('delete',$zone)
+                                                            @can('update',$zone)
                                                              {{-- Delete A Role --}}
                                                              <a href="#">
                                                                 <i class="fa fa-trash"></i>

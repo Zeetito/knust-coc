@@ -5696,7 +5696,13 @@ body {
       padding: 0; }
 
 .img-avatar {
-  border-radius: 50em; }
+  border-radius: 50em;
+  border-color:black;
+  /* margin-top:25px; */
+  border-style: solid;
+  border-width: medium;
+
+}
 
 .avatar {
   position: relative;

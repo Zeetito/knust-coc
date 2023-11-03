@@ -1,17 +1,11 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Http\Request;
-
-use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\Admin;
-
-use App\Http\Resources\UserCollection;
-use App\Http\Controllers\Api\V1\UserController;
-
 use App\Http\Controllers\api\v1\AttendanceController;
 use App\Http\Controllers\api\v1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,24 +23,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Users
-Route::get('/users',[UserController::class, 'index']);
-
+Route::get('/users', [UserController::class, 'index']);
 
 // Attendance
-Route::get('attendances',[AttendanceController::class,'index']);
+// Route::get('attendances',[AttendanceController::class,'index']);
 
 // ADMIN ROUTES
-Route::prefix('admin')->middleware('auth:sanctum')->group(function (){
+Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level')->group(function () {
+    // Route::prefix('admin')->group(function (){
+
     // USERS
-    Route::get('/users',[Admin\UserController::class, "index"]);
-    Route::post('/users', [Admin\UserController::class,"store"]);
+    Route::get('/users/{user}', [Admin\UserController::class, 'show']);
+
+    Route::get('/users', [Admin\UserController::class, 'index']);
+    Route::post('/users', [Admin\UserController::class, 'store']);
 
     // ATTENDANCE
-    Route::get('/attendance',[Admin\AttendanceController::class,"index"]);
-    Route::post('/attendance',[Admin\AttendanceController::class,"store"]);
+    Route::get('/attendance', [Admin\AttendanceController::class, 'index']);
+    Route::post('/attendance', [Admin\AttendanceController::class, 'store']);
 
 });
 
-    // Login Controller
-    // Route::post('/login', [LoginController::class]);
-    Route::post('/login', [LoginController::class, "login"]);
+// Login Controller
+// Route::post('/login', [LoginController::class]);
+Route::post('/login', [LoginController::class, 'login']);

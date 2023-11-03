@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\AcademicYear;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AcademicYearSeeder extends Seeder
 {
@@ -15,7 +14,7 @@ class AcademicYearSeeder extends Seeder
     {
         $academic_years = [
             ['start_year' => '2021', 'end_year' => '2022'],
-            ['start_year' => '2022','end_year' => '2023'],
+            ['start_year' => '2022', 'end_year' => '2023'],
         ];
 
         foreach ($academic_years as $academic_year) {

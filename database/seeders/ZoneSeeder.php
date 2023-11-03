@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Zone;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ZoneSeeder extends Seeder
 {
@@ -16,13 +15,20 @@ class ZoneSeeder extends Seeder
         $zones = [
             ['name' => 'BOADI'],
             ['name' => 'BOMSO'],
-            ['name' => 'CAMPUS'],
+            ['name' => 'BRUNEI'],
             ['name' => 'FORD-NYBERG-SPLENDOR'],
             ['name' => 'GAZA-DEDUAKO'],
             ['name' => 'KOTEI'],
             ['name' => 'NEWSITE'],
             ['name' => 'SHALOM'],
             ['name' => 'WESTEND'],
+            ['name' => 'AFRICA'],
+            ['name' => 'REPUBLIC'],
+            ['name' => 'INDEPENDENCE'],
+            ['name' => 'QUEEN ELIZABETH II'],
+            ['name' => 'UNITY'],
+            ['name' => 'UNIVERSITY'],
+            ['name' => 'SRC,IMPACT,HALL 7'],
             ['name' => 'OTHERS'],
         ];
 

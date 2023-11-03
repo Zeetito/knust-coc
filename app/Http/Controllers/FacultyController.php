@@ -39,7 +39,7 @@ class FacultyController extends Controller
     public function show(Faculty $faculty)
     {
         //
-        return view('academia.faculties.show',['faculty'=>$faculty, 'programs'=>$faculty->programs, 'users'=>$faculty->users()->get()]);
+        return view('academia.faculties.show', ['faculty' => $faculty, 'programs' => $faculty->programs, 'users' => $faculty->users()->get()]);
     }
 
     /**
@@ -66,50 +66,52 @@ class FacultyController extends Controller
         //
     }
 
-
     // Search User for a particular faculty
-    public function search_faculty_user(Request $request, Faculty $faculty){
+    public function search_faculty_user(Request $request, Faculty $faculty)
+    {
 
-        $string =  $request->input('str');
-       
-            if(!empty($string)){
-                $str = "%".$string."%";
-                $users = $faculty->users()->where('firstname','like',$str)
-                                ->orWhere('lastname','like',$str)
-                                // ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
-                                ->get();
-                return view('academia.faculties.components.users.search-results',['users'=>$users,'faculty'=>$faculty]);
-    
-            }else{
-                    // If string is empty, return the original paginated data
-                   
-                $users = $faculty->users()->get();
-                return view('academia.faculties.components.users.search-results',['users'=>$users,'faculty'=>$faculty]);
+        $string = $request->input('str');
 
-            }
+        if (! empty($string)) {
+            $str = '%'.$string.'%';
+            $users = $faculty->users()->where('firstname', 'like', $str)
+                ->orWhere('lastname', 'like', $str)
+                            // ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+                ->get();
+
+            return view('academia.faculties.components.users.search-results', ['users' => $users, 'faculty' => $faculty]);
+
+        } else {
+            // If string is empty, return the original paginated data
+
+            $users = $faculty->users()->get();
+
+            return view('academia.faculties.components.users.search-results', ['users' => $users, 'faculty' => $faculty]);
+
+        }
 
     }
 
     // Search programs for a particular Faculty
-    public function search_faculty_program(Request $request, Faculty $faculty){
+    public function search_faculty_program(Request $request, Faculty $faculty)
+    {
 
-        $string =  $request->input('str');
-       
-            if(!empty($string)){
-                $str = "%".$string."%";
-                $programs = $faculty->programs()->where('name','like',$str)->get();
-                                               
-                                
-                return view('academia.faculties.components.programs.search-results',['programs'=>$programs,'faculty'=>$faculty]);
-    
-            }else{
-                    // If string is empty, return the original paginated data
-                   
-                $programs = $faculty->programs;
-                return view('academia.faculties.components.programs.search-results',['programs'=>$programs,'faculty'=>$faculty]);
+        $string = $request->input('str');
 
-            }
+        if (! empty($string)) {
+            $str = '%'.$string.'%';
+            $programs = $faculty->programs()->where('name', 'like', $str)->get();
+
+            return view('academia.faculties.components.programs.search-results', ['programs' => $programs, 'faculty' => $faculty]);
+
+        } else {
+            // If string is empty, return the original paginated data
+
+            $programs = $faculty->programs;
+
+            return view('academia.faculties.components.programs.search-results', ['programs' => $programs, 'faculty' => $faculty]);
+
+        }
 
     }
-
 }

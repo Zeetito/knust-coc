@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('othernames', function (Blueprint $table) {
+        Schema::create('alumini_biodatas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('name');
-            $table->boolean('is_visible')->default(1);
+            $table->foreignId('year_group_id')->constrained();
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->string('local_congregation')->nullable();
+
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('othernames');
+        Schema::dropIfExists('members_biodatas');
     }
 };

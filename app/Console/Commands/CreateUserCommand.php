@@ -28,7 +28,7 @@ class CreateUserCommand extends Command
     {
         //
         // Just to test eyi k3k3
-        $user['name'] = $this->ask(question: "Name of User");
+        $user['name'] = $this->ask(question: 'Name of User');
 
         User::create($user);
     }

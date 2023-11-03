@@ -23,7 +23,7 @@ class AttendanceRequest extends FormRequest
     {
         return [
             //
-            'meeting_type'=>['required','numeric'],
+            'meeting_type' => ['required', 'numeric'],
             'venue' => ['required'],
         ];
     }

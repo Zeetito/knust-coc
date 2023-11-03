@@ -19,9 +19,9 @@ class AttendanceFactory extends Factory
     {
         return [
             //
-            "meeting_type" => Meeting::all()->random()->id,
-            "venue" => fake()->name(),
-            "is_active"=>0,
+            'meeting_type' => Meeting::all()->random()->id,
+            'venue' => fake()->name(),
+            'is_active' => 0,
 
         ];
     }

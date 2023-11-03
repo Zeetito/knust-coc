@@ -2,23 +2,34 @@
 
 namespace App\Http\Controllers\Api\v1\Admin;
 
-use App\Models\Attendance;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AttendanceRequest;
 use App\Http\Resources\AttendanceResource;
+use App\Models\Attendance;
 
 class AttendanceController extends Controller
 {
     //
-    public function store(AttendanceRequest $request){
+    // INDEX, SHOW ALL ATTENDANCE RECORDED
+    public function index()
+    {
+        return AttendanceResource::collection(Attendance::all());
+    }
+
+    // STORE
+    public function store(AttendanceRequest $request)
+    {
         $attendance = Attendance::create($request->validated());
 
         return new AttendanceResource($attendance);
     }
 
-    public function index(){
-        return AttendanceResource::collection(Attendance::all());
-    }
+    // UPDATE
+    // To Update a Resource,
+    public function update(AttendanceRequest $request)
+    {
+        $attendance->update($request->validated());
 
+        return new AttendanceResource($attendance);
+    }
 }

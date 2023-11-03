@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
-        Biodata::class => BiodataPolicy::class
+        Biodata::class => BiodataPolicy::class,
     ];
 
     /**

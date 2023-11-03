@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean('is_user');
             $table->unsignedBigInteger('checked_by')->onDelete('null'); //Could be either by the user him/herself or a hall or residence rep.
 
-
             $table->timestamps();
 
             $table->foreign('checked_by')->references('id')->on('users');

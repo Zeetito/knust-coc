@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
@@ -38,7 +37,7 @@ class UserPolicy
     {
         //
         // for now I can update all
-        return ($model->is($user) || $user->id == '1') ;
+        return $model->is($user) || $user->id == '1';
     }
 
     /**
@@ -67,7 +66,7 @@ class UserPolicy
 
     public function check(User $user, User $model): bool
     {
-        // The person who checked can uncheck the user as well 
-        return ($model->is($user) || $user->id == 1) ;
+        // The person who checked can uncheck the user as well
+        return $model->is($user) || $user->hasPermissionTo(['check_user']);
     }
 }

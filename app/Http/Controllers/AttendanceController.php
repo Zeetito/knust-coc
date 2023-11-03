@@ -2,261 +2,144 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Guest;
-use App\Models\Meeting;
 use App\Models\Attendance;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Guest;
+use App\Models\User;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //   INDEX
     public function index()
     {
         //
         $attendances = Attendance::latest()->paginate(
-            $perPage = 5, $columns = ['*'], $pageName = "AttendanceSessions"
+            $perPage = 5, $columns = ['*'], $pageName = 'AttendanceSessions'
         );
+
         // Query for meetings that are active
-        $meetings = Meeting::where('is_active','=',1)->get()->sortBy('name');
-        return view('attendance.index',['attendances'=>$attendances , 'meetings'=>$meetings]);
+        return view('attendance.index', ['attendances' => $attendances]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // CREATE
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // STORE
     public function store(Request $request)
     {
         //
         $validated = $request->validate([
-            'meeting_type'=>['required'],
+            'meeting_type' => ['required'],
             'venue' => ['required'],
         ]);
 
         Attendance::create($validated);
+
         return redirect(route('attendance'));
 
     }
 
-   
+    // USERS
+    // Show member present for a particular attendance session
     public function show_attendance_users(Attendance $attendance)
     {
         //
         $members = $attendance->users()->paginate(
-            $perPage = 50, $columns = ['*'], $pageName = "AttendanceSessions"
+            $perPage = 50, $columns = ['*'], $pageName = 'AttendanceSessions'
         );
-        return view('attendance.attendance-users.show',['attendance'=>$attendance , 'members'=>$members]);
+
+        return view('attendance.attendance-users.show', ['attendance' => $attendance, 'members' => $members]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Attendance $attendance)
+    // Check or uncheck User
+    public function check_user(Attendance $attendance, User $user)
     {
-        //
+
+        DB::table('attendance_users')->insert([
+            'attendance_id' => $attendance->id,
+            'person_id' => $user->id,
+            'is_user' => 1,
+            'checked_by' => Auth::user()->id,
+        ]);
+
+        return view('attendance.attendance-users.components.users.updated-row', ['member' => $user, 'attendance' => $attendance]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Attendance $attendance)
+    // Check or uncheck User
+    public function uncheck_user(Attendance $attendance, User $user)
     {
-        //
+        DB::table('attendance_users')
+            ->where('attendance_id', $attendance->id)
+            ->where('person_id', $user->id)
+            ->delete();
+
+        return redirect()->back()->with('success', 'Uncheck Successful');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Attendance $attendance)
+    // Confirm User Uncheck
+    public function confirm_uncheck_user(Attendance $attendance, User $user)
     {
-        //
+
+        return view("attendance\attendance-users\components\checked-users\confirm-uncheck-user", ['member' => $user, 'attendance' => $attendance]);
     }
 
-// Access the attendance session to check user
-    public function access_attendance_session(Attendance $attendance){
-        $users = User::where('is_member',1)
-                ->paginate(
-                    $perPage = 25, $columns = ['*'], $pageName = "Users" 
-                );
-        return view('attendance.attendance-users.create',['members'=>$users, 'attendance'=>$attendance]);
-    }
+    // Search Users who've been checked already
+    public function search_attendance_checked_users(Request $request, Attendance $attendance)
+    {
+        $members = User::search_user($request)
+            ->get()
+            ->intersect($attendance->members()->get());
 
-// Switch Attendance Session on or off
-    public function switch_attendance_session(Attendance $attendance){
-       if($attendance->is_active == 1){
-           $attendance['is_active'] = 0;
-           $attendance->save();
-       }else{
-           $attendance['is_active'] = 1;
-           $attendance->save();   
-       }
-       return (view('modals.attendance.updated-row',['attendance'=>$attendance]));
-    }
-// Check or uncheck User
-    public function check_user(Attendance $attendance, User $user){       
-        // Check if user is already checked or not to know which action to be taken.
-        if(auth()->user()->can('update',$user)){
-
-            //    Must Check if user can update that attendance_users instance
-                if ($user->is_checked($attendance)){
-                    // Uncheck the user here by deleteing the instance
-                    DB::table('attendance_users')
-                    ->where('attendance_id',$attendance->id)
-                    ->where('person_id',$user->id)
-                    ->delete();
-                    // Return the updated row
-
-                }else{
-                    // Check the user here
-                    DB::table('attendance_users')->insert([
-                        'attendance_id' => $attendance->id,
-                        'person_id' => $user->id,
-                        'is_user'=>1,
-                        'checked_by' => Auth::user()->id,
-                    ]);
-                   
-                }
-                return view('attendance.attendance-users.components.users.updated-row',['member'=>$user,'attendance'=>$attendance]);
-            // If user Can actually update the instance, then ready to uncheck user
-        }else{
-            // Must check if auth user can check the user
-              return ("abort");
-        }
-        // redirect(route('access_attendance_session',$attendance->id))->with('success', $user->firstname.' '.$user->lastname.' Checked');
-    }
-
-// Pop Up model to confirm whether or not to uncheck user
-    public function confirm_uncheck_user(Attendance $attendance, User $user){
-        
-        return view("modals.attendance-users.uncheck-confirmation",['member'=>$user,'attendance'=>$attendance]);
-    }
-
-    // Search Attendance session
-    public function search_attendance(Request $request){
-
-    $string =  $request->input('str');
-    $str = "%".$string."%";
-
-        // If the String is not empty
-        if(!empty($string)){
-            $attendances = Attendance::where(function (Builder $query) {
-                $query->select('name')
-                ->from('meetings')
-                ->whereColumn('meetings.id', 'attendances.meeting_type')
-                ;
-            }, 'like', $str)
-            
-            ->orWhere('venue','like',$str)
-            ->latest()->get();
-        }else{
-
-            $attendances = Attendance::latest()->paginate($perPage = 5, $columns = ['*'], $pageName = "attendances" );
-            
-        }
-
-        return view('attendance.components.attendance.search-results',['attendances'=>$attendances]);        
+        return view('attendance.attendance-users.components.checked-users.search_results', ['members' => $members, 'attendance' => $attendance]);
 
     }
 
-// Reset Attendance
-    public function reset_attendance(Attendance $attendance){
-        $new_attendance = $attendance;
-        $attendance->delete();
-        $new_attendance->save();
-        return(redirect(route('attendance'))->with('success','Attendance Session Reset Successful'));
+    // Search User (marked or unmarked) on attendance table
+    public function search_attendance_users(Attendance $attendance, Request $request)
+    {
+
+        $members = User::search_user($request)->where('is_member', 1)
+            ->paginate($perPage = 25, $columns = ['*'], $pageName = 'SearchResults');
+
+        return view('attendance.attendance-users.components.users.search-results', ['members' => $members, 'attendance' => $attendance]);
     }
 
-
-// Search Users who've been checked already
-    public function search_attendance_checked_users(Request $request, Attendance $attendance){
-        $string =  $request->input('str');
-           // If String is not empty bring the results
-            if(!empty($string)){
-                $str = "%".$string."%";
-                $members = $attendance->members()
-                                        ->where((DB::raw("CONCAT(firstname,' ', lastname, ' ', username)")), 'like', $str )
-                                        ->get()
-                                        ;
-
-                                if(is_null($members)){
-                                    return "No results to show";
-                                }else{
-
-                                    return view('attendance.attendance-users.components.checked-users.search_results',['members'=>$members,'attendance'=>$attendance]);
-                                }
-            }else{
-                    // If string is empty, return the original paginated data
-                    return view('attendance.attendance-users.components.checked-users.search_results',
-                        [
-                            'members' => $attendance->members()->paginate(
-                                $perPage = 50, $columns = ['*'], $pageName = "AttendanceSessions"
-                            ),
-                            'attendance'=>$attendance,
-                        ]
-                    );
-            }
-    }
-
-// Search User (marked or unmarked) on attendance table
-     public function search_attendance_users(Attendance $attendance, Request $request){
-        $string =  $request->input('str');
-
-        // If String is not empty bring the results
-         if(!empty($string)){
-             $str = "%".$string."%";
-             $members = User::where('is_member',1)
-                             ->where((DB::raw("CONCAT(firstname,' ',lastname)")), 'like', $str )
-                             ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
-         }else{
-                 // If string is empty, return the original paginated data
-                         $members = User::where('is_member',1)
-                                ->paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
-         }
-
-         return view('attendance.attendance-users.components.users.search-results',['members'=>$members,'attendance'=>$attendance]);                     
-    }
-
-// Register User as Visitor
-    public function register_user_visitor(Request $request, Attendance $attendance){
+    // Register User as Visitor
+    public function register_user_visitor(Request $request, Attendance $attendance)
+    {
         $validated = $request->validate([
-            'user_id' => ['required','numeric'],
+            'user_id' => ['required', 'numeric'],
         ]);
         DB::table('attendance_users')->insert([
             'attendance_id' => $attendance->id,
             'person_id' => $validated['user_id'],
-            'is_user'=>1,
+            'is_user' => 1,
             'checked_by' => Auth::user()->id,
         ]);
 
-        return redirect(route('access_attendance_session',$attendance))->with("success","Visitor Added Successfully");
+        return redirect(route('access_attendance_session', $attendance))->with('success', 'Visitor Added Successfully');
 
     }
 
-// Register Guest as Visitor
-    public function register_guest_visitor(Request $request, Attendance $attendance){
+    // Register Guest as Visitor
+    public function register_guest_visitor(Request $request, Attendance $attendance)
+    {
         $validated = $request->validate([
-            'guest_name'=>['required','min:6'],
-            'guest_gender'=>['required','max:1'],
-            'is_member'=>['required','max:1','numeric'],
-            'local_congregation'=>['required','min:2'],
-            'contact'=>['nullable', 'max:13','min:10'],
-            'purpose'=>['nullable', 'min:4'],
+            'guest_name' => ['required', 'min:6'],
+            'guest_gender' => ['required', 'max:1'],
+            'is_member' => ['required', 'max:1', 'numeric'],
+            'local_congregation' => ['required', 'min:2'],
+            'contact' => ['nullable', 'max:13', 'min:10'],
+            'purpose' => ['nullable', 'min:4'],
         ]);
         // Create A new Guest instance
-        $guest = New Guest;
+        $guest = new Guest;
         $guest['fullname'] = $validated['guest_name'];
         $guest['local_congregation'] = $validated['local_congregation'];
         $guest['is_member'] = $validated['is_member'];
@@ -264,20 +147,104 @@ class AttendanceController extends Controller
         $guest['contact'] = $validated['contact'];
         $guest['purpose'] = $validated['purpose'];
         $guest->save();
-        
+
         // Now, Create the attendance_guest instance
         DB::table('attendance_users')->insert([
             'attendance_id' => $attendance->id,
             'person_id' => $guest->id,
-            'is_user'=>0,
+            'is_user' => 0,
             'checked_by' => Auth::user()->id,
         ]);
 
-        return redirect(route('access_attendance_session',$attendance))->with("success","Visitor Added Successfully");
-        
+        return redirect(route('access_attendance_session', $attendance))->with('success', 'Visitor Added Successfully');
 
     }
 
+    // ATTENDANCE SESSION
+    // Access the attendance session to check user
+    public function access_attendance_session(Attendance $attendance)
+    {
+        $users = User::where('is_member', 1)
+            ->paginate(
+                $perPage = 25, $columns = ['*'], $pageName = 'Users'
+            );
 
+        return view('attendance.attendance-users.create', ['members' => $users, 'attendance' => $attendance]);
+    }
 
+    // Cofirm Attendance Switch/toggle
+    public function confirm_attendance_switch(Attendance $attendance)
+    {
+        return view('attendance.components.attendance.confirm-attendance-switch', ['attendance' => $attendance]);
+    }
+
+    // Switch Attendance Session on or off
+    public function switch_attendance_session(Attendance $attendance)
+    {
+        if ($attendance->is_active == 1) {
+            $attendance['is_active'] = 0;
+            $attendance->save();
+        } else {
+            $attendance['is_active'] = 1;
+            $attendance->save();
+        }
+
+        return redirect()->back()->with('success', 'Attendance Switched Successfully');
+    }
+
+    // Search Attendance session
+    public function search_attendance(Request $request)
+    {
+
+        $string = $request->input('str');
+        $str = '%'.$string.'%';
+
+        // If the String is not empty
+        if (! empty($string)) {
+            $attendances = Attendance::where(function (Builder $query) {
+                $query->select('name')
+                    ->from('meetings')
+                    ->whereColumn('meetings.id', 'attendances.meeting_type');
+            }, 'like', $str)
+                ->orWhere('venue', 'like', $str)
+                ->latest()->get();
+        } else {
+
+            $attendances = Attendance::latest()->paginate($perPage = 5, $columns = ['*'], $pageName = 'attendances');
+
+        }
+
+        return view('attendance.components.attendance.search-results', ['attendances' => $attendances]);
+
+    }
+
+    // Confirm Attendance Reset
+    public function confirm_attendance_reset(Attendance $attendance)
+    {
+        return view('attendance.components.attendance.confirm-attendance-reset', ['attendance' => $attendance]);
+    }
+
+    // Reset Attendance
+    public function reset_attendance(Attendance $attendance)
+    {
+        $new_attendance = $attendance;
+        $attendance->delete();
+        $new_attendance->save();
+
+        return redirect(route('attendance'))->with('success', 'Attendance Session Reset Successful');
+    }
+
+    // Confirm Attendance Delete
+    public function confirm_attendance_delete(Attendance $attendance)
+    {
+        return view('attendance.components.attendance.confirm-attendance-delete', ['attendance' => $attendance]);
+    }
+
+    // Reset Attendance
+    public function delete_attendance(Attendance $attendance)
+    {
+        $attendance->delete();
+
+        return redirect(route('attendance'))->with('success', 'Deletion Successful');
+    }
 }

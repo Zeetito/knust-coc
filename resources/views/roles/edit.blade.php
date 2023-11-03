@@ -59,7 +59,7 @@
                                      {{-- Action  --}}
                                      @can('assign',$role)
                                      <td>
-                                        <a class="btn check_button btn-danger" id="{{$user->id}}" data-url="{{route('remove_user_role',['role'=>$role , 'user'=>$user])}}">
+                                        <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_user_remove',['role'=>$role , 'user'=>$user])}}" id="{{$user->id}}">
                                             <i class="fa fa-remove"></i>
                                         </a>     
                                     </td>
@@ -82,6 +82,7 @@
                         <a href="{{route('create_roles_permissions',$role)}}" class="btn mb-3 btn-info float-right">Add New Permission</a>
                         @endcan
                        <caption>Permissions attatched to the role: {{$role->name}}</caption>
+
                         {{-- Table Head --}}
                         <thead>
                             <tr>
@@ -91,6 +92,7 @@
                                 @endcan
                             </tr>
                         </thead>
+
                         {{-- Table Body --}}
                         <tbody class="search_result">
                             @foreach($role->permissions as $permission)
@@ -98,7 +100,8 @@
                                      <td>{{$permission->name}} </td>
                                      @can('assign',$role)
                                      <td>
-                                        <a class="btn check_button btn-danger" id="{{$permission->slug}}" data-url="{{route('remove_role_permission',['role'=>$role , 'permission'=>$permission])}}">
+                                        <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_permission_remove',['role'=>$role , 'permission'=>$permission])}}" id="{{$permission->id}}">
+                                        {{-- <a class="btn check_button btn-danger" id="{{$permission->slug}}" data-url="{{route('remove_role_permission',['role'=>$role , 'permission'=>$permission])}}"> --}}
                                             <i class="fa fa-remove"></i>
                                         </a>    
                                     </td>

@@ -18,9 +18,9 @@ class Guest extends Model
     // RELATIONSHIPS
     // Programs officiated by the user
     public function programsOfficiated()
-{
-    return $this->belongsToMany(SemesterProgram::class, 'officiators_programs', 'officiator_id', 'semester_program_id');
-}
+    {
+        return $this->belongsToMany(SemesterProgram::class, 'officiators_programs', 'officiator_id', 'semester_program_id');
+    }
 
     // FUNCTIONS
 

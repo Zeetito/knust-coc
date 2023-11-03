@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RoleSeeder extends Seeder
 {
@@ -18,16 +16,16 @@ class RoleSeeder extends Seeder
         //
 
         $roles = [
-            ['name' => 'Preacher' , 'slug' => 'preacher'],
-            ['name' => 'Ministry Member' , 'slug' => 'ministry_member'],
-            ['name' => 'Edification Ministry Member' , 'slug' => 'edification_ministry_member'],
-            ['name' => 'Evangelism Ministry Member' , 'slug' => 'evangelism_ministry_member'],
-            ['name' => 'Finance Ministry Member' , 'slug' => 'finance_ministry_member'],
-            ['name' => 'Organising And Assets Ministry Member' , 'slug' => 'organising_ministry_member'],
-            ['name' => 'Welfare And Benvolence Ministry Member' , 'slug' => 'welfare_ministry_member'],
-            ['name' => 'Zonal Rep' , 'slug' => 'zone_rep'],
-            ['name' => 'Residence Rep' , 'slug' => 'residence_rep'],
-          
+            ['name' => 'Preacher', 'slug' => 'preacher'],
+            ['name' => 'Ministry Member', 'slug' => 'ministry_member'],
+            ['name' => 'Edification Ministry Member', 'slug' => 'edification_ministry_member'],
+            ['name' => 'Evangelism Ministry Member', 'slug' => 'evangelism_ministry_member'],
+            ['name' => 'Finance Ministry Member', 'slug' => 'finance_ministry_member'],
+            ['name' => 'Organising And Assets Ministry Member', 'slug' => 'organising_ministry_member'],
+            ['name' => 'Welfare And Benvolence Ministry Member', 'slug' => 'welfare_ministry_member'],
+            ['name' => 'Zonal Rep', 'slug' => 'zone_rep'],
+            ['name' => 'Residence Rep', 'slug' => 'residence_rep'],
+
         ];
 
         foreach ($roles as $role) {
@@ -35,16 +33,16 @@ class RoleSeeder extends Seeder
         }
 
         // Give Preacher all permissions
-       $role = Role::where('slug', 'preacher')->first();
-       $role->assignAllPermissions();
+        $role = Role::where('slug', 'preacher')->first();
+        $role->assignAllPermissions();
 
         // Assign Preacher Role to this First User
         DB::table('role_users')->insert(
             [
-                'user_id' =>1,
-                'role_id' =>1,
-                'created_at'=>now(),
-                'updated_at'=>now(),
+                'user_id' => 1,
+                'role_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         );
 

@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Attendance;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class AttendancePolicy
 {
@@ -22,7 +21,7 @@ class AttendancePolicy
     public function view(User $user, Attendance $attendance): bool
     {
         //
-        return $user->id == 1 ;
+        return $user->id == 1;
     }
 
     /**
@@ -39,7 +38,7 @@ class AttendancePolicy
     public function update(User $user, Attendance $attendance): bool
     {
         //
-        return $user->id == 1 ;
+        return $user->id == 1;
     }
 
     /**
@@ -48,7 +47,7 @@ class AttendancePolicy
     public function delete(User $user, Attendance $attendance): bool
     {
         //
-        return $user->id == 1 ;
+        return $user->id == 1;
     }
 
     /**

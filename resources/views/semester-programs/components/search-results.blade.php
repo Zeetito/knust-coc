@@ -1,4 +1,4 @@
-@foreach($semester_programs as $semester_program)
+@foreach($semester_programs->orderByDesc('start_date')->get() as $semester_program)
 
     <tr id="tr_{{$semester_program->id}}">
         <td>

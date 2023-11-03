@@ -9,7 +9,7 @@
             
         </td>
         <td>{{$user->username}}</td>
-        <td>{{ $user->program !="" ? $user->program->name : "Program Name" }}</td>
+        {{-- <td>{{ $user->program !="" ? $user->program->name : "Program Name" }}</td> --}}
         <td>
             @can('update',$user)
             <a href="{{route('view_profile',$user->id)}}">

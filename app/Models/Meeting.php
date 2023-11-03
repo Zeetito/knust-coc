@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Attendance;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Meeting extends Model
 {
@@ -16,7 +15,8 @@ class Meeting extends Model
         'is_active',
     ];
 
-    public function attendance_sessions(){
-        return $this->hasMany(Attendance::class,"meeting_type");
+    public function attendance_sessions()
+    {
+        return $this->hasMany(Attendance::class, 'meeting_type');
     }
 }

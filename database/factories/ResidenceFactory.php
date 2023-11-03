@@ -19,11 +19,11 @@ class ResidenceFactory extends Factory
     {
         return [
             //
-            "name" => fake()->streetName(),
-            "zone_id" => Zone::all()->random()->id,
-            "description" => fake()->sentence(),
-            "landmark" => fake()->sentence(),
-            "rep_id" => null,
+            'name' => fake()->streetName(),
+            'zone_id' => Zone::all()->random()->id,
+            'description' => fake()->sentence(),
+            'landmark' => fake()->sentence(),
+            'rep_id' => null,
         ];
     }
 }

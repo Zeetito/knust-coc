@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -16,19 +15,21 @@ class UserSeeder extends Seeder
     {
         User::create([
             'username' => 'tito',
-            'firstname'=>'Ernest',
-            'lastname'=>'Agyare',
-            'gender'=>'m',
-            'is_activated'=>1,
-            'is_student'=> 1,
-            'is_member'=> 1,
+            'firstname' => 'Ernest',
+            'lastname' => 'Agyare',
+            'othername' => 'Victor',
+            'gender' => 'm',
+            'is_activated' => 1,
+            'is_student' => 1,
+            'is_member' => 1,
+            'is_available' => 1,
+            'is_baptized' => 1,
             'email' => 'tito44@gmail.com',
             'email_verified_at' => now(),
-            'password' =>  bcrypt('password'), // password
+            'password' => bcrypt('password'), // password
             'remember_token' => Str::random(10),
         ]);
         User::factory(500)->create();
 
-       
     }
 }

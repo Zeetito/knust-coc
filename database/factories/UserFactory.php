@@ -17,24 +17,29 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $rand = rand(1,2);
-        if ($rand === 1) {
-            $gender ="m";
-        }else{
-            $gender ="f";
+        $rand_gend = rand(1, 2);
+        if ($rand_gend === 1) {
+            $gender = 'm';
+        } else {
+            $gender = 'f';
         }
 
         return [
             'username' => fake()->unique()->username(),
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
+            'othername' => fake()->lastName(),
             'gender' => $gender,
-            'is_activated'=>1,
-            'is_student'=> rand(0,1),
-            'is_member'=> rand(0,1),
+            'dob' => fake()->date(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // password
+            'is_student' => rand(0, 1),
+            'is_member' => rand(0, 1),
+            'is_activated' => rand(0, 1),
+            'is_available' => rand(0, 1),
+            'is_baptized' => rand(0, 1),
+            'is_member' => rand(0, 1),
             'remember_token' => Str::random(10),
         ];
     }

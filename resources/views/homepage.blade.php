@@ -29,7 +29,7 @@
                                                             <h3>From:{{$semester_program->start_date }} </h3>
                                                             <h3>to:{{$semester_program->end_date }} </h3>
                                                             <h3>Venue:{{$semester_program->venue }} </h3>
-                                                            <a class="" href="#">
+                                                            <a class="" href="{{route('show_semester_program',['semesterProgram'=>$semester_program])}}">
                                                                 <p>More Info</p>
                                                                 <hr class="warning">
                                                             </a>

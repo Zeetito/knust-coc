@@ -38,6 +38,8 @@ class ZoneController extends Controller
     public function show(Zone $zone)
     {
         //
+        // return view('housing.zones.show',['zone'=>$zone]);
+        return view('housing.zones.show', compact('zone'));
     }
 
     /**

@@ -13,11 +13,6 @@
 
             </ul>
     
-            
-            
-                
-           
-    
             {{-- Tab Div Begins --}}
             <div class="tab-content">
                 {{-- Users Tab Begins --}}
@@ -39,14 +34,14 @@
                                     
                                     <th>Officiating Role</th>
 
-                                    @can('update',$semester_program)
-                                    <th>Actions</th>
-                                     @endcan
+                                    @allowedTo(['update_semester_program'])
+                                        <th>Actions</th>
+                                     @endallowedTo
                                 </tr>
                             </thead>
                             {{-- Table Body --}}
                             <tbody id="search_result_for_officiator_list">
-
+                                
                                 {{-- User Officiators --}}
                                 @foreach($semester_program->user_officiators as $officiator)
                                     <tr id="tr_{{"user_".$officiator->pivot->officiating_role_id}}">
@@ -66,21 +61,23 @@
                                         </td>
     
                                          {{-- Action  --}}
-                                         @can('update',$semester_program)
+                                         @allowedTo(['delete_officiator'])
                                          <td>
                                             <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-danger" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-remove"></i>
                                             </button>       
+
                                             <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-info" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('edit_officiator',['semesterProgram'=>$semester_program, 'officiator'=>$officiator , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-pencil"></i>
                                             </button>  
                                         </td>
-                                        @endcan
+                                        @endallowedTo
     
                                     </tr>
                                 @endforeach
 
                                 {{-- Guest Officiators --}}
+                                
                                 @foreach($semester_program->guest_officiators as $officiator)
                                     <tr id="tr_{{"guest_".$officiator->pivot->officiating_role_id}}">
                                       
@@ -96,7 +93,7 @@
                                         </td>
     
                                          {{-- Action  --}}
-                                         @can('update',$semester_program)
+                                         @allowedTo(['delete_officiator'])
                                          <td>
                                             <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-danger" id="{{"guest_".$officiator->pivot->officiating_role_id}}" data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-remove"></i>
@@ -106,7 +103,7 @@
                                                 <i class="fa fa-pencil"></i>
                                             </button>      
                                         </td>
-                                        @endcan
+                                        @endallowedTo
     
                                     </tr>
                                 @endforeach
@@ -128,7 +125,7 @@
                     <table class="table table-striped">
                         {{-- Add New Permission Button --}}
                             @can('update',$semester_program)
-                            <a href="" class="btn mb-3 btn-info float-right">Add New Session</a>
+                            <a href="{{route('create_program_outline',['semesterProgram'=>$semester_program])}}" class="btn mb-3 btn-info float-right">Add New Session</a>
                             @endcan
                            <caption>Sessions for : {{$semester_program->name}}</caption>
                             {{-- Table Head --}}
@@ -144,12 +141,15 @@
                             <tbody class="search_result">
                                 @foreach($semester_program->sessions() as $session)
                                     <tr id="tr_{{$session->id}}">
-                                         <td>{{$session->name}} </td>
+                                         <td>{{++$counter.".  ".$session->name}} </td>
                                          @can('update',$semester_program)
                                          <td>
-                                            <a class="btn check_button btn-danger" id="{{$session->id}}" data-url="#">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"  data-url="{{route('confirm_program_outline_delete',['semesterProgram'=>$semester_program, 'programOutline'=>$session->id])}}">
                                                 <i class="fa fa-remove"></i>
-                                            </a>    
+                                            </button>    
+                                            <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"  data-url="{{route('confirm_program_outline_update',['semesterProgram'=>$semester_program, 'programOutline'=>$session->id])}}">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>   
                                         </td>
                                         @endcan
                                     </tr>

@@ -2,14 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Biodata;
-use App\Models\Residence;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\hasManyThrough;
-use Illuminate\Database\Eloquent\Relations\hasOneThrough;
 
 class Zone extends Model
 {
@@ -19,23 +14,41 @@ class Zone extends Model
         'name',
         'boundaries',
         'rep_id',
-        
+
     ];
 
     // RELATIONSHIPS
     // public function users(): hasManyThrough{
     //     return $this->hasManyThrough(User::class,Residence::class);
     // }
-    public function users(): hasManyThrough{
-        return $this->hasManyThrough(User::class,Biodata::class,"zone_id","id","id","user_id");
+    // public function users(): hasManyThrough{
+    //     return $this->hasManyThrough(User::class,Biodata::class,"zone_id","id","id","user_id");
+    // }
+
+    // USERS_FOR NOW
+    public function users()
+    {
+        return User::where('is_member', 1)
+            ->join('biodatas', 'users.id', '=', 'biodatas.user_id')
+            ->join('residences', 'residences.id', '=', 'biodatas.residence_id')
+            ->where('residences.zone_id', $this->id)
+            ->get()
+            ->makeHidden(['biodata']);
     }
 
-    public function residences(): hasManyThrough{
-        return $this->hasManyThrough(Residence::class,Biodata::class,"zone_id","id","id","residence_id");
+    // HOSTELS OR RESIDENCES
+    public function residences()
+    {
+        return $this->hasMany(Residence::class);
+        // return $this->hasManyThrough(Residence::class,Biodata::class,"zone_id","id","id","residence_id");
+
     }
 
-   
-
+    // ZONAL REPS
+    public function reps()
+    {
+        return $this->hasMany(User::class, 'rep_id');
+    }
 
     // EXTRA FRONTEND FUNCTIONS
     // public function zones_in_select_list(){

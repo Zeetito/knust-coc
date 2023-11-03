@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionSeeder extends Seeder
 {
@@ -16,7 +15,7 @@ class PermissionSeeder extends Seeder
         //
         $permissions = [
             // USER
-            ['name' => 'Activate User Account' , 'slug' => 'activate_account'],
+            ['name' => 'Activate User Account', 'slug' => 'activate_account'],
             ['name' => 'Update User', 'slug' => 'update_user'],
             ['name' => 'Delete User', 'slug' => 'delete_user'],
             ['name' => 'Grant User Request', 'slug' => 'grant_request'],
@@ -35,11 +34,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'Add Zone', 'slug' => 'add_zone'],
             ['name' => 'Update Zone', 'slug' => 'update_zone'],
             ['name' => 'Delete Zone', 'slug' => 'delete_zone'],
+            // Reps
+            ['name' => 'Assign Zonal Rep', 'slug' => 'assign_zonal_rep'],
+            ['name' => 'Change Zonal Rep', 'slug' => 'change_zonal_rep'],
+            ['name' => 'Remove Zonal Rep', 'slug' => 'remove_zonal_rep'],
 
             // RESIDENCE
             ['name' => 'Add Residence', 'slug' => 'add_residence'],
             ['name' => 'Update Residence', 'slug' => 'update_residence'],
             ['name' => 'Delete Residence', 'slug' => 'delete_residence'],
+            // Reps
+            ['name' => 'Assign Residence Rep', 'slug' => 'assign_residence_rep'],
+            ['name' => 'Change Residence Rep', 'slug' => 'change_residence_rep'],
+            ['name' => 'Remove Residence Rep', 'slug' => 'remove_residence_rep'],
 
             // ACADEMIC YEAR
             ['name' => 'Add Academic Year', 'slug' => 'add_academic_year'],
@@ -71,8 +78,26 @@ class PermissionSeeder extends Seeder
             ['name' => 'Update Permission', 'slug' => 'update_permission'],
             ['name' => 'Remove Permission', 'slug' => 'remove_permission'],
 
-           
-          
+            // GUESTS
+            ['name' => 'Add Guest', 'slug' => 'add_guest'],
+            ['name' => 'Update Guest', 'slug' => 'update_guest'],
+            ['name' => 'Remove Guest', 'slug' => 'remove_guest'],
+
+            // SEMESTER PROGRAMS
+            ['name' => 'Add Semester Program', 'add_semester_program'],
+            ['name' => 'Update Semester Program', 'update_semester_program'],
+            ['name' => 'Delete Semester Program', 'delete_semester_program'],
+
+            // OFFICIATORS
+            ['name' => 'Add Officiator', 'add_officiator'],
+            ['name' => 'Update Officiator', 'update_officiator'],
+            ['name' => 'Delete Officiator', 'delete_officiator'],
+
+            // PROGRAM OUTLINE
+            ['name' => 'Add Program Outline', 'add_program_outline'],
+            ['name' => 'Update Program Outline', 'update_program_outline'],
+            ['name' => 'Delete Program Outline', 'delete_program_outline'],
+
         ];
 
         foreach ($permissions as $permission) {

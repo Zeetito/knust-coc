@@ -24,13 +24,13 @@ class UserRequest extends FormRequest
     {
         return [
             //
-        
-                'firstname'=>['required','min:5','max:30'],
-                'lastname'=>['required','min:5','max:30'],
-                'username'=>['required','min:3','max:30', Rule::unique('users','username')],
-                'email'=>['email','required', Rule::unique('users','email')],
-                'password'=>['required','confirmed','max:225','min:6'],
-          
+
+            'firstname' => ['required', 'min:5', 'max:30'],
+            'lastname' => ['required', 'min:5', 'max:30'],
+            'username' => ['required', 'min:3', 'max:30', Rule::unique('users', 'username')],
+            'email' => ['email', 'required', Rule::unique('users', 'email')],
+            'password' => ['required', 'confirmed', 'max:225', 'min:6'],
+
         ];
     }
 }

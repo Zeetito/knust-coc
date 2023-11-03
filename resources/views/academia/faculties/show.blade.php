@@ -70,7 +70,7 @@
 
                                         {{-- Department --}}
                                         <td>
-                                            {{$user->department()->name == "" ? "No Department": $user->department()->name}}
+                                            {{$user->department() == null ? "No Department": $user->department()->name}}
                                         </td>
     
                                         {{-- Program --}}

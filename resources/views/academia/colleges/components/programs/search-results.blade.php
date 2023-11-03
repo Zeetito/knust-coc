@@ -2,6 +2,11 @@
 <tr id="tr_{{$program->id."_".$program->created_at}}">
 
     <td>{{$program->name}} </td>
+
+    <td>
+            {{$program->type == "ug" ? "UnderGraduate" : "PostGraduate"}}
+    </td>
+
     @can('update',$college)
 
     <td>

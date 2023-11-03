@@ -38,7 +38,7 @@ class CollegeController extends Controller
     public function show(College $college)
     {
         //
-        return view('academia.colleges.show',['college'=>$college, 'programs'=>$college->programs, 'users'=>$college->users]);
+        return view('academia.colleges.show', ['college' => $college, 'programs' => $college->programs]);
     }
 
     /**
@@ -65,48 +65,52 @@ class CollegeController extends Controller
         //
     }
 
-     // Search User for a particular college
-     public function search_college_user(Request $request, College $college){
+    // Search User for a particular college
+    public function search_college_user(Request $request, College $college)
+    {
 
-        $string =  $request->input('str');
-       
-            if(!empty($string)){
-                $str = "%".$string."%";
-                $users = $college->users()->where('firstname','like',$str)
-                                ->orWhere('lastname','like',$str)
-                                // ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
-                                ->get();
-                return view('academia.colleges.components.users.search-results',['users'=>$users,'college'=>$college]);
-    
-            }else{
-                    // If string is empty, return the original paginated data
-                   
-                $users = $college->users;
-                return view('academia.colleges.components.users.search-results',['users'=>$users,'college'=>$college]);
+        $string = $request->input('str');
 
-            }
+        if (! empty($string)) {
+            $str = '%'.$string.'%';
+            $users = $college->users()->where('firstname', 'like', $str)
+                ->orWhere('lastname', 'like', $str)
+                            // ->paginate($perPage = 25, $columns = ['*'], $pageName = "SearchResults" );
+                ->get();
+
+            return view('academia.colleges.components.users.search-results', ['users' => $users, 'college' => $college]);
+
+        } else {
+            // If string is empty, return the original paginated data
+
+            $users = $college->users;
+
+            return view('academia.colleges.components.users.search-results', ['users' => $users, 'college' => $college]);
+
+        }
 
     }
 
-      // Search programs for a particular college
-      public function search_college_program(Request $request, College $college){
+    // Search programs for a particular college
+    public function search_college_program(Request $request, College $college)
+    {
 
-        $string =  $request->input('str');
-       
-            if(!empty($string)){
-                $str = "%".$string."%";
-                $programs = $college->programs()->where('name','like',$str)->get();
-                                               
-                                
-                return view('academia.colleges.components.programs.search-results',['programs'=>$programs,'college'=>$college]);
-    
-            }else{
-                    // If string is empty, return the original paginated data
-                   
-                $programs = $college->programs;
-                return view('academia.colleges.components.programs.search-results',['programs'=>$programs,'college'=>$college]);
+        $string = $request->input('str');
 
-            }
+        if (! empty($string)) {
+            $str = '%'.$string.'%';
+            $programs = $college->programs()->where('name', 'like', $str)->get();
+
+            return view('academia.colleges.components.programs.search-results', ['programs' => $programs, 'college' => $college]);
+
+        } else {
+            // If string is empty, return the original paginated data
+
+            $programs = $college->programs;
+
+            return view('academia.colleges.components.programs.search-results', ['programs' => $programs, 'college' => $college]);
+
+        }
 
     }
 }

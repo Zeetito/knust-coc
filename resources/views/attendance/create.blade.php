@@ -17,7 +17,7 @@
                                 <select id="select" name="meeting_type" class="form-control">
                                     <option value=" ">Please select</option>
 
-                                    @foreach($meetings as $meeting)
+                                    @foreach(App\Models\Meeting::where('is_active','=',1)->get()->sortBy('name') as $meeting)
                                     <option value="{{$meeting->id}}">{{$meeting->name}}</option>
                                     @endforeach
 

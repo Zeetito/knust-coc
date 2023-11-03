@@ -8,7 +8,10 @@
                     <div class="process-bar">
                         <div class="process-bar">
                             <div class="process-order">
-                                <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
+                                    <a href="{{route('show_attendance_users',['attendance'=>$attendance])}}">
+                                        <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                 <span>
                                         <form >
                                             <input  type="text" class="search_box"  id="for_user_list" data-url="{{route("search_attendance_users",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
@@ -34,25 +37,30 @@
                                                 <tbody id="search_result_for_user_list">
                                                     @foreach($members as $member)
                                                     <tr id="tr_{{$member->id}}">
-                                                        <td>{{$member->fullname()}}</td>
-                                                        <td>{{$member->biodata !=null ? $member->zone->name : "No Zone" }}</td>
+                                                        <td>
+                                                            <a >
+                                                                <img src="{{$member->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                            </a>
+                                                            {{$member->fullname()}}
+                                                        </td>
+                                                        <td>{{$member->biodata() !=null ? $member->zone()->name : "No Zone" }}</td>
                                                         <td>
                                                             @if($member->is_checked($attendance))
-                                                                        @allowedTo(['update_attendance'])
+                                                                        @can('check',$member)
                                                                             {{-- Uncheck User button --}}
-                                                                            <span type="button" class="check_button" id="{{$member->id}}" data-toggle="modal" data-target="myModal" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
-                                                                                <i class="text-warning fa fa-check"></i>
+                                                                            <span type="button" data-toggle="modal" data-target="#myModal" id="{{$member->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>$attendance , 'user'=>$member])}}" >
+                                                                                <i class="text-success fa fa-check"></i>
                                                                             </span> 
-                                                                         @else
+                                                                            @else
                                                                             {{-- Not A button --}}
                                                                             <span type="button" class="button message"  >
                                                                                 <i class="text-success fa fa-check"></i>
                                                                             </span>
-                                                                        @endallowedTo
+                                                                        @endcan
 
                                                             @else
                                                                         {{-- Check User Button --}}
-                                                                        @allowedTo(['update_attendance'])
+                                                                        @can('check',$member)
                                                                         <button class="check_button" id="{{$member->id}}" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
                                                                              <i class=" text-danger fa fa-check"></i>
                                                                         </button>
@@ -60,9 +68,9 @@
                                                                         @else
 
                                                                         <button class="" id="{{$member->id}}" data-url="" >
-                                                                                <i class=" text-danger fa fa-check"></i>
+                                                                                <i class=" text-info fa fa-check"></i>
                                                                            </button>
-                                                                        @endallowedTo
+                                                                        @endcan
 
                                                             @endif
 
@@ -89,7 +97,8 @@
 
                     {{-- Whole Table Screen Ends --}}
                     
-                    {{-- Screen for Summary --}}
+                    {{--REGISTERING VISITORS--}}
+                    @allowedTo(['add_guest'])
                     <div class="row">
                         <div class="col-sm-6 col-md-6">
                             <div class="card">
@@ -220,6 +229,7 @@
                         </div>
                        
                     </div>
+                    @endallowedTo
                     {{-- Screen For Summary Ends --}}
 
                     

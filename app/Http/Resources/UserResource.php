@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -12,10 +12,7 @@ class UserResource extends JsonResource
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
-     * 
-     * 
      */
-
     public $preserveKeys = true;
 
     public function toArray(Request $request): array
@@ -24,9 +21,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->fullname(),
-            'program' => $this->When($this->biodata()->exists(),function(){
-                return $this->program->name;
-            }),
+            // 'program' => $this->When($this->biodata()->exists(),function(){
+            //     return $this->program->name;
+            // }),
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -40,5 +37,4 @@ class UserResource extends JsonResource
     {
         $response->header('X-Value', 'True');
     }
-
 }

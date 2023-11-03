@@ -12,7 +12,7 @@
                         <h3 style="text-align:center">Assign Permission Role:   <a href="{{route('edit_role',['role'=>$role])}}"> {{$role->name}}  <i class="fa fa-eye"></i> </a>  </h3>
                                 <span style=" ">
                                     <form >
-                                        <input type="text" class="search_box" data-url="{{route("search_non_user_roles",['role'=>$role])}}" placeholder="search name..." style="text-align:center;">
+                                        <input type="text" class="search_box" data-url="{{route("search_role_non_permissions",['role'=>$role])}}" id="for_permissions_list" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                     </form>
                                 </span>
@@ -33,7 +33,7 @@
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
-                                            <tbody class="search_result">
+                                            <tbody id="search_result_for_permissions_list">
                                                 @foreach($non_permissions as $permission)
 
                                                 <tr id="tr_{{$permission->id}}">

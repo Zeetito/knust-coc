@@ -42,7 +42,7 @@
                                                         </td>
                                                         {{-- Number of Users --}}
                                                         <td>
-                                                           {{$college->users->count()}}
+                                                           {{$college->users()->count()}}
                                                         </td>
                                                         
                                                         {{-- Description --}}

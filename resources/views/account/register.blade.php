@@ -51,48 +51,112 @@
                                 <a href={{route('login')}}   class="btn btn-primary" style="float:right; border-radius:10px "> <strong>LogIN</strong> </a>
                                 <p class="text-muted">Create your account</p>
 
-                                {{-- Username --}}
+                            {{-- Username --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="icon-user"></i>
                                     </span>
-                                    <input type="text" value="{{old('username',"")}}" name="username" class="form-control" placeholder="Username">
+                                    <input type="text" value="{{old('username',"")}}" name="username" autocomplete="off" class="form-control" placeholder="Username">
                                 </div>
                                 @error('username')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
-                                {{-- Firstname --}}
+                            {{-- Firstname --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="icon-user"></i>
                                     </span>
-                                    <input type="text" value="{{old('firstname',"")}}" name="firstname" class="form-control" placeholder="firstname">
+                                    <input type="text" value="{{old('firstname',"")}}" name="firstname" autocomplete="off" class="form-control" placeholder="firstname">
                                 </div>
                                 @error('firstname')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
 
-                                {{-- Lastname --}}
+                            {{-- Lastname --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="icon-user"></i>
                                     </span>
-                                    <input type="text" value="{{old('lastname',"")}}" name="lastname" class="form-control" placeholder="lastname">
+                                    <input type="text" value="{{old('lastname',"")}}" name="lastname" autocomplete="off" class="form-control" placeholder="lastname">
                                 </div>
                                 @error('lastname')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
+                                
+                            {{-- Othername --}}
+                                <div class="input-group mb-3">
+                                    <span class="input-group-addon"><i class="icon-user"></i>
+                                    </span>
+                                    <input type="text" value="{{old('othername',"")}}" name="othername" autocomplete="off" class="form-control" placeholder="othername">
+                                </div>
+                                    @error('othername')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                    @enderror
+
+                            {{-- Gender --}}
+                            Gender
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="icon-student"></i>
+                                <select name="gender"  class="form-control" id="gender" required>
+                                    <option value="">Select</option>
+                                    <option value="m">Male</option>
+                                    <option value="f">Female</option>
+                                </select>
+                            </div>
+                                @error('gender')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
+                            {{-- Date of Birth --}}
+                                    NB:Your Year of birth will not be displayed publicly
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-addon"><i class="icon-time"></i>
+                                    </span>
+                                    <input type="date" name="dob" class="form-control" placeholder="dob" required>
+                                </div>
+                                @error('dob')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
 
         
-                                {{-- Email --}}
+                            {{-- Email --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon">@</span>
-                                    <input type="text"  value="{{old('email',"")}}" class="form-control" name="email" placeholder="Email">
+                                    <input type="text"  value="{{old('email',"")}}" class="form-control" name="email" autocomplete="off" placeholder="Email">
                                 </div>
                                 @error('email')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
+
+                            {{-- Is_Student --}}
+                            <p>Are You Currently A student in KNUST ?</p>
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="icon-student"></i>
+                                <select name="is_student"  class="form-control" id="is_student" required> 
+                                    <option value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                                @error('is_student')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
+                            {{-- Is_Member --}}
+                            <p>Are You Currently  Worshipping with the  KNUST Church Of Christ ?</p>
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="icon-student"></i>
+                                <select name="is_member"  class="form-control" id="is_member" required>
+                                    <option value="">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                                @error('is_member')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
         
-                                {{-- Password --}}
+                            {{-- Password --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="icon-lock"></i>
                                     </span>
@@ -102,7 +166,7 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
         
-                                {{-- ConfirmPassword --}}
+                            {{-- ConfirmPassword --}}
                                 <div class="input-group mb-4">
                                     <span class="input-group-addon"><i class="icon-lock"></i>
                                     </span>
@@ -112,7 +176,7 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
-                                {{-- Register Button --}}
+                            {{-- Register Button --}}
                                 <button type="submit" name="submit" class="btn btn-block btn-success">Create Account</button>
                             </div>
 
@@ -125,9 +189,9 @@
                                         </button>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-block btn-google" type="button">
-                                            <span>Visit Us</span>
-                                        </button>
+                                        <a href="#" class="btn btn-block btn-google" type="button">
+                                            <span>Visit Our Website</span>
+                                        </a>
                                     </div>
                                     
                                 </div>

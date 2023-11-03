@@ -72,14 +72,25 @@
                                     @csrf
                                     {{-- Name --}}
                                     <label for="guest_name">Guest Name</label>
-                                    <input type="text" name="guest_name" class="form-control" id="guest_name">
+                                    <input type="text" name="guest_name" value="{{old('guest_name')}}" class="form-control" autocomplete="off" id="guest_name">
                                     @error('guest_name')
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror
-                                    
+
+                                    {{-- Gender --}}
+                                    <label  for="guest_gender">Gender</label>
+                                    <select class="form-control" name="guest_gender" id="guest_gender">
+                                        <option value="">Select</option>
+                                        <option value="m">Male</option>
+                                        <option value="f">Female</option>
+                                    </select>
+                                    @error('guest_gender')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                    @enderror
+
                                     {{-- Local Church --}}
                                     <label for="local_congregation">Local Congregation</label>
-                                    <input type="text" name="local_congregation" class="form-control" id="local_congregation" required>
+                                    <input type="text" value="{{old('local_congregation')}}" name="local_congregation" class="form-control" id="local_congregation" required>
                                     @error('local_congregation')
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror

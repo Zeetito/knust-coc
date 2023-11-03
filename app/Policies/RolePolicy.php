@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class RolePolicy
 {
@@ -22,7 +21,7 @@ class RolePolicy
     public function view(User $user, Role $role): bool
     {
         //
-        return $user->hasRole('preacher',$role);
+        return $user->hasRole('preacher', $role);
     }
 
     /**
@@ -39,7 +38,7 @@ class RolePolicy
     public function update(User $user, Role $role): bool
     {
         //
-        return $user->hasRole('preacher',$role->slug);
+        return $user->hasRole('preacher', $role->slug);
     }
 
     /**
@@ -67,13 +66,15 @@ class RolePolicy
         //
     }
 
-    // Can Assign Role 
-    public function assign(User $user, Role $role): bool{
+    // Can Assign Role
+    public function assign(User $user, Role $role): bool
+    {
         return $user->hasRole('preacher');
     }
 
-    // Can Retrieve Role 
-    public function retrieve(User $user, Role $role): bool{
+    // Can Retrieve Role
+    public function retrieve(User $user, Role $role): bool
+    {
         return $user->hasRole('preacher');
     }
 }

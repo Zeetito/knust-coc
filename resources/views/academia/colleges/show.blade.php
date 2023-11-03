@@ -47,7 +47,7 @@
                                         <th>User Name</th>
                                         
                                         <th>Program</th>
-        
+                                        
                                         @can('update',$college)
                                         <th>Actions</th>
                                         @endcan
@@ -55,7 +55,7 @@
                                 </thead>
                                 {{-- Table Body --}}
                                 <tbody id="search_result_for_user_list">
-                                    @foreach($users as $user)
+                                    @foreach($college->users() as $user)
                                         <tr id="tr_{{$user->id}}">
                                         
                                             {{-- Name And Avatar--}}
@@ -69,8 +69,9 @@
 
                                             {{-- Program of Study --}}
                                             <td>
-                                                {{$user->program->name}}
+                                                {{$user->program() == Null ? "No Program" : $user->program()->name}}
                                             </td>
+
         
                                             {{-- Action  --}}
                                             @can('update',$college)
@@ -112,6 +113,8 @@
                                     <tr>
                                         <th>Program Name</th>
 
+                                        <th>Type</th>
+
                                         @can('update',$college)
                                         <th>Actions</th>
                                         @endcan
@@ -123,8 +126,13 @@
                                         <tr id="tr_{{$program->id."_".$program->created_at}}">
 
                                             <td>{{$program->name}} </td>
-                                            @can('update',$college)
 
+                                            {{-- Program Type --}}
+                                            <td>
+                                                {{$program->type == "ug" ? "UnderGraduate" : "PostGraduate"}}
+                                            </td>
+
+                                            @can('update',$college)
                                             <td>
                                                 <a class="btn check_button btn-secondary" id="{{$program->id."_".$program->created_at}}" data-url="#">
                                                     <i class="fa fa-eye"></i>

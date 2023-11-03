@@ -7,7 +7,7 @@
     <div class="row" style="justify-items:center">
         <div class="col-sm-6 col-md-12" style="margin-left:16px;background-color:white">
 
-         User: {{ $user->firstname ." ". $user->lastname}}
+         User: {{ $user->fullname()}}
 
             {{-- User Avatar --}}
             <div  style="border-color:blue; border-width:5px"  class="nav-link nav-link" data-toggle="dropdown" href="{{route('view_profile',auth()->user()->id)}}" role="button" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@
                                             </li>
 
                                             <li>
-                                                Zone: {{$user->zone->name}}
+                                                Zone: {{$user->zone()->name}}
                                             </li>
 
                                             <li>

@@ -19,10 +19,10 @@ class ContactFactory extends Factory
     {
         return [
             //
-            "user_id" => User::all()->random()->id,
-            "contact" => fake()->PhoneNumber(),
-            "is_main" => 0,
-            "is_visible" => 1, 
+            'user_id' => User::all()->random()->id,
+            'contact' => fake()->PhoneNumber(),
+            'is_main' => 0,
+            'is_visible' => 1,
         ];
     }
 }
