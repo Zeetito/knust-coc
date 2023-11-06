@@ -5,10 +5,18 @@
 
             <div class="row">
                     <div class="col-sm-6 col-md-6">
-                        <div class="card">
+                        <div class="card mt-2">
                             <div class="card-header">
                                 Add User As Officator
+                                {{-- View Outline again Icon --}}
+                                <a href="{{route('show_semester_program',['semesterProgram'=>$semester_program])}}">
+                                    <span class="badge-pill badge-info float-right">
+                                        <i class="fa fa-eye" title="View Outline">View Outline</i>
+                                    </span>
+                                </a>
                             </div>
+                            
+                            
                             <div class="card-body">
 
                                 {{-- User Officiator Form --}}
@@ -61,7 +69,7 @@
                    
                     <!--/.col-->
                     <div class="col-sm-6 col-md-6">
-                        <div class="card">
+                        <div class="card mt-2">
                             <div class="card-header">
                                 Add Guest As Officiator
                             </div>

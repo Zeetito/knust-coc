@@ -24,8 +24,8 @@
                             <a href="{{route('add_officiator_form',['semesterProgram'=>$semester_program])}}" class="btn mb-3 btn-info float-right">Add Officiator</a>
                             @endcan
     
-                        {{-- Table Caption --}}
-                        <caption>Officiators For : {{$semester_program->name}}</caption>
+                        {{-- Table h5 --}}
+                        <h5>Officiators For : {{$semester_program->name}}</h5>
                         @if($semester_program->user_officiators() != null)
                             {{-- Table Head --}}
                             <thead>
@@ -63,11 +63,11 @@
                                          {{-- Action  --}}
                                          @allowedTo(['delete_officiator'])
                                          <td>
-                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-danger" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
+                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-danger" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->officiator_id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-remove"></i>
                                             </button>       
 
-                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-info" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('edit_officiator',['semesterProgram'=>$semester_program, 'officiator'=>$officiator , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
+                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-info" id="{{"user_".$officiator->pivot->officiating_role_id}}" data-url="{{route('edit_officiator',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->officiator_id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-pencil"></i>
                                             </button>  
                                         </td>
@@ -95,11 +95,11 @@
                                          {{-- Action  --}}
                                          @allowedTo(['delete_officiator'])
                                          <td>
-                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-danger" id="{{"guest_".$officiator->pivot->officiating_role_id}}" data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
+                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn  btn-danger"  data-url="{{route('confirm_officiator_delete',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->officiator_id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-remove"></i>
                                             </button>         
 
-                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn get_content btn-info" id="{{"guest_".$officiator->pivot->officiating_role_id}}" data-url="{{route('edit_officiator',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
+                                            <button  type="button" data-toggle="modal" data-target="#myModal" class="btn  btn-info"  data-url="{{route('edit_officiator',['semesterProgram'=>$semester_program, 'officiator'=>$officiator->officiator_id , 'status'=>$officiator->pivot->is_user, 'role'=>$officiator->pivot->officiating_role_id])}}">
                                                 <i class="fa fa-pencil"></i>
                                             </button>      
                                         </td>
@@ -127,7 +127,7 @@
                             @can('update',$semester_program)
                             <a href="{{route('create_program_outline',['semesterProgram'=>$semester_program])}}" class="btn mb-3 btn-info float-right">Add New Session</a>
                             @endcan
-                           <caption>Sessions for : {{$semester_program->name}}</caption>
+                           <h5>Sessions for : {{$semester_program->name}}</h5>
                             {{-- Table Head --}}
                             <thead>
                                 <tr>

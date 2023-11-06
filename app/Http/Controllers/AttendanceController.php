@@ -61,7 +61,7 @@ class AttendanceController extends Controller
     public function check_user(Attendance $attendance, User $user)
     {
 
-        DB::table('attendance_users')->insert([
+        DB::table('attendance_users')->insertOrIgnore([
             'attendance_id' => $attendance->id,
             'person_id' => $user->id,
             'is_user' => 1,
@@ -77,6 +77,7 @@ class AttendanceController extends Controller
         DB::table('attendance_users')
             ->where('attendance_id', $attendance->id)
             ->where('person_id', $user->id)
+            ->where('is_user', 1)
             ->delete();
 
         return redirect()->back()->with('success', 'Uncheck Successful');
@@ -86,7 +87,7 @@ class AttendanceController extends Controller
     public function confirm_uncheck_user(Attendance $attendance, User $user)
     {
 
-        return view("attendance\attendance-users\components\checked-users\confirm-uncheck-user", ['member' => $user, 'attendance' => $attendance]);
+        return view('attendance.attendance-users.components.checked-users.confirm-uncheck-user', ['member' => $user, 'attendance' => $attendance]);
     }
 
     // Search Users who've been checked already
@@ -116,7 +117,7 @@ class AttendanceController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'numeric'],
         ]);
-        DB::table('attendance_users')->insert([
+        DB::table('attendance_users')->insertOrIgnore([
             'attendance_id' => $attendance->id,
             'person_id' => $validated['user_id'],
             'is_user' => 1,
@@ -149,7 +150,7 @@ class AttendanceController extends Controller
         $guest->save();
 
         // Now, Create the attendance_guest instance
-        DB::table('attendance_users')->insert([
+        DB::table('attendance_users')->insertOrIgnore([
             'attendance_id' => $attendance->id,
             'person_id' => $guest->id,
             'is_user' => 0,
@@ -158,6 +159,26 @@ class AttendanceController extends Controller
 
         return redirect(route('access_attendance_session', $attendance))->with('success', 'Visitor Added Successfully');
 
+    }
+
+    // Uncheck Guest
+    public function uncheck_guest_visitor(Attendance $attendance, Guest $guest)
+    {
+        DB::table('attendance_users')
+            ->where('attendance_id', $attendance->id)
+            ->where('person_id', $guest->id)
+            ->where('is_user', 0)
+            ->delete();
+
+        return redirect()->back()->with('success', 'Guest Uncheck Successful');
+
+        // return view('attendance.attendance-users.components.users.updated-row', ['member' => $user, 'attendance' => $attendance]);
+    }
+
+    // Confirm Uncheck Guest
+    public function confirm_uncheck_guest(Attendance $attendance, Guest $guest)
+    {
+        return view('attendance.attendance-users.components.guests.confim-guest-uncheck', ['guest' => $guest, 'attendance' => $attendance]);
     }
 
     // ATTENDANCE SESSION

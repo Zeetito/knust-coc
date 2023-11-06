@@ -74,16 +74,19 @@ class SemesterProgram extends Model
     public function all_officiators()
     {
 
+    
         $officiators = [];
         foreach ($this->user_officiators as $officiator) {
             $officiators[] = [
-                'officiator_id' => $officiator->officiators_programs_id,
+                'officiators_programs_id' => $officiator->officiators_programs_id,
+                'is_user' => 1,
                 'name' => $officiator->fullname(),
             ];
         }
         foreach ($this->guest_officiators as $officiator) {
             $officiators[] = [
-                'officiator_id' => $officiator->officiators_programs_id,
+                'officiators_programs_id' => $officiator->officiators_programs_id,
+                'is_user' => 0,
                 'name' => $officiator->fullname,
             ];
         }
@@ -140,5 +143,11 @@ class SemesterProgram extends Model
     {
         return DB::table('program_outlines')
             ->where('semester_program_id', $this->id);
+    }
+
+    // Get the last outline's position
+    public function last_session()
+    {
+        return $this->outline()->latest()->first();
     }
 }

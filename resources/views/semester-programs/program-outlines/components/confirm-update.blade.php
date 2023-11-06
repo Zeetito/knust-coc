@@ -20,8 +20,8 @@
         {{-- Comes After --}}   
         <div class="form-group">
             <label for="start_date">Comes After</label>
-            <select required name="position" id="position" calss="form-control">
-                <option calss="form-control" value=" ">Select</option>
+            <select required name="position" id="position"  calss="form-control">
+                <option calss="form-control" value="{{$programOutline->position}}">Select</option>
                 @foreach($semesterProgram->outline()->get() as $session)
                     <option value="{{($session->position + 1)}}">
                         {{$session->name}}
@@ -59,7 +59,7 @@
             <input list="officiator_id" value="{{old('officiator_id',$programOutline->officiator_id)}}" class="search_box form-control" name="officiator_id" id="officiator_id_list"  autocomplete="off" placeholder="Search Name..." >
             <datalist id="officiator_id">
                         @foreach($semesterProgram->all_officiators() as $officiator)
-                            <option value="{{$officiator['officiator_id']}}">{{$officiator['name']}}</option>
+                            <option value="{{$officiator['officiators_programs_id']}}">{{$officiator['name']}}</option>
                         @endforeach
             </datalist>
 

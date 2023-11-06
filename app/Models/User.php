@@ -44,7 +44,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        // 'pivot',
     ];
 
     /**
@@ -109,20 +108,26 @@ class User extends Authenticatable
         return $this->program()->college();
     }
 
+    // Roles
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_users');
     }
 
+    // Permissions
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_users');
     }
 
+    // LocalCongregation Of Non Member Users
+    public function local_congregation()
+    {
+        return $this->biodata()->local_congregation->get();
+    }
+
     // FUNCTIONS
 
-    //Flagged -> Not functioning
-    // PROFILE / BIODATA
     public function hasProfile()
     {
         // return exists($this->biodata()) ;

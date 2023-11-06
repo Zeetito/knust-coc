@@ -286,6 +286,7 @@ Route::post('/attendance/{attendance}/reset', [AttendanceController::class, 'res
 Route::get('/confirm_attendance_reset/{attendance}', [AttendanceController::class, 'confirm_attendance_reset'])
     ->middleware('auth', 'role:ministry_members_level')
     ->name('confirm_attendance_reset');
+
 // Confrim Attendance Session Delete
 Route::get('/confirm_attendance_delete/{attendance}', [AttendanceController::class, 'confirm_attendance_delete'])
     ->middleware('auth', 'role:ministry_members_level')
@@ -317,12 +318,22 @@ Route::get('/attendance/{attendance}/{user}', [AttendanceController::class, 'che
     ->name('check_user');
 
 // Uncheck User
-Route::delete('/attendance/{attendance}/{user}', [AttendanceController::class, 'uncheck_user'])
+Route::delete('/uncheck_user/{attendance}/{user}', [AttendanceController::class, 'uncheck_user'])
     ->middleware('auth')
     ->name('uncheck_user');
 
+// Uncheck Guest
+Route::delete('/uncheck_guest/{attendance}/{guest}', [AttendanceController::class, 'uncheck_guest'])
+    ->middleware('auth', 'role:ministry_members_level')
+    ->name('uncheck_guest');
+
+// Confrim Uncheck Guest
+Route::get('/confirm_guest/{attendance}/{guest}', [AttendanceController::class, 'confirm_uncheck_guest'])
+    ->middleware('auth', 'role:ministry_members_level')
+    ->name('confirm_uncheck_guest');
+
 // Confirmation for uncheck user
-Route::get('/attendance/{attendance}/{user}/confirm', [AttendanceController::class, 'confirm_uncheck_user'])
+Route::get('/confirm_user/{attendance}/{user}', [AttendanceController::class, 'confirm_uncheck_user'])
     ->middleware('auth')
     ->name('confirm_uncheck_user');
 
@@ -464,14 +475,13 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return SemesterProgram::find(15)->outline()->get();
 
-    return fake()->randomElement(['Basement', 'ProvidenceHostel']);
+    return SemesterProgram::find(15)->user_officiators()->get()->random()->officiator_id;
+    return DB::table('officiating_roles')->get()->random();
+    return fake()->firstname();
 
     $minDate = '2022-01-20'; // Set your desired minimum date
     $maxDate = '2023-12-31'; // Set your desired maximum date
 
     return fake()->dateTimeBetween($minDate, $maxDate)->format('Y-m-d');
-})->middleware('auth')
-
-;
+})->middleware('auth');

@@ -50,8 +50,11 @@
                                             <li>
                                                 OtherName(s): {{$user->othername}}
                                             </li>
+                                                                                        </li>
+                                            <li>
+                                                Gender: {{$user->gender == 'm'? 'Male':'Female'}}
+                                            </li>
                                             
-                                            {{-- Loop To List the othername(s)  a user has --}}
 
                                             <li>
                                                 Zone: {{$user->zone()->name}}

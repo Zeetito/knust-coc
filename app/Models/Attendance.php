@@ -46,13 +46,6 @@ class Attendance extends Model
             ->withPivot('person_id', 'checked_by');
     }
 
-    // Visitors function, querrying for users who're not currently members and guests present
-    // Using the is_member attribute on every user
-    public function visitors()
-    {
-
-    }
-
     public function meeting(): BelongsTo
     {
         return $this->belongsTo(Meeting::class, 'meeting_type');
@@ -67,11 +60,11 @@ class Attendance extends Model
     public function males_members_present()
     {
         return User::where('is_member', 1)
-                        ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
-                        ->where('attendance_users.attendance_id', $this->id)
-                        ->where('users.gender', 'm')
-                        ->where('attendance_users.is_user', 1)
-                        ->get();
+            ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
+            ->where('attendance_users.attendance_id', $this->id)
+            ->where('users.gender', 'm')
+            ->where('attendance_users.is_user', 1)
+            ->get();
     }
 
     // MEMBERS
@@ -79,23 +72,21 @@ class Attendance extends Model
     public function females_members_present()
     {
         return User::where('is_member', 1)
-                        ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
-                        ->where('attendance_users.attendance_id', $this->id)
-                        ->where('users.gender', 'f')
-                        ->where('attendance_users.is_user', 1)
-                        ->get();
+            ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
+            ->where('attendance_users.attendance_id', $this->id)
+            ->where('users.gender', 'f')
+            ->where('attendance_users.is_user', 1)
+            ->get();
     }
 
     // VISITORS - GUESTS
     // Getting All (Guest) present for a particular attendance session
     public function guests_present()
     {
-        return Guest::
-                // where('is_member',1)
-                join('attendance_users', 'guests.id', '=', 'attendance_users.person_id')
-                    ->where('attendance_users.attendance_id', $this->id)
-                    ->where('attendance_users.is_user', 0)
-                    ->get();
+        return Guest::join('attendance_users', 'guests.id', '=', 'attendance_users.person_id')
+                        ->where('attendance_users.attendance_id', $this->id)
+                        ->where('attendance_users.is_user', 0)
+                        ->get();
     }
 
     // Getting Males (Guest) present for a particular attendance session
@@ -127,32 +118,33 @@ class Attendance extends Model
     public function users_visitors_present()
     {
         return User::where('is_member', 0)
-                        ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
-                        ->where('attendance_users.attendance_id', $this->id)
-                        ->where('attendance_users.is_user', 1)
-                        ->get();
+            ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
+            ->where('attendance_users.attendance_id', $this->id)
+            ->where('attendance_users.is_user', 1)
+            ->get();
     }
 
     // Getting Male Users who visited (not Members)
     public function users_male_visitors_present()
     {
         return User::where('is_member', 0)
-                        ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
-                        ->where('attendance_users.attendance_id', $this->id)
-                        ->where('users.gender', 'm')
-                        ->where('attendance_users.is_user', 1)
-                        ->get();
+            ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
+            ->where('attendance_users.attendance_id', $this->id)
+            ->where('users.gender', 'm')
+            ->where('attendance_users.is_user', 1)
+            ->get();
     }
 
     // Getting Female Users who visited (not Members)
     public function users_female_visitors_present()
     {
         return User::where('is_member', 0)
-                        ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
-                        ->where('attendance_users.attendance_id', $this->id)
-                        ->where('users.gender', 'f')
-                        ->where('attendance_users.is_user', 1)
-                        ->get();
+            ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
+            ->where('attendance_users.attendance_id', $this->id)
+            ->where('users.gender', 'f')
+            ->where('attendance_users.is_user', 1)
+            ->where('users.is_member', 0)
+            ->get();
     }
 
     // Get the total visitors count

@@ -151,10 +151,10 @@
 
                                         <div class="card-body">
                                                 <p>
-                                                        Gents: {{$attendance->users_male_visitors_present()->count()}}
+                                                        Gents: {{$attendance->users_male_visitors_present()->count() + $attendance->males_guests_present()->count() }}
                                                     </p>   
                                                     <p>
-                                                        Ladies: {{$attendance->users_female_visitors_present()->count()}}
+                                                        Ladies: {{$attendance->users_female_visitors_present()->count() + $attendance->females_guests_present()->count() }}
                                                     </p>   
                                                     <p>
                                                         Total: {{$attendance->visitors_count()}}
@@ -209,14 +209,15 @@
                                         </thead>
                                         {{-- Table Body --}}
                                         <tbody id="search_result_for_user_visitors_list">
+
                                                 {{-- For users Visitors --}}
                                             @foreach($attendance->users_visitors_present() as $member)
                                                 <tr id="tr_{{$member->id}}">
                                                     <td><i class=" text-success fa fa-check"></i>{{$member->fullname()}}</td>
-                                                    <td>{{$member->local_congregation}}</td>
+                                                    <td>{{$member->biodata() == null ? "" : $member->local_congregation()}}</td>
                                                     <td>
                                                             {{-- Check User Button --}}
-                                                            <button class="check_button" id="{{$member->id}}" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
+                                                            <button class="btn" data-toggle ="modal" data-target="#myModal" id="{{"user_visitor_".$member->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>$attendance , 'user'=>$member->person_id])}}" >
                                                                     <i class=" text-danger fa fa-times"></i>
                                                             </button>                                                        
                                                     </td>
@@ -225,14 +226,15 @@
                                                     </td> --}}
                                                 </tr>
                                             @endforeach
+
                                             {{-- For Guest Visitors --}}
-                                            @foreach($attendance->guests_present() as $member)
-                                                <tr id="tr_{{$member->id}}">
-                                                    <td>{{$member->fullname}}</td>
-                                                    <td>{{$member->local_congregation}}</td>
+                                            @foreach($attendance->guests_present() as $guest)
+                                                <tr id="tr_{{$guest->id}}">
+                                                    <td>{{$guest->fullname}}</td>
+                                                    <td>{{$guest->local_congregation}}</td>
                                                     <td>
                                                             {{-- Check User Button --}}
-                                                            <button class="check_button" id="{{$member->id}}" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
+                                                            <button class="btn" data-toggle ="modal" data-target="#myModal" id="{{"guest_".$guest->id}}" data-url="{{route('confirm_uncheck_guest',['attendance'=>$attendance , 'guest'=>$guest->person_id])}}" >
                                                                     <i class=" text-danger fa fa-times"></i>
                                                             </button>                                                        
                                                     </td>
