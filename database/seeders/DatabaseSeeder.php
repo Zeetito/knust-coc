@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(UserSeeder::class);
+        $this->call(InactiveAccountSeeder::class);
+        $this->call(UnavailableMembersSeeder::class);
+
+
         $this->call(ZoneSeeder::class);
         $this->call(ResidenceSeeder::class);
         $this->call(CollegeSeeder::class);
@@ -33,7 +37,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
 
+
         $this->call(OfficiatingRolesSeeder::class);
+        $this->call(SemesterProgramSeeder::class);
+        $this->call(ProgramOfficiatorsSeeder::class);
+        $this->call(ProgramOutlineSeeder::class);
 
         // \App\Models\User::factory(10)->create();
         // \App\Models\User::factory()->create([

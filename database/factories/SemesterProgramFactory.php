@@ -28,4 +28,5 @@ class SemesterProgramFactory extends Factory
             'end_date' => $start_date,
         ];
     }
+    
 }

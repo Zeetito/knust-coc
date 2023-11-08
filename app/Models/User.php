@@ -220,7 +220,11 @@ class User extends Authenticatable
     {
         // return $this->avatar;
         if ($this->avatar === 'default_avatar') {
-            return asset('img/avatars/default_avatar.jpg');
+            if($this->gender == 'm'){
+                return asset('img/avatars/male_avatar.jpg');
+            }else{
+                return asset('img/avatars/female_avatar.jpg');
+            }
         }
 
         return asset('storage/img/avatars/'.$this->avatar);
@@ -289,4 +293,66 @@ class User extends Authenticatable
     {
         return User::paginate($perPage = 50, $columns = ['*'], $pageName = 'Users');
     }
+
+
+    // InActive Accounts Check
+    public static function inactive_accounts(){
+        return User::where('is_activated',0);
+    }
+
+        // Check User Account Status, Active or inactive
+        public function account_status(){
+            if($this->is_activated){
+                return "Active";
+            }else{
+                return "Inactive";
+            }
+        }
+
+        // Return Reason for an inactive Account
+        public function inactive_account_reason(){
+            if($this->account_status() == "Inactive"){
+                return DB::table('inactive_accounts')
+                        ->where('user_id',$this->id)
+                        ->first()->reason;
+            }
+        }
+
+        // Get Members who are unavailable
+        public static function unavailable_members(){
+            return User::where('is_member',1)
+                    ->where('is_available',0)
+                ;
+        }
+
+        // Get Unavailable Member category
+        public function unavailable_member_category(){
+            if($this->is_available == 0){
+                return DB::table('unavailable_members')
+                    ->where('user_id',$this->id)
+                    ->first()->category;
+            }
+        }
+
+        // Get Unavailable Member Info
+        public function unavailable_member_info(){
+            if($this->is_available == 0){
+                return DB::table('unavailable_members')
+                    ->where('user_id',$this->id)
+                    ->first()->info;
+            }
+        }
+            
+        // User Program Mates Get
+        public function program_mates(){
+            $program_mates_id = DB::table('users')->where('is_student',1)
+                    ->where('is_member',1)
+                    ->where('users.id','<>',$this->id)
+                    ->join('members_biodatas','members_biodatas.user_id','=','users.id')
+                    ->where('members_biodatas.program_id',$this->program()->id)
+                    ->pluck('users.id')
+                    ;
+            return User::whereIn('id',$program_mates_id)->get();
+        }
+
 }

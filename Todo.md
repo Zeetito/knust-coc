@@ -235,3 +235,33 @@ end_time
 timestamps
 
 ---Stopping at Where the position of the program outlines must be refreshed after an update or delete.
+
+###PHASE 13
+## Set Up Admin DashBoard
+-- InActive Accounts
+-- UnAvailable Members
+-- Complaints
+-- User Requests 
+## Create inactive accounts table.
+id
+user_id
+reason ('suspended','fresher','new_account')
+# Iplement an Activate User Account functionality with a model and also same for user availability
+
+## Create Unavailable Member table
+id
+user_id
+category (sick,travelled,'not_yet_in')
+info
+
+--------------------------------- 
+## Set up the Specail or whatever page.
+-- Know Your CourseMate / Program Mates
+
+#### PHASE 14 - TIE EVERYTHING UP TO THE ACADEMIC YEAR THROUGH THE SEMESTER ID.
+## This will mainly affect tables like, the biodatas,semester_programs, attendance and others.
+## A lot of refactoring to be done for this.
+ --NB:Will be using UpdateOrInsert insert of InsertOrIgnore in most of these cases
+
+### Phase 15
+# A Two factor verification would be implement later on to cater for authrorization

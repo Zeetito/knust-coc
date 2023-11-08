@@ -202,5 +202,22 @@ $(document).ready(function(){
             document.getElementById(tabName).className += " active";  
     });
 
+
+    // CUSTOM EVENTS
+
+    // EVENT TO CHECK IF A SCROLLABLE ELEMENT HAS REACHED IT'S END
+    // function reachedEnd() {
+    //     const element = document.getElementsByClassName('loadMore');
+
+    //     // Check if the user has scrolled to the bottom
+    //     if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
+    //         console.log('You have reached the bottom!');
+    //     }
+    // }
+
+    // const appendableElements = document.getElementsByClassName('loadMore');
+    // appendableElements.addEventListener('reachedEnd', reachedEnd);
+
+
 })
 
