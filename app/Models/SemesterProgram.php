@@ -74,7 +74,6 @@ class SemesterProgram extends Model
     public function all_officiators()
     {
 
-    
         $officiators = [];
         foreach ($this->user_officiators as $officiator) {
             $officiators[] = [

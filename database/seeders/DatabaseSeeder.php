@@ -13,9 +13,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(UserSeeder::class);
-        $this->call(InactiveAccountSeeder::class);
-        $this->call(UnavailableMembersSeeder::class);
+        $this->call(YearGroupSeeder::class);
+        $this->call(AcademicYearSeeder::class);
+        $this->call(SemesterSeeder::class);
 
+        $this->call(InactiveAccountsSeeder::class);
+        $this->call(UnavailableMembersSeeder::class);
 
         $this->call(ZoneSeeder::class);
         $this->call(ResidenceSeeder::class);
@@ -23,7 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FacultySeeder::class);
         $this->call(DepartmentSeeder::class);
         $this->call(ProgramSeeder::class);
-        $this->call(YearGroupSeeder::class);
 
         $this->call(BiodataSeeder::class);
         $this->call(ContactSeeder::class);
@@ -31,12 +33,9 @@ class DatabaseSeeder extends Seeder
         $this->call(MeetingSeeder::class);
         $this->call(AttendanceSeeder::class);
         $this->call(AttendanceUserSeeder::class);
-        $this->call(AcademicYearSeeder::class);
-        $this->call(SemesterSeeder::class);
 
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
-
 
         $this->call(OfficiatingRolesSeeder::class);
         $this->call(SemesterProgramSeeder::class);

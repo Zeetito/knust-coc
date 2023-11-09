@@ -255,13 +255,28 @@ category (sick,travelled,'not_yet_in')
 info
 
 --------------------------------- 
-## Set up the Specail or whatever page.
+## Set up the Specail or whatever logic.
 -- Know Your CourseMate / Program Mates
 
 #### PHASE 14 - TIE EVERYTHING UP TO THE ACADEMIC YEAR THROUGH THE SEMESTER ID.
+
 ## This will mainly affect tables like, the biodatas,semester_programs, attendance and others.
 ## A lot of refactoring to be done for this.
+
+# Make a new biodata seeder, PastSudentBiodataSeeder to seed in previous years details for users who are students.
  --NB:Will be using UpdateOrInsert insert of InsertOrIgnore in most of these cases
+ -- Implement Biodata edit and update for the various users
 
 ### Phase 15
+# User request table to store create and edit request till they are aproved. For example, members biodata updates requests.
+id
+body
+table_name
+status (update,insert,delete)
+## Implement Polymorphic relationships for Images of Users, Zones, Residences and Semester Programs
+## A carousel to display program on the main dashboard
+<!-- ## Implement Polymorphic relationships for  -->
 # A Two factor verification would be implement later on to cater for authrorization
+
+## Phase 16
+# Implement the User history using the Biodata details.

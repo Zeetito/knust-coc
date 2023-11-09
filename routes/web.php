@@ -1,28 +1,28 @@
 <?php
-use App\Models\Role;
 
-use App\Models\User;
-use App\Models\Zone;
-use App\Models\College;
-use App\Models\Faculty;
-use App\Models\Program;
-use App\Models\Semester;
-use App\Models\Attendance;
-use App\Models\Permission;
 use App\Http\Controllers\Admin;
-use App\Models\SemesterProgram;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
-use Diglactic\Breadcrumbs\Breadcrumbs;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ProgramOutlineController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SemesterProgramController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZoneController;
+use App\Models\Attendance;
+use App\Models\College;
+use App\Models\Faculty;
+use App\Models\Permission;
+use App\Models\Program;
+use App\Models\Role;
+use App\Models\Semester;
+use App\Models\SemesterProgram;
+use App\Models\User;
+use App\Models\Zone;
+use Diglactic\Breadcrumbs\Breadcrumbs;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,62 +42,48 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 
     // UNAVAILABLE MEMBERS
     // Show All Unavailable Members
-    Route::get('unavailable_members',[Admin\UserController::class,"show_unavailable_members"])
-    ->name('show_unavailable_members')
-    ;
+    Route::get('unavailable_members', [Admin\UserController::class, 'show_unavailable_members'])
+        ->name('show_unavailable_members');
 
     // Search Unavailable members
-    Route::get('search_unavailable_members',[Admin\UserController::class,"search_unavailable_members"])
-    ->name('search_unavailable_members')
-    ;
+    Route::get('search_unavailable_members', [Admin\UserController::class, 'search_unavailable_members'])
+        ->name('search_unavailable_members');
 
     // Filter Unavailable Members
-    Route::get('filter_unavailable_members',[Admin\UserController::class,"filter_unavailable_members"])
-    ->name('filter_unavailable_members')
-    ;  
+    Route::get('filter_unavailable_members', [Admin\UserController::class, 'filter_unavailable_members'])
+        ->name('filter_unavailable_members');
 
     // Edit Unavailable Members Status - returns Modal
-    Route::get('edit_unavailable_members_status/{user}',[Admin\UserController::class,"edit_unavailable_members_status"])
-    ->name('edit_unavailable_members_status')
-    ;
+    Route::get('edit_unavailable_members_status/{user}', [Admin\UserController::class, 'edit_unavailable_members_status'])
+        ->name('edit_unavailable_members_status');
 
     // Update Unavailable Members Status
-    Route::put('update_unavailable_members_status/{user}',[Admin\UserController::class,"update_unavailable_members_status"])
-    ->name('update_unavailable_members_status')
-    ;
-
-
+    Route::put('update_unavailable_members_status/{user}', [Admin\UserController::class, 'update_unavailable_members_status'])
+        ->name('update_unavailable_members_status');
 
     // INACTIVE USERS
     // Show All Inactive Accounts
-    Route::get('inactive_accounts',[Admin\UserController::class,"show_inactive_accounts"])
-    ->name('show_inactive_accounts')
-    ;
+    Route::get('inactive_accounts', [Admin\UserController::class, 'show_inactive_accounts'])
+        ->name('show_inactive_accounts');
     // Search Inactive Accounts
-    Route::get('search_inactive_accounts',[Admin\UserController::class,"search_inactive_user"])
-    ->name('search_inactive_user')
-    ;
+    Route::get('search_inactive_accounts', [Admin\UserController::class, 'search_inactive_user'])
+        ->name('search_inactive_user');
 
     // Filter Inactive Accounts
-    Route::get('filter_inactive_users',[Admin\UserController::class,"filter_inactive_users"])
-    ->name('filter_inactive_users')
-    ;  
+    Route::get('filter_inactive_users', [Admin\UserController::class, 'filter_inactive_users'])
+        ->name('filter_inactive_users');
 
     // Edit Inactive Account Status - returns Modal
-    Route::get('edit_inactive_account_status/{user}',[Admin\UserController::class,"edit_inactive_account_status"])
-    ->name('edit_inactive_account_status')
-    ;
+    Route::get('edit_inactive_account_status/{user}', [Admin\UserController::class, 'edit_inactive_account_status'])
+        ->name('edit_inactive_account_status');
 
     // Update Inactive Account Status
-    Route::put('update_inactive_account_status/{user}',[Admin\UserController::class,"update_inactive_account_status"])
-    ->name('update_inactive_account_status')
-    ;
-
+    Route::put('update_inactive_account_status/{user}', [Admin\UserController::class, 'update_inactive_account_status'])
+        ->name('update_inactive_account_status');
 
     // HOME
-    Route::get('home',[Admin\UserController::class,"home"])
-    ->name('admin_home')
-    ;
+    Route::get('home', [Admin\UserController::class, 'home'])
+        ->name('admin_home');
 
 });
 
@@ -495,7 +481,7 @@ Route::get('/profile/{user}/new', [BiodataController::class, 'create'])
     ->name('create_user_profile_form');
 
 // /store user profile
-Route::post('/profile/{user}', [BiodataController::class, 'store'])
+Route::post('/profile/{user}/create', [BiodataController::class, 'store'])
     ->middleware('auth')
     ->name('create_profile');
 
@@ -505,8 +491,8 @@ Route::get('/profile/{user}/edit', [BiodataController::class, 'edit'])
     ->name('edit_user_profile_form');
 
 // Update User profile
-Route::put('/profile/{biodata}', [BiodataController::class, 'update'])
-    ->middleware('auth', 'can:update,biodata')
+Route::put('/profile/{user}/update', [BiodataController::class, 'update'])
+    ->middleware('auth', 'can:update,user')
     ->name('update_profile');
 
 // USER AVATAR
@@ -545,16 +531,22 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return Auth::user()->program_mates();
-    return Auth::user()->program();
-    // return DB::table('unavailable_members')->where('user_id',6)->get();
-    return User::unavailable_members()->get();
-    
-    return (strtotime("last week") . "<br>");
+    // DB::table('alumini_biodatas')->where('academic_year_id',2)
+    //     ->update(['created_at'=>'2022-09-08', 'updated_at'=>'2023-09-08']);
+    //     return "heat";
+
+    return now()->diffInHours('2023-09-08');
+
+    return strtotime('last week').'<br>';
+
     return date_diff(User::find(4)->created_at, now());
+
     return User::get_all_inactive_accounts();
+
     return SemesterProgram::find(15)->user_officiators()->get()->random()->officiator_id;
+
     return DB::table('officiating_roles')->get()->random();
+
     return fake()->firstname();
 
     $minDate = '2022-01-20'; // Set your desired minimum date

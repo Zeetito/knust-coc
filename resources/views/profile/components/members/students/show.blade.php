@@ -2,15 +2,15 @@
 
     {{-- If User Has Profile Details --}}
 
-    @if(!empty($user->profile()))
+    @if(!empty($user->biodata()))
 
     <div class="row" style="justify-items:center">
-        <div class="col-sm-6 col-md-12" style="margin-left:16px;background-color:white">
+        <div class="col-12 bg bg-white" >
 
          User: {{ $user->fullname()}}
 
             {{-- User Avatar --}}
-            <div  style="border-color:blue;  border-width:5px"  class="nav-link" >
+            <div class="nav-link" >
                 <img src="{{$user->get_avatar()}}" class="img-avatar" alt="Profile Picture"/>
                 {{-- Edit User Avatar --}}
                 @can("update",$user)
@@ -22,73 +22,56 @@
             </div>
 
             
-            <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        About <strong> {{$user->username}} </strong>
-                            <div class="card border-primary">
-                                <div class="card-header">
-                                <i class="fa fa-user"></i><strong>{{$user->status()}}</strong>
-                                {{-- Update User Profile --}}
-                                    @can("update",$user)
-                                    <a class="btn" href="{{route('edit_user_profile_form', $user->id)}}">
-                                        <span class="badge badge-success float-right">
-                                            Edit Profile
-                                        </span>
-                                    </a>
-                                    @endcan
-
-                                </div>
-
-                                <div class="card-body">
-                                        <ul>
-                                            <li>
-                                                FirstName: {{$user->firstname}}
-                                            </li>
-                                            <li>
-                                                LastName: {{$user->lastname}}
-                                            </li>
-                                            <li>
-                                                OtherName(s): {{$user->othername}}
-                                            </li>
-                                            <li>
-                                                Gender: {{$user->gender == 'm'? 'Male':'Female'}}
-                                            </li>
-                                            
-                                            {{-- Loop To List the othername(s)  a user has --}}
-
-                                            <li>
-                                                College: {{$user->college == '' ? "No College" : $user->college->name}}
-                                            </li>
-                                            
-                                            <li>
-                                                Program: {{$user->program()->name == ''? "No Program" : $user->program()->name}}
-                                            </li>
-
-                                            <li>
-                                                Zone: {{$user->zone()->name}}
-                                            </li>
-
-                                            <li>
-                                                Room: {{$user->profile()->room}}
-                                            </li>
-                                        </ul>
-                                </div>
-                            </div>
+            <div class="">
+                About <strong> {{$user->username}} </strong>
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <i class="fa fa-user"></i><strong>{{$user->status()}}</strong>
+                        {{-- Update User Profile --}}
+                        @can("update",$user)
+                        <a class="btn" href="{{route('edit_user_profile_form',['user'=>$user])}}">
+                            <span class="badge badge-success float-right">
+                                Edit Profile
+                            </span>
+                        </a>
+                        @endcan
                     </div>
-                    {{--                     
-                    <div class="col-sm-6 col-md-6">
-                        About <strong> {{$user->username}} </strong>
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fa fa-user"></i>Card with icon
-                                </div>
-                                <div class="card-body">
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex
-                                    ea commodo consequat.
-                                </div>
-                            </div>
-                    </div> --}}
-                    
+
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                FirstName: {{$user->firstname}}
+                            </li>
+                            <li>
+                                LastName: {{$user->lastname}}
+                            </li>
+                            <li>
+                                OtherName(s): {{$user->othername}}
+                            </li>
+                            <li>
+                                Gender: {{$user->gender == 'm'? 'Male':'Female'}}
+                            </li>
+                            
+                            {{-- Loop To List the othername(s)  a user has --}}
+
+                            <li>
+                                College: {{$user->college() == '' ? "No College" : $user->college()->name}}
+                            </li>
+                            
+                            <li>
+                                Program: {{$user->program()->name == ''? "No Program" : $user->program()->name}}
+                            </li>
+
+                            <li>
+                                Zone: {{$user->zone()->name}}
+                            </li>
+
+                            <li>
+                                Room: {{$user->biodata()->room}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             
             </div>
             

@@ -84,19 +84,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'Remove Guest', 'slug' => 'remove_guest'],
 
             // SEMESTER PROGRAMS
-            ['name' => 'Add Semester Program', 'add_semester_program'],
-            ['name' => 'Update Semester Program', 'update_semester_program'],
-            ['name' => 'Delete Semester Program', 'delete_semester_program'],
+            ['name' => 'Add Semester Program', 'slug' => 'add_semester_program'],
+            ['name' => 'Update Semester Program', 'slug' => 'update_semester_program'],
+            ['name' => 'Delete Semester Program', 'slug' => 'delete_semester_program'],
 
             // OFFICIATORS
-            ['name' => 'Add Officiator', 'add_officiator'],
-            ['name' => 'Update Officiator', 'update_officiator'],
-            ['name' => 'Delete Officiator', 'delete_officiator'],
+            ['name' => 'Add Officiator', 'slug' => 'add_officiator'],
+            ['name' => 'Update Officiator', 'slug' => 'update_officiator'],
+            ['name' => 'Delete Officiator', 'slug' => 'delete_officiator'],
 
             // PROGRAM OUTLINE
-            ['name' => 'Add Program Outline', 'add_program_outline'],
-            ['name' => 'Update Program Outline', 'update_program_outline'],
-            ['name' => 'Delete Program Outline', 'delete_program_outline'],
+            ['name' => 'Add Program Outline', 'slug' => 'add_program_outline'],
+            ['name' => 'Update Program Outline', 'slug' => 'update_program_outline'],
+            ['name' => 'Delete Program Outline', 'slug' => 'delete_program_outline'],
 
         ];
 

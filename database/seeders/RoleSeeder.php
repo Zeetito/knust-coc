@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
+use App\Models\Semester;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,6 @@ class RoleSeeder extends Seeder
 
         $roles = [
             ['name' => 'Preacher', 'slug' => 'preacher'],
-            ['name' => 'Ministry Member', 'slug' => 'ministry_member'],
             ['name' => 'Edification Ministry Member', 'slug' => 'edification_ministry_member'],
             ['name' => 'Evangelism Ministry Member', 'slug' => 'evangelism_ministry_member'],
             ['name' => 'Finance Ministry Member', 'slug' => 'finance_ministry_member'],
@@ -41,6 +41,7 @@ class RoleSeeder extends Seeder
             [
                 'user_id' => 1,
                 'role_id' => 1,
+                'academic_year_id' => Semester::active_semester()->academicYear->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

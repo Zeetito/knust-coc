@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Biodata;
 use App\Models\Program;
 use App\Models\Residence;
+use App\Models\Semester;
 use App\Models\User;
 use App\Models\YearGroup;
 use Illuminate\Database\Seeder;
@@ -37,6 +38,7 @@ class BiodataSeeder extends Seeder
                     'residence_id' => $residence->id,
                     'zone_id' => $zone->id,
                     'room' => rand(1, 500),
+                    'academic_year_id' => Semester::active_semester()->academicYear->id,
 
                 ]);
             } elseif ($user->is_member == 1 && $user->is_student == 0) {
@@ -62,6 +64,8 @@ class BiodataSeeder extends Seeder
                     'ns_status' => rand(0, 1),
                     'is_alumini' => $is_alumini,
                     'year_group_id' => $year_group_id,
+                    'academic_year_id' => Semester::active_semester()->academicYear->id,
+
                 ]);
 
             } elseif ($user->member == 0 && $user->is_student == 0) {
@@ -73,6 +77,7 @@ class BiodataSeeder extends Seeder
                     'city' => fake()->city(),
                     'state' => fake()->state(),
                     'local_congregation' => fake()->city().' Church of Christ',
+                    'academic_year_id' => Semester::active_semester()->academicYear->id,
                 ]);
 
             }

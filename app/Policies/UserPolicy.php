@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Role;
 use App\Models\User;
 
 class UserPolicy
@@ -36,8 +37,10 @@ class UserPolicy
     public function update(User $user, User $model): bool
     {
         //
-        // for now I can update all
-        return $model->is($user) || $user->id == '1';
+        $roles = Role::ministry_members_level()->get();
+
+        return $model->is($user) || $user->hasAnyOf($roles);
+
     }
 
     /**

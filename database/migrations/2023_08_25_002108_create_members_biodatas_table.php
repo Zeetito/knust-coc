@@ -16,6 +16,7 @@ return new class extends Migration
 
             // For All members
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('academic_year_id')->constained();
 
             // For Student Members
             $table->integer('year')->nullable();

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Meeting;
+use App\Models\Semester;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class AttendanceFactory extends Factory
             'meeting_type' => Meeting::all()->random()->id,
             'venue' => fake()->name(),
             'is_active' => 0,
+            'semester_id' => Semester::all()->random()->id,
 
         ];
     }

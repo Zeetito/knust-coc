@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('local_congregation')->nullable();
 
+            $table->foreignId('academic_year_id')->constrained();
+
             $table->timestamps();
         });
     }

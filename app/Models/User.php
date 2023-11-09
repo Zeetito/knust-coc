@@ -66,11 +66,7 @@ class User extends Authenticatable
 
     public function residence()
     {
-        return DB::table('residences')
-            ->join('members_biodatas', 'members_biodatas.residence_id', '=', 'residences.id')
-            ->whereColumn('members_biodatas.residence_id', 'residences.id')
-            ->where('members_biodatas.user_id', $this->id)
-            ->first();
+        return Residence::where('id', $this->biodata()->residence_id)->first();
     }
 
     // program
@@ -105,7 +101,7 @@ class User extends Authenticatable
     // college
     public function college()
     {
-        return $this->program()->college();
+        return $this->program()->college()->first();
     }
 
     // Roles
@@ -126,6 +122,12 @@ class User extends Authenticatable
         return $this->biodata()->local_congregation->get();
     }
 
+    // Get the Year of A student user
+    public function year()
+    {
+        return $this->biodata()->year;
+    }
+
     // FUNCTIONS
 
     public function hasProfile()
@@ -136,29 +138,43 @@ class User extends Authenticatable
     // Has Alumini Profile
     public function has_alumini_profile()
     {
-        return DB::table('alumini_biodatas')
-            ->where('user_id', $this->id)
-            ->exists();
+        // Check if Member is currently an alumini
+        if ($this->member == 0) {
+            return DB::table('alumini_biodatas')
+                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+                ->where('user_id', $this->id)
+                ->exists();
+        }
     }
 
     // Has Member Profile
     public function has_member_profile()
     {
-        return DB::table('members_biodatas')
-            ->where('user_id', $this->id)
-            ->exists();
+        if ($this->is_member == 1) {
+            return DB::table('members_biodatas')
+                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+                ->where('user_id', $this->id)
+                ->exists();
+        }
     }
 
     // BIODATA/PROFILE GET
     public function biodata()
     {
+        // Check if user is a member
         if ($this->is_member == 1) {
             return DB::table('members_biodatas')
+                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
                 ->where('user_id', $this->id)
+                ->latest()
                 ->first();
-        } else {
+            // Check if user ia an alumini
+        } elseif ($this->is_member == 0) {
+
             return DB::table('alumini_biodatas')
+                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
                 ->where('user_id', $this->id)
+                ->latest()
                 ->first();
         }
     }
@@ -194,21 +210,6 @@ class User extends Authenticatable
         }
     }
 
-    // Get User Active Biodata/Profile
-    public function profile()
-    {
-        //  Check if user is a member else
-        if ($this->is_member == 1) {
-            return DB::table('members_biodatas')
-                ->where('user_id', $this->id)
-                ->first();
-        } elseif ($this->is_member == 0) {
-            return DB::table('alumini_biodatas')
-                ->where('user_id', $this->id)
-                ->first();
-        }
-    }
-
     // Get user full name
     public function fullname()
     {
@@ -220,9 +221,9 @@ class User extends Authenticatable
     {
         // return $this->avatar;
         if ($this->avatar === 'default_avatar') {
-            if($this->gender == 'm'){
+            if ($this->gender == 'm') {
                 return asset('img/avatars/male_avatar.jpg');
-            }else{
+            } else {
                 return asset('img/avatars/female_avatar.jpg');
             }
         }
@@ -294,65 +295,69 @@ class User extends Authenticatable
         return User::paginate($perPage = 50, $columns = ['*'], $pageName = 'Users');
     }
 
-
     // InActive Accounts Check
-    public static function inactive_accounts(){
-        return User::where('is_activated',0);
+    public static function inactive_accounts()
+    {
+        return User::where('is_activated', 0);
     }
 
-        // Check User Account Status, Active or inactive
-        public function account_status(){
-            if($this->is_activated){
-                return "Active";
-            }else{
-                return "Inactive";
-            }
+    // Check User Account Status, Active or inactive
+    public function account_status()
+    {
+        if ($this->is_activated) {
+            return 'Active';
+        } else {
+            return 'Inactive';
         }
+    }
 
-        // Return Reason for an inactive Account
-        public function inactive_account_reason(){
-            if($this->account_status() == "Inactive"){
-                return DB::table('inactive_accounts')
-                        ->where('user_id',$this->id)
-                        ->first()->reason;
-            }
+    // Return Reason for an inactive Account
+    public function inactive_account_reason()
+    {
+        if ($this->account_status() == 'Inactive') {
+            return DB::table('inactive_accounts')
+                ->where('user_id', $this->id)
+                ->first()->reason;
         }
+    }
 
-        // Get Members who are unavailable
-        public static function unavailable_members(){
-            return User::where('is_member',1)
-                    ->where('is_available',0)
-                ;
-        }
+    // Get Members who are unavailable
+    public static function unavailable_members()
+    {
+        return User::where('is_member', 1)
+            ->where('is_available', 0);
+    }
 
-        // Get Unavailable Member category
-        public function unavailable_member_category(){
-            if($this->is_available == 0){
-                return DB::table('unavailable_members')
-                    ->where('user_id',$this->id)
-                    ->first()->category;
-            }
+    // Get Unavailable Member category
+    public function unavailable_member_category()
+    {
+        if ($this->is_available == 0) {
+            return DB::table('unavailable_members')
+                ->where('user_id', $this->id)
+                ->first()->category;
         }
+    }
 
-        // Get Unavailable Member Info
-        public function unavailable_member_info(){
-            if($this->is_available == 0){
-                return DB::table('unavailable_members')
-                    ->where('user_id',$this->id)
-                    ->first()->info;
-            }
+    // Get Unavailable Member Info
+    public function unavailable_member_info()
+    {
+        if ($this->is_available == 0) {
+            return DB::table('unavailable_members')
+                ->where('user_id', $this->id)
+                ->first()->info;
         }
-            
-        // User Program Mates Get
-        public function program_mates(){
-            $program_mates_id = DB::table('users')->where('is_student',1)
-                    ->where('is_member',1)
-                    ->where('users.id','<>',$this->id)
-                    ->join('members_biodatas','members_biodatas.user_id','=','users.id')
-                    ->where('members_biodatas.program_id',$this->program()->id)
-                    ->pluck('users.id')
-                    ;
-            return User::whereIn('id',$program_mates_id)->get();
-        }
+    }
 
+    // User Program Mates Get
+    public function program_mates()
+    {
+        $program_mates_id = DB::table('users')->where('is_student', 1)
+            ->where('is_member', 1)
+            ->where('users.id', '<>', $this->id)
+            ->join('members_biodatas', 'members_biodatas.user_id', '=', 'users.id')
+            ->where('members_biodatas.program_id', $this->program()->id)
+            ->pluck('users.id');
+
+        return User::whereIn('id', $program_mates_id)->get();
+    }
 }

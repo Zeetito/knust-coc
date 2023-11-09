@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('role_id');
+            $table->foreignId('academic_year_id')->constrained();
             $table->timestamps();
 
             // Define foreign keys

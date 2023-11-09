@@ -49,16 +49,16 @@ class Semester extends Model
         return $semester;
     }
 
+    // Get the active Semester
+    public static function active_semester()
+    {
+        return self::where('is_active', 1)->first();
+    }
+
     // Get Semester programs for a particular sem
     public function semester_programs()
     {
 
-        // Steps
-        // 1. Check for programs whose start_date falls between the started of the semester
-        // and the started at of the next semester.
-        // Get the boundaries
-
-        // Lower Boundary
         $lower_bounday = $this->started_at;
         // Upper Boundary
         $upper_boundary_sem = self::where('started_at', '>', $this->started_at)->first();

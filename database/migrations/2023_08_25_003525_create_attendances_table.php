@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('meeting_type');
             $table->string('venue');
+            $table->foreignId('semester_id')->constained();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
 
