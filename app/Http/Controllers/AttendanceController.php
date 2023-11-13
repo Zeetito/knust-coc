@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
-use App\Models\Guest;
 use App\Models\User;
-use Illuminate\Database\Query\Builder;
+use App\Models\Guest;
+use App\Models\Semester;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Query\Builder;
 
 class AttendanceController extends Controller
 {
@@ -16,9 +17,10 @@ class AttendanceController extends Controller
     public function index()
     {
         //
-        $attendances = Attendance::latest()->paginate(
-            $perPage = 5, $columns = ['*'], $pageName = 'AttendanceSessions'
-        );
+        $attendances = Semester::active_semester()->attendance_sessions->sortBy('semester_program_id');
+        // $attendances = Semester::active_semester()->sortBy('semester_program_id') latest()->paginate(
+        //     $perPage = 5, $columns = ['*'], $pageName = 'AttendanceSessions'
+        // );
 
         // Query for meetings that are active
         return view('attendance.index', ['attendances' => $attendances]);
@@ -35,13 +37,14 @@ class AttendanceController extends Controller
     {
         //
         $validated = $request->validate([
-            'meeting_type' => ['required'],
-            'venue' => ['required'],
+            'semester_program_id' => ['required'],
         ]);
+
+        $validated['semester_id'] = Semester::active_semester()->id;
 
         Attendance::create($validated);
 
-        return redirect(route('attendance'));
+        return redirect(route('attendance'))->with('success','Attendance Session Created Successfully');
 
     }
 

@@ -16,6 +16,7 @@ class SemesterProgram extends Model
 
         'name',
         'venue',
+        'semester_id',
         'start_date',
         'end_date',
 

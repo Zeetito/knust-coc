@@ -10,8 +10,8 @@
                     <div class="col-md-6">
                         <div class="card mx-4" style="border-radius:25px;">
                             <div class="card-body p-4">
-                                <h1>Register</h1>
-                                <a href={{route('login')}}   class="btn btn-primary float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
+                                <h1>Dear Fresher <i class="fa fa-smile-o"> </i></h1>
+                                <a href={{route('login_page_fresher')}}   class="btn btn-primary float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
                                 <p class="text-muted">Create your account</p>
 
                             {{-- Username --}}
@@ -69,11 +69,11 @@
                                 
 
 
-                                {{-- Gender --}}
+                            {{-- Gender --}}
                                 <div class="input-group mb-3">
-
                                     Gender
-                                    <span class="input-group-addon"><i class="icon-student"></i>
+                                    <span class="input-group-addon"><i class="icon-user"></i>
+                                    </span>
                                     <select name="gender"  class="form-control" id="gender" required>
                                         <option value="">Select</option>
                                         <option value="m">Male</option>
@@ -84,7 +84,7 @@
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror
 
-                                {{-- is_baptized --}}
+                            {{-- is_baptized --}}
                                 <div class="input-group mb-3">
                                     Are you Baptized ?
                                     <span class="input-group-addon"><i class="icon-drop"></i>
@@ -96,11 +96,9 @@
                                     </select>
                                 </div>
 
-                                @error('is_baptized')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                                @enderror
-
-                            
+                                    @error('is_baptized')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                    @enderror
 
                             {{-- Date of Birth --}}
                                     NB:Your Year of birth will not be displayed publicly
@@ -124,36 +122,13 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
-                            {{-- Is_Student --}}
-                            <p>Are You Currently A student in KNUST ?</p>
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon"><i class="icon-student"></i>
-                                <select name="is_student"  class="form-control" id="is_student" required> 
-                                    <option value="">Select</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                                @error('is_student')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                                @enderror
+                                {{-- Student / Member Status, true ny default --}}
+                                <input type="text" name="is_student" readonly hidden value="1">
+                                <input type="text" name="is_member" readonly hidden value="1">
+                                {{-- Fresher Status --}}
+                                <input type="text" name="is_fresher" readonly hidden value="1">
 
-                            {{-- Is_Member --}}
-                            <p>Are You Currently  Worshipping with the  KNUST Church Of Christ ?</p>
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon"><i class="icon-student"></i>
-                                <select name="is_member"  class="form-control" id="is_member" required>
-                                    <option value="">Select</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                                @error('is_member')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                                @enderror
 
-                           
-        
                             {{-- Password --}}
                                 <div class="input-group mb-3">
                                     <span class="input-group-addon"><i class="icon-lock"></i>

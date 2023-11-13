@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Biodata;
-use App\Models\Program;
-use App\Models\Residence;
-use App\Models\Semester;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
+use App\Models\Biodata;
+use App\Models\Program;
+use App\Models\Semester;
+use App\Models\Residence;
+use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class BiodataController extends Controller
 {
@@ -222,6 +226,7 @@ class BiodataController extends Controller
 
             if ($user->is_student == 1 && $user->has_member_profile() == true) {
                 //  If user is student
+                
 
                 $validated = $request->validate([
                     'room' => ['required'],
@@ -231,46 +236,82 @@ class BiodataController extends Controller
                     'program_id' => ['required'],
                     'college_id' => ['nullable'],
                 ]);
-                $program_id = Program::findProgramByName($validated['program_id'])->id;
-                $college_id = Program::findProgramByName($validated['program_id'])->college->id;
-                $residence_id = Residence::findResidenceByName($validated['residence_id'])->id;
-                $zone_id = Residence::findResidenceByName($validated['residence_id'])->zone->id;
+                    $program_id = Program::findProgramByName($validated['program_id'])->id;
+                    $college_id = Program::findProgramByName($validated['program_id'])->college->id;
+                    $residence_id = Residence::findResidenceByName($validated['residence_id'])->id;
+                    $zone_id = Residence::findResidenceByName($validated['residence_id'])->zone->id;
 
-                $validated['residence_id'] = $residence_id;
-                $validated['zone_id'] = $zone_id;
-                $validated['program_id'] = $program_id;
-                $validated['college_id'] = $college_id;
-                $validated['updated_at'] = now();
+                    $validated['user_id'] = $user->id;
+                    $validated['residence_id'] = $residence_id;
+                    $validated['zone_id'] = $zone_id;
+                    $validated['program_id'] = $program_id;
+                    $validated['college_id'] = $college_id;
+                    $validated['updated_at'] = now();
+                    $validated['created_at'] = $user->biodata()->created_at;
+                    $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                    
 
-                if ($validated['year'] == null) {
-                    $validated['year'] = $user->year();
-                }
+                    if ($validated['year'] == null) {
+                        $validated['year'] = $user->year();
+                    }
+                    // If the Current User is a Ministry Member/ Leader, update right away
+                    if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                // return now()->diffInDays($user->biodata()->updated_at);
-                // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
-                if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                        // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
+                        if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                            DB::table('members_biodatas')->insertOrIgnore($validated);
+                            return redirect()->back()->with('success', 'Biodata Updated Successfully');
 
-                    DB::table('members_biodatas')->insertOrIgnore([
-                        'user_id' => $user->id,
-                        'year' => $validated['year'],
-                        'program_id' => $validated['program_id'],
-                        'college_id' => $validated['college_id'],
-                        'residence_id' => $validated['residence_id'],
-                        'zone_id' => $validated['zone_id'],
-                        'room' => $validated['room'],
-                        'academic_year_id' => Semester::active_semester()->academicYear->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                            // If the latest update is less than 60 days, update the latest one
+                        } else {
+                            $latest_biodata_id = $user->biodata()->id;
+                            DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
 
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                } else {
-                    $latest_biodata_id = $user->biodata()->id;
-                    DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
+                            return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                        }
 
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                }
+                    // Else Create Request to be Granted later
+                    }else{
+                            // Try and Catch Error
+                            try {
+                                // Your code that saves data to the database
+                                $update_request = new UserRequest;
+                                $update_request['user_id'] = $user->id;
+                                $update_request['body'] = json_encode($validated); 
+                                $update_request['table_name'] = "members_biodatas"; 
 
+                                if(now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                                $update_request['method'] = "create";
+                                }else{
+                                $update_request['method'] = "update";
+                                $update_request['instance_id'] = $user->biodata()->id;
+                                }
+                                $update_request['type'] = "Biodata";
+                                
+                                $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                                $update_request->save();
+        
+                            } catch (QueryException $e) {
+                                Log::error($e);
+                            
+                                $errorCode = $e->errorInfo[1];
+                            
+                                // Check if the error code corresponds to a unique constraint violation
+                                if ($errorCode == 1062) {
+                                    // Redirect to a custom error page for duplicate entry
+                                    return redirect()->back()->with('warning', 'Your Previous Update is being processed');
+                                }
+                            
+                                // If it's not a unique constraint violation, you can handle other database-related errors here
+                                // ...
+                            
+                                // Re-throw the exception if it's not a unique constraint violation
+                                throw $e;
+                            }
+
+                      
+                        return redirect()->back()->with('success','Done! Changes may reflect soon');
+                    }
                 // NON STUDENT MEMBER
             } elseif ($user->is_student == 0 && $user->has_member_profile() == true) {
                 // If user is not. Non student member Like preacher and his family or
@@ -286,9 +327,14 @@ class BiodataController extends Controller
                     'year_group_id' => ['nullable'],
 
                 ]);
+                $validated['updated_at'] = now();
+                $validated['created_at'] = $user->biodata()->created_at;
+                $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                $validated['user_id'] = $user->id;
+
                 if ($validated['is_alumini'] == 0) {
                     $validated['year_group_id'] = null;
-                    $validated['updated_at'] = now();
+                   
                 }
 
                 // If the resdidence is null, that's when we need the zone_id from the form
@@ -301,64 +347,123 @@ class BiodataController extends Controller
                     $validated['zone_id'] = $residence->zone->id;
                 }
 
-                if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                
+                // Check if the current user is a ministry Member or leader
+                if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                    DB::table('members_biodatas')->insertOrIgnore([
-                        'user_id' => $user->id,
-                        'residence_id' => $validated['residence_id'],
-                        'room' => $validated['room'],
-                        'ns_status' => $validated['ns_status'],
-                        'is_alumini' => $validated['is_alumini'],
-                        'year_group_id' => $validated['year_group_id'],
-                        'academic_year_id' => Semester::active_semester()->academicYear->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                    if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                        DB::table('members_biodatas')->insertOrIgnore($validated);
+                        return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                    } else {
+                        $latest_biodata_id = $user->biodata()->id;
+                        DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
 
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                } else {
-                    $latest_biodata_id = $user->biodata()->id;
-                    DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
+                        return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                    }
+                }else{
 
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                    try {
+                        // Your code that saves data to the database
+                        $update_request = new UserRequest;
+                        $update_request['user_id'] = $user->id;
+                        $update_request['body'] = json_encode($validated); 
+                        $update_request['table_name'] = "members_biodatas"; 
+                        $update_request['method'] = "update";
+                        $update_request['type'] = "Biodata";
+                        $update_request['instance_id'] = $user->biodata()->id;
+                        $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                        $update_request->save();
+
+                    } catch (QueryException $e) {
+                        Log::error($e);
+                    
+                        $errorCode = $e->errorInfo[1];
+                    
+                        // Check if the error code corresponds to a unique constraint violation
+                        if ($errorCode == 1062) {
+                            // Redirect to a custom error page for duplicate entry
+                            return redirect()->back()->with('warning', 'Your Previous Update is being processed');
+                        }
+                    
+                        // If it's not a unique constraint violation, you can handle other database-related errors here
+                        // ...
+                    
+                        // Re-throw the exception if it's not a unique constraint violation
+                        throw $e;
+                    }
+
+              
+                return redirect()->back()->with('success','Done! Changes may reflect soon');
+
                 }
 
             }
 
         } elseif ($user->is_member == 0 && $user->has_alumini_profile() == true) {
-            // if User is not a member (Alumini)
-            $validated = $request->validate([
-                'country' => ['required'],
-                'state' => ['required'],
-                'city' => ['required'],
-                'local_congregation' => ['required'],
-                'year_group_id' => ['required'],
-            ]);
-            $validated['user_id'] = $user->id;
-            $validated['updated_at'] = now();
-
-            if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
-                DB::table('alumini_biodatas')->insert([
-                    'user_id' => $user->id,
-                    'country' => $validated['country'],
-                    'state' => $validated['state'],
-                    'city' => $validated['city'],
-                    'local_congregation' => $validated['local_congregation'],
-                    'year_group_id' => $validated['year_group_id'],
-                    'academic_year_id' => Semester::active_semester()->academicYear->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-
+                // if User is not a member (Alumini)
+                $validated = $request->validate([
+                    'country' => ['required'],
+                    'state' => ['required'],
+                    'city' => ['required'],
+                    'local_congregation' => ['required'],
+                    'year_group_id' => ['required'],
                 ]);
+                $validated['user_id'] = $user->id;
+                $validated['updated_at'] = now();
+                $validated['created_at'] = $user->biodata()->created_at;
+                $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
 
-                return redirect()->back()->with('success', 'Biodata Updated Successfully');
-            } else {
-                $latest_biodata_id = $user->biodata()->id;
-                DB::table('alumini_biodatas')->where('id', $latest_biodata_id)->update($validated);
+            // If the Current User is a Ministry Member/ Leader, update right away
+            if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                    DB::table('alumini_biodatas')->insertOrIgnore($validated);
+                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                } else {
+                    $latest_biodata_id = $user->biodata()->id;
+                    DB::table('alumini_biodatas')->where('id', $latest_biodata_id)->update($validated);
+                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                }
+                // Else Create Request to be Granted later
+            }else{
+                 // Try and Catch Error
+                 try {
+                    // Your code that saves data to the database
+                    $update_request = new UserRequest;
+                    $update_request['user_id'] = $user->id;
+                    $update_request['body'] = json_encode($validated); 
+                    $update_request['table_name'] = "alumini_biodatas"; 
+                    $update_request['method'] = "update";
+                    $update_request['type'] = "Biodata";
+                    $update_request['instance_id'] = $user->biodata()->id;
+                    $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                    $update_request->save();
+
+                } catch (QueryException $e) {
+                    Log::error($e);
+                
+                    $errorCode = $e->errorInfo[1];
+                
+                    // Check if the error code corresponds to a unique constraint violation
+                    if ($errorCode == 1062) {
+                        // Redirect to a custom error page for duplicate entry
+                        return redirect()->back()->with('warning', 'Your Previous Update is being processed');
+                    }
+                
+                    // If it's not a unique constraint violation, you can handle other database-related errors here
+                    // ...
+                
+                    // Re-throw the exception if it's not a unique constraint violation
+                    throw $e;
+                }
+
+          
+            return redirect()->back()->with('success','Done! Changes may reflect soon');
             }
+
         }
+
+        return redirect(route('create_user_profile_form',['user'=>$user]))->with('warning','Please Update Your Profile');
 
     }
 

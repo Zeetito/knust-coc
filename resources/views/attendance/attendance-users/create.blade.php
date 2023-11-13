@@ -8,10 +8,12 @@
                     <div class="process-bar">
                         <div class="process-bar">
                             <div class="process-order">
+                                    @allowedTo(['update_attendance'])
                                     <a href="{{route('show_attendance_users',['attendance'=>$attendance])}}">
-                                        <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
+                                        <h3 style="text-align:center"> Attendance Session: {{$attendance->semester_program->name}}</h3>
                                         <i class="fa fa-eye"></i>
                                     </a>
+                                    @endallowedTo
                                 <span>
                                         <form >
                                             <input  type="text" class="search_box"  id="for_user_list" data-url="{{route("search_attendance_users",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">

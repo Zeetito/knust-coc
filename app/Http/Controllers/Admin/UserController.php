@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -151,4 +152,8 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'User Availability Status Updated Successfully');
     }
+
+
+
+    
 }

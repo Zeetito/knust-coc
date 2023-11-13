@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\SemesterProgram;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Semester extends Model
 {
@@ -58,6 +59,7 @@ class Semester extends Model
     // Get Semester programs for a particular sem
     public function semester_programs()
     {
+        return $this->hasMany(SemesterProgram::class);
 
         $lower_bounday = $this->started_at;
         // Upper Boundary
@@ -78,9 +80,14 @@ class Semester extends Model
     }
 
     // query for upcoming programs
-    public static function upcoming_programs()
+    public function upcoming_programs()
     {
-        return SemesterProgram::where('start_date', '>=', now())->get();
+        return $this->hasMany(SemesterProgram::class)->orderBy('start_date')->where('start_date', '>=', now());
+    }
+
+    // Get attendance sessions for a particular semester
+    public function attendance_sessions(){
+        return $this->hasMany(Attendance::class);
     }
 
     // Get Academic Period for any date

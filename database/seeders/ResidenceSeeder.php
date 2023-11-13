@@ -15,15 +15,15 @@ class ResidenceSeeder extends Seeder
 
         $residences = [
             // BOADI ZONE 1
-            ['name' => ' Urban platinum. ', 'landmark' => 'none', 'description' => 'Behind Mount Oliver prayer Camp (Boadi station) ', 'zone_id' => 1],
+            ['name' => 'Urban platinum. ', 'landmark' => 'none', 'description' => 'Behind Mount Oliver prayer Camp (Boadi station) ', 'zone_id' => 1],
             ['name' => 'Boadi Executive', 'landmark' => 'none', 'description' => 'Behind Mount Oliver prayer camp (Boadi station) ', 'zone_id' => 1],
-            ['name' => ' LA Casa Hostel', 'landmark' => 'none', 'description' => 'African Child school', 'zone_id' => 1],
-            ['name' => ' K GEE Hostel', 'landmark' => 'none', 'description' => 'Boadi Mongo Ase junction', 'zone_id' => 1],
-            ['name' => ' No name ', 'landmark' => 'none', 'description' => '5 meters before you reach K GEE Hostel ', 'zone_id' => 1],
-            ['name' => ' No name', 'landmark' => 'none', 'description' => 'close to hostel 4', 'zone_id' => 1],
-            ['name' => ' K 5 hostel', 'landmark' => 'none', 'description' => 'K5 junction', 'zone_id' => 1],
-            ['name' => ' 4 Seasons hostel', 'landmark' => 'none', 'description' => 'none',  'zone_id' => 1],
-            ['name' => ' D. K Appiah Royal Hostel', 'landmark' => 'none', 'description' => 'Behind Urban Platinum', 'zone_id' => 1],
+            ['name' => 'LA Casa Hostel', 'landmark' => 'none', 'description' => 'African Child school', 'zone_id' => 1],
+            ['name' => 'K GEE Hostel', 'landmark' => 'none', 'description' => 'Boadi Mongo Ase junction', 'zone_id' => 1],
+            ['name' => 'No name ', 'landmark' => 'none', 'description' => '5 meters before you reach K GEE Hostel ', 'zone_id' => 1],
+            ['name' => 'No name', 'landmark' => 'none', 'description' => 'close to hostel 4', 'zone_id' => 1],
+            ['name' => 'K 5 hostel', 'landmark' => 'none', 'description' => 'K5 junction', 'zone_id' => 1],
+            ['name' => '4 Seasons hostel', 'landmark' => 'none', 'description' => 'none',  'zone_id' => 1],
+            ['name' => 'D. K Appiah Royal Hostel', 'landmark' => 'none', 'description' => 'Behind Urban Platinum', 'zone_id' => 1],
 
             // BOMSO 2
             ['name' => 'Adwoa Akyaa', 'landmark' => 'none', 'description' => 'none', 'zone_id' => 2],
@@ -149,14 +149,14 @@ class ResidenceSeeder extends Seeder
             ['name' => 'Yahoda', 'zone_id' => 7, 'description' => 'none', 'landmark' => 'none'],
 
             // SHALOM ZONE 8
-            ['name' => ' Afirim hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
+            ['name' => 'Afirim hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Homestel opposite Ibiza foods', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => " Homestel beside sweet mummy's", 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Nana Adomah Hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Homestel opposite Nana Adomah hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
-            ['name' => ' Obroni Naa hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
-            ['name' => ' Whitehouse hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
-            ['name' => ' Homestel opposite Amanda hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
+            ['name' => 'Obroni Naa hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
+            ['name' => 'Whitehouse hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
+            ['name' => 'Homestel opposite Amanda hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Amanda hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Morning star palace hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'R n B hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
@@ -179,7 +179,7 @@ class ResidenceSeeder extends Seeder
             ['name' => 'Paradise regained hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Casa Maria hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Homestel opposite Casa Maria hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
-            ['name' => ' Hostel opposite Franco hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
+            ['name' => 'Hostel opposite Franco hostel', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => "St Peter's villa", 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => "Hyde's hostel", 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],
             ['name' => 'Amen apartment', 'zone_id' => 8,  'landmark' => 'none', 'description' => 'none'],

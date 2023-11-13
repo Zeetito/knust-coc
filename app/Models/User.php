@@ -34,6 +34,7 @@ class User extends Authenticatable
         'is_member',
         'gender',
         'password',
+        'remember_token'
     ];
 
     /**
@@ -43,7 +44,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        // 'remember_token',
     ];
 
     /**
@@ -119,7 +120,7 @@ class User extends Authenticatable
     // LocalCongregation Of Non Member Users
     public function local_congregation()
     {
-        return $this->biodata()->local_congregation->get();
+        return $this->biodata()->local_congregation;
     }
 
     // Get the Year of A student user
@@ -166,7 +167,7 @@ class User extends Authenticatable
             return DB::table('members_biodatas')
                 ->where('academic_year_id', Semester::active_semester()->academicYear->id)
                 ->where('user_id', $this->id)
-                ->latest()
+                ->orderByDesc('updated_at')
                 ->first();
             // Check if user ia an alumini
         } elseif ($this->is_member == 0) {
@@ -174,7 +175,7 @@ class User extends Authenticatable
             return DB::table('alumini_biodatas')
                 ->where('academic_year_id', Semester::active_semester()->academicYear->id)
                 ->where('user_id', $this->id)
-                ->latest()
+                ->orderByDesc('updated_at')
                 ->first();
         }
     }
@@ -360,4 +361,10 @@ class User extends Authenticatable
 
         return User::whereIn('id', $program_mates_id)->get();
     }
+
+    // Get User requests
+    public static function user_requests(){
+        return UserRequest::where('is_handled',0)->latest();
+    }
+
 }

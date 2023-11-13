@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('venue');
-            $table->string('related_ministry')->nullable();
+            $table->foreignId('semester_id');
+            $table->string('related_ministry')->default('all');
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();
             $table->timestamps();

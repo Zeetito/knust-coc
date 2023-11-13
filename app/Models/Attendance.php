@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\SemesterProgram;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Attendance extends Model
 {
@@ -16,9 +17,8 @@ class Attendance extends Model
     // individual has attended a particular servie, say evening service
 
     protected $fillable = [
-        'meeting_type',
-        'venue',
-        // 'checked_by',
+        'semester_program_id',
+        'semester_id',
 
     ];
 
@@ -46,9 +46,9 @@ class Attendance extends Model
             ->withPivot('person_id', 'checked_by');
     }
 
-    public function meeting(): BelongsTo
+    public function semester_program(): BelongsTo
     {
-        return $this->belongsTo(Meeting::class, 'meeting_type');
+        return $this->belongsTo(SemesterProgram::class);
     }
 
     public function user_marked_by($user)

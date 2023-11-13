@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('meeting_type');
-            $table->string('venue');
+            $table->foreignId('semester_program_id');//Attendances are for Semester programs.
             $table->foreignId('semester_id')->constained();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
 
-            $table->foreign('meeting_type')->references('id')->on('meetings');
         });
 
     }

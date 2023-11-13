@@ -14,7 +14,12 @@
                             {{-- Program Name --}}
                             <div class="form-group">
                                     <label for="name">Program Name</label>
-                                    <input required type="text" name="name" class="form-control"  id="name" placeholder="Program Name">
+                                    <input required type="text" list="meetings" name="name" class="form-control"  autocomplete="off" id="name" placeholder="Program Name">
+                                    <datalist name="meetings"  id="meetings">
+                                        @foreach(App\Models\Meeting::all() as $meeting)
+                                            <option>{{$meeting->name}}</option>
+                                        @endforeach
+                                </datalist>
                             </div>
                             @error('name')
                             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>

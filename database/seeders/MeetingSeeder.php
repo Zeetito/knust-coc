@@ -13,14 +13,15 @@ class MeetingSeeder extends Seeder
     public function run(): void
     {
         $meetings = [
-            ['name' => 'Sunday Morning Service', 'description' => 'Sunday Meeting for Worship', 'is_active' => 1],
-            ['name' => 'Gents Training', 'description' => 'A training session for the gents', 'is_active' => 1],
-            ['name' => 'Ladies Training', 'description' => 'A training session for the ladies', 'is_active' => 1],
-            ['name' => 'Tuesday Evening', 'description' => 'A meeting for worship', 'is_active' => 1],
-            ['name' => 'Friday Evening', 'description' => 'A meeting for worship', 'is_active' => 1],
-            ['name' => 'Time Of Concecration', 'description' => 'A meeting for worship', 'is_active' => 1],
+            ['name' => 'Sunday Morning Service', 'description' => 'Sunday Meeting for Worship'],
+            ['name' => 'Tuesday Evening', 'description' => 'A meeting for worship'],
+            ['name' => 'Friday Evening', 'description' => 'A meeting for worship'],
+            ['name' => 'Gents Training', 'description' => 'A training session for the gents'],
+            ['name' => 'Ladies Training', 'description' => 'A training session for the ladies'],
             ['name' => 'Dawn Broadcast', 'description' => 'Preaching the gosple at some designated zones at dawn.'],
             ['name' => 'Morning Devotion', 'description' => 'A dawn meeting for worship'],
+            ['name' => 'Time Of Concecration', 'description' => 'A meeting for worship'],
+            ['name' => 'Youth Awakening Lectureship', 'description' => 'Lectureship'],
         ];
 
         foreach ($meetings as $meeting) {

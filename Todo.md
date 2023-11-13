@@ -270,13 +270,36 @@ info
 ### Phase 15
 # User request table to store create and edit request till they are aproved. For example, members biodata updates requests.
 id
+user_id
 body
+type(Biodata, Account)
+is_draft (It would store incomplete create request as draft)
 table_name
-status (update,insert,delete)
+method (update,insert,delete)
+is_granted
+granted_by
+granted_on (date) - to control the uniqueness of the tuples. By default, is null.
+academic_year_id
+
+Unique (user_id, type, method, 'table_name', 'granted_on', 'academic_year_id')
+# Guest request table following the same format as the user table above.
+# Display User request and Guest reqeust on Admin dashboard and be able to grant them.
+# Modify guest Table
+'status' (fresher,member,visitor,alumini)
+# Fresher Register Page.
+# Bind Attendance sessions to Semeste_programs
+Attendance
+...
+'semester_program_id'
+...
+
+# Compare Old Data with New Data when granting user update request -- incomplete
+
+## Phase 16
+
 ## Implement Polymorphic relationships for Images of Users, Zones, Residences and Semester Programs
 ## A carousel to display program on the main dashboard
 <!-- ## Implement Polymorphic relationships for  -->
-# A Two factor verification would be implement later on to cater for authrorization
-
-## Phase 16
+# User composite unique columns on some tables to check double entry and use try and catch to throw     appropriate error message.
 # Implement the User history using the Biodata details.
+# A Two factor verification would be implement later on to cater for authrorization

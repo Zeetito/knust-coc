@@ -14,7 +14,7 @@
                                         <input list="meetings" type="text" id="for_attendance_list" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                             <datalist id="meetings">
-                                                @foreach(App\Models\Meeting::where('is_active','=',1)->get()->sortBy('name') as $meeting)
+                                                @foreach(App\Models\Meeting::all() as $meeting)
                                                     <option value ="{{$meeting->name}}">
                                                 @endforeach
                                             </datalist>                                            
@@ -30,9 +30,7 @@
                                                 {{-- Table Head --}}
                                                 <thead>
                                                     <tr>
-                                                        <th>Title</th>
-                                                        <th>Date</th>
-                                                        <th>Venue</th>
+                                                        <th>Program</th>
                                                         <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -44,10 +42,10 @@
                                                        @if( $attendance->is_active == 0 && auth()->user()->hasPermissionTo(['update_attendance']) ) 
                                                             <tr id="tr_{{$attendance->id}}">
                                                                 <td>
-                                                                {{$attendance->meeting->name}}
+                                                                {{$attendance->semester_program->name}}
                                                                 </td>
-                                                                <td>{{$attendance->created_at->format('Y-M-d-D')}}</td>
-                                                                <td> {{$attendance->venue}}</td>
+                                                                
+                                                                
                                                                 <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                                 <td>
                                                                     @allowedTo(['view_attendance'])
@@ -94,14 +92,13 @@
                                                                     <span class="badge badge-success">Active</span>
                                                                 </td> --}}
                                                             </tr>
-                                                            
                                                         @elseif($attendance->is_active == 1)
                                                         <tr id="tr_{{$attendance->id}}">
                                                                 <td>
-                                                                {{$attendance->meeting->name}}
+                                                                {{$attendance->semester_program->name}}
                                                                 </td>
-                                                                <td>{{$attendance->created_at->format('Y-M-d-D')}}</td>
-                                                                <td> {{$attendance->venue}}</td>
+                                                                
+                                                                
                                                                 <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                                 <td>
                                                                     @allowedTo(['view_attendance'])
@@ -162,7 +159,7 @@
                             </div>
                             {{--Users Table Ends--}}
     
-                            {{$attendances->links()}}
+                            {{-- {{$attendances->links()}} --}}
                            
                         </div>
                     </div>

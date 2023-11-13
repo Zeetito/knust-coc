@@ -9,7 +9,7 @@
                         <div class="process-bar">
                             <div class="process-order">
                                 <a href="{{route('access_attendance_session',['attendance'=>$attendance])}}">
-                                    <h3 style="text-align:center"> Attendance Session: {{$attendance->meeting->name." - ".$attendance->created_at->format('Y-M-d-D')}}</h3>
+                                    <h3 style="text-align:center"> Attendance Session: {{$attendance->semester_program->name." - ".$attendance->semester_program->created_at->format('Y-M-d-D')}}</h3>
                                     <i class="fa fa-key"></i>
                                 </a>
 
@@ -112,7 +112,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            Summary : {{$attendance->meeting->name ." - ".$attendance->created_at->format('M-d-D')  }}
+                            Summary : {{$attendance->semester_program->name ." - ".$attendance->semester_program->created_at->format('M-d-D')  }}
                             <div class="card-actions">
                                 <a href="#">
                                     <small class="text-muted">docs</small>

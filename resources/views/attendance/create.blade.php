@@ -10,30 +10,20 @@
 
 
                 <div class="card-body">
-                       
                         {{-- Type --}}
                         <div class="form-group">
-                                <label for="venue">Type Of Gathering</label>
-                                <select id="select" name="meeting_type" class="form-control">
-                                    <option value=" ">Please select</option>
-
-                                    @foreach(App\Models\Meeting::where('is_active','=',1)->get()->sortBy('name') as $meeting)
-                                    <option value="{{$meeting->id}}">{{$meeting->name}}</option>
-                                    @endforeach
-
+                                <label for="semester_program_id">Semester Program </label>
+                                <select name="semester_program_id" class="form-control"  id="semester_programs">
+                                        <option value=" ">Select Program</option>
+                                        @foreach(App\Models\Semester::active_semester()->upcoming_programs as $semester_program)
+                                            <option value="{{$semester_program->id}}">{{$semester_program->name." -".now()->diffInDays($semester_program->start_date)." Days"}}</option>
+                                        @endforeach
                                 </select>
                         </div>
-                            @error('meeting_type')
-                            <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                            @enderror
-                         {{-- Venue --}}
-                           <div class="form-group">
-                                <label for="venue">Venue</label>
-                           <input type="text" name="venue" class="form-control" value="{{old('venue','Unity Hall Basement')}}" id="venue" placeholder="What's this Session for ? eg: Sunday Service">
-                            </div>
-                            @error('venue')
-                            <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                            @enderror
+                        @error('semester_program_id')
+                        <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                        @enderror
+
                 </div>
 
               
@@ -45,5 +35,5 @@
 
             </form>
 
-        </div>
+</div>
     {{-- @endcan --}}

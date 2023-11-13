@@ -43,6 +43,7 @@ class SemesterProgramController extends Controller
             'start_date' => ['required', 'date'],
             'end_date' => ['date', 'nullable'],
         ]);
+        $validated['semester_id'] =  Semester::active_semester()->id;
         // If End Date is null, the end date is set to start date
         if ($validated['end_date'] == null) {
             $validated['end_date'] = $validated['start_date'];

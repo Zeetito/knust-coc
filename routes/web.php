@@ -1,28 +1,31 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Zone;
+use App\Models\Guest;
+use App\Models\College;
+use App\Models\Faculty;
+use App\Models\Program;
+use App\Models\Semester;
+use App\Models\Attendance;
+use App\Models\Permission;
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\AttendanceController;
+use App\Models\SemesterProgram;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Route;
+use Diglactic\Breadcrumbs\Breadcrumbs;
+use App\Http\Resources\BiodataResource;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ProgramOutlineController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SemesterProgramController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZoneController;
-use App\Models\Attendance;
-use App\Models\College;
-use App\Models\Faculty;
-use App\Models\Permission;
-use App\Models\Program;
-use App\Models\Role;
-use App\Models\Semester;
-use App\Models\SemesterProgram;
-use App\Models\User;
-use App\Models\Zone;
-use Diglactic\Breadcrumbs\Breadcrumbs;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,58 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 
     // USER RELATED
 
+    // USER REQUESTS
+    // View all user request
+    Route::get('user_requests',[Admin\UserRequestController::class, 'show_user_requests'])
+        ->name('show_user_requests')
+        ;
+
+    // Search User request
+    Route::get('search_user_requests',[Admin\UserRequestController::class, 'search_user_requests'])
+    ->name('search_user_requests')
+    ;
+    // Filter User Requests
+    Route::get('filter_user_requests', [Admin\UserRequestController::class, 'filter_user_requests'])
+        ->name('filter_user_requests');
+
+    // Edit Guest Request - modal 
+    Route::get('edit_user_request/{user_request}',[Admin\UserRequestController::class, 'edit_user_request'])
+        ->name('edit_user_request')
+        ;
+    
+    // Handle User request - Deny or Grant
+    Route::post('handle_user_request/{user_request}',[Admin\UserRequestController::class, 'handle_user_request'])
+        ->name('handle_user_request')
+        ;
+
+
+    // GUEST REQUESTS
+    // View all guest requests
+    Route::get('guest_requests',[Admin\GuestController::class, 'show_guest_requests'])
+        ->name('show_guest_requests')
+        ;  
+    
+    // Search Guest request
+    Route::get('search_guest_requests',[Admin\GuestController::class, 'search_guest_requests'])
+    ->name('search_guest_requests')
+    ;
+
+    // Filter Guest Requests
+    Route::get('filter_guest_requests', [Admin\GuestController::class, 'filter_guest_requests'])
+        ->name('filter_guest_requests')
+        ;
+
+    // Edit Guest Request - modal 
+    Route::get('edit_guest_request/{guest_request}',[Admin\GuestController::class, 'edit_guest_request'])
+        ->name('edit_guest_request')
+        ;
+
+    // Handle Guest request - Deny or Grant
+    Route::post('handle_guest_request/{guest_request}',[Admin\GuestController::class, 'handle_guest_request'])
+        ->name('handle_guest_request')
+        ;
+
+        
     // UNAVAILABLE MEMBERS
     // Show All Unavailable Members
     Route::get('unavailable_members', [Admin\UserController::class, 'show_unavailable_members'])
@@ -84,6 +139,8 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
     // HOME
     Route::get('home', [Admin\UserController::class, 'home'])
         ->name('admin_home');
+
+
 
 });
 
@@ -429,10 +486,29 @@ Route::get('/register', function () {
     ->name('register')
     ->middleware('guest');
 
-// Guest Register Action
-Route::Post('/register', [UserController::class, 'register'])
+// Guest store
+Route::Post('/register', [UserController::class, 'store'])
     ->middleware('guest')
     ->name('register_user');
+
+// Guest/ Fresher register page
+Route::get('/register_fresher',[UserController::class, 'create_fresher'])
+    ->middleware('guest')
+    ->name('create_fresher')
+    ;
+
+// Guest/ Fresher Login page
+Route::get('/login_page_fresher',[UserController::class, 'login_page_fresher'])
+    ->middleware('guest')
+    ->name('login_page_fresher')
+    ;
+
+// STUDENT
+// Student Register
+Route::get('/register_student',[UserController::class, 'register_student'])
+    ->middleware('guest')
+    ->name('register_student')
+    ;
 
 // User Login
 Route::get('/login', function () {
@@ -452,9 +528,9 @@ Route::get('/logout', [UserController::class, 'logout'])
     ->name('logout');
 
 Route::get('/', function () {
-    $breadcrumbs = Breadcrumbs::render('home');
+    // $breadcrumbs = Breadcrumbs::render('home');
 
-    return view('homepage', compact('breadcrumbs'));
+    return view('homepage');
 })
     ->middleware('auth')
     ->name('home');
@@ -534,6 +610,11 @@ Route::get('/hello', function () {
     // DB::table('alumini_biodatas')->where('academic_year_id',2)
     //     ->update(['created_at'=>'2022-09-08', 'updated_at'=>'2023-09-08']);
     //     return "heat";
+    // return User::find(1)->biodata();
+    return new BiodataResource(User::find(1)->biodata());
+    return Semester::active_semester()->semester_programs;
+    return Semester::findByDate('2023-12-31');
+    return Semester::find(3)->semester_programs();
 
     return now()->diffInHours('2023-09-08');
 
