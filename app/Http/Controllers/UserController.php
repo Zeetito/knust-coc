@@ -241,4 +241,10 @@ class UserController extends Controller
     {
         User::search_user($request)->get();
     }
+
+    // USER IMAGES
+    //UPload User Image form
+    public function upload_user_image(User $user){
+        return view('images.users.create',['user'=>$user]);
+    }
 }

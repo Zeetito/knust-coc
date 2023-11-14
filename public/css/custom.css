@@ -134,4 +134,10 @@
         height:500px;
         /* margin-bottom:10px; */
     }
+
+    .image-display{
+        border-radius: 10px;
+        height:200px;
+        height:100px;
+    }
 }

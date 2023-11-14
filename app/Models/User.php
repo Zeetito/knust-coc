@@ -4,15 +4,27 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 // use App\Models\Zone;
-use App\Permissions\HasRolesAndPermissions;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Zone;
+use App\Models\Image;
+use App\Models\Program;
+use App\Models\Semester;
+use App\Models\Residence;
+use App\Models\Attendance;
+use App\Models\Permission;
+use App\Models\UserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notifiable;
+use App\Models\SemesterProgram;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use App\Permissions\HasRolesAndPermissions;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -64,6 +76,12 @@ class User extends Authenticatable
     // }
 
     // RELATIONSHIPS
+
+    // Retrieve Images of a user.
+    public function photos(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 
     public function residence()
     {

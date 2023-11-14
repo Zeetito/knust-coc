@@ -82,13 +82,13 @@
                             <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
                             <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="badge badge-warning">42</span></a>
                             <div class="dropdown-header text-center">
-                                <strong>Settings</strong>
+                                <strong>Something</strong>
                         </div>
                         {{-- Profile --}}
+                        <a class="dropdown-item" href="{{route('view_users')}}"><i class="fa fa-users"></i> Users<span class="badge badge-default"></span></a>
                         <a class="dropdown-item" href="{{route('view_profile',auth()->user())}}"><i class="fa fa-user"></i> Profile</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Settings</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-default">42</span></a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a>
+                        {{-- <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Something</a> --}}
+                        {{-- <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a> --}}
 {{-- -----------------------------------------------------------------------}}
                         <div class="divider"></div>
 
@@ -109,52 +109,52 @@
             
                     <!-- Main content -->
                     <main class="main">
-            
+                
                         <!-- BREADCRUMP -->
-                      <x-breadcrump/>
+                        {{-- <x-breadcrump/> --}}
 
-                      {{-- Session Variables for Success or Failure Messages --}}
-                      
-                      {{-- Success --}}
-                      @if(session()->has('success'))
-                      <div class='container container--narrow'>
-                          <div id="success_msg" class='alert alert-success text-center '>
-                          {{session('success')}}
-                        </div>
-                      </div>
-
-                      {{-- Failure --}}
-                      @elseif(session()->has('failure'))
-                      <div class='container container--narrow'>
-                        <div class='alert alert-danger text-center'>
-                          {{session('failure')}}
-                        </div>
-                      </div> 
-
-                      {{-- Warning --}}
-                      @elseif(session()->has('warning'))
-                      <div class='container container--narrow'>
-                        <div class='alert alert-warning text-center'>
-                          {{session('warning')}}
-                        </div>
-                      </div> 
-
-                      @endif
-
-                    <!-- Modal -->
-                    <div class="modal fade" data-backdrop="true"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm" role="document">
-                            <div id="modal-content" class="container bg-white">
-                            
+                        {{-- Session Variables for Success or Failure Messages --}}
+                        
+                        {{-- Success --}}
+                        @if(session()->has('success'))
+                        <div class='container container--narrow'>
+                            <div id="success_msg" class='alert alert-success text-center '>
+                            {{session('success')}}
                             </div>
                         </div>
-                    </div>
 
-        {{$slot}}
+                        {{-- Failure --}}
+                        @elseif(session()->has('failure'))
+                        <div class='container container--narrow'>
+                            <div class='alert alert-danger text-center'>
+                            {{session('failure')}}
+                            </div>
+                        </div> 
+
+                        {{-- Warning --}}
+                        @elseif(session()->has('warning'))
+                        <div class='container container--narrow'>
+                            <div class='alert alert-warning text-center'>
+                            {{session('warning')}}
+                            </div>
+                        </div> 
+
+                        @endif
+
+                        <!-- Modal -->
+                        <div class="modal fade" data-backdrop="true"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div id="modal-content" class="container bg-white">
+                                
+                                </div>
+                            </div>
+                        </div>
+
+                        {{$slot}}
 
                     </main>
         
-    <x-right_side_bar/>
+            <x-right_side_bar/>
 
 
         </div>

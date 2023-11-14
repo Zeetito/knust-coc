@@ -21,7 +21,7 @@
                         {{-- Users Table --}}
                         <div class="pre-scrollable" >
 
-                                <div class="card-body">
+                                <div class="">
                                         <table class="table table-striped">
                                             {{-- Table Head --}}
                                             <thead>
@@ -52,9 +52,15 @@
                                                               <i class="fa fa-eye"></i>
                                                         </a>
                                                         @endcan
+                                                        {{-- See Short info --}}
                                                          <span class="btn-info modal_button"  data-url="{{route('show_modal_info',$user->id)}}">
                                                               <i class="fa fa-address-card-o"></i>
                                                         </span>
+                                                        {{-- View Photos --}}
+                                                        
+                                                        <a href="{{route('upload_user_image',$user)}}">
+                                                            <i class="fa fa-image"></i>
+                                                        </a>
                                                     </td>
                                                     {{-- <td>
                                                         <span class="badge badge-success">Active</span>

@@ -15,13 +15,13 @@
                                     <div class="pre-scrollable" >
                                         {{-- Each Program Item --}}
                                         
-                                        @if(App\Models\Semester::upcoming_programs() == null )
+                                        @if(App\Models\Semester::active_semester()->upcoming_programs == null )
 
                                                         <h3>NO PROGRAMS TO SHOW</h3>
 
                                         @else
 
-                                            @foreach(App\Models\Semester::upcoming_programs() as $semester_program )
+                                            @foreach(App\Models\Semester::active_semester()->upcoming_programs as $semester_program )
                                                 <div class="container">
                                                     <div class="bg-Primary" >
                                                             <h3>{{$semester_program->name }}</h3>

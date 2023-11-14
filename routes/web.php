@@ -4,6 +4,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
 use App\Models\Guest;
+use App\Models\Image;
 use App\Models\College;
 use App\Models\Faculty;
 use App\Models\Program;
@@ -20,6 +21,7 @@ use App\Http\Resources\BiodataResource;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
@@ -145,6 +147,15 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 });
 
 // ------------------END ADMIN PAGES GROUPS ROUTES------------------
+
+
+// IMAGES
+// Store Image - PolyMorphs
+Route::post('/store_image',[ImageController::class,"store"])
+    ->middleware('auth')
+    ->name('store_image')
+    ;
+
 
 // ---------------
 // SEMESTER-PROGRAMS
@@ -571,6 +582,13 @@ Route::put('/profile/{user}/update', [BiodataController::class, 'update'])
     ->middleware('auth', 'can:update,user')
     ->name('update_profile');
 
+// IMAGES
+// Create User Image Form
+Route::get('/upload_user_image/{user}',[UserController::class,'upload_user_image'])
+    ->middleware('auth')
+    ->name('upload_user_image');
+;
+
 // USER AVATAR
 
 // View avatar change form
@@ -611,6 +629,9 @@ Route::get('/hello', function () {
     //     ->update(['created_at'=>'2022-09-08', 'updated_at'=>'2023-09-08']);
     //     return "heat";
     // return User::find(1)->biodata();
+    return User::find(1)->photos;
+    return Image::find(1)->imageable;
+
     return new BiodataResource(User::find(1)->biodata());
     return Semester::active_semester()->semester_programs;
     return Semester::findByDate('2023-12-31');
