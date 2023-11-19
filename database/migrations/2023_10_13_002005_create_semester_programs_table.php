@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('venue');
             $table->foreignId('semester_id');
+            $table->foreignId('meeting_id');
             $table->string('related_ministry')->default('all');
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();
             $table->timestamps();
+
+            $table->unique(['name','start_date','semester_id']);
         });
     }
 

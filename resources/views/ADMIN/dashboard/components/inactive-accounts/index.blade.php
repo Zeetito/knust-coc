@@ -4,7 +4,7 @@
 
         <div class="container-fluid">
             {{-- Search User --}}
-            <span class="form-control card">
+            <span class="form-control ">
                 <form >
                     <input type="text" class="search_box" id="for_user_list" data-url="{{route('search_inactive_user')}}" placeholder="search name..." style="text-align:center;">
                         <i class="fa fa-search"></i>
@@ -12,14 +12,12 @@
             </span>
 
             {{-- Filter User --}}
-            <span calss="form-control card float-right">
+            <span class="form-control float-right">
                 <form >
                     <select type="text" id="_for_user_list" class="filter_box" data-url="{{route('filter_inactive_users')}}" >    
                         <option>Filter By </option>
-                        <option value="fresher">Freshers Only</option>
                         <option value="suspended">Suspended Only</option>
-                        <option value="new_account">New Accounts</option>
-{{-- 
+                        {{-- 
                         <option value="latest">Latest</option>
                         <option value="oldest">oldest</option> --}}
                     </select>        

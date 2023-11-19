@@ -124,20 +124,58 @@
         width: 70%;
         float:left;
     }
-
-    .custom_breif_list_item{
-        height:50px;
-        margin-bottom:10px;
-    }
-
-    .custom_info-card{
-        height:500px;
-        /* margin-bottom:10px; */
-    }
-
-    .image-display{
-        border-radius: 10px;
-        height:200px;
-        height:100px;
-    }
 }
+
+
+.custom_breif_list_item{
+    height:50px;
+    margin-bottom:10px;
+}
+
+.custom_info-card{
+    height:500px;
+    /* margin-bottom:10px; */
+}
+
+.image-display{
+    border-radius: 10px;
+    height:200px;
+    height:100px;
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .menu-content a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+  }
+
+  .menu-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .menu-container:hover .menu-content {
+    display: block;
+  }

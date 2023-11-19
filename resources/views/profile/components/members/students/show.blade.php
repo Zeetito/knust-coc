@@ -67,7 +67,7 @@
                             </li>
 
                             <li>
-                                Room: {{$user->biodata()->room}}
+                                Room: {{$user->room()}}
                             </li>
                         </ul>
                     </div>

@@ -18,10 +18,12 @@ class College extends Model
     // RELATIONSHIPS
     public function users()
     {
-        return User::where('is_student', 1)
+        $users_id = User::where('is_student', 1)
             ->join('members_biodatas', 'members_biodatas.user_id', '=', 'users.id')
             ->where('members_biodatas.college_id', $this->id)
-            ->get();
+            ->pluck('users.id');
+
+        return User::whereIn('id',$users_id)->get();
     }
 
     public function programs(): HasMany

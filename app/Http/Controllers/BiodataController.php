@@ -84,10 +84,18 @@ class BiodataController extends Controller
                     'program_id' => ['required'],
                     'college_id' => ['nullable'],
                 ]);
-                $program_id = Program::findProgramByName($validated['program_id'])->id;
-                $college_id = Program::findProgramByName($validated['program_id'])->college->id;
-                $residence_id = Residence::findResidenceByName($validated['residence_id'])->id;
-                $zone_id = Residence::findResidenceByName($validated['residence_id'])->zone->id;
+                $program = Program::findProgramByName($validated['program_id']);
+                    $residence = Residence::findResidenceByName($validated['residence_id']);
+                
+                    if (!$program || !$residence) {
+                        // Handle the case where either program or residence is null
+                        return redirect()->back()->with('failure', 'Make sure to  Select the Program / Residence from the List Provided');
+                    }
+                
+                    $program_id = $program->id;
+                    $college_id = $program->college->id;
+                    $residence_id = $residence->id;
+                    $zone_id = $residence->zone->id;
 
                 $validated['residence_id'] = $residence_id;
                 $validated['zone_id'] = $zone_id;
@@ -130,13 +138,16 @@ class BiodataController extends Controller
 
                 // If the resdidence is null, that's when we need the zone_id from the form
                 $residence = Residence::findResidenceByName($validated['residence_id']);
-                if ($residence == null) {
-                    $validated['residence_id'] = null;
-                } else {
+
+
+
+                if (!$residence) {
+                    // Handle the case where either program or residence is null
+                    return redirect()->back()->with('failure', 'Make sure to  Select the Residence from the List Provided');
+                }
                     //   If the residence is not null, we use it and query the zone from it
                     $validated['residence_id'] = $residence->id;
                     $validated['zone_id'] = $residence->zone->id;
-                }
 
                 //    Now Insert the validated into the members biodatas table.
                 DB::table('members_biodatas')->insert([
@@ -236,10 +247,21 @@ class BiodataController extends Controller
                     'program_id' => ['required'],
                     'college_id' => ['nullable'],
                 ]);
-                    $program_id = Program::findProgramByName($validated['program_id'])->id;
-                    $college_id = Program::findProgramByName($validated['program_id'])->college->id;
-                    $residence_id = Residence::findResidenceByName($validated['residence_id'])->id;
-                    $zone_id = Residence::findResidenceByName($validated['residence_id'])->zone->id;
+
+           
+                    $program = Program::findProgramByName($validated['program_id']);
+                    $residence = Residence::findResidenceByName($validated['residence_id']);
+                
+                    if (!$program || !$residence) {
+                        // Handle the case where either program or residence is null
+                        return redirect()->back()->with('failure', 'Make sure to  Select the Program / Residence from the List Provided');
+                    }
+                
+                    $program_id = $program->id;
+                    $college_id = $program->college->id;
+                    $residence_id = $residence->id;
+                    $zone_id = $residence->zone->id;
+              
 
                     $validated['user_id'] = $user->id;
                     $validated['residence_id'] = $residence_id;
@@ -247,7 +269,7 @@ class BiodataController extends Controller
                     $validated['program_id'] = $program_id;
                     $validated['college_id'] = $college_id;
                     $validated['updated_at'] = now();
-                    $validated['created_at'] = $user->biodata()->created_at;
+                    $validated['created_at'] = $user->biodata->created_at;
                     $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
                     
 
@@ -258,13 +280,13 @@ class BiodataController extends Controller
                     if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
                         // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
-                        if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                        if (now()->diffInDays($user->biodata->updated_at) >= 60) {
                             DB::table('members_biodatas')->insertOrIgnore($validated);
                             return redirect()->back()->with('success', 'Biodata Updated Successfully');
 
                             // If the latest update is less than 60 days, update the latest one
                         } else {
-                            $latest_biodata_id = $user->biodata()->id;
+                            $latest_biodata_id = $user->biodata->id;
                             DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
 
                             return redirect()->back()->with('success', 'Biodata Updated Successfully');
@@ -280,11 +302,11 @@ class BiodataController extends Controller
                                 $update_request['body'] = json_encode($validated); 
                                 $update_request['table_name'] = "members_biodatas"; 
 
-                                if(now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                                if(now()->diffInDays($user->biodata->updated_at) >= 60) {
                                 $update_request['method'] = "create";
                                 }else{
                                 $update_request['method'] = "update";
-                                $update_request['instance_id'] = $user->biodata()->id;
+                                $update_request['instance_id'] = $user->biodata->id;
                                 }
                                 $update_request['type'] = "Biodata";
                                 
@@ -328,7 +350,7 @@ class BiodataController extends Controller
 
                 ]);
                 $validated['updated_at'] = now();
-                $validated['created_at'] = $user->biodata()->created_at;
+                $validated['created_at'] = $user->biodata->created_at;
                 $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
                 $validated['user_id'] = $user->id;
 
@@ -351,11 +373,11 @@ class BiodataController extends Controller
                 // Check if the current user is a ministry Member or leader
                 if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                    if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                    if (now()->diffInDays($user->biodata->updated_at) >= 60) {
                         DB::table('members_biodatas')->insertOrIgnore($validated);
                         return redirect()->back()->with('success', 'Biodata Updated Successfully');
                     } else {
-                        $latest_biodata_id = $user->biodata()->id;
+                        $latest_biodata_id = $user->biodata->id;
                         DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
 
                         return redirect()->back()->with('success', 'Biodata Updated Successfully');
@@ -370,7 +392,7 @@ class BiodataController extends Controller
                         $update_request['table_name'] = "members_biodatas"; 
                         $update_request['method'] = "update";
                         $update_request['type'] = "Biodata";
-                        $update_request['instance_id'] = $user->biodata()->id;
+                        $update_request['instance_id'] = $user->biodata->id;
                         $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
                         $update_request->save();
 
@@ -410,17 +432,17 @@ class BiodataController extends Controller
                 ]);
                 $validated['user_id'] = $user->id;
                 $validated['updated_at'] = now();
-                $validated['created_at'] = $user->biodata()->created_at;
+                $validated['created_at'] = $user->biodata->created_at;
                 $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
 
             // If the Current User is a Ministry Member/ Leader, update right away
             if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                if (now()->diffInDays($user->biodata()->updated_at) >= 60) {
+                if (now()->diffInDays($user->biodata->updated_at) >= 60) {
                     DB::table('alumini_biodatas')->insertOrIgnore($validated);
                     return redirect()->back()->with('success', 'Biodata Updated Successfully');
                 } else {
-                    $latest_biodata_id = $user->biodata()->id;
+                    $latest_biodata_id = $user->biodata->id;
                     DB::table('alumini_biodatas')->where('id', $latest_biodata_id)->update($validated);
                     return redirect()->back()->with('success', 'Biodata Updated Successfully');
                 }
@@ -435,7 +457,7 @@ class BiodataController extends Controller
                     $update_request['table_name'] = "alumini_biodatas"; 
                     $update_request['method'] = "update";
                     $update_request['type'] = "Biodata";
-                    $update_request['instance_id'] = $user->biodata()->id;
+                    $update_request['instance_id'] = $user->biodata->id;
                     $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
                     $update_request->save();
 

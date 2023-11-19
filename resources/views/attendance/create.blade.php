@@ -10,8 +10,10 @@
 
 
                 <div class="card-body">
+
                         {{-- Type --}}
                         <div class="form-group">
+
                                 <label for="semester_program_id">Semester Program </label>
                                 <select name="semester_program_id" class="form-control"  id="semester_programs">
                                         <option value=" ">Select Program</option>
@@ -19,10 +21,22 @@
                                             <option value="{{$semester_program->id}}">{{$semester_program->name." -".now()->diffInDays($semester_program->start_date)." Days"}}</option>
                                         @endforeach
                                 </select>
+                                @error('semester_program_id')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
+                                <label for="meeting_id">Meeting Type</label>
+                                <select class="form-control" name="meeting_id" required id="meeting_id">
+                                        <option value="">Select</option>
+                                        @foreach(App\Models\Meeting::all() as $meeting)
+                                                <option value="{{$meeting->id}}">{{$meeting->name}}</option>
+                                        @endforeach
+                                </select>
+                                @error('meeting_id')
+                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+
                         </div>
-                        @error('semester_program_id')
-                        <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                        @enderror
 
                 </div>
 

@@ -188,7 +188,7 @@ Get rid of othername table, seeder and model
 
 ## Add Birthday Column to the user table
 Implement it on the frontend.
-Let a user choose whether He or she is a student, an alumini or none.
+Let a user choose whether He or she is a student, an alumni or none.
 
 ## Get rid of the current Biodata model
 1.Getting the  profile of a user depends on whether or not they're a member.
@@ -203,13 +203,13 @@ This two classes of data would be store on the same members_biodatas table
 meaning He or she is not an N.S personnel.
 2. A non-student would have the college and residence ids null and ns status 
 set to 1 or 0 would tell whether or not they're ns personelles or not.
-3. A non-student should be able to choose whether or not they're alumini. and there should be year_group_id column to
+3. A non-student should be able to choose whether or not they're alumni. and there should be year_group_id column to
 handle that
 
 Members who are no longer with us could be determined by the is_available column
 on the users table.
 
-b. Non members (Alumini)
+b. Non members (Alumni)
 
 #Add is baptised coulumn to the user table and
 implement it on the frontend for register page
@@ -285,7 +285,7 @@ Unique (user_id, type, method, 'table_name', 'granted_on', 'academic_year_id')
 # Guest request table following the same format as the user table above.
 # Display User request and Guest reqeust on Admin dashboard and be able to grant them.
 # Modify guest Table
-'status' (fresher,member,visitor,alumini)
+'status' (fresher,member,visitor,alumni)
 # Fresher Register Page.
 # Bind Attendance sessions to Semeste_programs
 Attendance
@@ -296,10 +296,14 @@ Attendance
 # Compare Old Data with New Data when granting user update request -- incomplete
 
 ## Phase 16
-
 ## Implement Polymorphic relationships for Images of Users, Zones, Residences and Semester Programs
-## A carousel to display program on the main dashboard
-<!-- ## Implement Polymorphic relationships for  -->
+## A carousel to display program on the main dashboard [Default picture for intsances without pictures] --
+## Use meetingId on SemesterProgram table and model
+##
 # User composite unique columns on some tables to check double entry and use try and catch to throw     appropriate error message.
+## Absentees page. See Absentees without reason and absentees with reason.
+
+### Phase 17
+# Use GeoLocation to permit marking attendance 
 # Implement the User history using the Biodata details.
 # A Two factor verification would be implement later on to cater for authrorization

@@ -37,12 +37,11 @@
                                 {{-- Program Id --}}
                                 <div class="col-md-3 mb-4">
                                     <h6>Program Of Study</h6>
-                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program()->name)}}" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
+                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program()->name)}}" autocomplete="off" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
                                         <datalist id="search_result_for_program_list">
                                             @if(empty($programs))
                                                 <option>Search Program</option>
                                             @else
-                                            
                                                 @foreach($programs as $program)
                                                     <option value="{{$program->id}}"> {{$program->name}} </option>
                                                 @endforeach
@@ -111,7 +110,7 @@
                                 {{-- <label class="col-md-3 mb-4 form-control-label" for="text-input">First Name</label> --}}
                                 <div class="col-md-3 mb-4">
                                     <h6>Room Number</h6>
-                                    <input type="text"  value="{{old('room',$user->biodata()->room)}}" name="room" class="form-control" placeholder="Room">
+                                    <input type="text"  value="{{old('room',$user->room())}}" name="room" class="form-control" placeholder="Room">
                                         {{-- <span class="help-block">Room</span> --}}
                                         {{-- Error Message --}}
                                         @error('room')

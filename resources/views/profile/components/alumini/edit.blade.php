@@ -37,7 +37,7 @@
                             {{-- Country --}}
                             <div class="col-md-3 mb-4">
                                 <h6>Country</h6>
-                                <input list="search_result_for_country_list" autocomplete="off"  value="{{old('country',$user->biodata()->country)}}" id="for_country_list"  data-url="" class=" search_box form-control" name="country" id="residence" placeholder="Country search..." >
+                                <input list="search_result_for_country_list" autocomplete="off"  value="{{old('country',$user->biodata->country)}}" id="for_country_list"  data-url="" class=" search_box form-control" name="country" id="residence" placeholder="Country search..." >
                                 <datalist id="search_result_for_country_list">
                                         {{-- @if(empty($countries)) --}}
                                             <option>Search Country...</option>
@@ -58,7 +58,7 @@
                             {{-- State/Region --}}
                             <div class ="col-md-3 mb-4">
                                 State/Region
-                                <input type="text" value="{{old('state',$user->biodata()->state)}}" autocomplete="off"  class="form-control" name="state" id="state">
+                                <input type="text" value="{{old('state',$user->biodata->state)}}" autocomplete="off"  class="form-control" name="state" id="state">
                                 @error('state')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
@@ -67,7 +67,7 @@
                             {{-- City/Town --}}
                             <div class ="col-md-3 mb-4">
                                 City - Town
-                                <input type="text" value="{{old('city',$user->biodata()->city)}}" autocomplete="off" class="form-control" name="city" id="city">
+                                <input type="text" value="{{old('city',$user->biodata->city)}}" autocomplete="off" class="form-control" name="city" id="city">
                                 @error('town')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
@@ -76,7 +76,7 @@
                             {{-- Local Congregation --}}
                             <div class ="col-md-3 mb-4">
                                 Local Congregation
-                                <input type="text" value="{{old('local_congregation',$user->biodata()->local_congregation)}}" autocomplete="off" class="form-control" name="local_congregation" id="local_congregation">
+                                <input type="text" value="{{old('local_congregation',$user->biodata->local_congregation)}}" autocomplete="off" class="form-control" name="local_congregation" id="local_congregation">
                                 @error('local_congregation')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
@@ -86,8 +86,8 @@
                             <div class="col-md-3 mb-4">
                                 <h6>Year Group</h6>
                                 <strong>For Alumini Only</strong>
-                                <select class="form-control"  value="{{old('year_group_id',$user->biodata()->year_group_id)}}" name="year_group_id" id="year_group_id">
-                                    <option value="{{$user->biodata()->year_group_id}}">{{App\Models\YearGroup::find($user->biodata()->year_group_id)->name}}</option>
+                                <select class="form-control"  value="{{old('year_group_id',$user->biodata->year_group_id)}}" name="year_group_id" id="year_group_id">
+                                    <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
                                     @foreach(App\Models\YearGroup::all() as $year_group)
                                         <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
                                     @endforeach

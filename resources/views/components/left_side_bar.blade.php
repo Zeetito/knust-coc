@@ -1,38 +1,43 @@
 <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html"><i class="icon-speedometer"></i> Dashboard <span class="badge badge-primary">NEW</span></a>
-                </li>
+                @if(auth()->user()->hasAnyOf(App\Models\Role::ministry_members_level()->get()))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin_home')}}"><i class="icon-speedometer"></i> Admin Dashboard
+                            
+                            {{-- <span class="badge badge-primary">NEW</span> --}}
+                        </a>
+                    </li>
+                @endif
 
                 <li class="nav-title">
                     TOOLS
                 </li>
 
+                {{-- NOTIFICATION --}}
                 <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-settings"></i> User Settings</a>
+                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-bell"></i> Notifications</a>
                     <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('view_profile',auth()->id() )}}"><i class="icon-user"></i> Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('logout' )}}"><i class="icon-user"></i> LogOut</a>
-                        </li>
-                     
+                        {{-- College --}}
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Birthdays</a>
+                        </li> --}}
+                        
                     </ul>
                 </li>
+              
                 {{-- CONFIGURATIONS --}}
                 <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-gear"></i> Configurations</a>
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-gear"></i> Manage</a>
                     <ul class="nav-dropdown-items">
                         {{-- Attendance --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('attendance')}}"><i class="icon-user"></i> Attendance</a>
                         </li>
                         {{-- Roles --}}
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{route('roles')}}"><i class="icon-note"></i> Roles</a>
-                        </li>
+                        </li> --}}
                         {{-- Semester Programs --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('semester_programs')}}"><i class="fa fa-calendar-check-o"></i> Semester Programs</a>
@@ -52,22 +57,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Colleges</a>
                         </li>
-                        {{-- Faculty --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('faculties')}}"><i class="fa fa-circle-o-notch"></i> Faculty</a>
-                        </li>
-                        {{-- Departments --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Departments</a>
-                        </li>
+    
                         {{-- Programs --}}
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Programs</a>
-                        </li>
+                        </li> --}}
                         {{-- Courses --}}
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Courses</a>
-                        </li>
+                        </li> --}}
  
                         
                      
@@ -99,20 +97,23 @@
 
                 {{-- PREFERENCE --}}
                 <li class="nav-item nav-dropdown">
-                    {{-- <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-eye"></i>Views </a>
-                    <ul class="nav-dropdown-items">
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('view_users')}}" target="_top"><i class="fa fa-users"></i> Users</a>
-                        </li>
-                        
-                       
-                    </ul> --}}
 
+                    {{-- Students Alone --}}
+                    @if(auth()->user()->is_student)
                         {{-- Special --}}
-                        <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-star"></i> Special</a>
+                        <li class="nav-item nav-dropdown">
+                            <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-star"></i> Sepcial</a>
+                            <ul class="nav-dropdown-items">
+                                {{-- Zone --}}
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{route('view_program_mates',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> Program Mates</a>
+                                </li>
+         
+                             
+                            </ul>
                         </li>
+                    @endif
 
                 </li>
 

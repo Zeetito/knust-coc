@@ -74,7 +74,10 @@ trait HasRolesAndPermissions
     public function assignAllPermissions()
     {
         $permissions = Permission::all();
-        $this->permissions()->sync($permissions);
+        foreach($permissions as $permission){
+            $this->permissions()->attach($permission->id);
+        }
+        // $this->permissions()->sync($permissions);
     }
 
     // Assign specific permission to

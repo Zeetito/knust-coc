@@ -18,12 +18,13 @@ class AttendanceUserSeeder extends Seeder
 
             for ($i = 1; $i <= mt_rand(100, 350); $i++) {
 
-                DB::table('attendance_users')->insert(
+                DB::table('attendance_users')->updateOrInsert(
                     [
                         'attendance_id' => Attendance::all()->random()->id,
                         'person_id' => User::all()->random()->id,
-                        'checked_by' => User::all()->random()->id,
-                        'is_user' => 1,
+                        'is_user' => 1],
+
+                        ['checked_by' => User::all()->random()->id,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]

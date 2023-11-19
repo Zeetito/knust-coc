@@ -15,6 +15,8 @@ use App\Models\Attendance;
 use App\Models\Permission;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
+use App\Models\AlumniBiodata;
+use App\Models\MembersBiodata;
 use App\Models\SemesterProgram;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
@@ -85,25 +87,26 @@ class User extends Authenticatable
 
     public function residence()
     {
-        return Residence::where('id', $this->biodata()->residence_id)->first();
+       return $this->biodata->residence;
     }
 
     // program
     public function program()
     {
-        $program_id = $this->biodata()->program_id;
-
-        return Program::where('id', $program_id)->first();
+        return $this->biodata->program;
     }
 
     // zone
     public function zone()
     {
-        $zone_id = $this->residence()->zone_id;
-
-        return Zone::find($zone_id);
+        return $this->biodata->zone;
 
     }
+    // Room
+    public function room(){
+        return $this->biodata->room;
+    }
+    
 
     // faculty
     public function faculty()
@@ -120,7 +123,7 @@ class User extends Authenticatable
     // college
     public function college()
     {
-        return $this->program()->college()->first();
+        return $this->program()->college;
     }
 
     // Roles
@@ -138,28 +141,28 @@ class User extends Authenticatable
     // LocalCongregation Of Non Member Users
     public function local_congregation()
     {
-        return $this->biodata()->local_congregation;
+        return $this->biodata->local_congregation;
     }
 
     // Get the Year of A student user
     public function year()
     {
-        return $this->biodata()->year;
+        return $this->biodata->year;
     }
 
     // FUNCTIONS
 
     public function hasProfile()
     {
-        // return exists($this->biodata()) ;
+        // return exists($this->biodata) ;
     }
 
-    // Has Alumini Profile
-    public function has_alumini_profile()
+    // Has Alumni Profile
+    public function has_alumni_profile()
     {
-        // Check if Member is currently an alumini
+        // Check if Member is currently an alumni
         if ($this->member == 0) {
-            return DB::table('alumini_biodatas')
+            return DB::table('alumni_biodatas')
                 ->where('academic_year_id', Semester::active_semester()->academicYear->id)
                 ->where('user_id', $this->id)
                 ->exists();
@@ -182,20 +185,22 @@ class User extends Authenticatable
     {
         // Check if user is a member
         if ($this->is_member == 1) {
-            return DB::table('members_biodatas')
-                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
-                ->where('user_id', $this->id)
-                ->orderByDesc('updated_at')
-                ->first();
-            // Check if user ia an alumini
-        } elseif ($this->is_member == 0) {
+            return $this->hasOne(MembersBiodata::class)
+                        ->latest();
 
-            return DB::table('alumini_biodatas')
-                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
-                ->where('user_id', $this->id)
-                ->orderByDesc('updated_at')
-                ->first();
+            // Check if user ia an alumni
+        } elseif ($this->is_member == 0) {
+            return $this->hasOne(AlumniBiodata::class)
+                        ->latest();
+        }else{
+            return null;
         }
+    }
+
+    // Get Member Biodata
+    public function member_biodata(){
+        return $this->hasOne(MembersBiodata::class)
+        ->latest();
     }
 
     // User Status - Whether a Non-Student Member, etc
@@ -208,24 +213,24 @@ class User extends Authenticatable
             // If member is not a student
         } elseif ($this->is_member == 1 && $this->is_student == 0) {
 
-            // Check if user is Ns personelle and Alumini
-            if ($this->has_member_profile() && $this->biodata()->ns_status == 1 && $this->biodata()->is_alumini == 1) {
-                return 'N.S Personelle - Alumini Member';
+            // Check if user is Ns personelle and Alumni
+            if ($this->has_member_profile() && $this->biodata->ns_status == 1 && $this->biodata->is_alumni == 1) {
+                return 'N.S Personelle - Alumni Member';
 
-                // If not Check if he's N.S Personelle and not alumini
-            } elseif ($this->has_member_profile() && $this->biodata()->ns_status == 1) {
+                // If not Check if he's N.S Personelle and not alumni
+            } elseif ($this->has_member_profile() && $this->biodata->ns_status == 1) {
                 return 'N.S Personelle';
 
-                // IF not, check if He's an Alumini who worships with the church
-            } elseif ($this->has_member_profile() && $this->biodata()->ns_status == 0 && $this->biodata()->is_alumini == 1) {
-                return 'Alumini Member';
+                // IF not, check if He's an Alumni who worships with the church
+            } elseif ($this->has_member_profile() && $this->biodata->ns_status == 0 && $this->biodata->is_alumni == 1) {
+                return 'Alumni Member';
                 // If Not user is a Non-Student Member
             } else {
                 return 'Non-Student Member';
             }
-            // If none of the above then user is an alumini who does not worship with us
+            // If none of the above then user is an alumni who does not worship with us
         } elseif ($this->is_member == 0) {
-            return 'Alumini';
+            return 'Alumni';
         }
     }
 
@@ -257,6 +262,7 @@ class User extends Authenticatable
         return DB::table('attendance_users')
             ->where('person_id', $this->id)
             ->where('attendance_id', $attendance->id)
+            ->where('is_present', 1)
             ->exists();
     }
 
@@ -336,7 +342,7 @@ class User extends Authenticatable
         if ($this->account_status() == 'Inactive') {
             return DB::table('inactive_accounts')
                 ->where('user_id', $this->id)
-                ->first()->reason;
+                ->first()->category;
         }
     }
 
@@ -383,6 +389,20 @@ class User extends Authenticatable
     // Get User requests
     public static function user_requests(){
         return UserRequest::where('is_handled',0)->latest();
+    }
+
+    // Absent Status
+    public function absentee_status(Attendance $attendance){
+        return DB::table('attendance_users')->where('attendance_id',$attendance->id)->where('is_user',1)->where('person_id',$this->id)->first()->is_present;
+    }
+
+    public function absentee_reason(Attendance $attendance){
+        return DB::table('attendance_users')->where('attendance_id',$attendance->id)->where('is_user',1)->where('person_id',$this->id)->first()->reason;
+    }
+
+    // Attendance Instance
+    public function attendance_instance(Attendance $attendance){
+        return  DB::table('attendance_users')->where('attendance_id',$attendance->id)->where('is_user',1)->where('person_id',$this->id);
     }
 
 }

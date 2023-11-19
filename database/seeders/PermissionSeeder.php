@@ -65,6 +65,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'Reset Attendance Session', 'slug' => 'reset_attendance'],
             ['name' => 'Delete Attendance Session', 'slug' => 'delete_attendance'],
             ['name' => 'Check User', 'slug' => 'check_user'],
+            ['name' => 'Print Absentees', 'slug' => 'print_absentees'],
 
             //ROLE
             ['name' => 'Create Role', 'slug' => 'create_role'],

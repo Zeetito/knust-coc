@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use App\Models\SemesterProgram;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,23 +32,29 @@ class Attendance extends Model
 
     // RELATIONSHIPS
 
+
+
     // Members function to query for users who're currently members and present
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
             ->where('is_member', 1)
+
             ->withPivot('person_id', 'checked_by');
     }
 
     // Members function to query for users who're currently members and present
-    public function members(): BelongsToMany
+    public function members()
     {
         return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
-            ->where('is_member', 1)
-            ->withPivot('person_id', 'checked_by');
+                    ->where('is_member', 1)
+                    ->where('is_user', 1)
+                    ->where('is_present', 1)
+                    ->withPivot('person_id', 'checked_by');
     }
 
-    public function semester_program(): BelongsTo
+    // Get Semester Program
+    public function semesterProgram(): BelongsTo
     {
         return $this->belongsTo(SemesterProgram::class);
     }
@@ -62,6 +70,7 @@ class Attendance extends Model
         return User::where('is_member', 1)
             ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
             ->where('attendance_users.attendance_id', $this->id)
+            ->where('attendance_users.is_present',1)
             ->where('users.gender', 'm')
             ->where('attendance_users.is_user', 1)
             ->get();
@@ -74,6 +83,7 @@ class Attendance extends Model
         return User::where('is_member', 1)
             ->join('attendance_users', 'users.id', '=', 'attendance_users.person_id')
             ->where('attendance_users.attendance_id', $this->id)
+            ->where('attendance_users.is_present',1)
             ->where('users.gender', 'f')
             ->where('attendance_users.is_user', 1)
             ->get();
@@ -158,4 +168,124 @@ class Attendance extends Model
     {
         return $this->visitors_count() + $this->members()->count();
     }
+
+    // Search Attendance
+    public static function search_attendance(Semester $semester, Request $request){
+        // NB... the names of the attendance on the front end is the name of the corresponding
+        // semester program
+        $string = $request->input('str');
+        $str = '%'.$string.'%';
+
+        if (! empty($string)) {
+
+        $semester_programs  =  $semester->semester_programs()->where('name','like',"$str")->get();
+            $attendances =Attendance::whereBelongsTo($semester_programs)->get();
+
+            // Define user collection if empty...
+        } else {
+            //  $users = User::
+            //  $users = User::paginate($perPage = 25, $columns = ['*'], $pageName = "Users" );
+            $attendances = $semester->attendance_sessions;
+
+        }
+
+        return $attendances;
+
+    }
+
+    // Check if attendance Has Absentees.
+    public function hasAbsentees(){
+        return DB::table('attendance_users')->where('attendance_id',$this->id)->where('is_present','!=',1)->exists();
+    }
+    
+    // All Absent
+    public function all_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('is_user', 1)
+                    ->where('is_present','!=', 1)
+                    ->withPivot('person_id');
+    }
+
+    // All Male Absentees
+    public function all_gent_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'm')
+                    ->where('is_user', 1)
+                    ->where('is_present','!=', 1)
+                    ->withPivot('person_id');
+    }
+    // All Female Absentees
+    public function all_female_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'f')
+                    ->where('is_user', 1)
+                    ->where('is_present','!=', 1)
+                    ->withPivot('person_id');
+    }
+
+    // Unavailable Absentees
+    public function unavailable_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 2)
+                    ->withPivot('person_id');
+    }
+
+    // Unavailable gents Absentees
+    public function unavailable_gent_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'm')
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 2)
+                    ->withPivot('person_id');
+    }
+
+    // Unavailable female Absentees
+    public function unavailable_female_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'f')
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 2)
+                    ->withPivot('person_id');
+    }
+
+    // Available Absentees
+    public function available_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 0)
+                    ->withPivot('person_id');
+    }
+    // Available Gent Absentees
+    public function available_gent_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'm')
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 0)
+                    ->withPivot('person_id');
+    }
+
+    // Available Gent Absentees
+    public function available_female_absentees(){
+        return $this->belongsToMany(User::class, 'attendance_users', 'attendance_id', 'person_id')
+                    ->where('is_member', 1)
+                    ->where('gender', 'f')
+                    ->where('is_user', 1)
+                    ->where('is_present','=', 0)
+                    ->withPivot('person_id');
+    }
+
+    // ABSENTEES FROM A ZONE
+    public function zone_absentees(Zone $zone){
+        return $this->all_absentees()->get()->intersect($zone->users());
+    }
+
 }

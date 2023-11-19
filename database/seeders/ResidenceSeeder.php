@@ -19,8 +19,8 @@ class ResidenceSeeder extends Seeder
             ['name' => 'Boadi Executive', 'landmark' => 'none', 'description' => 'Behind Mount Oliver prayer camp (Boadi station) ', 'zone_id' => 1],
             ['name' => 'LA Casa Hostel', 'landmark' => 'none', 'description' => 'African Child school', 'zone_id' => 1],
             ['name' => 'K GEE Hostel', 'landmark' => 'none', 'description' => 'Boadi Mongo Ase junction', 'zone_id' => 1],
-            ['name' => 'No name ', 'landmark' => 'none', 'description' => '5 meters before you reach K GEE Hostel ', 'zone_id' => 1],
-            ['name' => 'No name', 'landmark' => 'none', 'description' => 'close to hostel 4', 'zone_id' => 1],
+            // ['name' => 'No name ', 'landmark' => 'none', 'description' => '5 meters before you reach K GEE Hostel ', 'zone_id' => 1],
+            // ['name' => 'No name', 'landmark' => 'none', 'description' => 'close to hostel 4', 'zone_id' => 1],
             ['name' => 'K 5 hostel', 'landmark' => 'none', 'description' => 'K5 junction', 'zone_id' => 1],
             ['name' => '4 Seasons hostel', 'landmark' => 'none', 'description' => 'none',  'zone_id' => 1],
             ['name' => 'D. K Appiah Royal Hostel', 'landmark' => 'none', 'description' => 'Behind Urban Platinum', 'zone_id' => 1],
@@ -83,7 +83,6 @@ class ResidenceSeeder extends Seeder
             // KOTEI ZONE 6
             ['name' => 'Rising sun', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],
             ['name' => 'Canam', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],
-            ['name' => 'Canam Premium', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],
             ['name' => 'Hopes community', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],
             ['name' => 'Liberty', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],
             ['name' => 'Brims down', 'zone_id' => 6, 'description' => 'none', 'landmark' => 'none'],

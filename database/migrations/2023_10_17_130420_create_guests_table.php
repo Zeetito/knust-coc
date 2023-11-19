@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('local_congregation')->nullable();
             $table->boolean('is_member');
             $table->string('password')->nullable();
-            $table->string('username')->unique();
+            $table->string('username')->default(now())->unique();
             $table->string('status')->default('visitor'); //visitor,member,fresher,alumini
             $table->char('gender');
             $table->string('email')->nullable();

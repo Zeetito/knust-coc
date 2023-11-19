@@ -26,15 +26,13 @@ return new class extends Migration
             // All Members students especially though
             $table->foreignId('residence_id')->nullable();
             $table->foreignId('zone_id')->nullable();
-
-            // All Members students especially though
             $table->string('room')->nullable();
 
             // Whether or not member is an NS personnelle for non-students
             $table->boolean('ns_status')->default(0);
 
             // For Alumini non-Members
-            $table->boolean('is_alumini')->default(0);
+            $table->boolean('is_alumni')->default(0);
             $table->foreignId('year_group_id')->nullable();
 
             $table->timestamps();

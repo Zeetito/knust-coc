@@ -30,7 +30,7 @@ class ProgramOutlineController extends Controller
         ]);
         $validated['semester_program_id'] = $semesterProgram->id;
 
-        DB::table('program_outlines')->insertOrIgnore([
+        DB::table('program_outlines')->insert([
             'name' => $validated['name'],
             'officiator_id' => $validated['officiator_id'],
             'start_time' => $validated['start_time'],
@@ -95,7 +95,7 @@ class ProgramOutlineController extends Controller
                 ->increment('position');
         }
         // Now reinsert the outline with it's new/old position
-        DB::table('program_outlines')->insertOrIgnore([
+        DB::table('program_outlines')->insert([
             'name' => $validated['name'],
             'officiator_id' => $validated['officiator_id'],
             'start_time' => $validated['start_time'],

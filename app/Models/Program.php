@@ -22,9 +22,14 @@ class Program extends Model
     ];
     // RELATIONSHIPS
 
-    public function users(): hasMany
+    public function users()
     {
-        return $this->hasMany(User::class);
+        $users_id = User::where('is_student')
+                    ->join('members_biodatas','members_biodatas.user_id','=','users.id')
+                    ->where('members_biodatas.program_id',$this->id)
+                    ->pluck('users.id')
+                    ;
+        return User::whereIn('id',$users_id)->get();
     }
 
     public function college(): belongsTo

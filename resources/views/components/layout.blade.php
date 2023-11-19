@@ -6,7 +6,7 @@
  
      <meta charset="utf-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, ">
  
      <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
  
@@ -43,7 +43,7 @@
                 <a class="navbar-brand" href="{{route('home')}}"></a>
             <button class="navbar-toggler sidebar-minimizer d-md-down-none" type="button">☰</button>
     
-            <ul class="nav navbar-nav d-md-down-none">
+            <ul class="nav navbar-nav  d-md-down-none">
                 <li class="nav-item px-3">
                 <a class="nav-link" href="{{route('home')}}">Dashboard</a>
                 </li>
@@ -98,7 +98,7 @@
                     </div>
                 </li>
             </ul>
-            <button class="navbar-toggler aside-menu-toggler" type="button">☰</button>
+            {{-- <button class="navbar-toggler aside-menu-toggler" type="button">☰</button> --}}
     
         </header>
     
@@ -154,13 +154,15 @@
 
                     </main>
         
-            <x-right_side_bar/>
+            {{-- <x-right_side_bar/> --}}
 
 
         </div>
 
         <footer class="app-footer">
-                <a href="">Knust CoC </a> © {{Date('Y')}}
+            <div>
+                <span class="float" >Knust CoC  © {{Date('Y')}} </span>
+            </div>
         </footer>
         
         

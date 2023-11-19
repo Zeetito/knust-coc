@@ -16,11 +16,16 @@ return new class extends Migration
             $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('person_id')->onDelete('null');
             $table->boolean('is_user');
+            $table->integer('is_present')->default(1); //1- present, 0-absent no reason, 2-absent-reason given
             $table->unsignedBigInteger('checked_by')->onDelete('null'); //Could be either by the user him/herself or a hall or residence rep.
 
+            // This applies for those who are unavailable.
+            $table->string('reason')->default('none');
             $table->timestamps();
-
             $table->foreign('checked_by')->references('id')->on('users');
+
+            $table->unique(['attendance_id','person_id','is_user']);
+
         });
     }
 

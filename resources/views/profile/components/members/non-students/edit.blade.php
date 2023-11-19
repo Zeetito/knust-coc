@@ -75,8 +75,8 @@
                             {{-- NsStatus --}}
                             <div class="col-md-3 mb-4">
                                 <h6>Ns status</h6>
-                                <select class="form-control" value="{{old('ns_status',$user->biodata()->ns_status)}}" autocomplete="off" name="ns_status" id="ns_status">
-                                    <option value="{{$user->biodata()->ns_status}}">{{$user->biodata()->ns_status ? "Yes":"No"}}</option>
+                                <select class="form-control" value="{{old('ns_status',$user->biodata->ns_status)}}" autocomplete="off" name="ns_status" id="ns_status">
+                                    <option value="{{$user->biodata->ns_status}}">{{$user->biodata->ns_status ? "Yes":"No"}}</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -88,7 +88,7 @@
                             {{-- Room --}}
                             <div class="col-md-3 mb-4">
                                 <h6>Room Number</h6>
-                                <input type="text"  value="{{old('room',$user->biodata()->room)}}" name="room" class="form-control" placeholder="Room">
+                                <input type="text"  value="{{old('room',$user->biodata->room)}}" name="room" class="form-control" placeholder="Room">
                                     {{-- <span class="help-block">Room</span> --}}
                                      {{-- Error Message --}}
                                      @error('room')
@@ -98,8 +98,8 @@
 
                             <div class="col-md-3 mb-4">
                                     <h6>Are you an Alumini of the KNUST CoC ?</h6>
-                                <select class="form-control" value="{{old('is_alumini',$user->biodata()->is_alumini)}}" autocomplete="off" name="is_alumini" id="is_alumini">
-                                    <option value="{{$user->biodata()->is_alumini}}">{{$user->biodata()->is_alumini ? "Yes":"No"}}</option>
+                                <select class="form-control" value="{{old('is_alumini',$user->biodata->is_alumini)}}" autocomplete="off" name="is_alumini" id="is_alumini">
+                                    <option value="{{$user->biodata->is_alumini}}">{{$user->biodata->is_alumini ? "Yes":"No"}}</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -112,8 +112,8 @@
                             <div class="col-md-3 mb-4">
                                 <h6>Year Group</h6>
                                 <strong>For Alumini Only</strong>
-                                <select class="form-control"  value="{{old('year_group_id',$user->biodata()->year_group_id)}}" name="year_group_id" id="year_group_id">
-                                    <option value="{{$user->biodata()->year_group_id}}">{{App\Models\YearGroup::find($user->biodata()->year_group_id)->name}}</option>
+                                <select class="form-control"  value="{{old('year_group_id',$user->biodata->year_group_id)}}" name="year_group_id" id="year_group_id">
+                                    <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
                                     @foreach(App\Models\YearGroup::all() as $year_group)
                                         <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
                                     @endforeach

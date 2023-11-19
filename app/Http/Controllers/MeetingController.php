@@ -13,6 +13,7 @@ class MeetingController extends Controller
     public function index()
     {
         //
+        return view('meetings.index');
     }
 
     /**
@@ -21,6 +22,7 @@ class MeetingController extends Controller
     public function create()
     {
         //
+        return view('meetings.create');
     }
 
     /**
@@ -29,6 +31,14 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name'=>['required','min:4'],
+            'description' => ['nullable']
+        ]);
+
+        Meeting::create($validated);
+
+        return redirect()->back()->with('success','Meeting Added Successfully');
 
     }
 
@@ -38,6 +48,7 @@ class MeetingController extends Controller
     public function show(Meeting $meeting)
     {
         //
+        return view('meetings.show',['meeting'=>$meeting]);
     }
 
     /**
@@ -62,5 +73,12 @@ class MeetingController extends Controller
     public function destroy(Meeting $meeting)
     {
         //
+        $meeting->delete();
+        return redirect()->back()->with('warning','Meeting Deleted Successfully');
+    }
+
+    // confirm delete
+    public function confirm_delete(Meeting $meeting){
+        return view('meetings.delete',['meeting'=>$meeting]);
     }
 }

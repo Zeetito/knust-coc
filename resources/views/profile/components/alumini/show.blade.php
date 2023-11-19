@@ -2,7 +2,7 @@
 
     {{-- If User Has Profile Details --}}
 
-    @if(!empty($user->biodata()))
+    @if(!empty($user->biodata))
 
     <div class="row" style="justify-items:center">
         <div class="col-12 bg bg-white" >
@@ -56,19 +56,19 @@
                             {{-- Loop To List the othername(s)  a user has --}}
 
                             <li>
-                                Country: {{$user->biodata()->country}}
+                                Country: {{$user->biodata->country}}
                             </li>
 
                             <li>
-                                State: {{$user->biodata()->state}}
+                                State: {{$user->biodata->state}}
                             </li>
 
                             <li>
-                                City: {{$user->biodata()->city}}
+                                City: {{$user->biodata->city}}
                             </li>
 
                             <li>
-                                Local Congregation: {{$user->biodata()->local_congregation}}
+                                Local Congregation: {{$user->biodata->local_congregation}}
                             </li>
                         </ul>
                     </div>

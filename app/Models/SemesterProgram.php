@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Image;
+use App\Models\Meeting;
+use App\Models\Attendance;
+use App\Models\DefaultImage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SemesterProgram extends Model
 {
@@ -17,6 +22,7 @@ class SemesterProgram extends Model
         'name',
         'venue',
         'semester_id',
+        'meeting_id',
         'start_date',
         'end_date',
 
@@ -24,6 +30,27 @@ class SemesterProgram extends Model
 
     protected $dates = ['start_date', 'end_date'];
     // RELATIONSHIPS
+    // Retrieve Images of a user.
+    public function images(): MorphMany
+    {
+        $images = $this->morphMany(Image::class, 'imageable');
+        if(empty($images)){
+            $images = [$this->defaultImage];
+        }
+
+        return $images; 
+    }
+    // Default Images
+    public function defaultImages()
+    {
+        // return $this->morphOne(DefaultImage::class, 'defaultImageable');
+        return $this->meeting->defaultImage;
+    }
+    
+    // Meeting
+    public function meeting(){
+        return $this->belongsTo(Meeting::class);
+    }
 
     // FUNCTIONS
     public function get_start_date()
@@ -149,5 +176,10 @@ class SemesterProgram extends Model
     public function last_session()
     {
         return $this->outline()->latest()->first();
+    }
+
+    // Get attendance Session for a semesterProgram
+    public function attendance_session(){
+        return $this->hasOne(Attendance::class);
     }
 }

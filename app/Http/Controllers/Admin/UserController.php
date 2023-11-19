@@ -153,7 +153,67 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User Availability Status Updated Successfully');
     }
 
+    // mark_unavailable_confirm
+    public function mark_unavailable_confirm(User $user)
+    {
+        return view('ADMIN.dashboard.components.unavailable-members.mark-user-unavailable',['user'=>$user]);
+    }
 
+    // Mark User Unavailable
+    public function mark_user_unavailable(Request $request, User $user)
+    {   
+        if($user->is_available){
+            $validated = $request->validate([
+                'is_available' => ['required', 'numeric'],
+                'category'=> ['required'],
+                'info' => ['min:5','required']
+            ]);
+                $validated['user_id'] = $user->id;
+                $validated['recorded_by'] = auth()->user()->id;
+                unset($validated['is_available']);
+            DB::table('unavailable_members')->insert($validated);
+
+            $user->is_available = 0;
+            $user->save();
+
+            return redirect()->back()->with('warning','User Marked Unavailable');
+
+
+
+        }else{
+            return redirect()->back()->with('failure','User is already Unavailable');
+        }
+    }
+
+    // Mark User Inactive confirm
+    public function mark_user_inactive_confirm(User $user){
+        return view('ADMIN.dashboard.components.inactive-accounts.mark-user-inactive',['user'=>$user]);
+    }
+
+    // Mark User Inactive
+    public function mark_user_inactive(Request $request, User $user)
+    {   
+        if($user->is_activated){
+            $validated = $request->validate([
+                'is_activated' => ['required', 'numeric'],
+                'category'=> ['required'],
+                'info' => ['min:5','required']
+            ]);
+                $validated['user_id'] = $user->id;
+                $validated['action_by'] = auth()->user()->id;
+                unset($validated['is_activated']);
+            DB::table('inactive_accounts')->insert($validated);
+
+            $user->is_activated = 0;
+            $user->save();
+
+            return redirect()->back()->with('warning','User Marked Inactive');
+
+        }else{
+            return redirect()->back()->with('failure','User Account is already Inactive');
+        }
+    }
+    
 
     
 }

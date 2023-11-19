@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('inactive_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('reason');
+            $table->string('category');
+            $table->string('info');
+            $table->unsignedBigInteger('action_by');
             $table->timestamps();
+
+            $table->foreign('action_by')->references('id')->on('users');
         });
     }
 

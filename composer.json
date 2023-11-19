@@ -11,7 +11,8 @@
         "intervention/image": "dev-master",
         "laravel/framework": "^10.8",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "tecnickcom/tcpdf": "^6.6"
     },
     
     "require-dev": {

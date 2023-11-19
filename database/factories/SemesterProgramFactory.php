@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Meeting;
 use App\Models\Semester;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,11 +22,13 @@ class SemesterProgramFactory extends Factory
         $maxDate = '2023-12-31'; // Set your desired maximum date
         $start_date = fake()->dateTimeBetween($minDate, $maxDate)->format('Y-m-d');
         $sem_id = Semester::findByDate($start_date)->id;
+        $meeting = Meeting::all()->random();
 
         return [
-            'name' => fake()->streetName(),
+            'name' => $meeting->name." - ".fake()->streetName(),
             'venue' => fake()->randomElement(['Basement', 'ProvidenceHostel']),
             'related_ministry' => fake()->randomElement(['welfare', 'finance', 'edification', 'organising', 'evangelism', 'all']),
+            'meeting_id' => $meeting->id,
             'semester_id' => $sem_id,
             'start_date' => $start_date,
             'end_date' => $start_date,

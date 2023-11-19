@@ -122,7 +122,7 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
-                                {{-- Student / Member Status, true ny default --}}
+                            {{-- Student / Member Status, true ny default --}}
                                 <input type="text" name="is_student" readonly hidden value="1">
                                 <input type="text" name="is_member" readonly hidden value="1">
                                 {{-- Fresher Status --}}

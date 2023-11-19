@@ -42,11 +42,7 @@
                                         <th>Name</th>
                                         
                                         <th>Residence</th>
-                                        
-                                        @allowedTo(['update_zone']))
-                                        <th>Actions</th>
-                                        @endallowedTo
-                                    </tr>
+
                                 </thead>
                                 {{-- Table Body --}}
                                 <tbody id="search_result_for_members_list">
@@ -64,18 +60,12 @@
 
                                             {{-- Risidence --}}
                                             <td>
-                                                {{$member->biodata != null ? $member->name : "No Residence"}}
+                                                {{$member->biodata != null ? $member->biodata->residence->name : "No Residence"}}
                                             </td>
 
         
                                             {{-- Action  --}}
-                                            @allowedTo(['update_zone']))
-                                            <td>
-                                                <a class="btn check_button btn-danger" id="{{$member->id}}" data-url="#">
-                                                    <i class="fa fa-remove"></i>
-                                                </a>     
-                                            </td>
-                                            @endallowedTo
+                                         
         
                                         </tr>
                                     @endforeach
@@ -110,7 +100,7 @@
 
                                         <th>Zone</th>
 
-                                        @allowedTo(['update_zone']))
+                                        @allowedTo(['update_zone'])
                                         <th>Actions</th>
                                         @endallowedTo
                                     </tr>
@@ -127,7 +117,7 @@
                                                 {{$residence->zone->name}}
                                             </td>
 
-                                            @allowedTo(['update_zone']))
+                                            @allowedTo(['update_zone'])
                                             <td>
                                                 <a class="btn check_button btn-secondary" id="{{$residence->id}}" data-url="#">
                                                     <i class="fa fa-eye"></i>

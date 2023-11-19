@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('semester_program_id');//Attendances are for Semester programs.
+            $table->foreignId('semester_program_id')->unique();//Attendances are for Semester programs.
             $table->foreignId('semester_id')->constained();
             $table->boolean('is_active')->default(1);
+            $table->json('head_count')->nullable();
             $table->timestamps();
 
         });

@@ -2,10 +2,10 @@
     @if( $attendance->is_active == 0 && auth()->user()->hasPermissionTo(['update_attendance']) ) 
         <tr id="tr_{{$attendance->id}}">
             <td>
-            {{$attendance->meeting->name}}
+            {{$attendance->semesterProgram->name}}
             </td>
-            <td>{{$attendance->created_at->format('Y-M-d-D')}}</td>
-            <td> {{$attendance->venue}}</td>
+            
+            
             <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
             <td>
                 @allowedTo(['view_attendance'])
@@ -52,14 +52,13 @@
                 <span class="badge badge-success">Active</span>
             </td> --}}
         </tr>
-        
     @elseif($attendance->is_active == 1)
     <tr id="tr_{{$attendance->id}}">
             <td>
-            {{$attendance->meeting->name}}
+            {{$attendance->semesterProgram->name}}
             </td>
-            <td>{{$attendance->created_at->format('Y-M-d-D')}}</td>
-            <td> {{$attendance->venue}}</td>
+            
+            
             <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
             <td>
                 @allowedTo(['view_attendance'])

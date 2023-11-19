@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('permission_id');
+            
             $table->timestamps();
 
             // Define foreign keys

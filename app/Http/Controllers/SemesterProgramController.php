@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guest;
-use App\Models\Semester;
-use App\Models\SemesterProgram;
 use App\Models\User;
+use App\Models\Guest;
+use App\Models\Meeting;
+use App\Models\Semester;
 use Illuminate\Http\Request;
+use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
 
 class SemesterProgramController extends Controller
@@ -29,6 +30,8 @@ class SemesterProgramController extends Controller
     public function create()
     {
         //
+        return view('semester-programs.create');
+
     }
 
     /**
@@ -40,6 +43,7 @@ class SemesterProgramController extends Controller
         $validated = $request->validate([
             'name' => ['required'],
             'venue' => ['required'],
+            'meeting_id' => ['nullable'],
             'start_date' => ['required', 'date'],
             'end_date' => ['date', 'nullable'],
         ]);
@@ -47,6 +51,16 @@ class SemesterProgramController extends Controller
         // If End Date is null, the end date is set to start date
         if ($validated['end_date'] == null) {
             $validated['end_date'] = $validated['start_date'];
+        }
+
+        // Check if meeting id is set... if not it means it's coming from the Index form
+        if(isset($validated['meeting_id'])){
+            " ";
+        }else{
+            $name = substr($validated['name'],0,10 );
+            $name = "%".$name."%";
+            $meeting = Meeting::where('name','like',$name)->first();
+            $validated['meeting_id'] = $meeting->id;
         }
 
         // return $validated;
@@ -63,30 +77,6 @@ class SemesterProgramController extends Controller
     {
         // return $semesterProgram;
         return view('semester-programs.show', ['semester_program' => $semesterProgram, 'counter' => 0]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SemesterProgram $semesterProgram)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SemesterProgram $semesterProgram)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SemesterProgram $semesterProgram)
-    {
-        //
     }
 
     // filter_semester_programs
@@ -288,5 +278,10 @@ class SemesterProgramController extends Controller
         return redirect(route('show_semester_program', ['semesterProgram' => $semesterProgram]))->with('success', 'Update Successful');
         // Now return the updated row
 
+    }
+
+    // Upload Semester Progarm
+    public function upload_semester_program_image(SemesterProgram $semesterProgram){
+        return view('semester-programs.upload-image',['semesterProgram'=>$semesterProgram]);
     }
 }

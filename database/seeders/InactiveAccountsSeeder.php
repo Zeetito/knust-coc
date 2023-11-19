@@ -17,7 +17,9 @@ class InactiveAccountsSeeder extends Seeder
         foreach (User::inactive_accounts()->get() as $user) {
             DB::table('inactive_accounts')->insert([
                 'user_id' => $user->id,
-                'reason' => fake()->randomElement(['suspended', 'fresher', 'new_account']),
+                'category' => 'suspended',
+                'info' => fake()->sentence(),
+                'action_by' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

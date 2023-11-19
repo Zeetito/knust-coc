@@ -29,6 +29,15 @@ $(document).ready(function(){
             
                 console.log(url);
                 var data;
+
+                // if (url.includes("?")) {
+
+                //     var url = (url+"&str="+str);
+                // }else{
+        
+                //     var url = (url+"?str="+str);
+                // }
+
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -36,7 +45,7 @@ $(document).ready(function(){
                     cache: false,
                     success: function (data) {
                         
-                        // console.log(url);
+                        // console.log(data);
                         $('#modal-content').html(data);
                     },
                     error: function(err) {

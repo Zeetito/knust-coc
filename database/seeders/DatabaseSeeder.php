@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(BiodataSeeder::class);
         $this->call(ContactSeeder::class);
-        // $this->call(MeetingSeeder::class);
+        $this->call(MeetingSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
 

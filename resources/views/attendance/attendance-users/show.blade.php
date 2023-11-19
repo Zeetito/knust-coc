@@ -5,11 +5,11 @@
                 <div class="dashboard-container">
     
                     {{-- Each Whole Table Screen --}}
-                    <div class="process-bar">
-                        <div class="process-bar">
+                    <div class="">
+                        <div class="">
                             <div class="process-order">
                                 <a href="{{route('access_attendance_session',['attendance'=>$attendance])}}">
-                                    <h3 style="text-align:center"> Attendance Session: {{$attendance->semester_program->name." - ".$attendance->semester_program->created_at->format('Y-M-d-D')}}</h3>
+                                    <h3 style="text-align:center"> Attendance Session: {{$attendance->semesterProgram->name." - ".$attendance->semesterProgram->created_at->format('Y-M-d-D')}}</h3>
                                     <i class="fa fa-key"></i>
                                 </a>
 
@@ -20,81 +20,31 @@
                                             <i class="fa fa-search"></i>
                                     </form>
                             </span>
+
+                            {{-- Start or End Session --}}
+                            @allowedTo(['update_attendance'])
+                                @if($attendance->is_active == 1)
+                                    <button  class="float-right btn btn-danger"  id="{{$attendance->id}}" data-toggle="modal" data-target="#myModal" data-url ="{{route('confirm_attendance_switch',$attendance)}}">
+                                        End Session
+                                    </button>
+                                    
+                                @else
+                                    <button   class="float-right btn btn-succes"  id="{{$attendance->id}}" data-toggle="modal" data-target="#myModal" data-url ="{{route('confirm_attendance_switch',$attendance)}}" >
+                                        Start Session
+                                    </button>
+                                    
+                                @endcan
+                            
+                        @endallowedTo
+
                             </div>
     
                             {{-- Attendance Table --}}
                             <div class="pre-scrollable" >
     
                                     <div class="card-body">
-                                        <h5>Users</h5>
-                                            <table class="table table-striped">
-                                                
-                                                {{-- Table Head --}}
-                                                <thead>
-                                                    <tr>
-                                                        <th>Member</th>
-                                                        <th>Zone</th>
-                                                        <th>Marked By</th>
-                                                        @allowedTo(['update_attendance'])
-                                                        <th>Action</th>
-                                                        @endallowedTo
-                                                    </tr>
-                                                </thead>
-                                                {{-- Table Body --}}
-                                                <tbody id="search_result_for_user_list">
-                                        
-
-                                                    @foreach($members as $member)
-                                                    {{-- {{$user_who_marked = $attendance->user_marked_by($member->pivot->checked_by)}} --}}
-                                                    <tr  id="tr_{{$member->id}}">
-                                                        
-                                                        <td>
-                                                            <a >
-                                                                <img src="{{$member->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                                            </a>
-                                                            {{$member->fullname()}}
-                                                        </td>
-                                                        
-                                                        <td>{{$member->biodata() !=null ? $member->zone()->name : "No Zone" }}</td>
-                                                        
-                                                        <td> {{ $member->checked_by($attendance)->fullname()}} </td>
-
-                                                        @allowedTo(['update_attendance'])
-                                                        <td>
-                                                            @if($member->is_checked($attendance))
-
-                                                                        @can('check',$member)
-                                                                            {{-- Uncheck User button --}}
-                                                                            <span type="button" data-toggle="modal" data-target="#myModal" id="{{$member->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>$attendance , 'user'=>$member])}}" >
-                                                                                <i class="text-warning fa fa-check"></i>
-                                                                            </span> 
-                                                                        @else
-                                                                            {{-- Not A button --}}
-                                                                            <span type="button" class="button message"  >
-                                                                                <i class="text-success fa fa-check"></i>
-                                                                            </span>
-                                                                        @endcan
-
-                                                            @else
-                                                                        {{-- Check User Button --}}
-                                                                        <button class="check_button" id="{{$member->id}}" data-url="{{route('check_user',['attendance'=>$attendance , 'user'=>$member])}}" >
-                                                                            <i class=" text-danger fa fa-check"></i>
-                                                                        </button>
-
-                                                            @endif
-
-                                                            
-                                                        </td>
-                                                        {{-- <td>
-                                                            <span class="badge badge-success">Active</span>
-                                                        </td> --}}
-                                                        @endallowedTo
-                                                    </tr>
-                                                    @endforeach
-
-                                                </tbody>
-                                                {{-- Table Body Ends --}}
-                                            </table>
+                                        {{-- <h5>Users</h5> --}}
+                                            {{--  --}}
                                            
                                     </div>
                             
@@ -102,7 +52,7 @@
                             </div>
                             {{--Scrollable Table Ends--}}
     
-                            {{$members->links()}}
+                            {{-- {{$members->links()}} --}}
                            
                         </div>
                     </div>
@@ -112,7 +62,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            Summary : {{$attendance->semester_program->name ." - ".$attendance->semester_program->created_at->format('M-d-D')  }}
+                            Summary : {{$attendance->semesterProgram->name ." - ".$attendance->semesterProgram->created_at->format('M-d-D')  }}
                             <div class="card-actions">
                                 <a href="#">
                                     <small class="text-muted">docs</small>
@@ -121,7 +71,10 @@
                         </div>
 
                         <div class="card-body row">
-                            {{-- Members Card --}}
+                            {{-- Attendnace Summary --}}
+                            
+                                <div class="h5 col-12">Members Present <a class="btn btn-info float-right">See Details</a> </div>
+                            {{--h5 Members Card --}}
                                 <div class="card col-sm-4">
 
                                         <div class="card-header">
@@ -145,7 +98,7 @@
                                 <div class="card col-sm-4">
 
                                         <div class="card-header">
-                                           <a href={{"#"}}>Visitors <i class="fa fa-eye"></i></a>
+                                           <a href="{{route('show_guests',['attendance'=>$attendance])}}">Visitors <i class="fa fa-eye"></i></a>
                                             <span class="badge badge-pill badge-info float-right">{{$attendance->visitors_count()}}</span>
                                         </div>
 
@@ -181,10 +134,78 @@
                                                     </p>   
                                         </div>
                                 </div>
+
                                 
-                                {{-- <div class="chart-wrapper"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; inset: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
-                                    <canvas id="canvas-pie" width="70" height="50" style="display: block; height: 392px; width: 392px;"></canvas>
-                                </div> --}}
+                            {{-- Members Absent --}}
+                            @if($attendance->hasAbsentees())
+                                <div class="h5 col-12">Members Absent  <a class="btn btn-info float-right" href="{{route('show_absentees',['attendance'=>$attendance])}}" >See Details</a></div>
+
+                                {{-- Available Absentees --}}
+                                <div class="card col-sm-4">
+
+                                    <div class="card-header">
+                                       Absentees (No known Reason)
+                                        <span class="badge badge-pill badge-info float-right">{{$attendance->available_absentees()->count()}}</span>
+                                    </div>
+
+                                    <div class="card-body">
+                                            <p>
+                                                    Gents: {{$attendance->available_gent_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Ladies: {{$attendance->available_female_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Total: {{$attendance->available_absentees()->count()}}
+                                            </p>   
+                                    </div>
+
+                                </div>
+                                {{-- Unavailable Absentees --}}
+                                <div class="card col-sm-4">
+
+                                    <div class="card-header">
+                                       Absentees (Unavailable With Reason)
+                                        <span class="badge badge-pill badge-info float-right">{{$attendance->unavailable_absentees()->count()}}</span>
+                                    </div>
+
+                                    <div class="card-body">
+                                            <p>
+                                                    Gents: {{$attendance->unavailable_gent_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Ladies: {{$attendance->unavailable_female_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Total: {{$attendance->unavailable_absentees()->count()}}
+                                            </p>   
+                                    </div>
+
+                                </div>
+
+                                {{-- Total Absentees --}}
+                                <div class="card col-sm-4">
+
+                                    <div class="card-header">
+                                       Totals
+                                        <span class="badge badge-pill badge-info float-right">{{$attendance->all_absentees()->count()}}</span>
+                                    </div>
+
+                                    <div class="card-body">
+                                            <p>
+                                                    Gents: {{$attendance->all_gent_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Ladies: {{$attendance->all_female_absentees()->count()}}
+                                                </p>   
+                                                <p>
+                                                    Total: {{$attendance->all_absentees()->count()}}
+                                            </p>   
+                                    </div>
+
+                                </div>
+                            @endif
+
                         </div>
                         
                     </div>
@@ -196,57 +217,7 @@
                     <div class="pre-scrollable" >
 
                             <div class="card-body">
-                                    <h5>Visitors</h5>
-                                    <table class="table table-striped">
-                                        
-                                        {{-- Table Head --}}
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Church</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        {{-- Table Body --}}
-                                        <tbody id="search_result_for_user_visitors_list">
-
-                                                {{-- For users Visitors --}}
-                                            @foreach($attendance->users_visitors_present() as $member)
-                                                <tr id="tr_{{$member->id}}">
-                                                    <td><i class=" text-success fa fa-check"></i>{{$member->fullname()}}</td>
-                                                    <td>{{$member->biodata() == null ? "" : $member->local_congregation()}}</td>
-                                                    <td>
-                                                            {{-- Check User Button --}}
-                                                            <button class="btn" data-toggle ="modal" data-target="#myModal" id="{{"user_visitor_".$member->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>$attendance , 'user'=>$member->person_id])}}" >
-                                                                    <i class=" text-danger fa fa-times"></i>
-                                                            </button>                                                        
-                                                    </td>
-                                                    {{-- <td>
-                                                        <span class="badge badge-success">Active</span>
-                                                    </td> --}}
-                                                </tr>
-                                            @endforeach
-
-                                            {{-- For Guest Visitors --}}
-                                            @foreach($attendance->guests_present() as $guest)
-                                                <tr id="tr_{{$guest->id}}">
-                                                    <td>{{$guest->fullname}}</td>
-                                                    <td>{{$guest->local_congregation}}</td>
-                                                    <td>
-                                                            {{-- Check User Button --}}
-                                                            <button class="btn" data-toggle ="modal" data-target="#myModal" id="{{"guest_".$guest->id}}" data-url="{{route('confirm_uncheck_guest',['attendance'=>$attendance , 'guest'=>$guest->person_id])}}" >
-                                                                    <i class=" text-danger fa fa-times"></i>
-                                                            </button>                                                        
-                                                    </td>
-                                                    {{-- <td>
-                                                        <span class="badge badge-success">Active</span>
-                                                    </td> --}}
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                        {{-- Table Body Ends --}}
-                                    </table>
+                                  
                                     
                             </div>
                     

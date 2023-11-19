@@ -8,10 +8,11 @@
                         <div class="process-bar">
                             <div class="process-order">
                                 <h3 style="text-align:center">Programs for the Semester</h3>
+                                {{-- Search Program bar --}}
                                 <span>
                                     <form >
-                                        <input type="text" id="for_semester_program_list" class="search_box" data-url="#" placeholder="search name..." style="text-align:center;">
-                                            <i class="fa fa-search"></i>
+                                        {{-- <input type="text" id="for_semester_program_list" class="search_box" data-url="#" placeholder="search name..." style="text-align:center;"> --}}
+                                            {{-- <i class="fa fa-search"></i> --}}
                                     </form>
                                 </span>
                                 <span>
@@ -32,15 +33,19 @@
 
                                         </select>        
                                         <i class="fa fa-filter"></i>
-
-                                            
-                                                                                    
+                                             
                                     </form>
                                 </span>
+
+                                {{-- New Semester Program Button --}}
+                                <span class="btn btn-info float-right mb-2" data-toggle="modal" data-target="#myModal" data-url="{{route('add_semester_program')}}" >
+                                    New Semester Program
+                                </span>
+
                             </div>
     
                             {{-- Attendance Table --}}
-                            <div class="pre-scrollable" >
+                            <div class="" >
     
                                     <div class="card-body">
                                         @if($semester_programs != null)
@@ -49,9 +54,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Title</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                        <th>#</th>
+                                                        <th>Date</th>
+                                                        {{-- <th>End Date</th> --}}
+                                                        {{-- <th>#</th> --}}
                                                         <th>Venue</th>
                                                         {{-- <th>Status</th> --}}
                                                         <th>Action</th>
@@ -67,9 +72,9 @@
                                                                 </td>
                                                                 <td>{{$semester_program->get_start_date()->format('Y-M-d-D')}}</td>
                                                                 
-                                                                <td>{{$semester_program->get_end_date()->format('Y-M-d-D')}}</td>
+                                                                {{-- <td>{{$semester_program->get_end_date()->format('Y-M-d-D')}}</td> --}}
                                                                 
-                                                                <td>{{$semester_program->academic_period()}}</td>
+                                                                {{-- <td>{{$semester_program->academic_period()}}</td> --}}
                                                                 
                                                                 <td> {{$semester_program->venue}}</td>
                                                                 <td>
@@ -105,10 +110,7 @@
                     </div>
                     {{-- Whole Table Screen Ends --}}
     
-                    {{-- Create new Attendance Session Div --}}
-                    @allowedTo(['add_semester_program'])
-                        @include('semester-programs.create')
-                    @endallowedTo
+
     
                 </div> <!-- end of dashboard container -->
     

@@ -12,7 +12,7 @@
                                     </div>
 
                                     {{-- Progarm Items List --}}
-                                    <div class="pre-scrollable" >
+                                    <div class=" " >
                                         {{-- Each Program Item --}}
                                         
                                         @if(App\Models\Semester::active_semester()->upcoming_programs == null )
@@ -21,8 +21,8 @@
 
                                         @else
 
-                                            @foreach(App\Models\Semester::active_semester()->upcoming_programs as $semester_program )
-                                                <div class="container">
+                                            {{-- @foreach(App\Models\Semester::active_semester()->upcoming_programs as $semester_program ) --}}
+                                                {{-- <div class="container">
                                                     <div class="bg-Primary" >
                                                             <h3>{{$semester_program->name }}</h3>
                                                             <h3>{{$semester_program->academic_period() }}</h3>
@@ -34,8 +34,46 @@
                                                                 <hr class="warning">
                                                             </a>
                                                     </div>
+                                                </div> --}}
+
+                                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators black">
+                                                      @foreach(App\Models\Semester::active_semester()->upcoming_programs as $index => $semester_program)
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"></li>
+                                                      @endforeach
+                                                    </ol>
+
+                                                    <div class="carousel-inner">
+                                                      @foreach(App\Models\Semester::active_semester()->upcoming_programs as $index => $semester_program) 
+                                                      <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                        @if( !empty($semester_program->meeting()->defaultImage))
+                                                        <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting()->defaultImage->url)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
+                                                        @else
+                                                          <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting()->defaultImage)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
+                                                        @endif
+                                                                <div class="text-uppercase text-white bg-info font-weight-bold h6" style="border-radius:15px; opacity:85%; padding:5px;">
+                                                                    <span>Name: {{$semester_program->name}}</span> <br>
+                                                                    <span>Date: {{$semester_program->start_date}}</span>
+                                                                <a href="{{route('show_semester_program',['semesterProgram' => $semester_program])}}">
+                                                                    <span class=" bg-primary float-right">...See More<i class="fa fa-eye"></i></span>
+                                                                </a>
+                                                                </div>
+                                                        </div>
+                                                      </div>
+                                                      @endforeach
+                                                   
+                                                    </div>  
+                                                    <a class="carousel-control-" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                      <span class="sr-only">Previous</span>
+                                                    </a>
+                                                    <a class="carousel-control-" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                      <span class="sr-only">Next</span>
+                                                    </a>
                                                 </div>
-                                            @endforeach
+
+                                            {{-- @endforeach --}}
 
                                         @endif
                             
@@ -51,12 +89,12 @@
                             {{-- Dashboard Item Ends --}}
 
                             {{-- Info About Program --}}
-                            <div class="process-view-container program_info">
+                            {{-- <div class="process-view-container program_info">
                                 <p style="font-weight:bolder">
                                     See Project Info here
                                 </p>
                                
-                            </div>
+                            </div> --}}
                             {{-- Info About Program Ends --}}
 
                         </div> <!-- end of dashboard container -->

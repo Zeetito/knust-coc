@@ -2,7 +2,7 @@
 
     {{-- If User Has Profile Details --}}
 
-    @if(!empty($user->biodata()))
+    @if(!empty($user->biodata))
 
     <div class="row" style="justify-items:center">
         <div class="col-12 bg bg-white" >
@@ -60,7 +60,7 @@
                             </li>
 
                             <li>
-                                Room: {{$user->biodata()->room}}
+                                Room: {{$user->biodata->room}}
                             </li>
                         </ul>
                     </div>

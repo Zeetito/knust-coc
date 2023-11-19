@@ -10,7 +10,7 @@
                             <div class="process-order">
                                     @allowedTo(['update_attendance'])
                                     <a href="{{route('show_attendance_users',['attendance'=>$attendance])}}">
-                                        <h3 style="text-align:center"> Attendance Session: {{$attendance->semester_program->name}}</h3>
+                                        <h3 style="text-align:center"> Attendance Session: {{$attendance->semesterProgram->name}}</h3>
                                         <i class="fa fa-eye"></i>
                                     </a>
                                     @endallowedTo
@@ -45,7 +45,7 @@
                                                             </a>
                                                             {{$member->fullname()}}
                                                         </td>
-                                                        <td>{{$member->biodata() !=null ? $member->zone()->name : "No Zone" }}</td>
+                                                        <td>{{$member->biodata !=null ? $member->zone()->name : "No Zone" }}</td>
                                                         <td>
                                                             @if($member->is_checked($attendance))
                                                                         @can('check',$member)

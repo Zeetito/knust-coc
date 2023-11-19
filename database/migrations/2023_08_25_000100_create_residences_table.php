@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('landmark')->nullable();
             $table->unsignedBigInteger('rep_id')->constrained()->nullable();
             $table->timestamps();
-
             $table->foreign('rep_id')->references('id')->on('users');
+
+            $table->unique(['name','zone_id']);
+
         });
     }
 

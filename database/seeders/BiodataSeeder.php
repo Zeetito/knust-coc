@@ -39,6 +39,8 @@ class BiodataSeeder extends Seeder
                     'zone_id' => $zone->id,
                     'room' => rand(1, 500),
                     'academic_year_id' => Semester::active_semester()->academicYear->id,
+                    'created_at'=>now(),
+                    'updated_at'=>now(),
 
                 ]);
             } elseif ($user->is_member == 1 && $user->is_student == 0) {
@@ -47,8 +49,8 @@ class BiodataSeeder extends Seeder
                 $zone = $residence->zone;
 
                 // A condition for alumin and year_group
-                $is_alumini = rand(0, 1);
-                if ($is_alumini == 1) {
+                $is_alumni = rand(0, 1);
+                if ($is_alumni == 1) {
                     $year_group_id = YearGroup::all()->random()->id;
                 } else {
                     $year_group_id = null;
@@ -62,15 +64,17 @@ class BiodataSeeder extends Seeder
                     'room' => rand(1, 500),
 
                     'ns_status' => rand(0, 1),
-                    'is_alumini' => $is_alumini,
+                    'is_alumni' => $is_alumni,
                     'year_group_id' => $year_group_id,
                     'academic_year_id' => Semester::active_semester()->academicYear->id,
+                    'created_at'=>now(),
+                    'updated_at'=>now(),
 
                 ]);
 
             } elseif ($user->member == 0 && $user->is_student == 0) {
-                // If User is Alumini
-                DB::table('alumini_biodatas')->insert([
+                // If User is Alumni
+                DB::table('alumni_biodatas')->insert([
                     'user_id' => $user->id,
                     'year_group_id' => YearGroup::all()->random()->id,
                     'country' => fake()->country(),
@@ -78,6 +82,8 @@ class BiodataSeeder extends Seeder
                     'state' => fake()->state(),
                     'local_congregation' => fake()->city().' Church of Christ',
                     'academic_year_id' => Semester::active_semester()->academicYear->id,
+                    'created_at'=>now(),
+                    'updated_at'=>now(),
                 ]);
 
             }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Meeting;
 use App\Models\Semester;
 use App\Models\Attendance;
 use Illuminate\Database\Seeder;

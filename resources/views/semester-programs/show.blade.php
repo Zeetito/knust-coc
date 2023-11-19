@@ -10,6 +10,9 @@
                 <li class="nav-item">
                     <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="program_outline">Program Outline</button>
                 </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="images"><i class="fa fa-camera"></i></button>
+                </li>
 
             </ul>
     
@@ -159,13 +162,42 @@
                     </table>
                 </div>
                 {{-- Users Tab Ends --}}
-    
-    
                 
-                <div class="tab-pane" id="messages" role="tabpanel">
-                    3Messagess. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {{-- Images --}}
+                <div class="tab-pane" id="images" role="tabpanel">
+                    <div class="card-body">
+                        <form action="{{route('store_image')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                @csrf
+    
+                                <label for="image">Choose Image:</label>
+                                <input type="file" name="image" id="image" accept="image/*" required>
+                                @error('image')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                @enderror
+    
+                                {{-- <label for="imageable_type">imageable Type:</label> --}}
+                                <input type="text" value="App\Models\SemesterProgram" name="imageable_type" id="imageable_type" hidden required>
+    
+                                {{-- <label for="imageable_id">imageable ID:</label> --}}
+                                <input type="text" name="imageable_id" value="{{$semester_program->id}}" id="imageable_id" hidden required>
+    
+    
+                            <button type="submit" name="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+    
+                        </form>
+                    </div>
+
+                    @foreach($semester_program->images as $photo )
+                    <div class="card">
+                        <span ><i class="fa fa-trash"></i></span>
+                        <img class="image-display" src="{{asset('storage/images/'.$photo->url) }}" alt="photo">
+                    </div>
+                    @endforeach 
+
                 </div>
+                {{-- Users Tab Ends --}}
+    
+
                 
                 {{-- Tab Div ends --}}
             </div>

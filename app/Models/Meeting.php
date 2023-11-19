@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DefaultImage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Meeting extends Model
 {
@@ -19,4 +20,15 @@ class Meeting extends Model
     {
         return $this->hasMany(Attendance::class, 'meeting_type');
     }
+
+    // Default images for each of the meetings
+    public function defaultImages(){
+        return $this->morphMany(DefaultImage::class,'defaultImageable');
+    }
+
+    public function defaultImage(){
+        return $this->morphOne(DefaultImage::class,'defaultImageable');
+    }
+
+
 }

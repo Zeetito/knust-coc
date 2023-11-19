@@ -6,12 +6,7 @@
                 <li class="nav-item">
                     <button class="nav-link active" data-toggle="tab"  role="tab" aria-controls="users">Users</button>
                 </li>
-                <li class="nav-item">
-                    <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="permissions">Faculties</button>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab"  role="tab" aria-controls="messages">Departments</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab"  role="tab" aria-controls="programs">Programs</a>
                 </li>
@@ -147,13 +142,7 @@
                     </div>
                 </div>
                 {{-- Users Tab Ends --}}
-    
-    
-                
-                <div class="tab-pane" id="messages" role="tabpanel">
-                    3Messagess. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div>
+
                 
                 {{-- Tab Div ends --}}
             </div>

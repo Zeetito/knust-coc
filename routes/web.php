@@ -25,7 +25,9 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DefaultImageController;
 use App\Http\Controllers\ProgramOutlineController;
 use App\Http\Controllers\SemesterProgramController;
 
@@ -53,8 +55,8 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 
     // Search User request
     Route::get('search_user_requests',[Admin\UserRequestController::class, 'search_user_requests'])
-    ->name('search_user_requests')
-    ;
+        ->name('search_user_requests')
+        ;
     // Filter User Requests
     Route::get('filter_user_requests', [Admin\UserRequestController::class, 'filter_user_requests'])
         ->name('filter_user_requests');
@@ -78,8 +80,8 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
     
     // Search Guest request
     Route::get('search_guest_requests',[Admin\GuestController::class, 'search_guest_requests'])
-    ->name('search_guest_requests')
-    ;
+        ->name('search_guest_requests')
+        ;
 
     // Filter Guest Requests
     Route::get('filter_guest_requests', [Admin\GuestController::class, 'filter_guest_requests'])
@@ -117,7 +119,13 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
     // Update Unavailable Members Status
     Route::put('update_unavailable_members_status/{user}', [Admin\UserController::class, 'update_unavailable_members_status'])
         ->name('update_unavailable_members_status');
-
+    // Mark unvailable confim - MOdal
+    Route::get('mark_unavailable_confirm/{user}',[Admin\UserController::class,'mark_unavailable_confirm'])
+        ->name('mark_unavailable_confirm')
+        ;
+    Route::post('mark_user_unavailable/{user}',[Admin\UserController::class,'mark_user_unavailable'])
+        ->name('mark_user_unavailable')
+        ;
     // INACTIVE USERS
     // Show All Inactive Accounts
     Route::get('inactive_accounts', [Admin\UserController::class, 'show_inactive_accounts'])
@@ -133,10 +141,19 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
     // Edit Inactive Account Status - returns Modal
     Route::get('edit_inactive_account_status/{user}', [Admin\UserController::class, 'edit_inactive_account_status'])
         ->name('edit_inactive_account_status');
+    // Mark User inactive confirm
+    Route::get('mark_user_inactive_confirm/{user}',[Admin\UserController::class, 'mark_user_inactive_confirm'])
+        ->name('mark_user_inactive_confirm')
+        ;
+    // Mark User Inactive
+    Route::post('mark_user_inactive/{user}',[Admin\UserController::class, 'mark_user_inactive'])
+        ->name('mark_user_inactive')
+        ;
 
     // Update Inactive Account Status
     Route::put('update_inactive_account_status/{user}', [Admin\UserController::class, 'update_inactive_account_status'])
-        ->name('update_inactive_account_status');
+        ->name('update_inactive_account_status')
+        ;
 
     // HOME
     Route::get('home', [Admin\UserController::class, 'home'])
@@ -154,6 +171,13 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 Route::post('/store_image',[ImageController::class,"store"])
     ->middleware('auth')
     ->name('store_image')
+    ;
+
+// DEFAULT IMAGES
+// Store Default Image - PolyMorphs
+Route::post('/store_default_image',[DefaultImageController::class,"store"])
+    ->middleware('auth')
+    ->name('store_default_image')
     ;
 
 
@@ -178,6 +202,17 @@ Route::get('/filter_semester_programs', [SemesterProgramController::class, 'filt
 Route::get('/semester_program/{semesterProgram}', [SemesterProgramController::class, 'show'])
     ->middleware('auth')
     ->name('show_semester_program');
+// UPload semester Program Image form
+Route::get('/upload_semester_program_image/{semesterProgram}',[SemesterProgramController::class, 'upload_semester_program_image'])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('upload_semester_program_image')
+    ;
+
+// Add Semester Program - Modal
+Route::get('add_semester_program',[SemesterProgramController::class, 'create'])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('add_semester_program')
+    ;
 
 // OFFICIATOR
 // Add Officiator
@@ -275,6 +310,8 @@ Route::get('/search_college_program/{college}', [CollegeController::class, 'sear
     ->middleware('auth')
     ->name('search_college_program');
 
+    
+
 // FACULTIES
 // View all faculties
 Route::get('/faculties', [FacultyController::class, 'index'])
@@ -314,6 +351,44 @@ Route::get('/zone/{zone}', [ZoneController::class, 'show'])
 // RESIDENCES
 
 // ---------------
+
+// ------------------------
+    // MEETING
+// View all meetings
+Route::get('/meetings',[MeetingController::class,'index'])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('meetings')
+    ;
+
+// Show a meeting
+Route::get('/meeting/{meeting}',[MeetingController::class,'show'])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('show_meeting')
+    ;
+// Create meeting - modal
+Route::get('/create_meeting',[MeetingController::class,"create"])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('create_meeting')
+    ;
+// Store Meeting 
+Route::post('meeting',[MeetingController::class,"store"])  
+    ->middleware('auth','role:ministry_members_level')
+    ->name('store_meeting')
+    ;
+
+// Confirm Meeting - modal
+Route::get('confirm_meeting_delete/{meeting}',[MeetingController::class,"confirm_delete"])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('confirm_meeting_delete')
+    ;
+// Delete Meeting
+Route::delete('delete_meeting/{meeting}',[MeetingController::class,"destroy"])
+    ->middleware('auth','role:ministry_members_level')
+    ->name('delete_meeting')
+    ;
+
+// -------------------------------
+
 
 // ----------------
 // ROLES
@@ -441,6 +516,11 @@ Route::get('/attendance/{attendance}/{user}', [AttendanceController::class, 'che
     ->middleware('auth')
     ->name('check_user');
 
+// Check Absentee
+Route::post('/check_absentee/{attendance}/{user}', [AttendanceController::class, 'check_absentee'])
+    ->middleware('auth')
+    ->name('check_absentee');
+
 // Uncheck User
 Route::delete('/uncheck_user/{attendance}/{user}', [AttendanceController::class, 'uncheck_user'])
     ->middleware('auth')
@@ -457,12 +537,17 @@ Route::get('/confirm_guest/{attendance}/{guest}', [AttendanceController::class, 
     ->name('confirm_uncheck_guest');
 
 // Confirmation for uncheck user
-Route::get('/confirm_user/{attendance}/{user}', [AttendanceController::class, 'confirm_uncheck_user'])
+Route::get('/confirm_user_uncheck/{attendance}/{user}', [AttendanceController::class, 'confirm_uncheck_user'])
     ->middleware('auth')
     ->name('confirm_uncheck_user');
 
+// Confirmation for Checking user -Absentees MOdal
+Route::get('/confirm_user_check/{attendance}/{user}', [AttendanceController::class, 'confirm_check_user'])
+    ->middleware('auth')
+    ->name('confirm_check_user');
+
 // Search Attendance Session
-Route::get('/search_attendance', [AttendanceController::class, 'search_attendance'])
+Route::get('/search_attendance/{semester}', [AttendanceController::class, 'search_attendance'])
     ->middleware('auth')
     ->name('search_attendance');
 
@@ -485,6 +570,53 @@ Route::post('/register_user_visitor/{attendance}', [AttendanceController::class,
 Route::post('/register_guest_visitor/{attendance}', [AttendanceController::class, 'register_guest_visitor'])
     ->middleware('auth', 'role:ministry_members_level')
     ->name('register_guest_visitor');
+
+// View All Absentee fo an attendance session
+Route::get('/absentees/{attendance}', [AttendanceController::class,'show_absentees'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('show_absentees')
+    ;
+
+// Search Absentees
+Route::get('/search_absentees/{attendance}',[AttendanceController::class,'search_absentees'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('search_absentees')
+    ;
+
+// filter Absentees
+Route::get('/filter_absentees/{attendance}',[AttendanceController::class,'filter_absentees'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('filter_absentees')
+    ;
+
+// Confirm Print Attendance
+Route::get('/confirm_print_absentees/{attendance}',[AttendanceController::class,'confirm_print_absentees'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('confirm_print_absentees')
+    ;
+// Print Absentees File
+Route::post('/print_absentee_file/{attendance}/{zone}',[AttendanceController::class,'print_absentee_file'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('print_absentee_file')
+    ;
+
+// Show Visitors
+Route::get('/show_guests/{attendance}',[AttendanceController::class,'show_guests'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('show_guests')
+    ;
+
+// Edit Absentee Status - Modal Wheter user was available or not
+Route::get('/edit_absentee_status/{attendance}/{user}',[AttendanceController::class,'edit_absentee_status'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('edit_absentee_status')
+    ;
+// Update Absentee Status
+Route::put('/udpate_absentee_status/{attendance}/{user}',[AttendanceController::class,'udpate_absentee_status'])
+    ->middleware('auth','role:zone_reps_level')
+    ->name('udpate_absentee_status')
+    ;
+
 // ------------------------------
 
 // --------------------------------
@@ -493,7 +625,7 @@ Route::post('/register_guest_visitor/{attendance}', [AttendanceController::class
 // Guest Register
 Route::get('/register', function () {
     return view('account.register');
-})
+    })
     ->name('register')
     ->middleware('guest');
 
@@ -514,12 +646,33 @@ Route::get('/login_page_fresher',[UserController::class, 'login_page_fresher'])
     ->name('login_page_fresher')
     ;
 
-// STUDENT
+
+
+    // STUDENT
 // Student Register
 Route::get('/register_student',[UserController::class, 'register_student'])
     ->middleware('guest')
     ->name('register_student')
     ;
+// View Program Mates
+Route::get('/program_mates/{user}',[UserController::class, 'view_program_mates'])
+    ->middleware('auth')
+    ->name('view_program_mates')
+    ;
+
+// Search a program mates
+Route::get('/search_program_mates/{user}',[UserController::class,'search_program_mates'])
+    ->middleware('auth')
+    ->name('search_program_mates')
+    ;
+
+// Filter Program mates
+Route::get('/filter_program_mates/{user}',[UserController::class,'filter_program_mates'])
+    ->middleware('auth')
+    ->name('filter_program_mates')
+    ;
+
+
 
 // User Login
 Route::get('/login', function () {
@@ -625,31 +778,15 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    // DB::table('alumini_biodatas')->where('academic_year_id',2)
-    //     ->update(['created_at'=>'2022-09-08', 'updated_at'=>'2023-09-08']);
-    //     return "heat";
-    // return User::find(1)->biodata();
-    return User::find(1)->photos;
-    return Image::find(1)->imageable;
+    return User::find(1)->attendance_status(Attendance::find(40));
+    $zone = Zone::find(16);
+    // return $zone;
+    return Attendance::find(41)->guests_present();
 
-    return new BiodataResource(User::find(1)->biodata());
-    return Semester::active_semester()->semester_programs;
-    return Semester::findByDate('2023-12-31');
-    return Semester::find(3)->semester_programs();
-
-    return now()->diffInHours('2023-09-08');
+    return College::find(1)->users()->count();
 
     return strtotime('last week').'<br>';
 
-    return date_diff(User::find(4)->created_at, now());
-
-    return User::get_all_inactive_accounts();
-
-    return SemesterProgram::find(15)->user_officiators()->get()->random()->officiator_id;
-
-    return DB::table('officiating_roles')->get()->random();
-
-    return fake()->firstname();
 
     $minDate = '2022-01-20'; // Set your desired minimum date
     $maxDate = '2023-12-31'; // Set your desired maximum date

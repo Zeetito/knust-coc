@@ -11,7 +11,7 @@
                                 <h3 style="text-align:center">Attendance Sessions</h3>
                                 <span>
                                     <form >
-                                        <input list="meetings" type="text" id="for_attendance_list" class="search_box" data-url="{{route('search_attendance')}}" placeholder="search name..." style="text-align:center;">
+                                        <input list="meetings" type="text" id="for_attendance_list" class="search_box" data-url="{{route('search_attendance',['semester'=>App\Models\Semester::active_semester()])}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
                                             <datalist id="meetings">
                                                 @foreach(App\Models\Meeting::all() as $meeting)
@@ -42,7 +42,7 @@
                                                        @if( $attendance->is_active == 0 && auth()->user()->hasPermissionTo(['update_attendance']) ) 
                                                             <tr id="tr_{{$attendance->id}}">
                                                                 <td>
-                                                                {{$attendance->semester_program->name}}
+                                                                {{$attendance->semesterProgram->name}}
                                                                 </td>
                                                                 
                                                                 
@@ -95,7 +95,7 @@
                                                         @elseif($attendance->is_active == 1)
                                                         <tr id="tr_{{$attendance->id}}">
                                                                 <td>
-                                                                {{$attendance->semester_program->name}}
+                                                                {{$attendance->semesterProgram->name}}
                                                                 </td>
                                                                 
                                                                 
@@ -152,6 +152,9 @@
                                                 </tbody>
                                                 {{-- Table Body Ends --}}
                                             </table>
+ 
+                                           
+                                            
                                            
                                     </div>
                             
