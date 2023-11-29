@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\DTD;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
+use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Image;
 use App\Models\College;
+use App\Models\Contact;
 use App\Models\Faculty;
 use App\Models\Program;
 use App\Models\Semester;
@@ -15,12 +18,15 @@ use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\GuestResource;
 use Illuminate\Support\Facades\Route;
 use Diglactic\Breadcrumbs\Breadcrumbs;
+use App\Http\Controllers\DTDController;
 use App\Http\Resources\BiodataResource;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
@@ -89,12 +95,12 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
         ;
 
     // Edit Guest Request - modal 
-    Route::get('edit_guest_request/{guest_request}',[Admin\GuestController::class, 'edit_guest_request'])
+    Route::get('edit_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'edit_guest_request'])
         ->name('edit_guest_request')
         ;
 
     // Handle Guest request - Deny or Grant
-    Route::post('handle_guest_request/{guest_request}',[Admin\GuestController::class, 'handle_guest_request'])
+    Route::post('handle_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'handle_guest_request'])
         ->name('handle_guest_request')
         ;
 
@@ -166,6 +172,177 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 // ------------------END ADMIN PAGES GROUPS ROUTES------------------
 
 
+
+
+// -----------------------------------------------------------------------
+// DOOR TO DOOR
+// Create Door To Door Form
+Route::get('dtd_create',[DTDController::class,'create'])
+        ->middleware('auth','hasProfile')
+        ->name('create_dtd')
+        ;
+// Store Fishing out
+Route::post('store_dtd',[DTDController::class,'store'])
+        ->middleware('auth','permission:create_fishing_out')
+        ->name('store_dtd')
+        ;
+    
+// Show DTD group
+Route::get('dtd_group/{group}',[DTDController::class,'show_dtd_group'])
+        ->middleware('auth','hasProfile','can:view,group')
+        ->name('show_dtd_group')
+        ;
+// Create A Door To Door Record Instance
+Route::get('create_dtd_record/{group}',[DTDController::class,'create_record'])
+        ->middleware('auth','hasProfile','can:view,group')
+        ->name('create_dtd_record')
+        ;
+// Edit A door to door Record - Modal
+Route::get('edit_dtd_record/{record_id}',[DTDController::class,'edit_record'])
+        ->middleware('auth','hasProfile')
+        ->name('edit_dtd_record')
+        ;
+// Update A door to door Record 
+Route::put('update_dtd_record/{record_id}',[DTDController::class,'update_record'])
+        ->middleware('auth','hasProfile')
+        ->name('update_dtd_record')
+        ;
+
+// Store A Door To Door Record Instance
+Route::post('store_dtd_record/{group}',[DTDController::class,'store_record'])
+        ->middleware('auth','hasProfile')
+        ->name('store_record')
+        ;
+// Create A SubGroup/Group for Door to Door Session
+Route::get('dtd_subgroup_create/{dtd}',[DTDController::class,'dtd_subgroup_create'])
+        ->middleware('auth','hasProfile')
+        ->name('dtd_subgroup_create')
+        ;
+
+// Store A SubGroup/Group for Door to Door Session
+Route::post('dtd_subgroup_store/{dtd}',[DTDController::class,'dtd_subgroup_store'])
+        ->middleware('auth','hasProfile')
+        ->name('dtd_subgroup_store')
+        ;
+
+
+
+// Store all DTD sessions through here
+// Route::post('dtd_store',[DTDController::class,'store'])
+//         ->middleware('auth','permission:create_fishing_out')
+//         ->name('store')
+
+// FISHING OUT
+// Create fishing out
+Route::get('fishing_out_create',[DTDController::class,'fishing_out_create'])
+        ->middleware('auth','permission:create_fishing_out')
+        ->name('fishing_out_create')
+        ;
+
+
+// -------------------------------------------------------------------------
+
+
+
+// ------------------------------------------------------------------------------
+// GROUPS
+// Show Any Group
+Route::get('group/{group}',[GroupController::class,'show'])
+        ->middleware('auth','hasProfile','can:view,group')
+        ->name('show_group')
+        ;
+// Confirm Group Delete
+Route::get('confirm_group_delete/{group}',[GroupController::class,'confirm_delete'])
+        ->middleware('auth','hasProfile')
+        ->name('confirm_group_delete')
+        ;
+// Delete Group
+Route::delete('delete_group/{group}',[GroupController::class,'delete'])
+        ->middleware('auth','hasProfile')
+        ->name('delete_group')
+        ;
+// Edit Group
+Route::get('edit_group/{group}',[GroupController::class,'edit'])
+        ->middleware('auth','hasProfile')
+        ->name('edit_group')
+        ;
+// Update Group
+Route::put('update_group/{group}',[GroupController::class,'update'])
+        ->middleware('auth','hasProfile')
+        ->name('update_group')
+        ;
+
+// Confirm Making User Admin
+Route::get('confirm_make_user_admin/{group}/{user}',[GroupController::class,'confirm_make_admin'])
+        ->middleware('auth','hasProfile')
+        ->name('confirm_make_user_admin')
+        ;
+
+// Make User Admin
+Route::put('make_user_admin/{group}/{user}',[GroupController::class,'make_admin'])
+        ->middleware('auth','hasProfile')
+        ->name('make_user_admin')
+        ;
+
+// Confirm Withdraw Admin Role
+Route::get('confirm_admin_withdraw/{group}/{user}',[GroupController::class,'confirm_admin_withdraw'])
+        ->middleware('auth','hasProfile')
+        ->name('confirm_admin_withdraw')
+        ;
+
+// WithDraw Admin Role
+Route::put('withdraw_admin_role/{group}/{user}',[GroupController::class,'withdraw_admin_role'])
+        ->middleware('auth','hasProfile')
+        ->name('withdraw_admin_role')
+        ;
+
+// Confirm Remove User
+Route::get('confirm_remove_user/{group}/{user}',[GroupController::class,'confirm_remove_user'])
+        ->middleware('auth','hasProfile')
+        ->name('confirm_remove_user')
+        ;
+
+// Remove User
+Route::put('remove_user/{group}/{user}',[GroupController::class,'remove_user'])
+        ->middleware('auth','hasProfile')
+        ->name('remove_user')
+        ;
+
+// View User Groups
+Route::get('groups/user/{user}',[UserController::class,'view_user_groups'])
+        ->middleware('auth','hasProfile')
+        ->name('view_user_groups')
+        ;
+// Create Invite 
+Route::get('create_invite/{group}',[GroupController::class,'create_invite'])
+        ->middleware('auth','hasProfile')
+        ->name('create_invite')
+        ;
+// Store Invite
+Route::post('store_invite/{group}',[GroupController::class,'store_invite'])
+        ->middleware('auth','hasProfile')
+        ->name('store_invite')
+        ;
+// Show User Invites
+Route::get('invites/{user}',[UserController::class,'view_user_invites'])
+        ->middleware('auth','hasProfile')
+        ->name('view_user_invites')
+        ;
+// Handle User Invite Form
+Route::get('handle_invite_form/{user}/{group}',[GroupController::class,'handle_invite_form'])
+        ->middleware('auth','hasProfile')
+        ->name('handle_invite_form')
+        ;
+// Response User Invite
+Route::put('handle_invite/{user}/{group}',[GroupController::class,'handle_invite'])
+        ->middleware('auth','hasProfile')
+        ->name('handle_invite')
+        ;
+
+// ------------------------------------------------------------------------------
+
+
+
 // IMAGES
 // Store Image - PolyMorphs
 Route::post('/store_image',[ImageController::class,"store"])
@@ -185,7 +362,7 @@ Route::post('/store_default_image',[DefaultImageController::class,"store"])
 // SEMESTER-PROGRAMS
 // View All semester Programs
 Route::get('/semester_programs', [SemesterProgramController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('semester_programs');
 
 // Create Semester Program
@@ -292,7 +469,7 @@ Route::delete('/program_outline/{semesterProgram}/{programOutline}/delete', [Pro
 
 // View All Colleges
 Route::get('/colleges', [CollegeController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('colleges');
 
 // Show A single College
@@ -340,7 +517,7 @@ Route::get('/search_faculty_program/{faculty}', [FacultyController::class, 'sear
 
 // View all Zones
 Route::get('/zones', [ZoneController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('zones');
 
 // Show A particular Zone
@@ -463,7 +640,7 @@ Route::get('search_role_non_permissions/{role}', [RoleController::class, 'search
 
 // Index page to view the various attendance sessions
 Route::get('/attendance', [AttendanceController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('attendance');
 
 // Show Attendance Session. See who's marked or not
@@ -656,7 +833,7 @@ Route::get('/register_student',[UserController::class, 'register_student'])
     ;
 // View Program Mates
 Route::get('/program_mates/{user}',[UserController::class, 'view_program_mates'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('view_program_mates')
     ;
 
@@ -696,7 +873,7 @@ Route::get('/', function () {
 
     return view('homepage');
 })
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('home');
 
 //  PROFILE / BIODATA
@@ -723,7 +900,7 @@ Route::get('/profile/{user}/new', [BiodataController::class, 'create'])
 // /store user profile
 Route::post('/profile/{user}/create', [BiodataController::class, 'store'])
     ->middleware('auth')
-    ->name('create_profile');
+    ->name('store_profile');
 
 // edit user profile
 Route::get('/profile/{user}/edit', [BiodataController::class, 'edit'])
@@ -760,7 +937,7 @@ Route::get('/avatar/{user}/reset', [UserController::class, 'reset_avatar'])
 
 // VIEWS
 Route::get('/users', [UserController::class, 'view_users'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile')
     ->name('view_users');
 
 // -------------------------------------------------
@@ -778,6 +955,13 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+    return Contact::find(3)->user;
+    return User::find(509)->main_contact;
+    return User::without_biodata();
+    return User::find(1)->is_creator_for(Group::find(1));
+    return Group::find(1)->members;
+    return DTD::find(1)->group_dtd_persons(Group::find(1));
+    return new GuestResource(Guest::find(1));
     return User::find(1)->attendance_status(Attendance::find(40));
     $zone = Zone::find(16);
     // return $zone;

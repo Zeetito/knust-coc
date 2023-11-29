@@ -3,7 +3,7 @@
 @else
 
     @foreach($residences as $residence)
-    <option value="{{$residence->name}}">Zone: {{$residence->zone->name}}</option>
+    <option value="{{$residence->name}}">{{$residence->name." - Zone: ".$residence->zone->name }}</option>
     @endforeach
 
 @endif

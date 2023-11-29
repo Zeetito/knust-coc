@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Guest;
 use App\Models\Meeting;
 use App\Models\Semester;
+use GeoIp2\Database\Reader;
 use Illuminate\Http\Request;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,10 @@ class SemesterProgramController extends Controller
      */
     public function store(Request $request)
     {
+        $reader = new Reader($databasePath);
+        $ipAddress = $request->ip();
+        $record = $reader->city($ipAddress);
+        return $record;
         //
         $validated = $request->validate([
             'name' => ['required'],

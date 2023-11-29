@@ -11,8 +11,12 @@ use App\Models\Semester;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\QueryException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AttendanceController extends Controller
 {
@@ -37,10 +41,34 @@ class AttendanceController extends Controller
         $validated = $request->validate([
             'semester_program_id' => ['required'],
         ]);
-
         $validated['semester_id'] = Semester::active_semester()->id;
 
-        Attendance::create($validated);
+        
+        try{
+            
+            // Attendance::create($validated);
+            $attendance = new Attendance;
+            $attendance['semester_program_id'] = $validated['semester_program_id'];
+            $attendance['semester_id'] = $validated['semester_id'];
+            $attendance->save();
+            
+        } catch (QueryException $e) {
+            Log::error($e);
+        
+            $errorCode = $e->errorInfo[1];
+        
+            // Check if the error code corresponds to a unique constraint violation
+            if ($errorCode == 1062) {
+                // Redirect to a custom error page for duplicate entry
+                return redirect()->back()->with('warning', 'Session Already Exists');
+            }
+        
+            // If it's not a unique constraint violation, you can handle other database-related errors here
+            // ...
+        
+            // Re-throw the exception if it's not a unique constraint violation
+            throw $e;
+        }
 
         return redirect(route('attendance'))->with('success','Attendance Session Created Successfully');
 
@@ -226,7 +254,7 @@ class AttendanceController extends Controller
                             'person_id'=>$member->id,
                             'is_user'=>1,
                             'is_present'=>$member->is_available == '1' ? '0' : '2',
-                             'reason' => $member->is_available == '0' ? $member->unavailable_member_info() : 'none', 
+                             'reason' => $member->is_available == '0' ? ($member->unavailable_member_info() == null ? "None" : $member->unavailable_member_info() ) : 'none', 
                             'checked_by'=>auth()->user()->id,
 
                         ]);
@@ -346,6 +374,15 @@ class AttendanceController extends Controller
         return view('attendance.attendance-users.components.absentees.search-results',['absentees'=>$absentees,'attendance'=>$attendance]);
     }
 
+    // Needed by the Excel Spreadsheet
+    private function writeToBuffer($spreadsheet)
+    {
+        ob_start();
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        return ob_get_clean();
+    }
+
     // Print Absentee file
     public function print_absentee_file(Attendance $attendance, Zone $zone, Request $request){
         if ($request['file_type'] == 'pdf'){
@@ -368,20 +405,53 @@ class AttendanceController extends Controller
                 // Table Heading
                 $pdf->Cell(40, 10, 'Name', 1);
                 $pdf->Cell(40, 10, 'Year', 1);
+                $pdf->Cell(40, 10, 'Residence', 1);
 
                 // Output table
                 foreach ($attendance->zone_absentees($zone) as $member) {
-
-                        $pdf->Cell(40, 10, $member->fullname(), 1);
-                        $pdf->Cell(40, 10, $member->year(), 1);
-                        // $pdf->Cell(40, 10, $member->contact(), 1);
-                        
+                    $pdf->Cell(40, 10, $member->fullname(), 1);
+                    $pdf->Cell(40, 10, $member->year() == null ? "None" : $member->year(), 1);
+                    $pdf->Cell(40, 10, $member->biodata != null ? $member->biodata->residence->name : "None", 1);
                     $pdf->Ln(); // Move to the next line after each row
                 }
-                return $pdf->Output($zone->name.' Absentees - '.$attendance->created_at->format('Y-m-D-d').'.pdf', 'D');
+                $pdf->Output($zone->name.' Absentees - '.$attendance->created_at->format('Y-m-D-d').'.pdf', 'D');
 
-        }elseif($request['file_type'] == 'excel'){
-            return "excel please";
+                return redirect()->back()->with('success','Download Successful. Check Downloads');
+
+        }elseif($request['file_type'] == 'excel') {
+    
+            // Create a new Spreadsheet
+            $spreadsheet = new Spreadsheet();
+    
+            // Set active sheet
+            $spreadsheet->setActiveSheetIndex(0);
+            $sheet = $spreadsheet->getActiveSheet();
+    
+            // Add headers
+            $headers = ['Full Name', 'Year', 'Residence'];
+            foreach ($headers as $colIndex => $header) {
+                $sheet->setCellValueByColumnAndRow($colIndex + 1, 1, $header);
+            }
+    
+            // Add data to the sheet
+            $rowIndex = 2; // Start from the second row (after headers)
+            foreach ($attendance->zone_absentees($zone) as $member) {
+                $sheet->setCellValueByColumnAndRow(1, $rowIndex, $member->fullname());
+                $sheet->setCellValueByColumnAndRow(2, $rowIndex, $member->year() == null ? "None" : $member->year());
+                $sheet->setCellValueByColumnAndRow(3, $rowIndex, $member->biodata != null ? $member->biodata->residence->name : "None");
+                $rowIndex++;
+            }
+    
+            // Set headers for download
+            $headers = [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition' => 'attachment; filename="'.$zone->name.' Absentees - '.$attendance->created_at->format('Y-m-D-d').'.xlsx"',
+            ];
+    
+            // Create a response with the Excel file
+            $response = response($this->writeToBuffer($spreadsheet), 200, $headers);
+    
+            return $response;
         }
     }
 

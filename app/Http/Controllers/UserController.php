@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 
+use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Semester;
 use App\Models\GuestRequest;
@@ -87,6 +88,8 @@ class UserController extends Controller
         $account_request['body'] = json_encode($validated); 
         $account_request['type'] = "Account"; 
         $account_request['table_name'] = "users";
+        $account_request['model_name'] = "App\Models\User";
+        $account_request['resource_name'] = "App\Http\Resources\UserResource";
         $account_request['method'] = "insert";
         $account_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
         $account_request->save();
@@ -272,6 +275,19 @@ class UserController extends Controller
         $users =  User::whereIn('id',$users_id)->get();
         return view('users.students.special.program-mates.search-results',['mates'=>$users, 'user'=>$user]);
     }
+
+    // View User Groups
+    public function view_user_groups(User $user){
+        return view('groups.user-groups.index',['user'=>$user]);
+    }
+
+    // View User Invites
+    public function view_user_invites(User $user){
+        return view('groups.user-invites.index',['user'=>$user]);
+    }
+
+
+
 
 }
 

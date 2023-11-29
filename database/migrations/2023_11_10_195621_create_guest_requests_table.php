@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('type'); //Account, Biodata, Attendance, 
             $table->boolean('is_draft')->default(0);
             $table->string('table_name');
+            $table->string('model_name');
+            $table->string('resource_name');
             $table->string('method'); //insert,update,delete
             $table->boolean('is_handled')->default(0);
             $table->string('handle_method')->nullable(); //Denied or Granted

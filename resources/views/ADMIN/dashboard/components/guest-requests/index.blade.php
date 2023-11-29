@@ -43,6 +43,7 @@
                             </div>
                             <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname." - ".$request->guest()->status." (".$request->method." ".$request->type.")" }}</small>
+                            <div class="font-weight-bold">Contact: {{$request->guest()->contact}}</div>
                             <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
@@ -60,6 +61,7 @@
                             </div>
                             <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname." - ".$request->guest()->status." (".$request->method." ".$request->type.")" }}</small>
+                            <div class="font-weight-bold">Contact: {{$request->guest()->contact}}</div>
                             <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>

@@ -15,9 +15,22 @@ class MembersBiodata extends Model
     protected $fillable = [
         'user_id',
         'academic_year_id',
+        'year',
+        'program_id',
+        'college_id',
+        'residence_id',
+        'zone_id',
+        'room',
+        'year_group_id',
+        'country',
+        'state',
+        'city',
+        'local_congregation',
         'ns_status',
         'is_alumini',
     ];
+
+// protected $visible = ['ns_status', /* other attributes */];
 
     // REALTIONSHIPS
     

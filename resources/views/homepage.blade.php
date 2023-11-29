@@ -46,10 +46,10 @@
                                                     <div class="carousel-inner">
                                                       @foreach(App\Models\Semester::active_semester()->upcoming_programs as $index => $semester_program) 
                                                       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                        @if( !empty($semester_program->meeting()->defaultImage))
-                                                        <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting()->defaultImage->url)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
+                                                        @if( !empty($semester_program->meeting->defaultImage))
+                                                        <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting->defaultImage->url)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
                                                         @else
-                                                          <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting()->defaultImage)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
+                                                          <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting->defaultImage)}});  height: 400px;   background-size: 100%; background-repeat: no-repeat;">
                                                         @endif
                                                                 <div class="text-uppercase text-white bg-info font-weight-bold h6" style="border-radius:15px; opacity:85%; padding:5px;">
                                                                     <span>Name: {{$semester_program->name}}</span> <br>

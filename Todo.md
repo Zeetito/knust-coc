@@ -303,7 +303,57 @@ Attendance
 # User composite unique columns on some tables to check double entry and use try and catch to throw     appropriate error message.
 ## Absentees page. See Absentees without reason and absentees with reason.
 
-### Phase 17
+## Phase 17
+# See what a guest is creating before granting or denying the request
+## Door To Door Model (DTD)
+-type ['evangelism','fishing_out','visitation']
+-location_id
+-is_zone
+-created_by
+timestamps
+# Group [Zone,residence,Program,Course,door_to_door]
+groupable type
+name
+
+...
+
+# user_groups
+user_id
+group_id
+
+# dtd_persons
+dtd_id
+group_id
+residence_id
+person_id
+is_user
+room
+floor  
+info - nullable()
+timestamps
+
+
+Edit,Delete,create - Groups
+
+Edit,Delete,create - DTDs
+
+Make User Admin of Groups functionality
+# User contacts
+Add Contact when Creating Profile and Get rid of 
+College and Zone which are taken care of by the Program and residence respectively.
+Get Number of Users without Profile.
+
+
+# Make Contact update request when contact is edited during profile editing
+
+### Phase 18
+# Update user [birthday, FirstName, Second Name, Username, etc...]
+# Requests to join Group
+# Sort request according to -- [ Users , Zone-users, ], [Insert, delete, update,],
+# Be able to see all request made by a particular user
+# Announcements.
+
+### phase 19
 # Use GeoLocation to permit marking attendance 
 # Implement the User history using the Biodata details.
 # A Two factor verification would be implement later on to cater for authrorization

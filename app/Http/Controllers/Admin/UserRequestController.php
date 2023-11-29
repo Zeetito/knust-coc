@@ -6,8 +6,8 @@ use App\Models\User;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BiodataResource;
 
 class UserRequestController extends Controller
 {
@@ -51,15 +51,15 @@ class UserRequestController extends Controller
 
     // Edit User Request - Modal
     public function edit_user_request(UserRequest $user_request){
-        $old_resource = new BiodataResource((DB::table($user_request->table_name)->where("id",$user_request->instance_id)->first()));
+        $old_resource_data = DB::table($user_request->table_name)->where("id", $user_request->instance_id)->first();
+        $old_resource = new ($user_request->resource_name)($old_resource_data);
         $old_resource = json_decode(json_encode($old_resource,true));
         
-        $body = json_decode($user_request->body, true);
-        unset($body['created_at']);
-        unset($body['updated_at']);
-        // return $body;
-        $new_resource = new BiodataResource($body);
-        // return $new_resource;
+        $new_resource_data = json_decode($user_request->body, true);
+        $new_resource_data = ($user_request->model_name)::make($new_resource_data);
+        $new_resource = new ($user_request->resource_name)($new_resource_data);
+        $new_resource = json_decode(json_encode($new_resource,true));
+
         return view('ADMIN.dashboard.components.user-requests.edit', ['user_request' => $user_request, 'old_resource'=>$old_resource, 'new_resource'=>$new_resource]);
     }
 
@@ -103,7 +103,6 @@ class UserRequestController extends Controller
                     $old_instance = DB::table($user_request->table_name)
                                         ->where("id",$user_request->instance_id)
                                         ;
-                    // Unset the Instance Id since it'd cuase confusion and we don't need it
 
                     // Do the update here
                     $old_instance->{$user_request->method}($body);

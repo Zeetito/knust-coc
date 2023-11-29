@@ -4,6 +4,7 @@ A guest would be notified through email if account is approved of.
 
 NOTIFICATIONS
 
+Announcements - First Section.
 
 --
 Important Notification.

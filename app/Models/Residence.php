@@ -37,4 +37,27 @@ class Residence extends Model
         return Residence::where('name', $name)->first();
 
     }
+
+    public function search(Request $request){
+        $string = $request->input('str');
+        $str = '%'.$string.'%';
+
+        // Check if the input is empty or not
+        // Define user collection if not...
+        if (! empty($string)) {
+            $residences = Residence::
+                            //Searching firstname,lastname and username
+                            where('name','like', $str);
+
+            // Define user collection if empty...
+        } else {
+            //  $residences = User::
+            //  $residences = User::paginate($perPage = 25, $columns = ['*'], $pageName = "residences" );
+            $residences = Residence::orderBy('id');
+
+        }
+        // Retrieve the needed component
+
+        return $residences;
+    }
 }

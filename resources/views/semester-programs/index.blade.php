@@ -38,9 +38,11 @@
                                 </span>
 
                                 {{-- New Semester Program Button --}}
+                                @allowedTo(['create_attendance'])
                                 <span class="btn btn-info float-right mb-2" data-toggle="modal" data-target="#myModal" data-url="{{route('add_semester_program')}}" >
                                     New Semester Program
                                 </span>
+                                @endallowedTo
 
                             </div>
     

@@ -14,14 +14,48 @@
                     TOOLS
                 </li>
 
+                {{-- User --}}
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-user"></i> User</a>
+                    <ul class="nav-dropdown-items">
+
+                        {{-- Profile --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('view_profile',['user'=>auth()->user()])}}"><i class="fa fa-id-card"></i> Profile</a>
+                        </li>
+                        {{-- Groups --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('view_user_groups',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> Groups</a>
+                        </li>
+
+                        
+                    </ul>
+                </li>
+
                 {{-- NOTIFICATION --}}
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-bell"></i> Notifications</a>
                     <ul class="nav-dropdown-items">
-                        {{-- College --}}
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Birthdays</a>
-                        </li> --}}
+                        {{-- Announcements --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-bullhorn"></i> Announcements</a>
+                        </li>
+                        {{-- Group Invites --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('view_user_invites',['user'=>auth()->user()])}}"><i class="fa fa-envelope"></i> 
+                                Invites
+                                @if(auth()->user()->has_invites())
+                                    (<span class="h6 mb-4">{{auth()->user()->invites->count()}}</span>)
+                                @endif
+                            
+                            </a>
+                           
+                        </li>
+                        {{-- Birthdays --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-heart-o"></i> Birthdays</a>
+                           
+                        </li>
                         
                     </ul>
                 </li>
@@ -42,9 +76,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('semester_programs')}}"><i class="fa fa-calendar-check-o"></i> Semester Programs</a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href=""><i class="icon-user"></i> </a>
-                        </li> --}}
+
+                        {{-- Door To Door --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('create_dtd')}}"><i class="fa fa-child"></i> Door To Door</a>
+                        </li>
+
                      
                     </ul>
                 </li>

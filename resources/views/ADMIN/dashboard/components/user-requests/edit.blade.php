@@ -16,37 +16,26 @@
                 </div>
 
                 {{-- View Difference Between The Previous and the New --}}
-                <div class = "row ">
-                
-                    <div class=" ml-2  bg-warning col-5">
+                <div class="row ">
+                    <div class="bg-warning col-5">
                         <h6>Previous</h6>
-                    {{-- <ul> --}}
-                        @foreach( $old_resource as $key => $value )
-                            <li>
-                                {{$key." - ".$value}}
-                            </li>
-                        @endforeach
-                    {{-- </ul> --}}
-
+                        {{-- Display old resource attributes --}}
+                        <span>
+                            @foreach($old_resource as $key => $value)
+                                <li><strong>{{ $key }}</strong>: {{ $value }}</li>
+                            @endforeach
+                        </span>
                     </div>
-                    <div class=" ml-2 bg-info col-5">
+                
+                    <div class="bg-info col-5">
                         <h6>Update</h6>
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
-                        Massa
+                        {{-- Display new resource attributes --}}
+                        <span>
+                            @foreach($new_resource as $key => $value)
+                                <li><strong>{{ $key }}</strong>: {{ $value }}</li>
+                            @endforeach
+                        </span>
                     </div>
-                 
                 </div>
 
                 {{-- INPUTS --}}

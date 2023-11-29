@@ -45,6 +45,23 @@
                     </a>
                 </div>
 
+                {{-- Users Without Biodata --}}
+                <div class="col-sm-6 col-md-4 mt-3">
+                    <a class="card text-white bg-success" href="{{route('show_user_requests')}}">
+                        <div class="card-body">
+                            <div class="h1 text-muted text-right mb-4">
+                                <i class="fa fa-id-card"></i>
+                            </div>
+                            <div class="h4 mb-0">{{App\Models\User::without_biodata()->count()}}</div>
+                            <small class="text-muted text-uppercase font-weight-bold">Users With No Profile</small>
+                            <div class="progress progress-white progress-xs mt-3">
+                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
                 {{-- Unavailable Members --}}
                 <div class="col-sm-6 col-md-4 mt-3">
                     <a class="card text-white bg-success" href="{{route('show_user_requests')}}">

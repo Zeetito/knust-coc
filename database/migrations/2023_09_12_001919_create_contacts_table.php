@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             // Contact is not unique. For eg. two people could have the same guardian contact
-            $table->string('contact');
+            $table->string('body');
             $table->string('type')->nullable();//email, linkedIn, phone/ school Voda etc.
-            $table->string('owner')->default('personal');//personal / guradian
+            $table->string('ownership')->default('personal');//personal / guradian
             $table->string('relation')->default('personal');//Uncle / Father
             $table->boolean('is_main');
             $table->boolean('is_visible');
             $table->timestamps();
 
             // A pair of user_id and Contact must be unique
-            $table->unique(['user_id','contact']);
+            $table->unique(['user_id','type','body']);
 
         });
     }

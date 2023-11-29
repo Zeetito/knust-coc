@@ -9,12 +9,20 @@
                    This Action Cannot Be Undone
                 </div>
 
-                <div class=" mb-0">{{$guest_request->created_at->diffInDays(now())}} Days Ago</div>
-                <small class="text-uppercase font-weight-bold">{{$guest_request->guest()->fullname." - ".$guest_request->guest()->status." (".$guest_request->method." ".$guest_request->type.")" }}</small>
-                <div class="progress progress-white progress-xs mt-3">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                {{-- Guest and The Resource --}}
+                <div class="row ">
+                    
+                
+                    <div class="bg-info col-12">
+                        <h6>Data</h6>
+                        {{-- Display new resource attributes --}}
+                        <span>
+                            @foreach($new_resource as $key => $value)
+                                <li><strong>{{ $key }}</strong>: {{ $value }}</li>
+                            @endforeach
+                        </span>
+                    </div>
                 </div>
-
                 {{-- INPUTS --}}
                 <div>
                     <strong>Action</strong>

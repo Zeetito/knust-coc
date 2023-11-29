@@ -98,6 +98,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'Add Program Outline', 'slug' => 'add_program_outline'],
             ['name' => 'Update Program Outline', 'slug' => 'update_program_outline'],
             ['name' => 'Delete Program Outline', 'slug' => 'delete_program_outline'],
+            
+            // DOOR TO DOOR
+            ['name' => 'Access Fishing Out', 'slug' => 'access_fishing_out'],
+
+
+            // FISHING OUT
+            ['name' => 'Access Fishing Out', 'slug' => 'access_fishing_out'],
+            ['name' => 'Create Fishing Out', 'slug' => 'create_fishing_out'],
+            ['name' => 'Update Fishing Out', 'slug' => 'update_fishing_out'],
+            ['name' => 'Delete Fishing Out', 'slug' => 'delete_fishing_out'],
 
         ];
 

@@ -12,28 +12,32 @@
  
      <title>Knust Church Of Christ</title>
  
+
+
+
      <!-- Icons -->
-     <link href="{{ asset("css/style.css") }}" rel="stylesheet">
-     {{-- <link href="{{ asset("css/bootstrap.css") }}" rel="stylesheet"> --}}
-     <link href="{{ asset("css/simple-line-icons.css") }}" rel="stylesheet">
      <link href="{{ asset("css/font-awesome.css") }}" rel="stylesheet">
+     <link href="{{ asset("css/simple-line-icons.css") }}" rel="stylesheet">
+     {{-- <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet"> --}}
+     <link href="{{ asset("css/style.css") }}" rel="stylesheet">
  
      <!-- Main styles for this application -->
      
      {{-- Custom Styles --}}
      <link href={{ asset("css/custom.css") }} rel="stylesheet">
 
+
     <!-- Bootstrap and necessary plugins -->
     <script src={{asset("js/jquery-3.6.0.min.js")}}></script>
-    <script src={{asset("js/popper.min.js")}}></script>
     <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
-    
+    {{-- <script src={{asset("js/views/bootstrap.min.js")}}></script> --}}
+    <script src={{asset("js/views/bootstrap.bundle.min.js")}}></script>
 
     {{-- Some specific for view features --}}
     {{-- <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script> --}}
     {{-- <script src={{asset("js/views/charts.js")}}></script> --}}
     <script src={{asset("js/views/main.js")}}></script>
-    {{-- <script src={{asset("js/views/widgets.js")}}></script> --}}
+    <script src={{asset("js/views/widgets.js")}}></script>
  
  </head>
 
@@ -164,7 +168,6 @@
                 <span class="float" >Knust CoC  © {{Date('Y')}} </span>
             </div>
         </footer>
-        
         
  
 

@@ -7,7 +7,9 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
+use App\Models\Group;
 use App\Models\Image;
+use App\Models\Contact;
 use App\Models\Program;
 use App\Models\Semester;
 use App\Models\Residence;
@@ -150,7 +152,77 @@ class User extends Authenticatable
         return $this->biodata->year;
     }
 
+    // Contacts
+    public function contacts(){
+        return $this->hasMany(Contact::class)->orderByDesc('ownership');
+    }
+
+    // Getting Main Phone Number
+    public function phone(){
+        return $this->hasOne(Contact::class)
+                ->where('type','phone');
+    }
+
+    // Getting Main whatsapp Number
+    public function whatsapp(){
+        return $this->hasOne(Contact::class)
+                ->where('type','whatsapp');
+    }
+
+    // Getting Main school_voda Number
+    public function school_voda(){
+        return $this->hasOne(Contact::class)
+                ->where('type','school_voda');
+    }
+
+    // Getting Main other Number
+    public function other_contact(){
+        return $this->hasOne(Contact::class)
+                ->where('type','other');
+    }
+
+    // Getting Main Guardian Contact
+    public function main_guardian_contact(){
+        return $this->hasOne(Contact::class)
+                ->where('type','guardian')
+                ->where('is_main','1')
+                ;
+    }
+    // Other Guardian Contact
+    public function other_guardian_contact(){
+        return $this->hasOne(Contact::class)
+                ->where('type','guardian')
+                ->where('is_main','0')
+                ;
+    }
+
+    // Get User Main Contact
+    public function main_contact(){
+        return $this->hasOne(Contact::class)
+        ->where('ownership','personal')
+        ->where('is_main','1')
+        ;
+    }
+
+    // Groups
+    // Retrieve Groups of a user.
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class,'group_users','user_id','group_id')
+                ->where('is_member',1)
+                ->where('is_active',1)
+                ->latest();
+    }
+    public function invites()
+    {
+        return $this->belongsToMany(Group::class,'group_users','user_id','group_id')
+        ->where('is_member',0)
+        ->latest();
+    }
+
     // FUNCTIONS
+
+    // PROFILE / BIODATA
 
     public function hasProfile()
     {
@@ -180,7 +252,7 @@ class User extends Authenticatable
         }
     }
 
-    // BIODATA/PROFILE GET
+    // biodata Get
     public function biodata()
     {
         // Check if user is a member
@@ -201,6 +273,16 @@ class User extends Authenticatable
     public function member_biodata(){
         return $this->hasOne(MembersBiodata::class)
         ->latest();
+    }
+    // Get Alumni Biodata
+    public function alumni_biodata(){
+        return $this->hasOne(AlumniBiodata::class)
+        ->latest();
+    }
+
+    // Get members with no current Biodata
+    public static function without_biodata(){
+        return User::doesntHave('alumni_biodata')->doesntHave('member_biodata')->get();
     }
 
     // User Status - Whether a Non-Student Member, etc
@@ -403,6 +485,40 @@ class User extends Authenticatable
     // Attendance Instance
     public function attendance_instance(Attendance $attendance){
         return  DB::table('attendance_users')->where('attendance_id',$attendance->id)->where('is_user',1)->where('person_id',$this->id);
+    }
+
+    // Check If User has Invites
+    public function has_invites(){
+        return DB::table('group_users')
+                ->where('user_id',$this->id)
+                ->where('is_member',0)
+                ->exists()
+                ;
+    }
+
+    // Check If User is a Member of A group
+    public function is_member_of(){
+        return DB::table('group_users')
+                ->where('user_id',$this->id)
+                ->where('is_member',1)
+                ->exists()
+                ;
+    }
+
+    // Check if user is an admin for a group
+    public function is_admin_for(Group $group){
+        return DB::table('group_users')
+        ->where('user_id',$this->id)
+        ->where('is_member',1)
+        ->where('is_admin',1)
+        ->exists()
+        ; 
+    }
+
+    // Check if User is creator of A group
+    public function is_creator_for(Group $group){
+        return $group->created_by == $this->id;
+        
     }
 
 }
