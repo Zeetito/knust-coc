@@ -12,8 +12,10 @@ use App\Models\Contact;
 use App\Models\Faculty;
 use App\Models\Program;
 use App\Models\Semester;
+use App\Models\Accessory;
 use App\Models\Attendance;
 use App\Models\Permission;
+use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -49,121 +51,175 @@ use App\Http\Controllers\SemesterProgramController;
 */
 
 // -------------------ADMIN PAGES GROUPS ROUTES--------------
-Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level')->group(function () {
+Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'role:zone_reps_level')->group(function () {
+    // DASHBOARD
+        // USER RELATED
 
-    // USER RELATED
+        // USERS WITHOUT BIODATA
+        // Index page
+        Route::get('/without_biodata',[Admin\UserController::class,'without_biodata'])
+            ->name('users_without_biodata')
+            ;
 
-    // USER REQUESTS
-    // View all user request
-    Route::get('user_requests',[Admin\UserRequestController::class, 'show_user_requests'])
-        ->name('show_user_requests')
+        // Search
+        Route::get('/search_users_without_biodata',[Admin\UserController::class,'search_users_without_biodata'])
+        ->name('search_users_without_biodata')
         ;
-
-    // Search User request
-    Route::get('search_user_requests',[Admin\UserRequestController::class, 'search_user_requests'])
-        ->name('search_user_requests')
-        ;
-    // Filter User Requests
-    Route::get('filter_user_requests', [Admin\UserRequestController::class, 'filter_user_requests'])
-        ->name('filter_user_requests');
-
-    // Edit Guest Request - modal 
-    Route::get('edit_user_request/{user_request}',[Admin\UserRequestController::class, 'edit_user_request'])
-        ->name('edit_user_request')
-        ;
-    
-    // Handle User request - Deny or Grant
-    Route::post('handle_user_request/{user_request}',[Admin\UserRequestController::class, 'handle_user_request'])
-        ->name('handle_user_request')
-        ;
-
-
-    // GUEST REQUESTS
-    // View all guest requests
-    Route::get('guest_requests',[Admin\GuestController::class, 'show_guest_requests'])
-        ->name('show_guest_requests')
-        ;  
-    
-    // Search Guest request
-    Route::get('search_guest_requests',[Admin\GuestController::class, 'search_guest_requests'])
-        ->name('search_guest_requests')
-        ;
-
-    // Filter Guest Requests
-    Route::get('filter_guest_requests', [Admin\GuestController::class, 'filter_guest_requests'])
-        ->name('filter_guest_requests')
-        ;
-
-    // Edit Guest Request - modal 
-    Route::get('edit_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'edit_guest_request'])
-        ->name('edit_guest_request')
-        ;
-
-    // Handle Guest request - Deny or Grant
-    Route::post('handle_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'handle_guest_request'])
-        ->name('handle_guest_request')
+        
+        // Filter
+        Route::get('/filter_users_without_biodata',[Admin\UserController::class,'filter_users_without_biodata'])
+        ->name('filter_users_without_biodata')
         ;
 
         
-    // UNAVAILABLE MEMBERS
-    // Show All Unavailable Members
-    Route::get('unavailable_members', [Admin\UserController::class, 'show_unavailable_members'])
-        ->name('show_unavailable_members');
+        // USER REQUESTS
+        // View all user request
+        Route::get('user_requests',[Admin\UserRequestController::class, 'show_user_requests'])
+            ->name('show_user_requests')
+            ;
 
-    // Search Unavailable members
-    Route::get('search_unavailable_members', [Admin\UserController::class, 'search_unavailable_members'])
-        ->name('search_unavailable_members');
+        // Search User request
+        Route::get('search_user_requests',[Admin\UserRequestController::class, 'search_user_requests'])
+            ->name('search_user_requests')
+            ;
+        // Search Users with request
+        Route::get('search_user_with_request',[Admin\UserRequestController::class, 'search_user_with_request'])
+            ->name('search_user_with_request')
+            ;
 
-    // Filter Unavailable Members
-    Route::get('filter_unavailable_members', [Admin\UserController::class, 'filter_unavailable_members'])
-        ->name('filter_unavailable_members');
+        // Filter User Requests
+        Route::get('filter_user_requests', [Admin\UserRequestController::class, 'filter_user_requests'])
+            ->name('filter_user_requests');
 
-    // Edit Unavailable Members Status - returns Modal
-    Route::get('edit_unavailable_members_status/{user}', [Admin\UserController::class, 'edit_unavailable_members_status'])
-        ->name('edit_unavailable_members_status');
+        // Edit Guest Request - modal 
+        Route::get('edit_user_request/{user_request}',[Admin\UserRequestController::class, 'edit_user_request'])
+            ->name('edit_user_request')
+            ;
+        
+        // Handle User request - Deny or Grant
+        Route::post('handle_user_request/{user_request}',[Admin\UserRequestController::class, 'handle_user_request'])
+            ->name('handle_user_request')
+            ;
 
-    // Update Unavailable Members Status
-    Route::put('update_unavailable_members_status/{user}', [Admin\UserController::class, 'update_unavailable_members_status'])
-        ->name('update_unavailable_members_status');
-    // Mark unvailable confim - MOdal
-    Route::get('mark_unavailable_confirm/{user}',[Admin\UserController::class,'mark_unavailable_confirm'])
-        ->name('mark_unavailable_confirm')
+
+        // GUEST REQUESTS
+        // View all guest requests
+        Route::get('guest_requests',[Admin\GuestController::class, 'show_guest_requests'])
+            ->name('show_guest_requests')
+            ;  
+        
+        // Search Guest request
+        Route::get('search_guest_requests',[Admin\GuestController::class, 'search_guest_requests'])
+            ->name('search_guest_requests')
+            ;
+
+        // Filter Guest Requests
+        Route::get('filter_guest_requests', [Admin\GuestController::class, 'filter_guest_requests'])
+            ->name('filter_guest_requests')
+            ;
+
+        // Edit Guest Request - modal 
+        Route::get('edit_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'edit_guest_request'])
+            ->name('edit_guest_request')
+            ;
+
+        // Handle Guest request - Deny or Grant
+        Route::post('handle_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'handle_guest_request'])
+            ->name('handle_guest_request')
+            ;
+
+            
+        // UNAVAILABLE MEMBERS
+        // Show All Unavailable Members
+        Route::get('unavailable_members', [Admin\UserController::class, 'show_unavailable_members'])
+            ->name('show_unavailable_members');
+
+        // Search Unavailable members
+        Route::get('search_unavailable_members', [Admin\UserController::class, 'search_unavailable_members'])
+            ->name('search_unavailable_members');
+
+        // Filter Unavailable Members
+        Route::get('filter_unavailable_members', [Admin\UserController::class, 'filter_unavailable_members'])
+            ->name('filter_unavailable_members');
+
+        // Edit Unavailable Members Status - returns Modal
+        Route::get('edit_unavailable_members_status/{user}', [Admin\UserController::class, 'edit_unavailable_members_status'])
+            ->name('edit_unavailable_members_status');
+
+        // Update Unavailable Members Status
+        Route::put('update_unavailable_members_status/{user}', [Admin\UserController::class, 'update_unavailable_members_status'])
+            ->name('update_unavailable_members_status');
+        // Mark unvailable confim - MOdal
+        Route::get('mark_unavailable_confirm/{user}',[Admin\UserController::class,'mark_unavailable_confirm'])
+            ->name('mark_unavailable_confirm')
+            ;
+        Route::post('mark_user_unavailable/{user}',[Admin\UserController::class,'mark_user_unavailable'])
+            ->name('mark_user_unavailable')
+            ;
+        // INACTIVE USERS
+        // Show All Inactive Accounts
+        Route::get('inactive_accounts', [Admin\UserController::class, 'show_inactive_accounts'])
+            ->name('show_inactive_accounts');
+        // Search Inactive Accounts
+        Route::get('search_inactive_accounts', [Admin\UserController::class, 'search_inactive_user'])
+            ->name('search_inactive_user');
+
+        // Filter Inactive Accounts
+        Route::get('filter_inactive_users', [Admin\UserController::class, 'filter_inactive_users'])
+            ->name('filter_inactive_users');
+
+        // Edit Inactive Account Status - returns Modal
+        Route::get('edit_inactive_account_status/{user}', [Admin\UserController::class, 'edit_inactive_account_status'])
+            ->name('edit_inactive_account_status');
+        // Mark User inactive confirm
+        Route::get('mark_user_inactive_confirm/{user}',[Admin\UserController::class, 'mark_user_inactive_confirm'])
+            ->name('mark_user_inactive_confirm')
+            ;
+        // Mark User Inactive
+        Route::post('mark_user_inactive/{user}',[Admin\UserController::class, 'mark_user_inactive'])
+            ->name('mark_user_inactive')
+            ;
+
+        // Update Inactive Account Status
+        Route::put('update_inactive_account_status/{user}', [Admin\UserController::class, 'update_inactive_account_status'])
+            ->name('update_inactive_account_status')
+            ;
+
+        // HOME
+        Route::get('home', [Admin\UserController::class, 'home'])
+            ->name('admin_home');
+
+    
+    // CONFIGURATIONS
+        // Index Page
+        Route::get('config',[Admin\ConfigController::class,'index'])
+            ->middleware('role:ministry_members_level')
+            ->name('admin_config')
         ;
-    Route::post('mark_user_unavailable/{user}',[Admin\UserController::class,'mark_user_unavailable'])
-        ->name('mark_user_unavailable')
-        ;
-    // INACTIVE USERS
-    // Show All Inactive Accounts
-    Route::get('inactive_accounts', [Admin\UserController::class, 'show_inactive_accounts'])
-        ->name('show_inactive_accounts');
-    // Search Inactive Accounts
-    Route::get('search_inactive_accounts', [Admin\UserController::class, 'search_inactive_user'])
-        ->name('search_inactive_user');
 
-    // Filter Inactive Accounts
-    Route::get('filter_inactive_users', [Admin\UserController::class, 'filter_inactive_users'])
-        ->name('filter_inactive_users');
-
-    // Edit Inactive Account Status - returns Modal
-    Route::get('edit_inactive_account_status/{user}', [Admin\UserController::class, 'edit_inactive_account_status'])
-        ->name('edit_inactive_account_status');
-    // Mark User inactive confirm
-    Route::get('mark_user_inactive_confirm/{user}',[Admin\UserController::class, 'mark_user_inactive_confirm'])
-        ->name('mark_user_inactive_confirm')
-        ;
-    // Mark User Inactive
-    Route::post('mark_user_inactive/{user}',[Admin\UserController::class, 'mark_user_inactive'])
-        ->name('mark_user_inactive')
+        // Confirm System Switch On
+        Route::get('confirm_system_switch_on',[Admin\ConfigController::class,'confirm_system_switch_on'])
+            ->middleware('role:ministry_members_level')
+            ->name('confirm_system_switch_on')
         ;
 
-    // Update Inactive Account Status
-    Route::put('update_inactive_account_status/{user}', [Admin\UserController::class, 'update_inactive_account_status'])
-        ->name('update_inactive_account_status')
+        //  System Switch On
+        Route::post('switch_system_online',[Admin\ConfigController::class,'switch_system_online'])
+            ->middleware('role:ministry_members_level')
+            ->name('switch_system_online')
         ;
 
-    // HOME
-    Route::get('home', [Admin\UserController::class, 'home'])
-        ->name('admin_home');
+        // Confirm System Switch On
+            Route::get('confirm_system_switch_off',[Admin\ConfigController::class,'confirm_system_switch_off'])
+            ->middleware('role:ministry_members_level')
+            ->name('confirm_system_switch_off')
+        ;
+
+        // System Switch Off
+        Route::post('switch_system_offline',[Admin\ConfigController::class,'switch_system_offline'])
+            ->middleware('role:ministry_members_level')
+            ->name('switch_system_offline')
+        ;
 
 
 
@@ -176,68 +232,68 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
 
 // -----------------------------------------------------------------------
 // DOOR TO DOOR
-// Create Door To Door Form
-Route::get('dtd_create',[DTDController::class,'create'])
-        ->middleware('auth','hasProfile')
-        ->name('create_dtd')
-        ;
-// Store Fishing out
-Route::post('store_dtd',[DTDController::class,'store'])
-        ->middleware('auth','permission:create_fishing_out')
-        ->name('store_dtd')
-        ;
-    
-// Show DTD group
-Route::get('dtd_group/{group}',[DTDController::class,'show_dtd_group'])
-        ->middleware('auth','hasProfile','can:view,group')
-        ->name('show_dtd_group')
-        ;
-// Create A Door To Door Record Instance
-Route::get('create_dtd_record/{group}',[DTDController::class,'create_record'])
-        ->middleware('auth','hasProfile','can:view,group')
-        ->name('create_dtd_record')
-        ;
-// Edit A door to door Record - Modal
-Route::get('edit_dtd_record/{record_id}',[DTDController::class,'edit_record'])
-        ->middleware('auth','hasProfile')
-        ->name('edit_dtd_record')
-        ;
-// Update A door to door Record 
-Route::put('update_dtd_record/{record_id}',[DTDController::class,'update_record'])
-        ->middleware('auth','hasProfile')
-        ->name('update_dtd_record')
-        ;
+    // Create Door To Door Form
+    Route::get('dtd_create',[DTDController::class,'create'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('create_dtd')
+            ;
+    // Store Fishing out
+    Route::post('store_dtd',[DTDController::class,'store'])
+            ->middleware('auth','control:system_online','permission:create_fishing_out')
+            ->name('store_dtd')
+            ;
+        
+    // Show DTD group
+    Route::get('dtd_group/{group}',[DTDController::class,'show_dtd_group'])
+            ->middleware('auth','control:system_online','hasProfile','can:view,group')
+            ->name('show_dtd_group')
+            ;
+    // Create A Door To Door Record Instance
+    Route::get('create_dtd_record/{group}',[DTDController::class,'create_record'])
+            ->middleware('auth','control:system_online','hasProfile','can:view,group')
+            ->name('create_dtd_record')
+            ;
+    // Edit A door to door Record - Modal
+    Route::get('edit_dtd_record/{record_id}',[DTDController::class,'edit_record'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('edit_dtd_record')
+            ;
+    // Update A door to door Record 
+    Route::put('update_dtd_record/{record_id}',[DTDController::class,'update_record'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('update_dtd_record')
+            ;
 
-// Store A Door To Door Record Instance
-Route::post('store_dtd_record/{group}',[DTDController::class,'store_record'])
-        ->middleware('auth','hasProfile')
-        ->name('store_record')
-        ;
-// Create A SubGroup/Group for Door to Door Session
-Route::get('dtd_subgroup_create/{dtd}',[DTDController::class,'dtd_subgroup_create'])
-        ->middleware('auth','hasProfile')
-        ->name('dtd_subgroup_create')
-        ;
+    // Store A Door To Door Record Instance
+    Route::post('store_dtd_record/{group}',[DTDController::class,'store_record'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('store_record')
+            ;
+    // Create A SubGroup/Group for Door to Door Session
+    Route::get('dtd_subgroup_create/{dtd}',[DTDController::class,'dtd_subgroup_create'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('dtd_subgroup_create')
+            ;
 
-// Store A SubGroup/Group for Door to Door Session
-Route::post('dtd_subgroup_store/{dtd}',[DTDController::class,'dtd_subgroup_store'])
-        ->middleware('auth','hasProfile')
-        ->name('dtd_subgroup_store')
-        ;
+    // Store A SubGroup/Group for Door to Door Session
+    Route::post('dtd_subgroup_store/{dtd}',[DTDController::class,'dtd_subgroup_store'])
+            ->middleware('auth','control:system_online','hasProfile')
+            ->name('dtd_subgroup_store')
+            ;
 
 
 
-// Store all DTD sessions through here
-// Route::post('dtd_store',[DTDController::class,'store'])
-//         ->middleware('auth','permission:create_fishing_out')
-//         ->name('store')
+    // Store all DTD sessions through here
+    // Route::post('dtd_store',[DTDController::class,'store'])
+    //         ->middleware('auth','control:system_online','permission:create_fishing_out')
+    //         ->name('store')
 
-// FISHING OUT
-// Create fishing out
-Route::get('fishing_out_create',[DTDController::class,'fishing_out_create'])
-        ->middleware('auth','permission:create_fishing_out')
-        ->name('fishing_out_create')
-        ;
+    // FISHING OUT
+    // Create fishing out
+    Route::get('fishing_out_create',[DTDController::class,'fishing_out_create'])
+            ->middleware('auth','control:system_online','permission:create_fishing_out')
+            ->name('fishing_out_create')
+            ;
 
 
 // -------------------------------------------------------------------------
@@ -248,94 +304,94 @@ Route::get('fishing_out_create',[DTDController::class,'fishing_out_create'])
 // GROUPS
 // Show Any Group
 Route::get('group/{group}',[GroupController::class,'show'])
-        ->middleware('auth','hasProfile','can:view,group')
+        ->middleware('auth','control:system_online','hasProfile','can:view,group')
         ->name('show_group')
         ;
 // Confirm Group Delete
 Route::get('confirm_group_delete/{group}',[GroupController::class,'confirm_delete'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('confirm_group_delete')
         ;
 // Delete Group
 Route::delete('delete_group/{group}',[GroupController::class,'delete'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('delete_group')
         ;
 // Edit Group
 Route::get('edit_group/{group}',[GroupController::class,'edit'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('edit_group')
         ;
 // Update Group
 Route::put('update_group/{group}',[GroupController::class,'update'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('update_group')
         ;
 
 // Confirm Making User Admin
 Route::get('confirm_make_user_admin/{group}/{user}',[GroupController::class,'confirm_make_admin'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('confirm_make_user_admin')
         ;
 
 // Make User Admin
 Route::put('make_user_admin/{group}/{user}',[GroupController::class,'make_admin'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('make_user_admin')
         ;
 
 // Confirm Withdraw Admin Role
 Route::get('confirm_admin_withdraw/{group}/{user}',[GroupController::class,'confirm_admin_withdraw'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('confirm_admin_withdraw')
         ;
 
 // WithDraw Admin Role
 Route::put('withdraw_admin_role/{group}/{user}',[GroupController::class,'withdraw_admin_role'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('withdraw_admin_role')
         ;
 
 // Confirm Remove User
 Route::get('confirm_remove_user/{group}/{user}',[GroupController::class,'confirm_remove_user'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('confirm_remove_user')
         ;
 
 // Remove User
 Route::put('remove_user/{group}/{user}',[GroupController::class,'remove_user'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('remove_user')
         ;
 
 // View User Groups
 Route::get('groups/user/{user}',[UserController::class,'view_user_groups'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('view_user_groups')
         ;
 // Create Invite 
 Route::get('create_invite/{group}',[GroupController::class,'create_invite'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('create_invite')
         ;
 // Store Invite
 Route::post('store_invite/{group}',[GroupController::class,'store_invite'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('store_invite')
         ;
 // Show User Invites
 Route::get('invites/{user}',[UserController::class,'view_user_invites'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('view_user_invites')
         ;
 // Handle User Invite Form
 Route::get('handle_invite_form/{user}/{group}',[GroupController::class,'handle_invite_form'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('handle_invite_form')
         ;
 // Response User Invite
 Route::put('handle_invite/{user}/{group}',[GroupController::class,'handle_invite'])
-        ->middleware('auth','hasProfile')
+        ->middleware('auth','control:system_online','hasProfile')
         ->name('handle_invite')
         ;
 
@@ -346,14 +402,14 @@ Route::put('handle_invite/{user}/{group}',[GroupController::class,'handle_invite
 // IMAGES
 // Store Image - PolyMorphs
 Route::post('/store_image',[ImageController::class,"store"])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('store_image')
     ;
 
 // DEFAULT IMAGES
 // Store Default Image - PolyMorphs
 Route::post('/store_default_image',[DefaultImageController::class,"store"])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('store_default_image')
     ;
 
@@ -362,105 +418,105 @@ Route::post('/store_default_image',[DefaultImageController::class,"store"])
 // SEMESTER-PROGRAMS
 // View All semester Programs
 Route::get('/semester_programs', [SemesterProgramController::class, 'index'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('semester_programs');
 
 // Create Semester Program
 Route::post('/create_semester_program', [SemesterProgramController::class, 'store'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('create_semester_program');
 
 // Filter Semester Programs
 Route::get('/filter_semester_programs', [SemesterProgramController::class, 'filter_semester_programs'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('filter_semester_programs');
 
 // Show A Semester Program
 Route::get('/semester_program/{semesterProgram}', [SemesterProgramController::class, 'show'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('show_semester_program');
 // UPload semester Program Image form
 Route::get('/upload_semester_program_image/{semesterProgram}',[SemesterProgramController::class, 'upload_semester_program_image'])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('upload_semester_program_image')
     ;
 
 // Add Semester Program - Modal
 Route::get('add_semester_program',[SemesterProgramController::class, 'create'])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('add_semester_program')
     ;
 
 // OFFICIATOR
 // Add Officiator
 Route::get('/add_officiator_form/{semesterProgram}', [SemesterProgramController::class, 'add_officiator_form'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('add_officiator_form');
 
 // Store Officiator Instance
 Route::post('/officiator_store/{semesterProgram}', [SemesterProgramController::class, 'store_officiator'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('store_officiator');
 
 // Search User for officiating
 Route::get('/search_user_officiator', [SemesterProgramController::class, 'search_user_officiator'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_user_officiator');
 
 // Remove an Officiator Instance
 Route::delete('/remove_officiator/{semesterProgram}/{officiator}/{status}/{role}', [SemesterProgramController::class, 'remove_officiator'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('remove_officiator');
 
 // Edit form for officiator
 Route::get('/edit_officiator/{semesterProgram}/{officiator}/{status}/{role}', [SemesterProgramController::class, 'edit_officiator'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('edit_officiator');
 
 // Confirm officiator delete
 Route::get('/officiator_delete/{semesterProgram}/{officiator}/{status}/{role}/confirm', [SemesterProgramController::class, 'confirm_officiator_delete'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_officiator_delete');
 
 // Update an officiator Instance?
 Route::put('/update_officiator/{semesterProgram}/{officiator}/{status}/{role}', [SemesterProgramController::class, 'update_officiator'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('update_officiator');
 
 // PROGRAM OUTLINE
 // Show Program Outline
 Route::get('/program_outline/{semesterProgram}/create', [ProgramOutlineController::class, 'create'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('create_program_outline');
 
 // Save/Store Program Outline / Session
 Route::post('/program_outline/{semesterProgram}/store', [ProgramOutlineController::class, 'store'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('store_program_outline');
 
 // Edit Program outline/session
 Route::get('/program_outline/{semesterProgram}/{programOutline}/edit', [ProgramOutlineController::class, 'edit'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('edit_program_outline');
 
 // Update Program Outline/Session
 Route::put('/program_outline/{semesterProgram}/{programOutline}/update', [ProgramOutlineController::class, 'update'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('update_program_outline');
 
 // Confirm Update Program Outline
 Route::get('/confirm_program_outline/{semesterProgram}/{programOutline}/update', [ProgramOutlineController::class, 'confirm_update'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_program_outline_update');
 
 // Confirm Delete Program Outline
 Route::get('/confirm_program_outline/{semesterProgram}/{programOutline}/delete', [ProgramOutlineController::class, 'confirm_delete'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_program_outline_delete');
 
 // Delete Program Outline
 Route::delete('/program_outline/{semesterProgram}/{programOutline}/delete', [ProgramOutlineController::class, 'delete'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('delete_program_outline');
 // -------------
 // ACADEMIA
@@ -469,22 +525,22 @@ Route::delete('/program_outline/{semesterProgram}/{programOutline}/delete', [Pro
 
 // View All Colleges
 Route::get('/colleges', [CollegeController::class, 'index'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('colleges');
 
 // Show A single College
 Route::get('/colleges/{college}', [CollegeController::class, 'show'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('show_college');
 
 // Search User in a College On Users table
 Route::get('/search_college_user/{college}', [CollegeController::class, 'search_college_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_college_user');
 
 // Search Programs in a Faculty On Programs table
 Route::get('/search_college_program/{college}', [CollegeController::class, 'search_college_program'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_college_program');
 
     
@@ -492,22 +548,22 @@ Route::get('/search_college_program/{college}', [CollegeController::class, 'sear
 // FACULTIES
 // View all faculties
 Route::get('/faculties', [FacultyController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('faculties');
 
 // Show A single College
 Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('show_faculty');
 
 // Search User in a Faculty On Users table
 Route::get('/search_faculty_user/{faculty}', [FacultyController::class, 'search_faculty_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_faculty_user');
 
 // Search Programs in a Faculty On Programs table
 Route::get('/search_faculty_program/{faculty}', [FacultyController::class, 'search_faculty_program'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_faculty_program');
 
 // -----------------
@@ -517,12 +573,12 @@ Route::get('/search_faculty_program/{faculty}', [FacultyController::class, 'sear
 
 // View all Zones
 Route::get('/zones', [ZoneController::class, 'index'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('zones');
 
 // Show A particular Zone
 Route::get('/zone/{zone}', [ZoneController::class, 'show'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('show_zone');
 
 // RESIDENCES
@@ -533,34 +589,34 @@ Route::get('/zone/{zone}', [ZoneController::class, 'show'])
     // MEETING
 // View all meetings
 Route::get('/meetings',[MeetingController::class,'index'])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('meetings')
     ;
 
 // Show a meeting
 Route::get('/meeting/{meeting}',[MeetingController::class,'show'])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('show_meeting')
     ;
 // Create meeting - modal
 Route::get('/create_meeting',[MeetingController::class,"create"])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('create_meeting')
     ;
 // Store Meeting 
 Route::post('meeting',[MeetingController::class,"store"])  
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('store_meeting')
     ;
 
 // Confirm Meeting - modal
 Route::get('confirm_meeting_delete/{meeting}',[MeetingController::class,"confirm_delete"])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('confirm_meeting_delete')
     ;
 // Delete Meeting
 Route::delete('delete_meeting/{meeting}',[MeetingController::class,"destroy"])
-    ->middleware('auth','role:ministry_members_level')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('delete_meeting')
     ;
 
@@ -572,66 +628,66 @@ Route::delete('delete_meeting/{meeting}',[MeetingController::class,"destroy"])
 
 // View All Roles
 Route::get('/roles', [RoleController::class, 'index'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('roles');
 
 // Edit Role Page
 Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('edit_role');
 
 // Add User Roles Instance
 Route::get('/create_users_roles/{role}', [RoleController::class, 'create_users_roles'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('create_users_roles');
 
 // Search User Modal
 Route::get('/fetch_role_users_modal/{role}', [RoleController::class, 'fetch_role_users_modal'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('fetch_role_users_modal');
 
 // Search User among the users who do not have a particular role
 Route::get('/search_non_user_roles/{role}', [RoleController::class, 'search_non_user_roles'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_non_user_roles');
 
 // Give a user role
 Route::get('/role/{role}/{user}/assign', [RoleController::class, 'give_user_role'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('give_user_role');
 
 // Remove a user's role
 Route::delete('/role/{role}/{user}/remove', [RoleController::class, 'remove_user_role'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('remove_user_role');
 // confirm_role_user_remove
 Route::get('/confirm_role_user_remove/{role}/{user}', [RoleController::class, 'confirm_role_user_remove'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('confirm_role_user_remove');
 
 // Create role premissions form
 Route::get('/role/{role}/permissions', [RoleController::class, 'create_roles_permissions'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('create_roles_permissions');
 
 // Assign permission to role
 Route::get('/roles/{role}/{permission}/assign', [RoleController::class, 'assign_role_permission'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('assign_role_permission');
 
 // Remove a role's permission
 Route::delete('/permission/{role}/{permission}/remove', [RoleController::class, 'remove_role_permission'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('remove_role_permission');
 
 // Confirm A Role removal from permission
 Route::get('/confirm_role_permission_remove/{role}/{permission}', [RoleController::class, 'confirm_role_permission_remove'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('confirm_role_permission_remove');
 
 // Search Role Non-Permissions
 Route::get('search_role_non_permissions/{role}', [RoleController::class, 'search_role_non_permissions'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('search_role_non_permissions');
 // --------------------------
 
@@ -640,157 +696,157 @@ Route::get('search_role_non_permissions/{role}', [RoleController::class, 'search
 
 // Index page to view the various attendance sessions
 Route::get('/attendance', [AttendanceController::class, 'index'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('attendance');
 
 // Show Attendance Session. See who's marked or not
 Route::get('/attendance_users/{attendance}', [AttendanceController::class, 'show_attendance_users'])
-    ->middleware('auth', 'role:residence_reps_level')
+    ->middleware('auth','control:system_online', 'role:residence_reps_level')
     ->name('show_attendance_users');
 
 // Create New Attendance Session
 Route::post('/attendance', [AttendanceController::class, 'store'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('create_attendance');
 
 // Reset Attendance Session
 Route::post('/attendance/{attendance}/reset', [AttendanceController::class, 'reset_attendance'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('reset_attendance');
 
 // Confrim Attendance Reset
 Route::get('/confirm_attendance_reset/{attendance}', [AttendanceController::class, 'confirm_attendance_reset'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_attendance_reset');
 
 // Confrim Attendance Session Delete
 Route::get('/confirm_attendance_delete/{attendance}', [AttendanceController::class, 'confirm_attendance_delete'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_attendance_delete');
 
 // Delete Attendance Session
 Route::delete('/attendance/{attendance}/delete', [AttendanceController::class, 'delete_attendance'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('delete_attendance');
 
 // Access Attendance session to mark
 Route::get('/attendance/{attendance}/access', [AttendanceController::class, 'access_attendance_session'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('access_attendance_session');
 
 // Confirm Attendance Toogle/switch
 Route::get('/confirm_attendance_switch/{attendance}', [AttendanceController::class, 'confirm_attendance_switch'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_attendance_switch');
 
 // Switch Attendance Session
 Route::post('/attendance/{attendance}/switch', [AttendanceController::class, 'switch_attendance_session'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('switch_attendance_session');
 
 // Check
 Route::get('/attendance/{attendance}/{user}', [AttendanceController::class, 'check_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('check_user');
 
 // Check Absentee
 Route::post('/check_absentee/{attendance}/{user}', [AttendanceController::class, 'check_absentee'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('check_absentee');
 
 // Uncheck User
 Route::delete('/uncheck_user/{attendance}/{user}', [AttendanceController::class, 'uncheck_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('uncheck_user');
 
 // Uncheck Guest
 Route::delete('/uncheck_guest/{attendance}/{guest}', [AttendanceController::class, 'uncheck_guest'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('uncheck_guest');
 
 // Confrim Uncheck Guest
 Route::get('/confirm_guest/{attendance}/{guest}', [AttendanceController::class, 'confirm_uncheck_guest'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('confirm_uncheck_guest');
 
 // Confirmation for uncheck user
 Route::get('/confirm_user_uncheck/{attendance}/{user}', [AttendanceController::class, 'confirm_uncheck_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('confirm_uncheck_user');
 
 // Confirmation for Checking user -Absentees MOdal
 Route::get('/confirm_user_check/{attendance}/{user}', [AttendanceController::class, 'confirm_check_user'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('confirm_check_user');
 
 // Search Attendance Session
 Route::get('/search_attendance/{semester}', [AttendanceController::class, 'search_attendance'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_attendance');
 
 // Search User who's been checked for a particular attendance
 Route::get('/search_attendance_checked_users/{attendance}', [AttendanceController::class, 'search_attendance_checked_users'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_attendance_checked_users');
 
 // Search User on Attendance table
 Route::get('/search_attendance_users/{attendance}', [AttendanceController::class, 'search_attendance_users'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_attendance_users');
 
 // Register User Visitor
 Route::post('/register_user_visitor/{attendance}', [AttendanceController::class, 'register_user_visitor'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('register_user_visitor');
 
 // Register Guest Visitor
 Route::post('/register_guest_visitor/{attendance}', [AttendanceController::class, 'register_guest_visitor'])
-    ->middleware('auth', 'role:ministry_members_level')
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
     ->name('register_guest_visitor');
 
 // View All Absentee fo an attendance session
 Route::get('/absentees/{attendance}', [AttendanceController::class,'show_absentees'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('show_absentees')
     ;
 
 // Search Absentees
 Route::get('/search_absentees/{attendance}',[AttendanceController::class,'search_absentees'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('search_absentees')
     ;
 
 // filter Absentees
 Route::get('/filter_absentees/{attendance}',[AttendanceController::class,'filter_absentees'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('filter_absentees')
     ;
 
 // Confirm Print Attendance
 Route::get('/confirm_print_absentees/{attendance}',[AttendanceController::class,'confirm_print_absentees'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('confirm_print_absentees')
     ;
 // Print Absentees File
 Route::post('/print_absentee_file/{attendance}/{zone}',[AttendanceController::class,'print_absentee_file'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('print_absentee_file')
     ;
 
 // Show Visitors
 Route::get('/show_guests/{attendance}',[AttendanceController::class,'show_guests'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('show_guests')
     ;
 
 // Edit Absentee Status - Modal Wheter user was available or not
 Route::get('/edit_absentee_status/{attendance}/{user}',[AttendanceController::class,'edit_absentee_status'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('edit_absentee_status')
     ;
 // Update Absentee Status
 Route::put('/udpate_absentee_status/{attendance}/{user}',[AttendanceController::class,'udpate_absentee_status'])
-    ->middleware('auth','role:zone_reps_level')
+    ->middleware('auth','control:system_online','role:zone_reps_level')
     ->name('udpate_absentee_status')
     ;
 
@@ -833,19 +889,19 @@ Route::get('/register_student',[UserController::class, 'register_student'])
     ;
 // View Program Mates
 Route::get('/program_mates/{user}',[UserController::class, 'view_program_mates'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('view_program_mates')
     ;
 
 // Search a program mates
 Route::get('/search_program_mates/{user}',[UserController::class,'search_program_mates'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('search_program_mates')
     ;
 
 // Filter Program mates
 Route::get('/filter_program_mates/{user}',[UserController::class,'filter_program_mates'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online')
     ->name('filter_program_mates')
     ;
 
@@ -873,7 +929,7 @@ Route::get('/', function () {
 
     return view('homepage');
 })
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('home');
 
 //  PROFILE / BIODATA
@@ -889,17 +945,17 @@ Route::get('/profile_search_programs', [BiodataController::class, 'profile_searc
 
 // Show User Profile
 Route::get('/profile/{user}', [BiodataController::class, 'show'])
-    ->middleware('auth')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('view_profile');
 
 // create User Profile form
 Route::get('/profile/{user}/new', [BiodataController::class, 'create'])
-    ->middleware('auth')
+    ->middleware('auth', 'can:update,user')
     ->name('create_user_profile_form');
 
 // /store user profile
 Route::post('/profile/{user}/create', [BiodataController::class, 'store'])
-    ->middleware('auth')
+    ->middleware('auth','can:update,user')
     ->name('store_profile');
 
 // edit user profile
@@ -915,7 +971,7 @@ Route::put('/profile/{user}/update', [BiodataController::class, 'update'])
 // IMAGES
 // Create User Image Form
 Route::get('/upload_user_image/{user}',[UserController::class,'upload_user_image'])
-    ->middleware('auth')
+    ->middleware('auth','hasProfile','control:system_online')
     ->name('upload_user_image');
 ;
 
@@ -937,10 +993,19 @@ Route::get('/avatar/{user}/reset', [UserController::class, 'reset_avatar'])
 
 // VIEWS
 Route::get('/users', [UserController::class, 'view_users'])
-    ->middleware('auth','hasProfile')
+    ->middleware('auth','hasProfile','control:system_online')
     ->name('view_users');
 
 // -------------------------------------------------
+
+
+// CONTROL
+
+// Redirect when system is down
+Route::get('/system_offline',[AccessoryController::class, 'system_offline'])
+    ->middleware('auth','hasProfile')
+    ->name('system_offline');
+
 
 // MODAL VIEWS
 
@@ -955,14 +1020,11 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return Contact::find(3)->user;
-    return User::find(509)->main_contact;
-    return User::without_biodata();
-    return User::find(1)->is_creator_for(Group::find(1));
-    return Group::find(1)->members;
-    return DTD::find(1)->group_dtd_persons(Group::find(1));
-    return new GuestResource(Guest::find(1));
-    return User::find(1)->attendance_status(Attendance::find(40));
+    return Accessory::find(1);
+    return Accessory::where('name','system_online');
+    // return config('constants.system_status');
+    return User::find(510)->contact_when_guest();
+   
     $zone = Zone::find(16);
     // return $zone;
     return Attendance::find(41)->guests_present();

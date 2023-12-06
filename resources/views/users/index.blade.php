@@ -3,13 +3,14 @@
         
         <div class="container-fluid">
             <div class="">
-
+                {{Breadcrumbs::render('view_users')}}
                 {{-- Each Whole Table Screen --}}
                 <div class="process-bar-container">
                     <div class="process-bar">
                         <div class="process-order">
                             <h3 style="text-align:center">Members</h3>
-                                <span style=" ">
+                            
+                                <span class="mb-2 ">
                                     <form >
                                         <input type="text" class="search_box" id="for_user_list" data-url="{{route("search_user")}}" placeholder="search name..." style="text-align:center;">
                                             <i class="fa fa-search"></i>
@@ -43,7 +44,7 @@
                                             <div class="menu-container">
                                                 <button class="menu-button">&#8286;</button>
                                                 <div class="menu-content">
-                                                  <a href="{{route('view_profile',['user'=>$user])}}">Profile</a>
+                                                  {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
                                                   @allowedTo(['update_user'])
                                                   <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('mark_unavailable_confirm',['user'=>$user])}} href="{{route('mark_unavailable_confirm',['user'=>$user])}}">Mark Unavailable</a>
                                                   <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Deactivate User</a>
@@ -54,7 +55,9 @@
                                             
                                             <div class="h1 text-muted text-right mb-4">
                                                 <i>
-                                                    <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                    <a href="{{route('view_profile', $user)}}">
+                                                        <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                    </a>
                                                 </i>
                                             </div>
                                             <div class=" mb-0">{{$user->created_at->diffInDays(now())}} Days Ago</div>

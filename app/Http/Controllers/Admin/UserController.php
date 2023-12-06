@@ -215,5 +215,41 @@ class UserController extends Controller
     }
     
 
+    // Show Users without biodata
+    public function without_biodata(){
+        return view('ADMIN.dashboard.components.without-biodata.index');
+    }
+
+    // Search Users without biodata
+    public function search_users_without_biodata(Request $request){
+        $users = User::search_user($request)->get()->intersect(User::without_biodata()->get())->sortByDesc('created_at');
+
+        // $users = $users->where('is_activated',0)->get();
+        return view('ADMIN.dashboard.components.without-biodata.search-results', ['users' => $users]);
+    }
+
+    // Filter Unavailable Users
+    public function filter_users_without_biodata(Request $request)
+    {
+        // Check the string value of the request
+        $string = $request->input('str');
+        if ($string == 'member' || $string == 'alumni') {
+            $users_id = User::without_biodata()
+                ->where('is_member',($string == "member" ? 1 : 0) )
+                ->get()
+                ->pluck('id')
+                ;
+            // If the String is empty
+        } elseif (! empty($string)) {
+            $users_id = User::without_biodata()
+                ->get()
+                ->pluck('id');
+        }
+        // Check for other filters like latest, oldest and thigns
+
+        $users = User::whereIn('id', $users_id)->get()->sortByDesc('created_at');
+        return view('ADMIN.dashboard.components.without-biodata.search-results', ['users' => $users]);
+
+    }
     
 }

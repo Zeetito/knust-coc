@@ -39,12 +39,16 @@ class BiodataController extends Controller
                 return view('profile.components.members.non-students.show', ['user' => $user]);
             }
 
-        } elseif ($user->is_member == 0 && $user->has_alumini_profile() == true) {
-            // if User is not a member (Alumini)
-            return view('profile.components.alumini.show', ['user' => $user]);
+        } elseif ($user->is_member == 0 && $user->has_alumni_profile() == true) {
+            // if User is not a member (Alumni)
+            return view('profile.components.alumni.show', ['user' => $user]);
         }
 
-        return redirect(route('create_user_profile_form', ['user' => $user]));
+        if(auth()->user()->is($user)){
+            return redirect(route('create_user_profile_form', ['user' => $user]));
+        }else{
+            return redirect()->back()->with('warning','This User has no profile');
+        }
 
     }
 
@@ -64,8 +68,8 @@ class BiodataController extends Controller
                 return view('profile.components.members.non-students.create', ['user' => $user]);
             }
         } else {
-            // if User is not a member (Alumini)
-            return view('profile.components.alumini.create', ['user' => $user]);
+            // if User is not a member (Alumni)
+            return view('profile.components.alumni.create', ['user' => $user]);
         }
         // return view('profile.create',['user'=>$user ,'programs'=>'', 'residences'=>'']);
     }
@@ -74,7 +78,7 @@ class BiodataController extends Controller
     public function store(User $user, Request $request)
     {
         // return $request;
-        // Check whether the user is member, student or alumini
+        // Check whether the user is member, student or alumni
         if ($user->is_member == 1) {
             // If User is a member, Check if Member is a Student
 
@@ -135,6 +139,8 @@ class BiodataController extends Controller
 
             // Create Contacts For this user
                 // Main Phone
+                
+                if(!$user->phone){
                 $phone =  new Contact;
                     $phone->user_id = $user->id;
                     $phone->body = $validated['phone'];
@@ -142,8 +148,10 @@ class BiodataController extends Controller
                     $phone->is_main = 1;
                     $phone->is_visible = 1;
                 $phone->save();
+                }
 
                 // WhatsApp Contact
+                if(!$user->whatsapp){
                 $whatsapp =  new Contact;
                     $whatsapp->user_id = $user->id;
                     $whatsapp->body = $validated['whatsapp'];
@@ -151,9 +159,11 @@ class BiodataController extends Controller
                     $whatsapp->is_main = 0;
                     $whatsapp->is_visible = 1;
                 $whatsapp->save();
+                }
 
                 // If School Voda Exists, Save it as well
                 if($validated['school_voda'] != null){
+                    if(!$user->school_voda){
                     $school_voda =  new Contact;
                         $school_voda->user_id = $user->id;
                         $school_voda->body = $validated['school_voda'];
@@ -161,10 +171,12 @@ class BiodataController extends Controller
                         $school_voda->is_main = 0;
                         $school_voda->is_visible = 1;
                     $school_voda->save();
+                    }
                 }
 
                 // If other contact exists, do same as well
                 if($validated['other_contact'] != null){
+                    if(!$user->other_contact){
                     $other_contact =  new Contact;
                         $other_contact->user_id = $user->id;
                         $other_contact->body = $validated['other_contact'];
@@ -172,10 +184,12 @@ class BiodataController extends Controller
                         $other_contact->is_main = 0;
                         $other_contact->is_visible = 1;
                     $other_contact->save();
+                    }
                 }
 
                 // Guardian A Contact
                 if($validated['guardian_a'] != null){
+                    if(!$user->main_guardian_contact){
                     $guardian_a =  new Contact;
                         $guardian_a->user_id = $user->id;
                         $guardian_a->body = $validated['guardian_a'];
@@ -185,10 +199,12 @@ class BiodataController extends Controller
                         $guardian_a->is_main = 1;
                         $guardian_a->is_visible = 0;
                     $guardian_a->save();
+                    }
                 }
 
                 // Guardian B Contact
                 if($validated['guardian_b'] != null){
+                    if(!$user->other_guardian_contact){
                     $guardian_b =  new Contact;
                         $guardian_b->user_id = $user->id;
                         $guardian_b->body = $validated['guardian_b'];
@@ -198,8 +214,10 @@ class BiodataController extends Controller
                         $guardian_b->is_main = 0;
                         $guardian_b->is_visible = 0;
                     $guardian_b->save();
+                    }
                 }
 
+                if(!$user->email){
                 $email =  new Contact;
                     $email->user_id = $user->id;
                     $email->body = $user->email;
@@ -207,6 +225,7 @@ class BiodataController extends Controller
                     $email->is_main = 0;
                     $email->is_visible = 1;
                 $email->save();
+                }
 
                 return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
 
@@ -215,15 +234,24 @@ class BiodataController extends Controller
                 $validated = $request->validate([
                     'room' => ['nullable'],
                     'ns_status' => ['required', 'numeric'],
-                    'is_alumini' => ['required', 'numeric'],
-                    'residence_id' => ['nullable'],
-                    'zone_id' => ['nullable'],
+                    'is_alumni' => ['required', 'numeric'],
+                    'residence_id' => ['required'],
+
                     'year_group_id' => ['nullable'],
+
+                    'phone'=>['required'],
+                    'whatsapp'=>['nullable'],
+                    'school_voda'=>['nullable'],
+                    'other_contact'=>['nullable'],
+                    'guardian_a'=>['nullable'],
+                    'relation_a'=>['nullable'],
+                    'guardian_b'=>['nullable'],
+                    'relation_b'=>['nullable'],
                 ]);
 
-                // If User is not an alumini, no need to
+                // If User is not an alumni, no need to
                 // get year group id even if it was selected
-                if ($validated['is_alumini'] == 0) {
+                if ($validated['is_alumni'] == 0) {
                     $validated['year_group_id'] = null;
 
                 }
@@ -245,9 +273,10 @@ class BiodataController extends Controller
                 DB::table('members_biodatas')->insert([
                     'user_id' => $user->id,
                     'residence_id' => $validated['residence_id'],
+                    'zone_id' => $validated['zone_id'],
                     'room' => $validated['room'],
                     'ns_status' => $validated['ns_status'],
-                    'is_alumini' => $validated['is_alumini'],
+                    'is_alumni' => $validated['is_alumni'],
                     'year_group_id' => $validated['year_group_id'],
                     'academic_year_id' => Semester::active_semester()->academicYear->id,
                     'created_at' => now()->format('Y-m-d H:i:s'),
@@ -255,23 +284,29 @@ class BiodataController extends Controller
 
                 ]);
 
-                return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
-
             }
 
-            // if User is not a member (Alumini)
-        } elseif ($user->is_member == 0 && $user->has_alumini_profile() == false) {
+            // if User is not a member (Alumni)
+        } elseif ($user->is_member == 0 && $user->has_alumni_profile() == false) {
             $validated = $request->validate([
                 'country' => ['required'],
                 'state' => ['required'],
                 'city' => ['required'],
                 'local_congregation' => ['required'],
                 'year_group_id' => ['required'],
+                'phone'=>['required'],
+                'whatsapp'=>['nullable'],
+                'school_voda'=>['nullable'],
+                'other_contact'=>['nullable'],
+                'guardian_a'=>['nullable'],
+                'relation_a'=>['nullable'],
+                'guardian_b'=>['nullable'],
+                'relation_b'=>['nullable'],
             ]);
             $validated['user_id'] = $user->id;
 
             //    Now Insert the validated into the members biodatas table.
-            DB::table('alumini_biodatas')->insert([
+            DB::table('alumni_biodatas')->insert([
                 'user_id' => $user->id,
                 'country' => $validated['country'],
                 'state' => $validated['state'],
@@ -284,12 +319,100 @@ class BiodataController extends Controller
 
             ]);
 
-            return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
-
         }
 
-        // All Failed ?
-        return redirect(back())->with('failure', 'Already has a profile');
+          // Create Contacts For this user
+                // Main Phone
+                
+                if(!$user->phone){
+                    $phone =  new Contact;
+                        $phone->user_id = $user->id;
+                        $phone->body = $validated['phone'];
+                        $phone->type = "phone";
+                        $phone->is_main = 1;
+                        $phone->is_visible = 1;
+                    $phone->save();
+                    }
+    
+                    // WhatsApp Contact
+                    if(!$user->whatsapp){
+                    $whatsapp =  new Contact;
+                        $whatsapp->user_id = $user->id;
+                        $whatsapp->body = $validated['whatsapp'];
+                        $whatsapp->type = "whatsapp";
+                        $whatsapp->is_main = 0;
+                        $whatsapp->is_visible = 1;
+                    $whatsapp->save();
+                    }
+    
+                    // If School Voda Exists, Save it as well
+                    if($validated['school_voda'] != null){
+                        if(!$user->school_voda){
+                        $school_voda =  new Contact;
+                            $school_voda->user_id = $user->id;
+                            $school_voda->body = $validated['school_voda'];
+                            $school_voda->type = "school_voda";
+                            $school_voda->is_main = 0;
+                            $school_voda->is_visible = 1;
+                        $school_voda->save();
+                        }
+                    }
+    
+                    // If other contact exists, do same as well
+                    if($validated['other_contact'] != null){
+                        if(!$user->other_contact){
+                        $other_contact =  new Contact;
+                            $other_contact->user_id = $user->id;
+                            $other_contact->body = $validated['other_contact'];
+                            $other_contact->type = "other_contact";
+                            $other_contact->is_main = 0;
+                            $other_contact->is_visible = 1;
+                        $other_contact->save();
+                        }
+                    }
+    
+                    // Guardian A Contact
+                    if($validated['guardian_a'] != null){
+                        if(!$user->main_guardian_contact){
+                        $guardian_a =  new Contact;
+                            $guardian_a->user_id = $user->id;
+                            $guardian_a->body = $validated['guardian_a'];
+                            $guardian_a->type = "guardian";
+                            $guardian_a->ownership = "guardian";
+                            $guardian_a->relation = $validated['relation_a'];
+                            $guardian_a->is_main = 1;
+                            $guardian_a->is_visible = 0;
+                        $guardian_a->save();
+                        }
+                    }
+    
+                    // Guardian B Contact
+                    if($validated['guardian_b'] != null){
+                        if(!$user->other_guardian_contact){
+                        $guardian_b =  new Contact;
+                            $guardian_b->user_id = $user->id;
+                            $guardian_b->body = $validated['guardian_b'];
+                            $guardian_b->type = "guardian";
+                            $guardian_a->ownership = "guardian";
+                            $guardian_a->relation = $validated['relation_b'];
+                            $guardian_b->is_main = 0;
+                            $guardian_b->is_visible = 0;
+                        $guardian_b->save();
+                        }
+                    }
+    
+                    if(!$user->email){
+                    $email =  new Contact;
+                        $email->user_id = $user->id;
+                        $email->body = $user->email;
+                        $email->type = "email";
+                        $email->is_main = 0;
+                        $email->is_visible = 1;
+                    $email->save();
+                    }
+    
+
+            return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
 
     }
 
@@ -310,9 +433,9 @@ class BiodataController extends Controller
                 return view('profile.components.members.non-students.edit', ['user' => $user]);
             }
 
-        } elseif ($user->is_member == 0 && $user->has_alumini_profile() == true) {
-            // if User is not a member (Alumini)
-            return view('profile.components.alumini.edit', ['user' => $user]);
+        } elseif ($user->is_member == 0 && $user->has_alumni_profile() == true) {
+            // if User is not a member (Alumni)
+            return view('profile.components.alumni.edit', ['user' => $user]);
         }
 
         return redirect(route('create_user_profile_form', ['user' => $user]));
@@ -338,17 +461,6 @@ class BiodataController extends Controller
                     'residence_id' => ['required'],
                     'program_id' => ['required'],
                     'college_id' => ['nullable'],
-                ]);
-
-                $validated_contacts = $request->validate([
-                    'phone'=>['required'],
-                    'whatsapp'=>['nullable'],
-                    'school_voda'=>['nullable'],
-                    'other_contact'=>['nullable'],
-                    'guardian_a'=>['required'],
-                    'relation_a'=>['required'],
-                    'guardian_b'=>['nullable'],
-                    'relation_b'=>['nullable'],
                 ]);
 
            
@@ -381,463 +493,7 @@ class BiodataController extends Controller
                         $validated_profile['year'] = $user->year();
                     }
 
-
-
-
-                    // Now for contacts.
-                   $contacts_unchanged = (
-                                $validated_contacts['phone'] == ($user->phone == null ? "" : $user->phone->body) 
-                            &&  $validated_contacts['whatsapp'] == ($user->whatsapp == null ? "" : $user->whatsapp->body) 
-                            &&  $validated_contacts['school_voda'] == ($user->school_voda == null ? "" : $user->school_voda->body) 
-                            &&  $validated_contacts['other_contact'] == ($user->other_contact == null ? "" : $user->other_contact->body) 
-                            &&  $validated_contacts['guardian_a'] == ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
-                            &&  $validated_contacts['relation_a'] == ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation) 
-                            &&  $validated_contacts['guardian_b'] == ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body) 
-                            &&  $validated_contacts['relation_b'] == ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation) 
-                            
-                            ) ;
-                    
-
-                // Check if The incoming is same as existing
-                    $incoming_biodata = MembersBiodata::make($validated_profile);
-                    $biodata_unchanged = (new BiodataResource($incoming_biodata))->toArray(request()) == (new BiodataResource($user->biodata))->toArray(request());
-                    // If No change is detected
-                     if( $biodata_unchanged && $contacts_unchanged){
-                        return redirect()->back()->with('warning','No Changes Observed');
-                     }
-
-
-                    if(!$biodata_unchanged){ 
-                        // If the Current User is a Ministry Member/ Leader, update right away
-                        if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
-
-                            // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
-                            if (now()->diffInDays($user->biodata->updated_at) >= 60) {
-                                DB::table('members_biodatas')->insertOrIgnore($validated_profile);
-                                // return redirect()->back()->with('success', 'Biodata Updated Successfully');
-
-                                // If the latest update is less than 60 days, update the latest one
-                            } else {
-                                $latest_biodata_id = $user->biodata->id;
-                                DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated_profile);
-
-                                // return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                            }
-
-
-                        // Else Create Request to be Granted later
-                        }else{
-                                // Try and Catch Error
-                                try {
-                                    // Your code that saves data to the database
-                                    $update_request = new UserRequest;
-                                    $update_request['user_id'] = $user->id;
-                                    $update_request['body'] = json_encode($validated_profile); 
-                                    $update_request['table_name'] = "members_biodatas"; 
-
-                                    if(now()->diffInDays($user->biodata->updated_at) >= 60) {
-                                    $update_request['method'] = "create";
-                                    }else{
-                                    $update_request['method'] = "update";
-                                    $update_request['instance_id'] = $user->biodata->id;
-                                    }
-                                    $update_request['type'] = "Biodata";
-                                    $update_request['model_name'] = "App\Models\MembersBiodata";
-                                    $update_request['resource_name'] = "App\Http\Resources\BiodataResource";
-                                    
-                                    $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                    $update_request->save();
             
-                                } catch (QueryException $e) {
-                                    Log::error($e);
-                                
-                                    $errorCode = $e->errorInfo[1];
-                                
-                                    // Check if the error code corresponds to a unique constraint violation
-                                    if ($errorCode == 1062) {
-                                        // Redirect to a custom error page for duplicate entry
-                                        return redirect()->back()->with('warning', 'Your Previous Update is being processed');
-                                    }
-                                
-                                    // If it's not a unique constraint violation, you can handle other database-related errors here
-                                    // ...
-                                
-                                    // Re-throw the exception if it's not a unique constraint violation
-                                    throw $e;
-                                }
-
-                        
-                                // return redirect()->back()->with('success','Done! Changes may reflect soon');
-                        }
-                    }
-
-                    // Check and Update Contacts
-                     if(!$contacts_unchanged){
-                        
-                        if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
-
-                            // Check Again, which amongst the contacts given differ from the existing ones and update/create them
-
-                            // Phone
-                            if($validated_contacts['phone'] != ($user->phone == null ? "" : $user->phone->body)){
-                                // Check if user already has an existing phone
-                                if($user->phone){
-                                    $user->phone->body = $validated_contacts['phone'];
-                                    $user->phone->save();
-                                }else{
-                                    $phone = new Contact;
-                                        $phone->user_id = $user->id;
-                                        $phone->body = $validated_contacts['phone'];
-                                        $phone->type = "phone";
-                                        $phone->is_main = 1;
-                                        $phone->is_visible = 1;
-                                    $phone->save();
-                                }
-                            }
-                            // whatsapp
-                            if($validated_contacts['whatsapp'] != ($user->whatsapp == null ? "" : $user->whatsapp->body)){
-                                // Check if user already has an existing whatsapp
-                                if($user->whatsapp){
-                                    $user->whatsapp->body = $validated_contacts['whatsapp'];
-                                    $user->whatsapp->save();
-                                }else{
-                                    $whatsapp = new Contact;
-                                        $whatsapp->user_id = $user->id;
-                                        $whatsapp->body = $validated_contacts['whatsapp'];
-                                        $whatsapp->type = "whatsapp";
-                                        $whatsapp->is_main = 0;
-                                        $whatsapp->is_visible = 1;
-                                    $whatsapp->save();
-                                }
-                            }
-
-                            // school_voda
-                            if($validated_contacts['school_voda'] != ($user->school_voda == null ? "" : $user->school_voda->body)){
-                                // Check if user already has an existing school_voda
-                                if($user->school_voda){
-                                    $user->school_voda->body = $validated_contacts['school_voda'];
-                                    $user->school_voda->save();
-                                }else{
-                                    $school_voda = new Contact;
-                                        $school_voda->user_id = $user->id;
-                                        $school_voda->body = $validated_contacts['school_voda'];
-                                        $school_voda->type = "school_voda";
-                                        $school_voda->is_main = 0;
-                                        $school_voda->is_visible = 1;
-                                    $school_voda->save();
-                                }
-                            }
-                            // other_contact
-                            if($validated_contacts['other_contact'] != ($user->other_contact == null ? "" : $user->other_contact->body)){
-                                // Check if user already has an existing other_contact
-                                if($user->other_contact){
-                                    $user->other_contact->body = $validated_contacts['other_contact'];
-                                    $user->other_contact->save();
-                                }else{
-                                    $other_contact = new Contact;
-                                        $other_contact->user_id = $user->id;
-                                        $other_contact->body = $validated_contacts['other_contact'];
-                                        $other_contact->type = "other_contact";
-                                        $other_contact->is_main = 0;
-                                        $other_contact->is_visible = 1;
-                                    $other_contact->save();
-                                }
-                            }
-                            //Guardian A contact
-                            if($validated_contacts['guardian_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
-                                || $validated_contacts['relation_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation)
-                            ){
-                                // Check if user already has an existing main_guardian_contact
-                                if($user->main_guardian_contact){
-                                    $user->main_guardian_contact->body = $validated_contacts['guardian_a'];
-                                    $user->main_guardian_contact->relation = $validated_contacts['relation_a'];
-                                    $user->main_guardian_contact->save();
-                                }else{
-                                    $guardian_a = new Contact;
-                                        $guardian_a->user_id = $user->id;
-                                        $guardian_a->body = $validated_contacts['guardian_a'];
-                                        $guardian_a->type = "guardian";
-                                        $guardian_a->ownership = "guardian";
-                                        $guardian_a->relation = $validated_contacts['relation_a'];
-                                        $guardian_a->is_main = 1;
-                                        $guardian_a->is_visible = 0;
-                                    $guardian_a->save();
-                                }
-                            }
-
-                            //Guardian B contact
-                            if($validated_contacts['guardian_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body)
-                                || $validated_contacts['relation_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation)
-                            ){
-                                // Check if user already has an existing other_guardian_contact
-                                if($user->other_guardian_contact){
-                                    $user->other_guardian_contact->body = $validated_contacts['guardian_b'];
-                                    $user->other_guardian_contact->relation = $validated_contacts['relation_b'];
-                                    $user->other_guardian_contact->save();
-                                }else{
-                                    $guardian_b = new Contact;
-                                        $guardian_b->user_id = $user->id;
-                                        $guardian_b->body = $validated_contacts['guardian_b'];
-                                        $guardian_b->type = "guardian";
-                                        $guardian_b->ownership = "guardian";
-                                        $guardian_b->relation = $validated_contacts['relation_b'];
-                                        $guardian_b->is_main = 0;
-                                        $guardian_b->is_visible = 0;
-                                    $guardian_b->save();
-                                }
-                            }
-
-                        // If User is Not an Admin     
-                        }else{
-                            
-                            // Check The Difference and create the needed user request for contact model
-
-                             // Phone
-                            if($validated_contacts['phone'] != ($user->phone == null ? "" : $user->phone->body)){
-                                // Check if user already has an existing phone
-                                if($user->phone){
-                                    try {
-                                        //Create A simple array
-                                        $new_phone['body'] =  $validated_contacts['phone'];
-
-                                        $phone_update_request = new UserRequest;
-                                        $phone_update_request['user_id'] = $user->id;
-                                        $phone_update_request['body'] = json_encode($new_phone);
-                                        $phone_update_request['table_name'] = "contacts";
-                                        $phone_update_request['method'] = "update";
-                                        $phone_update_request['instance_id'] = $user->phone->id;
-                                        $phone_update_request['type'] = "Contact-phone";
-                                        $phone_update_request['model_name'] = "App\Models\Contact";
-                                        $phone_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $phone_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $phone_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous Phone Update is being processed');
-                                        }
-                                        throw $e;
-                                    }
-
-                                }else{
-                                    $phone = new Contact;
-                                        $phone->user_id = $user->id;
-                                        $phone->body = $validated_contacts['phone'];
-                                        $phone->type = "phone";
-                                        $phone->is_main = 1;
-                                        $phone->is_visible = 1;
-                                    $phone->save();
-                                }
-                            }
-                            // whatsapp
-                            if($validated_contacts['whatsapp'] != ($user->whatsapp == null ? "" : $user->whatsapp->body)){
-                                // Check if user already has an existing whatsapp
-                                if($user->whatsapp){
-                                    try {
-                                        $new_whatsapp['body'] =  $validated_contacts['whatsapp'];
-
-                                        $whatsapp_update_request = new UserRequest;
-                                        $whatsapp_update_request['user_id'] = $user->id;
-                                        $whatsapp_update_request['body'] = json_encode($new_whatsapp);
-                                        $whatsapp_update_request['table_name'] = "contacts";
-                                        $whatsapp_update_request['method'] = "update";
-                                        $whatsapp_update_request['instance_id'] = $user->whatsapp->id;
-                                        $whatsapp_update_request['type'] = "Contact-whatsapp";
-                                        $whatsapp_update_request['model_name'] = "App\Models\Contact";
-                                        $whatsapp_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $whatsapp_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $whatsapp_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous WhatsApp Contact Update is being processed');
-                                        }
-                                        throw $e;
-                                    }
-                                }else{
-                                    $whatsapp = new Contact;
-                                        $whatsapp->user_id = $user->id;
-                                        $whatsapp->body = $validated_contacts['whatsapp'];
-                                        $whatsapp->type = "whatsapp";
-                                        $whatsapp->is_main = 0;
-                                        $whatsapp->is_visible = 1;
-                                    $whatsapp->save();
-                                }
-                            }
-
-                            // school_voda
-                            if($validated_contacts['school_voda'] != ($user->school_voda == null ? "" : $user->school_voda->body)){
-                                // Check if user already has an existing school_voda
-                                if($user->school_voda){
-                                    try {
-                                        $new_school_voda['body'] =  $validated_contacts['school_voda'];
-
-                                        $school_voda_update_request = new UserRequest;
-                                        $school_voda_update_request['user_id'] = $user->id;
-                                        $school_voda_update_request['body'] = json_encode($new_school_voda);
-                                        $school_voda_update_request['table_name'] = "contacts";
-                                        $school_voda_update_request['method'] = "update";
-                                        $school_voda_update_request['instance_id'] = $user->school_voda->id;
-                                        $school_voda_update_request['type'] = "Contact-school_voda";
-                                        $school_voda_update_request['model_name'] = "App\Models\Contact";
-                                        $school_voda_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $school_voda_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $school_voda_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous School Voda Update is being processed');
-                                        }
-                                        throw $e;
-                                    }
-                                }else{
-                                    $school_voda = new Contact;
-                                        $school_voda->user_id = $user->id;
-                                        $school_voda->body = $validated_contacts['school_voda'];
-                                        $school_voda->type = "school_voda";
-                                        $school_voda->is_main = 0;
-                                        $school_voda->is_visible = 1;
-                                    $school_voda->save();
-                                }
-                            }
-                            // other_contact
-                            if($validated_contacts['other_contact'] != ($user->other_contact == null ? "" : $user->other_contact->body)){
-                                // Check if user already has an existing other_contact
-                                if($user->other_contact){
-                                    try {
-                                        $new_other_contact['body'] =  $validated_contacts['other_contact'];
-
-                                        $other_contact_update_request = new UserRequest;
-                                        $other_contact_update_request['user_id'] = $user->id;
-                                        $other_contact_update_request['body'] = json_encode($new_other_contact);
-                                        $other_contact_update_request['table_name'] = "contacts";
-                                        $other_contact_update_request['method'] = "update";
-                                        $other_contact_update_request['instance_id'] = $user->other_contact->id;
-                                        $other_contact_update_request['type'] = "Contact-other_contact";
-                                        $other_contact_update_request['model_name'] = "App\Models\Contact";
-                                        $other_contact_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $other_contact_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $other_contact_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous Other Contact Update is being processed');
-                                        }
-                                        throw $e;
-                                    }
-
-                                }else{
-                                    $other_contact = new Contact;
-                                        $other_contact->user_id = $user->id;
-                                        $other_contact->body = $validated_contacts['other_contact'];
-                                        $other_contact->type = "other_contact";
-                                        $other_contact->is_main = 0;
-                                        $other_contact->is_visible = 1;
-                                    $other_contact->save();
-                                }
-                            }
-                            //Guardian A contact
-                            if($validated_contacts['guardian_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
-                                || $validated_contacts['relation_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation)
-                                ){
-                                // Check if user already has an existing main_guardian_contact
-                                if($user->main_guardian_contact){
-
-                                    try {
-                                        $new_guardian_a['body'] =  $validated_contacts['guardian_a'];
-                                        $new_guardian_a['relation'] =  $validated_contacts['relation_a'];
-
-                                        $guardian_a_update_request = new UserRequest;
-                                        $guardian_a_update_request['user_id'] = $user->id;
-                                        $guardian_a_update_request['body'] = json_encode($new_guardian_a);
-                                        $guardian_a_update_request['table_name'] = "contacts";
-                                        $guardian_a_update_request['method'] = "update";
-                                        $guardian_a_update_request['instance_id'] = $user->main_guardian_contact->id;
-                                        $guardian_a_update_request['type'] = "Contact-guardian_a";
-                                        $guardian_a_update_request['model_name'] = "App\Models\Contact";
-                                        $guardian_a_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $guardian_a_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $guardian_a_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous Main Guardian Contact is being processed');
-                                        }
-                                        throw $e;
-                                    }
-
-                                }else{
-                                    $guardian_a = new Contact;
-                                        $guardian_a->user_id = $user->id;
-                                        $guardian_a->body = $validated_contacts['guardian_a'];
-                                        $guardian_a->type = "guardian";
-                                        $guardian_a->ownership = "guardian";
-                                        $guardian_a->relation = $validated_contacts['relation_a'];
-                                        $guardian_a->is_main = 1;
-                                        $guardian_a->is_visible = 0;
-                                    $guardian_a->save();
-                                }
-                            }
-
-                            //Guardian B contact
-                            if($validated_contacts['guardian_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body)
-                                || $validated_contacts['relation_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation)
-                                ){
-                                // Check if user already has an existing other_guardian_contact
-                                if($user->other_guardian_contact){
-
-                                    try {
-                                        $new_guardian_b['body'] =  $validated_contacts['guardian_b'];
-                                        $new_guardian_b['relation'] =  $validated_contacts['relation_b'];
-
-                                        $guardian_b_update_request = new UserRequest;
-                                        $guardian_b_update_request['user_id'] = $user->id;
-                                        $guardian_b_update_request['body'] = json_encode($new_guardian_b);
-                                        $guardian_b_update_request['table_name'] = "contacts";
-                                        $guardian_b_update_request['method'] = "update";
-                                        $guardian_b_update_request['instance_id'] = $user->other_guardian_contact->id;
-                                        $guardian_b_update_request['type'] = "Contact-guardian_b";
-                                        $guardian_b_update_request['model_name'] = "App\Models\Contact";
-                                        $guardian_b_update_request['resource_name'] = "App\Http\Resources\ContactResource";
-                                        $guardian_b_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                                        $guardian_b_update_request->save();
-                                    } catch (QueryException $e) {
-                                        Log::error($e);
-                                        $errorCode = $e->errorInfo[1];
-                                        if ($errorCode == 1062) {
-                                            return redirect()->back()->with('warning', 'Your Previous Other Guardian Contact Update is being processed');
-                                        }
-                                        throw $e;
-                                    }
-                                }else{
-                                    $guardian_b = new Contact;
-                                        $guardian_b->user_id = $user->id;
-                                        $guardian_b->body = $validated_contacts['guardian_b'];
-                                        $guardian_b->type = "guardian";
-                                        $guardian_b->ownership = "guardian";
-                                        $guardian_b->relation = $validated_contacts['relation_b'];
-                                        $guardian_b->is_main = 0;
-                                        $guardian_b->is_visible = 0;
-                                    $guardian_b->save();
-                                }
-                            }
-
-                        }
-                    }
-
-                    if( auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
-                        return redirect()->back()->with('success','Update Successful');
-
-                    }else{
-                        return redirect()->back()->with('success','Done! Changes may reflect soon');
-                    }
-
-
                     
 
 
@@ -847,59 +503,132 @@ class BiodataController extends Controller
                 // N.S personelles
                 // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
 
-                $validated = $request->validate([
+                $validated_profile = $request->validate([
                     'room' => ['nullable'],
                     'ns_status' => ['required', 'numeric'],
-                    'is_alumini' => ['required', 'numeric'],
+                    'is_alumni' => ['required', 'numeric'],
                     'residence_id' => ['nullable'],
-                    'zone_id' => ['nullable'],
                     'year_group_id' => ['nullable'],
 
                 ]);
-                $validated['updated_at'] = now()->format('Y-m-d H:i:s');
-                $validated['created_at'] = $user->biodata->created_at->format('Y-m-d H:i:s');
-                $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                $validated['user_id'] = $user->id;
 
-                if ($validated['is_alumini'] == 0) {
-                    $validated['year_group_id'] = null;
+                $validated_profile['updated_at'] = now()->format('Y-m-d H:i:s');
+                $validated_profile['created_at'] = $user->biodata->created_at->format('Y-m-d H:i:s');
+                $validated_profile['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                $validated_profile['user_id'] = $user->id;
+
+                if ($validated_profile['is_alumni'] == 0) {
+                    $validated_profile['year_group_id'] = null;
                    
                 }
 
                 // If the resdidence is null, that's when we need the zone_id from the form
-                $residence = Residence::findResidenceByName($validated['residence_id']);
+                $residence = Residence::findResidenceByName($validated_profile['residence_id']);
                 if ($residence == null) {
-                    $validated['residence_id'] = null;
+                    $validated_profile['residence_id'] = null;
                 } else {
                     //   If the residence is not null, we use it and query the zone from it
-                    $validated['residence_id'] = $residence->id;
-                    $validated['zone_id'] = $residence->zone->id;
+                    $validated_profile['residence_id'] = $residence->id;
+                    $validated_profile['zone_id'] = $residence->zone->id;
+                }
+            }
+
+        } elseif ($user->is_member == 0 && $user->has_alumni_profile() == true) {
+                // if User is not a member (Alumni)
+                $validated_profile = $request->validate([
+                    'country' => ['required'],
+                    'state' => ['required'],
+                    'city' => ['required'],
+                    'local_congregation' => ['required'],
+                    'year_group_id' => ['required'],
+                ]);
+                $validated_profile['user_id'] = $user->id;
+                $validated_profile['updated_at'] = now()->format('Y-m-d H:i:s');
+                $validated_profile['created_at'] = $user->biodata->created_at->format('Y-m-d H:i:s');
+                $validated_profile['academic_year_id'] = Semester::active_semester()->academicYear->id;
+
+        }
+
+        $validated_contacts = $request->validate([
+            'phone'=>['required'],
+            'whatsapp'=>['nullable'],
+            'school_voda'=>['nullable'],
+            'other_contact'=>['nullable'],
+            'guardian_a'=>['nullable'],
+            'relation_a'=>['nullable'],
+            'guardian_b'=>['nullable'],
+            'relation_b'=>['nullable'],
+        ]);
+
+        // Now For the Action
+        // Check for Changes and see what to do
+            $contacts_unchanged = (
+                $validated_contacts['phone'] == ($user->phone == null ? "" : $user->phone->body) 
+            &&  $validated_contacts['whatsapp'] == ($user->whatsapp == null ? "" : $user->whatsapp->body) 
+            &&  $validated_contacts['school_voda'] == ($user->school_voda == null ? "" : $user->school_voda->body) 
+            &&  $validated_contacts['other_contact'] == ($user->other_contact == null ? "" : $user->other_contact->body) 
+            &&  $validated_contacts['guardian_a'] == ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
+            &&  $validated_contacts['relation_a'] == ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation) 
+            &&  $validated_contacts['guardian_b'] == ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body) 
+            &&  $validated_contacts['relation_b'] == ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation) 
+            
+            ) ;
+        
+
+        // Check if The incoming is same as existing
+        $incoming_biodata = MembersBiodata::make($validated_profile);
+        $biodata_unchanged = (new BiodataResource($incoming_biodata))->toArray(request()) == (new BiodataResource($user->biodata))->toArray(request());
+        // If No change is detected
+            if( $biodata_unchanged && $contacts_unchanged){
+            return redirect()->back()->with('warning','No Changes Observed');
+            }
+
+            if(!$biodata_unchanged){ 
+            // If the Current User is a Ministry Member/ Leader, update right away
+            if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
+
+                // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
+                if (now()->diffInDays($user->biodata->updated_at) >= 60) {
+                    DB::table('members_biodatas')->insertOrIgnore($validated_profile);
+                    // return redirect()->back()->with('success', 'Biodata Updated Successfully');
+
+                    // If the latest update is less than 60 days, update the latest one
+                } else {
+                    $latest_biodata_id = $user->biodata->id;
+                    DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated_profile);
+
+                    // return redirect()->back()->with('success', 'Biodata Updated Successfully');
                 }
 
-                
-                // Check if the current user is a ministry Member or leader
-                if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                    if (now()->diffInDays($user->biodata->updated_at) >= 60) {
-                        DB::table('members_biodatas')->insertOrIgnore($validated);
-                        return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                    } else {
-                        $latest_biodata_id = $user->biodata->id;
-                        DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated);
-
-                        return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                    }
-                }else{
-
+            // Else Create Request to be Granted later
+            }else{
+                    // Try and Catch Error
                     try {
                         // Your code that saves data to the database
                         $update_request = new UserRequest;
                         $update_request['user_id'] = $user->id;
-                        $update_request['body'] = json_encode($validated); 
-                        $update_request['table_name'] = "members_biodatas"; 
-                        $update_request['method'] = "update";
+                        $update_request['body'] = json_encode($validated_profile); 
+                        
+                        if(now()->diffInDays($user->biodata->updated_at) >= 60) {
+                            $update_request['method'] = "insert";
+                        }else{
+                            $update_request['method'] = "update";
+                            $update_request['instance_id'] = $user->biodata->id;
+                        }
                         $update_request['type'] = "Biodata";
-                        $update_request['instance_id'] = $user->biodata->id;
+                        
+                        // Whether Alumni or Members Biodata would depend on the user
+                        if($user->is_member == 0 && $user->has_alumni_profile() == true){
+                            $update_request['model_name'] = "App\Models\AlumniBiodata";
+                            $update_request['table_name'] = "alumni_biodatas"; 
+                        }else{
+                            $update_request['model_name'] = "App\Models\MembersBiodata";
+                            $update_request['table_name'] = "members_biodatas"; 
+                        }
+
+                        $update_request['resource_name'] = "App\Http\Resources\BiodataResource";
+                        
                         $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
                         $update_request->save();
 
@@ -911,7 +640,7 @@ class BiodataController extends Controller
                         // Check if the error code corresponds to a unique constraint violation
                         if ($errorCode == 1062) {
                             // Redirect to a custom error page for duplicate entry
-                            return redirect()->back()->with('warning', 'Your Previous Update is being processed');
+                            return redirect()->back()->with('warning', 'Your Previous Biodata Update is being processed');
                         }
                     
                         // If it's not a unique constraint violation, you can handle other database-related errors here
@@ -920,83 +649,383 @@ class BiodataController extends Controller
                         // Re-throw the exception if it's not a unique constraint violation
                         throw $e;
                     }
-
-              
-                return redirect()->back()->with('success','Done! Changes may reflect soon');
-
-                }
-
+            
             }
+        }
 
-        } elseif ($user->is_member == 0 && $user->has_alumini_profile() == true) {
-                // if User is not a member (Alumini)
-                $validated = $request->validate([
-                    'country' => ['required'],
-                    'state' => ['required'],
-                    'city' => ['required'],
-                    'local_congregation' => ['required'],
-                    'year_group_id' => ['required'],
-                ]);
-                $validated['user_id'] = $user->id;
-                $validated['updated_at'] = now()->format('Y-m-d H:i:s');
-                $validated['created_at'] = $user->biodata->created_at->format('Y-m-d H:i:s');
-                $validated['academic_year_id'] = Semester::active_semester()->academicYear->id;
-
-            // If the Current User is a Ministry Member/ Leader, update right away
+        // Check and Update Contacts
+            if(!$contacts_unchanged){
+            
             if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
-                if (now()->diffInDays($user->biodata->updated_at) >= 60) {
-                    DB::table('alumini_biodatas')->insertOrIgnore($validated);
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                } else {
-                    $latest_biodata_id = $user->biodata->id;
-                    DB::table('alumini_biodatas')->where('id', $latest_biodata_id)->update($validated);
-                    return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                }
-                // Else Create Request to be Granted later
-            }else{
-                 // Try and Catch Error
-                 try {
-                    // Your code that saves data to the database
-                    $update_request = new UserRequest;
-                    $update_request['user_id'] = $user->id;
-                    $update_request['body'] = json_encode($validated); 
-                    $update_request['table_name'] = "alumini_biodatas"; 
-                    $update_request['method'] = "update";
-                    $update_request['type'] = "Biodata";
-                    $update_request['instance_id'] = $user->biodata->id;
-                    $update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
-                    $update_request->save();
+                // Check Again, which amongst the contacts given differ from the existing ones and update/create them
 
-                } catch (QueryException $e) {
-                    Log::error($e);
-                
-                    $errorCode = $e->errorInfo[1];
-                
-                    // Check if the error code corresponds to a unique constraint violation
-                    if ($errorCode == 1062) {
-                        // Redirect to a custom error page for duplicate entry
-                        return redirect()->back()->with('warning', 'Your Previous Update is being processed');
+                // Phone
+                if($validated_contacts['phone'] != ($user->phone == null ? "" : $user->phone->body)){
+                    // Check if user already has an existing phone
+                    if($user->phone){
+                        $user->phone->body = $validated_contacts['phone'];
+                        $user->phone->save();
+                    }else{
+                        $phone = new Contact;
+                            $phone->user_id = $user->id;
+                            $phone->body = $validated_contacts['phone'];
+                            $phone->type = "phone";
+                            $phone->is_main = 1;
+                            $phone->is_visible = 1;
+                        $phone->save();
                     }
-                
-                    // If it's not a unique constraint violation, you can handle other database-related errors here
-                    // ...
-                
-                    // Re-throw the exception if it's not a unique constraint violation
-                    throw $e;
+                }
+                // whatsapp
+                if($validated_contacts['whatsapp'] != ($user->whatsapp == null ? "" : $user->whatsapp->body)){
+                    // Check if user already has an existing whatsapp
+                    if($user->whatsapp){
+                        $user->whatsapp->body = $validated_contacts['whatsapp'];
+                        $user->whatsapp->save();
+                    }else{
+                        $whatsapp = new Contact;
+                            $whatsapp->user_id = $user->id;
+                            $whatsapp->body = $validated_contacts['whatsapp'];
+                            $whatsapp->type = "whatsapp";
+                            $whatsapp->is_main = 0;
+                            $whatsapp->is_visible = 1;
+                        $whatsapp->save();
+                    }
                 }
 
-          
-            return redirect()->back()->with('success','Done! Changes may reflect soon');
-            }
+                // school_voda
+                if($validated_contacts['school_voda'] != ($user->school_voda == null ? "" : $user->school_voda->body)){
+                    // Check if user already has an existing school_voda
+                    if($user->school_voda){
+                        $user->school_voda->body = $validated_contacts['school_voda'];
+                        $user->school_voda->save();
+                    }else{
+                        $school_voda = new Contact;
+                            $school_voda->user_id = $user->id;
+                            $school_voda->body = $validated_contacts['school_voda'];
+                            $school_voda->type = "school_voda";
+                            $school_voda->is_main = 0;
+                            $school_voda->is_visible = 1;
+                        $school_voda->save();
+                    }
+                }
+                // other_contact
+                if($validated_contacts['other_contact'] != ($user->other_contact == null ? "" : $user->other_contact->body)){
+                    // Check if user already has an existing other_contact
+                    if($user->other_contact != null){
+                        $user->other_contact->body = $validated_contacts['other_contact'];
+                        $user->other_contact->save();
+                    }else{
+                        $other_contact = new Contact;
+                            $other_contact->user_id = $user->id;
+                            $other_contact->body = $validated_contacts['other_contact'];
+                            $other_contact->type = "other_contact";
+                            $other_contact->is_main = 0;
+                            $other_contact->is_visible = 1;
+                        $other_contact->save();
+                    }
+                }
+                //Guardian A contact
+                if($validated_contacts['guardian_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
+                    || $validated_contacts['relation_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation)
+                ){
+                    // Check if user already has an existing main_guardian_contact
+                    if($user->main_guardian_contact){
+                        $user->main_guardian_contact->body = $validated_contacts['guardian_a'];
+                        $user->main_guardian_contact->relation = $validated_contacts['relation_a'];
+                        $user->main_guardian_contact->save();
+                    }else{
+                        $guardian_a = new Contact;
+                            $guardian_a->user_id = $user->id;
+                            $guardian_a->body = $validated_contacts['guardian_a'];
+                            $guardian_a->type = "guardian";
+                            $guardian_a->ownership = "guardian";
+                            $guardian_a->relation = $validated_contacts['relation_a'];
+                            $guardian_a->is_main = 1;
+                            $guardian_a->is_visible = 0;
+                        $guardian_a->save();
+                    }
+                }
 
+                //Guardian B contact
+                if($validated_contacts['guardian_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body)
+                    || $validated_contacts['relation_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation)
+                ){
+                    // Check if user already has an existing other_guardian_contact
+                    if($user->other_guardian_contact){
+                        $user->other_guardian_contact->body = $validated_contacts['guardian_b'];
+                        $user->other_guardian_contact->relation = $validated_contacts['relation_b'];
+                        $user->other_guardian_contact->save();
+                    }else{
+                        $guardian_b = new Contact;
+                            $guardian_b->user_id = $user->id;
+                            $guardian_b->body = $validated_contacts['guardian_b'];
+                            $guardian_b->type = "guardian";
+                            $guardian_b->ownership = "guardian";
+                            $guardian_b->relation = $validated_contacts['relation_b'];
+                            $guardian_b->is_main = 0;
+                            $guardian_b->is_visible = 0;
+                        $guardian_b->save();
+                    }
+                }
+
+            // If User is Not an Admin     
+            }else{
+                
+            // Check The Difference and create the needed user request for contact model
+
+                    // Phone
+                if($validated_contacts['phone'] != ($user->phone == null ? "" : $user->phone->body)){
+                    // Check if user already has an existing phone
+                    if($user->phone){
+                        try {
+                            //Create A simple array
+                            $new_phone['body'] =  $validated_contacts['phone'];
+
+                            $phone_update_request = new UserRequest;
+                            $phone_update_request['user_id'] = $user->id;
+                            $phone_update_request['body'] = json_encode($new_phone);
+                            $phone_update_request['table_name'] = "contacts";
+                            $phone_update_request['method'] = "update";
+                            $phone_update_request['instance_id'] = $user->phone->id;
+                            $phone_update_request['type'] = "Contact-phone";
+                            $phone_update_request['model_name'] = "App\Models\Contact";
+                            $phone_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $phone_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $phone_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous Phone Update is being processed');
+                            }
+                            throw $e;
+                        }
+
+                    }else{
+                        $phone = new Contact;
+                            $phone->user_id = $user->id;
+                            $phone->body = $validated_contacts['phone'];
+                            $phone->type = "phone";
+                            $phone->is_main = 1;
+                            $phone->is_visible = 1;
+                        $phone->save();
+                    }
+                }
+                // whatsapp
+                if($validated_contacts['whatsapp'] != ($user->whatsapp == null ? "" : $user->whatsapp->body)){
+                    // Check if user already has an existing whatsapp
+                    if($user->whatsapp){
+                        try {
+                            $new_whatsapp['body'] =  $validated_contacts['whatsapp'];
+
+                            $whatsapp_update_request = new UserRequest;
+                            $whatsapp_update_request['user_id'] = $user->id;
+                            $whatsapp_update_request['body'] = json_encode($new_whatsapp);
+                            $whatsapp_update_request['table_name'] = "contacts";
+                            $whatsapp_update_request['method'] = "update";
+                            $whatsapp_update_request['instance_id'] = $user->whatsapp->id;
+                            $whatsapp_update_request['type'] = "Contact-whatsapp";
+                            $whatsapp_update_request['model_name'] = "App\Models\Contact";
+                            $whatsapp_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $whatsapp_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $whatsapp_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous WhatsApp Contact Update is being processed');
+                            }
+                            throw $e;
+                        }
+                    }else{
+                        $whatsapp = new Contact;
+                            $whatsapp->user_id = $user->id;
+                            $whatsapp->body = $validated_contacts['whatsapp'];
+                            $whatsapp->type = "whatsapp";
+                            $whatsapp->is_main = 0;
+                            $whatsapp->is_visible = 1;
+                        $whatsapp->save();
+                    }
+                }
+
+                // school_voda
+                if($validated_contacts['school_voda'] != ($user->school_voda == null ? "" : $user->school_voda->body)){
+                    // Check if user already has an existing school_voda
+                    if($user->school_voda){
+                        try {
+                            $new_school_voda['body'] =  $validated_contacts['school_voda'];
+
+                            $school_voda_update_request = new UserRequest;
+                            $school_voda_update_request['user_id'] = $user->id;
+                            $school_voda_update_request['body'] = json_encode($new_school_voda);
+                            $school_voda_update_request['table_name'] = "contacts";
+                            $school_voda_update_request['method'] = "update";
+                            $school_voda_update_request['instance_id'] = $user->school_voda->id;
+                            $school_voda_update_request['type'] = "Contact-school_voda";
+                            $school_voda_update_request['model_name'] = "App\Models\Contact";
+                            $school_voda_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $school_voda_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $school_voda_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous School Voda Update is being processed');
+                            }
+                            throw $e;
+                        }
+                    }else{
+                        $school_voda = new Contact;
+                            $school_voda->user_id = $user->id;
+                            $school_voda->body = $validated_contacts['school_voda'];
+                            $school_voda->type = "school_voda";
+                            $school_voda->is_main = 0;
+                            $school_voda->is_visible = 1;
+                        $school_voda->save();
+                    }
+                }
+                // other_contact
+                if($validated_contacts['other_contact'] != ($user->other_contact == null ? "" : $user->other_contact->body)){
+                    // Check if user already has an existing other_contact
+                    if($user->other_contact){
+                        try {
+                            $new_other_contact['body'] =  $validated_contacts['other_contact'];
+
+                            $other_contact_update_request = new UserRequest;
+                            $other_contact_update_request['user_id'] = $user->id;
+                            $other_contact_update_request['body'] = json_encode($new_other_contact);
+                            $other_contact_update_request['table_name'] = "contacts";
+                            $other_contact_update_request['method'] = "update";
+                            $other_contact_update_request['instance_id'] = $user->other_contact->id;
+                            $other_contact_update_request['type'] = "Contact-other_contact";
+                            $other_contact_update_request['model_name'] = "App\Models\Contact";
+                            $other_contact_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $other_contact_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $other_contact_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous Other Contact Update is being processed');
+                            }
+                            throw $e;
+                        }
+
+                    }else{
+                        $other_contact = new Contact;
+                            $other_contact->user_id = $user->id;
+                            $other_contact->body = $validated_contacts['other_contact'];
+                            $other_contact->type = "other_contact";
+                            $other_contact->is_main = 0;
+                            $other_contact->is_visible = 1;
+                        $other_contact->save();
+                    }
+                }
+                //Guardian A contact
+                if($validated_contacts['guardian_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body) 
+                    || $validated_contacts['relation_a'] != ($user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation)
+                    ){
+                    // Check if user already has an existing main_guardian_contact
+                    if($user->main_guardian_contact){
+
+                        try {
+                            $new_guardian_a['body'] =  $validated_contacts['guardian_a'];
+                            $new_guardian_a['relation'] =  $validated_contacts['relation_a'];
+
+                            $guardian_a_update_request = new UserRequest;
+                            $guardian_a_update_request['user_id'] = $user->id;
+                            $guardian_a_update_request['body'] = json_encode($new_guardian_a);
+                            $guardian_a_update_request['table_name'] = "contacts";
+                            $guardian_a_update_request['method'] = "update";
+                            $guardian_a_update_request['instance_id'] = $user->main_guardian_contact->id;
+                            $guardian_a_update_request['type'] = "Contact-guardian_a";
+                            $guardian_a_update_request['model_name'] = "App\Models\Contact";
+                            $guardian_a_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $guardian_a_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $guardian_a_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous Main Guardian Contact is being processed');
+                            }
+                            throw $e;
+                        }
+
+                    }else{
+                        $guardian_a = new Contact;
+                            $guardian_a->user_id = $user->id;
+                            $guardian_a->body = $validated_contacts['guardian_a'];
+                            $guardian_a->type = "guardian";
+                            $guardian_a->ownership = "guardian";
+                            $guardian_a->relation = $validated_contacts['relation_a'];
+                            $guardian_a->is_main = 1;
+                            $guardian_a->is_visible = 0;
+                        $guardian_a->save();
+                    }
+                }
+
+                //Guardian B contact
+                if($validated_contacts['guardian_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body)
+                    || $validated_contacts['relation_b'] != ($user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation)
+                    ){
+                    // Check if user already has an existing other_guardian_contact
+                    if($user->other_guardian_contact){
+
+                        try {
+                            $new_guardian_b['body'] =  $validated_contacts['guardian_b'];
+                            $new_guardian_b['relation'] =  $validated_contacts['relation_b'];
+
+                            $guardian_b_update_request = new UserRequest;
+                            $guardian_b_update_request['user_id'] = $user->id;
+                            $guardian_b_update_request['body'] = json_encode($new_guardian_b);
+                            $guardian_b_update_request['table_name'] = "contacts";
+                            $guardian_b_update_request['method'] = "update";
+                            $guardian_b_update_request['instance_id'] = $user->other_guardian_contact->id;
+                            $guardian_b_update_request['type'] = "Contact-guardian_b";
+                            $guardian_b_update_request['model_name'] = "App\Models\Contact";
+                            $guardian_b_update_request['resource_name'] = "App\Http\Resources\ContactResource";
+                            $guardian_b_update_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                            $guardian_b_update_request->save();
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                            $errorCode = $e->errorInfo[1];
+                            if ($errorCode == 1062) {
+                                return redirect()->back()->with('warning', 'Your Previous Other Guardian Contact Update is being processed');
+                            }
+                            throw $e;
+                        }
+                    }else{
+                        $guardian_b = new Contact;
+                            $guardian_b->user_id = $user->id;
+                            $guardian_b->body = $validated_contacts['guardian_b'];
+                            $guardian_b->type = "guardian";
+                            $guardian_b->ownership = "guardian";
+                            $guardian_b->relation = $validated_contacts['relation_b'];
+                            $guardian_b->is_main = 0;
+                            $guardian_b->is_visible = 0;
+                        $guardian_b->save();
+                    }
+                }
+
+            }
         }
+
+        if( auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
+            return redirect()->back()->with('success','Update Successful');
+
+        }else{
+            return redirect()->back()->with('success','Done! Changes may reflect soon');
+        }
+
+
 
         return redirect(route('create_user_profile_form',['user'=>$user]))->with('warning','Please Update Your Profile');
 
     }
 
-    // DELETE PROFIEL
+    // DELETE PROFILE
     public function destroy(Biodata $biodata)
     {
         //
@@ -1006,7 +1035,6 @@ class BiodataController extends Controller
     // some users do not have biodata due to seeding
     public function show_modal_info(User $user)
     {
-
         return view('modals.user.user-info', ['profile' => $user->biodata]);
     }
 
@@ -1055,27 +1083,3 @@ class BiodataController extends Controller
 
     }
 }
-
-// public function store(User $user, Request $request)
-// {
-//     //
-//     $validated = $request->validate([
-//         'room' => ['required'],
-//         'year' => ['required'],
-//         'residence_id' => ['required'],
-//         'program_id' => ['required'],
-//         'college_id'=>['nullable'],
-//     ]);
-//     $program_id =  Program::findProgramByName($validated['program_id'])->id;
-//     $college_id =  Program::findProgramByName($validated['program_id'])->college->id;
-
-//     $validated['user_id'] = $user->id;
-//     $validated['residence_id'] = Residence::findResidenceByName($validated['residence_id'])->id;
-//     $validated['program_id'] = $program_id;
-//     $validated['college_id'] = $college_id;
-
-//     // $validated['college_id'] = Program::find($validated['program_id'])->college()->id;
-
-//     Biodata::create($validated);
-//     return redirect(route('view_profile',$user))->with('success','Profile Created Successfully');
-// }

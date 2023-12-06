@@ -21,19 +21,6 @@
                         <div class="form-group row">
                            
 
-                             {{-- Other Name --}}
-                            {{-- <label class="col-md-3 form-control-label" for="text-input">First Name</label> --}}
-                            {{-- <div class="col-md-3 mb-4">
-                                <input type="text"  value="{{old('othername')}}" name="othername" class="form-control" placeholder="Other Name">
-                                    {{-- <span class="help-block">Other Name</span> --}}
-                                     {{-- Error Message --}}
-                                     {{-- @error('othername') --}}
-                                     {{-- <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p> --}}
-                                     {{-- @enderror --}}
-                            {{-- </div> --}}
-
-                          {{-- Program List for Each College --}}
-
                             {{-- Country --}}
                             <div class="col-md-3 mb-4">
                                 <h6>Country</h6>
@@ -98,6 +85,51 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{"Please Select A Zone"}}</p>
                                 @enderror
 
+                            </div>
+
+                             {{-- Phone --}}
+                             <div class="col-md-3 mb-4">
+                                <strong>Main Phone Contact</strong>
+                                <input type="text" class="form-control" value="{{old('phone',$user->phone == null ? "" : $user->phone->body )}}" autocomplete="off" name="phone" required>
+                            </div>
+                            
+                            {{-- WhatsApp Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>WhatsApp Contact</strong>
+                                <input type="text" class="form-control" value="{{old('whatsapp',$user->whatsapp == null ? "" : $user->whatsapp->body )}}" autocomplete="off" name="whatsapp" required>
+                            </div>
+
+                            {{-- School Voda --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>School Vodafone</strong>
+                                <input type="text" class="form-control" value="{{old('school_voda',$user->school_voda == null ? "" : $user->school_voda->body )}}" autocomplete="off" name="school_voda">
+                            </div>
+
+                            {{-- Other Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>Other Contact (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('other_contact',$user->other_contact == null ? "" : $user->other_contact->body )}}" autocomplete="off" name="other_contact">
+                            </div>
+
+                            {{-- GUARDIAN CONTACTS --}}
+                            <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
+                            
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact A</strong>
+                                <input type="text" class="form-control" value="{{old('guardian_a',$user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body )}}" autocomplete="off" name="guardian_a" placeholder="Contact Here" >
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian A</strong>
+                                <input type="text" class="form-control" value="{{old('relation_a',$user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation )}}" autocomplete="off" name="relation_a" placeholder="Eg. Father, Mother, etc">
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact B (Optional) </strong>
+                                <input type="text" class="form-control" value="{{old('guardian_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body )}}" autocomplete="off" name="guardian_b" placeholder="Contact Here" >
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian B (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('relation_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation )}}" autocomplete="off" name="relation_b" placeholder="Eg. Father, Mother, etc">
                             </div>
 
                     </div>

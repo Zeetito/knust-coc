@@ -115,12 +115,12 @@
                             </div>
                             <div class="col-md-6 mb-4">
                                 <strong>Relation with Guardian A</strong>
-                                <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc">
+                                <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
                             </div>
 
                             <div class="col-md-6 mb-4">
                                 <strong>Guardian Contact B (Optional) </strong>
-                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" required>
+                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" >
                             </div>
                             <div class="col-md-6 mb-4">
                                 <strong>Relation with Guardian B (Optional)</strong>

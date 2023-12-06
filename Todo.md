@@ -347,10 +347,17 @@ Get Number of Users without Profile.
 # Make Contact update request when contact is edited during profile editing
 
 ### Phase 18
-# Update user [birthday, FirstName, Second Name, Username, etc...]
-# Requests to join Group
-# Sort request according to -- [ Users , Zone-users, ], [Insert, delete, update,],
 # Be able to see all request made by a particular user
+# Sort request according to -- [ Users , Zone-users, ], [Insert, delete, update,],
+# Setup ControlMiddleware
+# Setup Accessories [ 'picture_per_user','System_online',etc ]
+# work on Alumini and Non student member biodata create and update. Factor in the contacts.
+
+# BreadCrumbs 
+
+# Update user [birthday, FirstName, Second Name, Username, etc...]
+# Control User's whose residences are not in the list of residences
+# Requests to join Group
 # Announcements.
 
 ### phase 19

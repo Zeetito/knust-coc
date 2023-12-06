@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('location_id')->nullable(); // Could be zone or residence Id
             $table->boolean('is_zone'); // 1->Zone Door To door or 0->Residence Door To Door.
             $table->integer('visibility')->default('1'); // 1-Private, 2-Residence, 3-Zone, 4-General.
-            $table->string('info');//some info about this door to door session
+            $table->string('info')->nullable();//some info about this door to door session
             $table->unsignedBigInteger('created_by');
             $table->string('current_room')->nullable();//some info about this door to door session
             $table->boolean('is_completed')->default('0');

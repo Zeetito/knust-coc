@@ -4,7 +4,7 @@
                     <h5 style="text-align:center">Handle User Request</h5>
         </div>
 
-        <div class="modal-body">
+        <div class="ml-3">
                 <div class="h6 bg bg-danger">
                    This Action Cannot Be Undone
                 </div>
@@ -16,25 +16,46 @@
                 </div>
 
                 {{-- View Difference Between The Previous and the New --}}
-                <div class="row ">
+                <div class="row">
                     <div class="bg-warning col-5">
-                        <h6>Previous</h6>
                         {{-- Display old resource attributes --}}
-                        <span>
-                            @foreach($old_resource as $key => $value)
-                                <li><strong>{{ $key }}</strong>: {{ $value }}</li>
-                            @endforeach
-                        </span>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Previous</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+
+                                @foreach($old_resource as $key => $value)
+                                <tr>
+                                    <td><strong>{{ $key }}</strong>: {{ $value }}</td>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
                     </div>
                 
                     <div class="bg-info col-5">
-                        <h6>Update</h6>
                         {{-- Display new resource attributes --}}
-                        <span>
-                            @foreach($new_resource as $key => $value)
-                                <li><strong>{{ $key }}</strong>: {{ $value }}</li>
-                            @endforeach
-                        </span>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Update</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach($new_resource as $key => $value)
+                                <tr>
+                                    <td><strong>{{ $key }}</strong>: {{ $value }}</td>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

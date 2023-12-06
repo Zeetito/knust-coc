@@ -49,8 +49,8 @@
                                 <div class="card-body text-center">
                                     <div>
                                         <h2>Sign up</h2>
-                                        {{-- <p> Connect with your loved once online like never before, alumini and students alike. Have Fun!!! </p> --}}
-                                        <p> Is this your first time here? Are You an Alumini / Member of the KNUST COC? </p>
+                                        {{-- <p> Connect with your loved once online like never before, Alumni and students alike. Have Fun!!! </p> --}}
+                                        <p> Is this your first time here? Are You an Alumni / Member of the KNUST COC? </p>
                                     <a href={{route('register')}} type="button" class="btn btn-primary active mt-3">Register Now!</a>
                                     </div>
                                 </div>

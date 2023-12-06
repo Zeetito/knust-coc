@@ -49,7 +49,7 @@
                                 <div class="card-body text-center">
                                     <div>
                                         <h2>Dear Fresher <i class="fa fa-smile-o"></i></h2>
-                                        {{-- <p> Connect with your loved once online like never before, alumini and students alike. Have Fun!!! </p> --}}
+                                        {{-- <p> Connect with your loved once online like never before, Alumni and students alike. Have Fun!!! </p> --}}
                                         <p> Create An Account here </p>
                                     <a href={{route('create_fresher')}} type="button" class="btn btn-primary active mt-3">Register Now!</a>
                                     </div>

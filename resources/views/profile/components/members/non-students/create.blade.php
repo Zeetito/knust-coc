@@ -7,7 +7,7 @@
 
                 </div>
                 <div class="card-body">
-                <form action="{{route('create_profile',['user'=>$user])}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{route('store_profile',['user'=>$user])}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
                         {{-- UserName --}}
                         <div class="form-group row">
@@ -20,24 +20,10 @@
                         <div class="form-group row">
 
 
-                            {{-- Zone Id --}}
-                            <div class="col-md-3 mb-4">
-                                    <select class="form-control" name="zone_id" id="zones">
-                                        <option>SELECT ZONE</option>
-                                    @foreach(App\Models\Zone::all() as $zone)
-                                        <option value="{{$zone->id}}"> {{$zone->name}} </option>
-                                    @endforeach
-                                    </select>
-                                 {{-- <span class="help-block">Zone</span> --}}
-                                {{-- Error Message --}}
-                                    @error('zone_id')
-                                    <p class='m=0 small alert alert-danger shadow-sm'>{{"Please Select A Zone"}}</p>
-                                    @enderror
-                            </div>
-
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
                             <div class="col-md-3 mb-4">
+                                <strong>Select Residence</strong>
                                 <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
                                 <datalist id="search_result_for_residence_list">
                                     @if(empty($residences))
@@ -55,11 +41,11 @@
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                 @enderror
 
-                        </div>
+                            </div>
 
                             {{-- NsStatus --}}
                             <div class="col-md-3 mb-4">
-                                    Are you a National Service Personnele ?
+                                <strong>Are you a National Service Personnele ?</strong>
                             <select class="form-control" value="{{old('ns_status')}}" autocomplete="off" name="ns_status" id="ns_status">
                                 <option value=" ">Select</option>
                                 <option value="1">Yes</option>
@@ -70,9 +56,10 @@
                                     @enderror
                             </div>
 
-                               {{-- Room --}}
+                            {{-- Room --}}
                             {{-- <label class="col-md-3 mb-4 form-control-label" for="text-input">First Name</label> --}}
                             <div class="col-md-3 mb-4">
+                                <strong>Room</strong>
                                 <input type="text"  value="{{old('room')}}" name="room" autocomplete="off" class="form-control" placeholder="Room">
                                     {{-- <span class="help-block">Room</span> --}}
                                      {{-- Error Message --}}
@@ -83,8 +70,9 @@
 
                             {{-- is_Alumini --}}
                             <div class="col-md-3 mb-4">
-                                    Are you an Alumini of the KNUST CoC ?
-                                <select class="form-control" value="{{old('is_alumini')}}" autocomplete="off" name="is_alumini" id="is_alumini">
+                                
+                                <strong>Are you an Alumni of the KNUST CoC ?</strong>
+                                <select class="form-control" value="{{old('is_alumni')}}" autocomplete="off" name="is_alumni" id="is_alumini">
                                     <option value=" ">Select</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
@@ -97,12 +85,12 @@
                             {{-- Year Group Id --}}
 
                             <div class="col-md-3 mb-4">
-                                    <strong>For Alumini Only</strong>
+                                    <strong>For Alumni Only</strong>
                                     <select class="form-control" name="year_group_id" id="year_group_id">
                                         <option value="">Select Year Group</option>
-                                    {{-- @foreach(App\Models\YearGroup::all() as $year_group)
-                                        <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
-                                    @endforeach --}}
+                                        @foreach(App\Models\YearGroup::all() as $year_group)
+                                            <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
+                                        @endforeach
                                     </select>
                                 {{-- <span class="help-block">Zone</span> --}}
                                 {{-- Error Message --}}
@@ -113,6 +101,54 @@
 
 
                             {{-- End of Form Group --}}
+
+                         {{-- Contacts --}}
+
+                            {{-- Main Phone --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>Main Phone Contact</strong>
+                                <input type="text" class="form-control" value="{{old('phone')}}" name="phone" required>
+                            </div>
+                            
+                            {{-- WhatsApp Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>WhatsApp Contact</strong>
+                                <input type="text" class="form-control" value="{{old('whatsapp')}}" name="whatsapp" required>
+                            </div>
+
+                            {{-- School Voda --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>School Vodafone</strong>
+                                <input type="text" class="form-control" value="{{old('school_voda')}}" name="school_voda">
+                            </div>
+
+                            {{-- Other Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>Other Contact (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('other_contact')}}" name="other_contact">
+                            </div>
+
+                            {{-- GUARDIAN CONTACTS --}}
+                            <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
+                            
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact A</strong>
+                                <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" required>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian A</strong>
+                                <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact B (Optional) </strong>
+                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" >
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian B (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" placeholder="Eg. Father, Mother, etc">
+                            </div>
+
                         </div>
 
 

@@ -34,21 +34,6 @@
 
                           {{-- Program List for Each College --}}
 
-                            {{-- Zone Id --}}
-                            <div class="col-md-3 mb-4">
-                                <h6>Zone</h6>
-                                    <select class="form-control" name="zone_id" id="zones">
-                                        <option value="">SELECT ZONE</option>
-                                        @foreach(App\Models\Zone::all() as $zone)
-                                        <option value="{{$zone->id}}"> {{$zone->name}} </option>
-                                     @endforeach
-                                    </select>
-                                 {{-- <span class="help-block">Zone</span> --}}
-                                {{-- Error Message --}}
-                                    @error('zone_id')
-                                    <p class='m=0 small alert alert-danger shadow-sm'>{{"You Must Select A Zone"}}</p>
-                                    @enderror
-                            </div>
 
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
@@ -98,12 +83,12 @@
 
                             <div class="col-md-3 mb-4">
                                     <h6>Are you an Alumini of the KNUST CoC ?</h6>
-                                <select class="form-control" value="{{old('is_alumini',$user->biodata->is_alumini)}}" autocomplete="off" name="is_alumini" id="is_alumini">
-                                    <option value="{{$user->biodata->is_alumini}}">{{$user->biodata->is_alumini ? "Yes":"No"}}</option>
+                                <select class="form-control" value="{{old('is_alumni',$user->biodata->is_alumni)}}" autocomplete="off" name="is_alumni" id="is_alumni">
+                                    <option value="{{$user->biodata->is_alumni}}">{{$user->biodata->is_alumni ? "Yes":"No"}}</option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
-                                    @error('is_alumini')
+                                    @error('is_alumni')
                                     <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                     @enderror
                             </div>
@@ -125,6 +110,52 @@
                                 @enderror
 
                             </div>
+
+                            
+                                {{-- Phone --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>Main Phone Contact</strong>
+                                    <input type="text" class="form-control" value="{{old('phone',$user->phone == null ? "" : $user->phone->body )}}" autocomplete="off" name="phone" required>
+                                </div>
+                                
+                                {{-- WhatsApp Contact --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>WhatsApp Contact</strong>
+                                    <input type="text" class="form-control" value="{{old('whatsapp',$user->whatsapp == null ? "" : $user->whatsapp->body )}}" autocomplete="off" name="whatsapp" required>
+                                </div>
+    
+                                {{-- School Voda --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>School Vodafone</strong>
+                                    <input type="text" class="form-control" value="{{old('school_voda',$user->school_voda == null ? "" : $user->school_voda->body )}}" autocomplete="off" name="school_voda">
+                                </div>
+    
+                                {{-- Other Contact --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>Other Contact (Optional)</strong>
+                                    <input type="text" class="form-control" value="{{old('other_contact',$user->other_contact == null ? "" : $user->other_contact->body )}}" autocomplete="off" name="other_contact">
+                                </div>
+    
+                                {{-- GUARDIAN CONTACTS --}}
+                                <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <strong>Guardian Contact A</strong>
+                                    <input type="text" class="form-control" value="{{old('guardian_a',$user->main_guardian_contact == null ? "" : $user->main_guardian_contact->body )}}" autocomplete="off" name="guardian_a" placeholder="Contact Here" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <strong>Relation with Guardian A</strong>
+                                    <input type="text" class="form-control" value="{{old('relation_a',$user->main_guardian_contact == null ? "" : $user->main_guardian_contact->relation )}}" autocomplete="off" name="relation_a" placeholder="Eg. Father, Mother, etc">
+                                </div>
+    
+                                <div class="col-md-6 mb-4">
+                                    <strong>Guardian Contact B (Optional) </strong>
+                                    <input type="text" class="form-control" value="{{old('guardian_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body )}}" autocomplete="off" name="guardian_b" placeholder="Contact Here" >
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <strong>Relation with Guardian B (Optional)</strong>
+                                    <input type="text" class="form-control" value="{{old('relation_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->relation )}}" autocomplete="off" name="relation_b" placeholder="Eg. Father, Mother, etc">
+                                </div>
 
                        
                     </div>

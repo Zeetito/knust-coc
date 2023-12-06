@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Zone;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,24 +30,51 @@ class UserRequestController extends Controller
         return view('ADMIN.dashboard.components.user-requests.search-results', ['requests' => $requests]);
     }
 
+    // Search Users with Request
+    public function search_user_with_request(Request $request){
+        $users_id = User::search_user($request)->get()->pluck('id');
+        
+        $users = User::users_with_pending_request()
+                ->whereIn('id',$users_id)
+                ->get()
+                ;
+        return view('ADMIN.dashboard.components.user-requests.search-results', ['users' => $users]);
+    }
+
     // Filter User requests
     // Filter Unavailable Users
     public function filter_user_requests(Request $request)
     {
         // Check the string value of the request
         $string = $request->input('str');
-        if ($string == 'update' || $string == 'create' || $string == 'delete') {
-            $requests = User::user_requests()->where('method',"$string")
+        if (empty($string)) {
+            $users = User::users_with_pending_request()
                 ->get()
                 ;
             // If the String is empty
         } elseif (! empty($string)) {
-            $requests = User::user_requests()
+
+            if($string == "members"){
+                $users = User::users_with_pending_request()
                 ->get()
+                ->intersect(User::where('is_member',1)->get())
                 ;
+            }elseif($string == "alumni"){
+                $users = User::users_with_pending_request()
+                ->get()
+                ->intersect(User::where('is_member',0)->get())
+                ;
+            }else{
+                $users = User::users_with_pending_request()
+                ->get()
+                ->intersect(Zone::find($string)->users())
+                ;
+            }
+
+          
         }
         // Check for other filters like latest, oldest and thigns
-        return view('ADMIN.dashboard.components.user-requests.search-results', ['requests' => $requests]);
+        return view('ADMIN.dashboard.components.user-requests.search-results', ['users' => $users]);
     }
 
     // Edit User Request - Modal
@@ -117,7 +145,7 @@ class UserRequestController extends Controller
 
                     // Check if it's Delte
                 }elseif($user_request->method == 'delete'){
-                    return "Delete The guy Nana";
+                    return "Delete";
                 }
 
             }else{

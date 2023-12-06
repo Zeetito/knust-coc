@@ -47,7 +47,7 @@
                 <a class="navbar-brand" href="{{route('home')}}"></a>
             <button class="navbar-toggler sidebar-minimizer d-md-down-none" type="button">☰</button>
     
-            <ul class="nav navbar-nav  d-md-down-none">
+            {{-- <ul class="nav navbar-nav  d-md-down-none">
                 <li class="nav-item px-3">
                 <a class="nav-link" href="{{route('home')}}">Dashboard</a>
                 </li>
@@ -57,50 +57,22 @@
                 <li class="nav-item px-3">
                     <a class="nav-link" href="#">Settings</a>
                 </li>
-            </ul>
+            </ul> --}}
+            
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item d-md-down-none">
-                    <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
-                </li>
-                <li class="nav-item d-md-down-none">
-                    <a class="nav-link" href="#"><i class="icon-list"></i></a>
-                </li>
+               
                 <li class="nav-item d-md-down-none">
                     <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
                 </li>
 
                 {{-- User Updates and Setting Nav --}}
-                <li class="nav-item dropdown">
+                <li class="nav-item ">
                         {{-- User Profile Icon --}}
-                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="{{route('view_profile', auth()->id())}}" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link"  href="{{route('view_profile', auth()->user())}}">
                         <img src="{{Auth::user()->get_avatar() }}" class="img-avatar" alt="Profile Picture">
-                        <span class="d-md-down-none">User Role</span>
                     </a>
-
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-header text-center">
-                            <strong>Account</strong>
-                        </div>
-                            <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comments<span class="badge badge-warning">42</span></a>
-                            <div class="dropdown-header text-center">
-                                <strong>Something</strong>
-                        </div>
-                        {{-- Profile --}}
-                        <a class="dropdown-item" href="{{route('view_users')}}"><i class="fa fa-users"></i> Users<span class="badge badge-default"></span></a>
-                        <a class="dropdown-item" href="{{route('view_profile',auth()->user())}}"><i class="fa fa-user"></i> Profile</a>
-                        {{-- <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Something</a> --}}
-                        {{-- <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a> --}}
-{{-- -----------------------------------------------------------------------}}
-                        <div class="divider"></div>
-
-                        <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock Account</a>
-                        {{-- Logout --}}
-                        <a class="dropdown-item" href="{{route('logout',auth()->user())}}"><i class="fa fa-lock"></i> Logout</a>
-                    </div>
                 </li>
+                
             </ul>
             {{-- <button class="navbar-toggler aside-menu-toggler" type="button">☰</button> --}}
     

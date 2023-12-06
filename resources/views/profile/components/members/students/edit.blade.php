@@ -129,7 +129,7 @@
 
                             <div class="col-md-6 mb-4">
                                 <strong>Guardian Contact B (Optional) </strong>
-                                <input type="text" class="form-control" value="{{old('guardian_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body )}}" autocomplete="off" name="guardian_b" placeholder="Contact Here" required>
+                                <input type="text" class="form-control" value="{{old('guardian_b',$user->other_guardian_contact == null ? "" : $user->other_guardian_contact->body )}}" autocomplete="off" name="guardian_b" placeholder="Contact Here" >
                             </div>
                             <div class="col-md-6 mb-4">
                                 <strong>Relation with Guardian B (Optional)</strong>

@@ -7,7 +7,7 @@
 
                 </div>
                 <div class="card-body">
-                <form action="{{route('create_profile',['user'=>$user])}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{route('store_profile',['user'=>$user])}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
                         {{-- UserName --}}
                         <div class="form-group row">
@@ -82,8 +82,54 @@
                                     @enderror
                             </div>
 
+                             {{-- Contacts --}}
 
-                            {{-- End of Form Group --}}
+                            {{-- Main Phone --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>Main Phone Contact</strong>
+                                <input type="text" class="form-control" value="{{old('phone')}}" name="phone" required>
+                            </div>
+                            
+                            {{-- WhatsApp Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>WhatsApp Contact</strong>
+                                <input type="text" class="form-control" value="{{old('whatsapp')}}" name="whatsapp" required>
+                            </div>
+
+                            {{-- School Voda --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>School Vodafone</strong>
+                                <input type="text" class="form-control" value="{{old('school_voda')}}" name="school_voda">
+                            </div>
+
+                            {{-- Other Contact --}}
+                            <div class="col-md-3 mb-4">
+                                <strong>Other Contact (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('other_contact')}}" name="other_contact">
+                            </div>
+
+                            {{-- GUARDIAN CONTACTS --}}
+                            <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
+                            
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact A</strong>
+                                <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" >
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian A</strong>
+                                <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" >
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact B (Optional) </strong>
+                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" >
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian B (Optional)</strong>
+                                <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" placeholder="Eg. Father, Mother, etc">
+                            </div>
+
+
                         </div>
 
 

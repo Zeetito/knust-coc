@@ -16,6 +16,7 @@ use App\Models\Residence;
 use App\Models\Attendance;
 use App\Models\Permission;
 use App\Models\UserRequest;
+use App\Models\GuestRequest;
 use Illuminate\Http\Request;
 use App\Models\AlumniBiodata;
 use App\Models\MembersBiodata;
@@ -178,7 +179,7 @@ class User extends Authenticatable
     // Getting Main other Number
     public function other_contact(){
         return $this->hasOne(Contact::class)
-                ->where('type','other');
+                ->where('type','other_contact');
     }
 
     // Getting Main Guardian Contact
@@ -282,7 +283,19 @@ class User extends Authenticatable
 
     // Get members with no current Biodata
     public static function without_biodata(){
-        return User::doesntHave('alumni_biodata')->doesntHave('member_biodata')->get();
+        return User::whereDoesntHave('alumni_biodata')->whereDoesntHave('member_biodata');
+    }
+
+    // Get User Contact when He was Guest
+    public function when_guest(){
+        $when_guest = Guest::find(GuestRequest::where('instance_id',$this->id)->where('table_name','users')->first()->guest_id);
+        return $when_guest;
+    }
+
+    // Check if User was once a guest
+    public function was_a_guest(){
+        $when_guest = Guest::find(GuestRequest::where('instance_id',$this->id)->where('table_name','users')->first());
+        return $when_guest;
     }
 
     // User Status - Whether a Non-Student Member, etc
@@ -468,7 +481,19 @@ class User extends Authenticatable
         return User::whereIn('id', $program_mates_id)->get();
     }
 
-    // Get User requests
+    // Check IF user has pendeing requests
+    public function pending_requests(){
+        return $this->hasMany(UserRequest::class)
+                    ->where('is_handled',0);
+    }
+
+    // Get All Users with Pending requests
+    public static function users_with_pending_request(){
+        return self::has('pending_requests');
+    }
+
+
+    // // Get User requests
     public static function user_requests(){
         return UserRequest::where('is_handled',0)->latest();
     }

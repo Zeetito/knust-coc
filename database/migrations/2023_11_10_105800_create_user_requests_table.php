@@ -29,7 +29,7 @@ return new class extends Migration
             $table->foreignId('academic_year_id');
             $table->timestamps();
 
-            $table->unique(['user_id', 'table_name','method','handled_on']);
+            $table->unique(['user_id', 'table_name','type','handled_on']);
             $table->foreign('handled_by')->references('id')->on('users');
             
         });

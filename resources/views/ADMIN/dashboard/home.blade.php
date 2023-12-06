@@ -47,7 +47,7 @@
 
                 {{-- Users Without Biodata --}}
                 <div class="col-sm-6 col-md-4 mt-3">
-                    <a class="card text-white bg-success" href="{{route('show_user_requests')}}">
+                    <a class="card text-white bg-success" href="{{route('users_without_biodata')}}">
                         <div class="card-body">
                             <div class="h1 text-muted text-right mb-4">
                                 <i class="fa fa-id-card"></i>

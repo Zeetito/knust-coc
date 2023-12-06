@@ -2,17 +2,30 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 @if(auth()->user()->hasAnyOf(App\Models\Role::ministry_members_level()->get()))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin_home')}}"><i class="icon-speedometer"></i> Admin Dashboard
-                            
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-wrench"></i> Admin Tools</a>
+                           
+                            <ul class="nav-dropdown-items">
+
+                                {{-- Profile --}}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('admin_home')}}"><i class="icon-speedometer"></i> Dashboard</a>
+                                </li>
+                                {{-- Groups --}}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('admin_config')}}"><i class="fa fa-warning"></i> Configurations</a>
+                                </li>
+        
+                                
+                            </ul>
                             {{-- <span class="badge badge-primary">NEW</span> --}}
-                        </a>
+                        
                     </li>
                 @endif
 
-                <li class="nav-title">
+                {{-- <li class="nav-title">
                     TOOLS
-                </li>
+                </li> --}}
 
                 {{-- User --}}
                 <li class="nav-item nav-dropdown">

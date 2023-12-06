@@ -18,11 +18,11 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 // Home > Users
 Breadcrumbs::for('view_users', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('users', route('view_users'));
+    $trail->push('Users', route('view_users'));
 });
 
 // Home > Users > [Profile]
 Breadcrumbs::for('profile', function (BreadcrumbTrail $trail, User $user) {
-    $trail->parent('users');
+    $trail->parent('view_users');
     $trail->push($user->fullname(), route('view_profile', $user));
 });

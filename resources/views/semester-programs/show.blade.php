@@ -165,6 +165,7 @@
                 
                 {{-- Images --}}
                 <div class="tab-pane" id="images" role="tabpanel">
+                    @allowedTo(['update_semester_program'])
                     <div class="card-body">
                         <form action="{{route('store_image')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
@@ -186,6 +187,7 @@
     
                         </form>
                     </div>
+                    @endallowedTo
 
                     @foreach($semester_program->images as $photo )
                     <div class="card">

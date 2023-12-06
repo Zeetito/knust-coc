@@ -32,14 +32,6 @@ class Zone extends Model
         return User::WhereHas('member_biodata', function ($query) {
             $query->where('zone_id', $this->id);
         })->get();
-        
-
-        $users_id = User::where('is_member', 1)
-            ->join('members_biodatas', 'users.id', '=', 'members_biodatas.user_id')
-            ->join('residences', 'residences.id', '=', 'members_biodatas.residence_id')
-            ->where('residences.zone_id', $this->id)
-            ->pluck('users.id');
-
         return User::whereIn('id',$users_id)->get();
     }
 
