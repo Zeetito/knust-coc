@@ -966,16 +966,29 @@ Route::get('/profile/{user}/edit', [BiodataController::class, 'edit'])
 // Update User profile
 Route::put('/profile/{user}/update', [BiodataController::class, 'update'])
     ->middleware('auth', 'can:update,user')
-    ->name('update_profile');
+    ->name('update_profile')
+    ;
 
 // IMAGES
 // Create User Image Form
 Route::get('/upload_user_image/{user}',[UserController::class,'upload_user_image'])
     ->middleware('auth','hasProfile','control:system_online')
     ->name('upload_user_image');
-;
+    ;
 
 // USER AVATAR
+
+// Edit User
+Route::get('/edit_account/{user}',[UserController::class,'edit'])
+    ->middleware('auth','hasProfile','control:system_online')
+    ->name('edit_user')
+    ;
+// Update User
+Route::put('/update_account/{user}',[UserController::class,'update'])
+    ->middleware('auth','hasProfile','control:system_online')
+    ->name('update_user')
+    ;
+
 
 // View avatar change form
 Route::get('/avatar/{user}', [UserController::class, 'edit_avatar'])

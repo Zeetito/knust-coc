@@ -101,7 +101,7 @@
                                     <td>
                                         {{$request->created_at->diffInDays(now())." Days Ago" }}
                                     </td>
-                                    <td data-toggle="modal" data-target="#myModal"  data-url="{{route('edit_user_request',['user_request'=>$request])}}"   class="btn fa fa-reply ">
+                                    <td data-toggle="modal" data-target="#myLargeModal"  data-url="{{route('edit_user_request',['user_request'=>$request])}}"   class="btn fa fa-reply ">
                                         {{$request->method}}
                                     </td>
                                 </tr>

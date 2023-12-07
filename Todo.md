@@ -352,10 +352,10 @@ Get Number of Users without Profile.
 # Setup ControlMiddleware
 # Setup Accessories [ 'picture_per_user','System_online',etc ]
 # work on Alumini and Non student member biodata create and update. Factor in the contacts.
-
-# BreadCrumbs 
-
 # Update user [birthday, FirstName, Second Name, Username, etc...]
+
+# BreadCrumbs X
+
 # Control User's whose residences are not in the list of residences
 # Requests to join Group
 # Announcements.

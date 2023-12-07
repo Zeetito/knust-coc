@@ -23,20 +23,15 @@ $(document).ready(function(){
     });
 
 // Content Reciever 
-    $('#myModal').on('shown.bs.modal', function (event) {
+
+    $('#myModal').on('shown.bs.modal', handleModalShown);
+    $('#myLargeModal').on('shown.bs.modal', handleModalShown);
+    function handleModalShown(event) {
         // $('#myModal').modal('show');
         var url = $(event.relatedTarget).data('url');
             
                 console.log(url);
                 var data;
-
-                // if (url.includes("?")) {
-
-                //     var url = (url+"&str="+str);
-                // }else{
-        
-                //     var url = (url+"?str="+str);
-                // }
 
                 $.ajax({
                     type: "GET",
@@ -46,14 +41,15 @@ $(document).ready(function(){
                     success: function (data) {
                         
                         // console.log(data);
-                        $('#modal-content').html(data);
+                        $('.modal-content').html(data);
                     },
                     error: function(err) {
                         console.log(err);
                     }
                     });
         
-    });
+    };
+
 
 
 
@@ -179,7 +175,7 @@ $(document).ready(function(){
                 // if there's nothing to be returned
                 if(data == "abort"){
                     $('#myModal').modal('show');
-                    $('#modal-content').html("Failure to take action");
+                    $('.modal-content').html("Failure to take action");
                     return false;
                 }
                 

@@ -120,11 +120,20 @@
                         <!-- Modal -->
                         <div class="modal fade" data-backdrop="true"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm" role="document">
-                                <div id="modal-content" class="container bg-white">
+                                <div class="modal-content" class="container bg-white">
                                 
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Large Modal --}}
+                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myLargeModal">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                ...
+                              </div>
+                            </div>
+                          </div>
 
                         {{$slot}}
 

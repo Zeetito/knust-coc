@@ -137,6 +137,18 @@
                      
                     </ul>
                 </li>
+
+                {{-- SETTINGS --}}
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-gear"></i> Settings</a>
+                    <ul class="nav-dropdown-items">
+                        {{-- Zone --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('edit_user',['user'=>auth()->user()])}}"><i class="fa fa-user"></i> Account</a>
+                        </li>
+                     
+                    </ul>
+                </li>
                
                
                 <li class="divider"></li>

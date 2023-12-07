@@ -1,18 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
+use App\Models\Role;
 
+use App\Models\User;
 use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Semester;
+use App\Models\UserRequest;
 use App\Models\GuestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Helpers\UniqueAcrossTables;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Diglactic\Breadcrumbs\Breadcrumbs;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -136,6 +140,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
+        return view('account.edit',['user'=>$user]);
     }
 
     /**
@@ -144,6 +149,106 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $validated = $request->validate([
+            'firstname' => ['required', 'min:3', 'max:30'],
+            'lastname' => ['required', 'min:3', 'max:30'],
+            'othername' => ['nullable', 'max:30'],
+            'username' => ['required', 'min:3', 'max:30'],
+            'email' => ['email', 'required'],
+            // 'password' => ['required', 'confirmed', 'max:225', 'min:6'],
+            'dob' => ['required'],
+            'gender' => ['required'],
+            'is_baptized' => ['required', 'numeric'],
+        ]);
+
+        $account_unchanged = $validated['username'] == $user->username
+                        &&   $validated['firstname'] == $user->firstname
+                        &&   $validated['lastname'] == $user->lastname
+                        &&   $validated['othername'] == $user->othername
+                        &&   $validated['email'] == $user->email
+                        &&   $validated['dob'] == $user->dob
+                        &&   $validated['gender'] == $user->gender
+                        &&   $validated['is_baptized'] == $user->is_baptized
+        ;
+        
+        if($account_unchanged == 1){
+            return redirect()->back()->with('warning','No Change Observed');
+        }else{
+
+            // Check for change in username and email
+            if($validated['email'] != $user->email){
+                $revalidate = $request->validate([
+                    'email' => ['email', 'required', new UniqueAcrossTables(['users', 'guests'], 'email')],
+
+                ], [
+                    'email' => 'This Email is already in Use.',
+                   
+            ]);
+            }
+
+            if($validated['username'] != $user->username){
+                $revalidate = $request->validate([
+                    'username' => ['required', new UniqueAcrossTables(['users', 'guests'], 'username')],
+                ], [
+                    'username' => 'This Username is already in Use.',
+                   
+            ]);
+            }
+
+
+
+            // Check if user has admin roles
+            if(auth()->user()->hasAnyOf(Role::zone_reps_level()->get())){
+                $user->update($validated);
+                return redirect()->back()->with('success','Account Updated Successfully');
+            }else{
+                // create a request to update account
+                
+                if(now()->diffInDays($user->updated_at) < 7) {
+                    $days_left = (7- now()->diffInDays($user->updated_at));
+                    return redirect()->back()->with('warning','Try again after '.$days_left.' days. Contact Your Rep or any leader if necessary');
+                }
+                    try{
+                        $account_request = new UserRequest;
+                        $account_request['user_id'] = $user->id;
+                        $account_request['body'] = json_encode($validated); 
+                
+                        $account_request['method'] = "update";
+                        $account_request['instance_id'] = $user->id;
+                        
+                        $account_request['type'] = "Account";
+                        
+                        $account_request['model_name'] = "App\Models\User";
+                        $account_request['table_name'] = "users"; 
+
+
+                        $account_request['resource_name'] = "App\Http\Resources\UserResource";
+                        
+                        $account_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
+                        $account_request->save();
+
+                        return redirect()->back()->with('success','Done! Changes will reflect soon');
+                        
+                        } catch (QueryException $e) {
+                            Log::error($e);
+                        
+                            $errorCode = $e->errorInfo[1];
+
+                            if ($errorCode == 1062) {
+                                // Redirect to a custom error page for duplicate entry
+                                return redirect()->back()->with('warning', 'Your Previous Account Update is being processed');
+                            }
+
+                            throw $e;
+
+                        }
+            }
+
+
+
+
+
+        }
     }
 
     /**

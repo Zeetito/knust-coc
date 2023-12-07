@@ -19,18 +19,27 @@ class UserResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->when(isset($this->id), function () {
-                return $this->id;
+            'Username' => $this->when(isset($this->username), function () {
+                return $this->username;
             }),
-            'Fullname' => $this->fullname(),
-            'Gender' => $this->gender,
-            'Status' => $this->status(),
-            'Email' => $this->email,
-
-            // 'program' => $this->When($this->biodata()->exists(),function(){
-            //     return $this->program->name;
-            // }),
-
+            'FirstName' => $this->when(isset($this->firstname), function () {
+                return $this->firstname;
+            }),
+            'Lastname' => $this->when(isset($this->lastname), function () {
+                return $this->lastname;
+            }),
+            'Othername' => $this->when(isset($this->othername), function () {
+                return $this->othername;
+            }),
+            'Gender' => $this->when(isset($this->gender), function () {
+                return $this->gender;
+            }),
+            'DateOfBirth' => $this->when(isset($this->dob), function () {
+                return $this->dob;
+            }),
+            'Email' => $this->when(isset($this->email), function () {
+                return $this->email;
+            }),
 
         ];
     }

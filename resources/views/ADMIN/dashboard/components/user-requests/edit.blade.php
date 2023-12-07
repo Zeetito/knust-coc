@@ -4,7 +4,7 @@
                     <h5 style="text-align:center">Handle User Request</h5>
         </div>
 
-        <div class="ml-3">
+        <div class="container-fluid">
                 <div class="h6 bg bg-danger">
                    This Action Cannot Be Undone
                 </div>
@@ -17,7 +17,7 @@
 
                 {{-- View Difference Between The Previous and the New --}}
                 <div class="row">
-                    <div class="bg-warning col-5">
+                    <div class=" col-6">
                         {{-- Display old resource attributes --}}
                         <table class="table table-striped">
                             <thead>
@@ -38,7 +38,7 @@
                         </table>
                     </div>
                 
-                    <div class="bg-info col-5">
+                    <div class=" col-6">
                         {{-- Display new resource attributes --}}
                         <table class="table table-striped">
                             <thead>
