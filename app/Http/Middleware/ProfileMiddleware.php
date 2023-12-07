@@ -16,9 +16,15 @@ class ProfileMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
+        $residence = $user->residence();
         if($user->is_member==1){
             if($user->has_member_profile()){
+
+                if(!$residence){
+                    return redirect(route('create_user_residence',['user'=>$user]));
+                }
                 return $next($request);
+                
             }else{
                 return redirect(route('create_user_profile_form',['user'=>$user]))->with('warning','You need to Update your profile first.');
             }

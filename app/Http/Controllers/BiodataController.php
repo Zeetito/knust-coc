@@ -88,39 +88,60 @@ class BiodataController extends Controller
                 // Validate the input
 
                 $validated = $request->validate([
-                    'room' => ['required'],
+                    'room' => ['nullable'],
                     'year' => ['required'],
                     'residence_id' => ['required'],
                     'program_id' => ['required'],
                     'college_id' => ['nullable'],
-                    'phone'=>['required'],
-                    'whatsapp'=>['nullable'],
-                    'school_voda'=>['nullable'],
-                    'other_contact'=>['nullable'],
-                    'guardian_a'=>['required'],
-                    'relation_a'=>['required'],
-                    'guardian_b'=>['nullable'],
-                    'relation_b'=>['nullable'],
+                    'phone' => ['required'],
+                    'whatsapp' => ['nullable'],
+                    'school_voda' => ['nullable'],
+                    'other_contact' => ['nullable'],
+                    'guardian_a' => ['required'],
+                    'relation_a' => ['required'],
+                    'guardian_b' => ['nullable'],
+                    'relation_b' => ['nullable'],
                 ]);
 
 
                 $program = Program::findProgramByName($validated['program_id']);
                     $residence = Residence::findResidenceByName($validated['residence_id']);
                 
-                    if (!$program || !$residence) {
+                    if (!$program) {
                         // Handle the case where either program or residence is null
-                        return redirect()->back()->with('failure', 'Make sure to  Select the Program / Residence from the List Provided');
+                        return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+                    }else{
+                        $program_id = $program->id;
+                        $college_id = $program->college->id;
+                        $validated['program_id'] = $program_id;
+                        $validated['college_id'] = $college_id;
+                        
                     }
-                
-                    $program_id = $program->id;
-                    $college_id = $program->college->id;
-                    $residence_id = $residence->id;
-                    $zone_id = $residence->zone->id;
 
-                $validated['residence_id'] = $residence_id;
-                $validated['zone_id'] = $zone_id;
-                $validated['program_id'] = $program_id;
-                $validated['college_id'] = $college_id;
+                    if (!$residence){
+                        // Check if user claims not to find hostel or comes from home
+                        if($validated['residence_id'] == 'unknown'){
+                            $validated['residence_id'] = NULL;
+                            $validated['zone_id'] = NULL;
+                        }else{
+                            // if not, He simply typed in some wrong thing
+                            return redirect()->back()->with('failure', 'Make sure to  Select the Residence from the List Provided');
+                        }
+
+                    }else{
+                        // Required room If Residence exists
+                        $residence_id = $residence->id;
+                        $room_validate = $request->validate(['room'=>['required']]);
+                        $zone_id = $residence->zone->id;
+                        $validated['residence_id'] = $residence_id;
+                        $validated['zone_id'] = $zone_id;
+                        
+                    }
+                 
+
+
+
+
 
 
                 // Create the Student Profile Now

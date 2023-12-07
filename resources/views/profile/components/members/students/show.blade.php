@@ -63,7 +63,7 @@
                             </li>
 
                             <li>
-                                Zone: {{$user->zone()->name}}
+                                Zone: {{$user->zone() ? $user->zone()->name : "None"}}
                             </li>
 
                             <li>

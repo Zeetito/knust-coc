@@ -90,7 +90,12 @@ class User extends Authenticatable
 
     public function residence()
     {
-       return $this->biodata->residence;
+        if($this->biodata->residence){
+            return $this->biodata->residence;
+        }else{
+                $residence = DB::table('user_residences')->where('user_id',$this->id);
+                return $residence ? $residence->latest()->first() : Null;
+        }
     }
 
     // program
@@ -102,7 +107,13 @@ class User extends Authenticatable
     // zone
     public function zone()
     {
-        return $this->biodata->zone;
+        if($this->biodata->zone){
+            return $this->biodata->zone;
+        }else{
+            $zone['name'] = "OTHERS";
+            $zone = Zone::make($zone); 
+            return $zone;
+        }
 
     }
     // Room

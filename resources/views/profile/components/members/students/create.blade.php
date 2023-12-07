@@ -59,10 +59,11 @@
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
                             <div class="col-md-3 mb-4">
-                                <strong>Select Hall/Hostel</strong>
-                                    <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
+                                <strong>Select Hall/Hostel/Homestel</strong>
+                                    <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="search..." >
                                     <datalist id="search_result_for_residence_list">
-                                      
+                                        <option value="unknown">I come from Home</option>
+                                        <option value="unknown">Can'f Find My Hostel/Homestel</option>
                                     </datalist>
                                 {{-- <span class="help-block">Residence</span> --}}
 

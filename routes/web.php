@@ -15,7 +15,6 @@ use App\Models\Semester;
 use App\Models\Accessory;
 use App\Models\Attendance;
 use App\Models\Permission;
-use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +33,8 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\AccessoryController;
+use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DefaultImageController;
 use App\Http\Controllers\ProgramOutlineController;
@@ -581,7 +582,25 @@ Route::get('/zone/{zone}', [ZoneController::class, 'show'])
     ->middleware('auth','control:system_online')
     ->name('show_zone');
 
+
 // RESIDENCES
+// Create User_Residence Instance
+Route::get('user_residence/{user}',[ResidenceController::class,'create_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('create_user_residence')
+    ;
+
+// Store User Residence   
+Route::post('store_user_residence/{user}',[ResidenceController::class,'store_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('store_user_residence')
+    ;
+
+// Update Biodata Residence   
+Route::put('update_biodata_residence/{user}',[ResidenceController::class,'update_biodata_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('update_biodata_residence')
+    ;
 
 // ---------------
 
@@ -980,12 +999,12 @@ Route::get('/upload_user_image/{user}',[UserController::class,'upload_user_image
 
 // Edit User
 Route::get('/edit_account/{user}',[UserController::class,'edit'])
-    ->middleware('auth','hasProfile','control:system_online')
+    ->middleware('auth','hasProfile','control:system_online','can:update,user')
     ->name('edit_user')
     ;
 // Update User
 Route::put('/update_account/{user}',[UserController::class,'update'])
-    ->middleware('auth','hasProfile','control:system_online')
+    ->middleware('auth','hasProfile','control:system_online','can:update,user')
     ->name('update_user')
     ;
 
@@ -1033,6 +1052,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+    return User::find(507)->residence();
     return Accessory::find(1);
     return Accessory::where('name','system_online');
     // return config('constants.system_status');
