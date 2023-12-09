@@ -350,28 +350,8 @@ class UserController extends Controller
 
     
     // STUDENT
-    // View student program mates
-    public function view_program_mates(User $user){
-        // $program_mates = $user->program_mates;
-        return view('users.students.special.program-mates.index',['user'=>$user]);
-    }
 
-    // Search Program mates
-    public function search_program_mates(User $user, Request $request){
 
-        $users_id = User::search_user($request)
-                    ->where('users.is_student',1)
-                    ->where('users.is_member', 1)
-                    ->join('members_biodatas', 'members_biodatas.user_id', '=', 'users.id')
-                    ->where('users.id', '<>', $user->id)
-                    ->where('members_biodatas.program_id', $user->program()->id)
-                    ->pluck('users.id');
-        // return $users_id;
-                    
-
-        $users =  User::whereIn('id',$users_id)->get();
-        return view('users.students.special.program-mates.search-results',['mates'=>$users, 'user'=>$user]);
-    }
 
     // View User Groups
     public function view_user_groups(User $user){

@@ -30,23 +30,23 @@ $(document).ready(function(){
         // $('#myModal').modal('show');
         var url = $(event.relatedTarget).data('url');
             
-                console.log(url);
-                var data;
+        console.log(url);
+        var data;
 
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    data: data,
-                    cache: false,
-                    success: function (data) {
-                        
-                        // console.log(data);
-                        $('.modal-content').html(data);
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                    });
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: data,
+            cache: false,
+            success: function (data) {
+                
+                // console.log(data);
+                $('.modal-content').html(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+            });
         
     };
 
@@ -207,7 +207,16 @@ $(document).ready(function(){
             document.getElementById(tabName).className += " active";  
     });
 
+    // Hide Session Messages after 5 Seconds
+    $(document).ready(function() {
+        // Find the popMessage element using jQuery
+        var popMessageElement = $('.PopMessage');
 
+        // Hide the popMessage element after 5 seconds (5000 milliseconds)
+        setTimeout(function() {
+            popMessageElement.slideUp(500);
+        }, 5000);
+    });
     // CUSTOM EVENTS
 
     // EVENT TO CHECK IF A SCROLLABLE ELEMENT HAS REACHED IT'S END

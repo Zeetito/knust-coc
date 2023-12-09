@@ -55,11 +55,11 @@
                             {{-- Loop To List the othername(s)  a user has --}}
 
                             <li>
-                                College: {{$user->college() == '' ? "No College" : $user->college()->name}}
+                                College: {{$user->college() ?  $user->college()->name : "No College" }}
                             </li>
                             
                             <li>
-                                Program: {{$user->program()->name == ''? "No Program" : $user->program()->name}}
+                                Program: {{$user->program() ?  $user->program()->name : "No Program"}}
                             </li>
 
                             <li>

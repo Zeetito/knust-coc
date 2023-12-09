@@ -368,7 +368,7 @@ span
 status - ug or pg
 # Dashboard Pics
 
-
+<!-- If a User has a custom program or residence, the error would be thrown when updating... -->
 
 # Announcements.
 

@@ -91,7 +91,7 @@ class User extends Authenticatable
 
     public function residence()
     {
-        if($this->biodata->residence){
+        if($this->biodata &&  $this->biodata->residence){
             return $this->biodata->residence;
         }else{
                 return $this->custom_residence() ? $this->custom_residence() : Null;
@@ -113,7 +113,7 @@ class User extends Authenticatable
     // program
     public function program()
     {
-        if($this->biodata->program){
+        if($this->biodata &&  $this->biodata->program){
             return $this->biodata->program;
         }else{
                
@@ -136,7 +136,7 @@ class User extends Authenticatable
     // zone
     public function zone()
     {
-        if($this->biodata->zone){
+        if($this->biodata &&  $this->biodata->zone){
             return $this->biodata->zone;
         }else{
             $zone['name'] = "OTHERS";
@@ -166,11 +166,11 @@ class User extends Authenticatable
     // college
     public function college()
     {
-        if($this->biodata->program){
+        if($this->biodata &&  $this->biodata->program){
             return $this->program()->college;
         }else{
-            $college = College::find($this->custom_program()->college_id);
-            return $college;
+            return $this->custom_program() ? (College::find($this->custom_program()->college_id)) : NULL ;
+            
         }
     }
 

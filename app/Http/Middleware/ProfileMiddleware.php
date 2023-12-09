@@ -23,18 +23,21 @@ class ProfileMiddleware
 
             // All members Must have  A profile and A zone
 
-            // A student must definitely have a program of study
-            if($user->is_student == 1){
-                if(!$program){
-                    return redirect(route('create_user_program',['user'=>$user]));
-                }
-            }
+            
 
             if($user->has_member_profile()){
 
-                if(!$residence){
-                    return redirect(route('create_user_residence',['user'=>$user]));
+                // A student must definitely have a program of study
+                if($user->is_student == 1){
+                    if(!$program){
+                        return redirect(route('create_user_program',['user'=>$user]))->with('warning','You Need to complete your profile');
+                    }
                 }
+
+                if(!$residence){
+                    return redirect(route('create_user_residence',['user'=>$user]))->with('warning','You Need to complete your profile');
+                }
+
                 return $next($request);
                 
             }else{

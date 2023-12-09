@@ -100,13 +100,13 @@
                 </li>
 
                 {{-- ACADEMIA --}}
-                <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-university"></i> Academia</a>
-                    <ul class="nav-dropdown-items">
+                {{-- <li class="nav-item nav-dropdown"> --}}
+                    {{-- <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-university"></i> Academia</a> --}}
+                    {{-- <ul class="nav-dropdown-items"> --}}
                         {{-- College --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Colleges</a>
-                        </li>
+                        {{-- <li class="nav-item"> --}}
+                            {{-- <a class="nav-link" href="{{route('colleges')}}"><i class="fa fa-circle-o-notch"></i> Colleges</a> --}}
+                        {{-- </li> --}}
     
                         {{-- Programs --}}
                         {{-- <li class="nav-item">
@@ -119,24 +119,24 @@
  
                         
                      
-                    </ul>
-                </li>
+                    {{-- </ul> --}}
+                {{-- </li> --}}
 
                 {{-- HOUSING --}}
-                <li class="nav-item nav-dropdown">
+                {{-- <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-home"></i> Housing</a>
-                    <ul class="nav-dropdown-items">
+                    <ul class="nav-dropdown-items"> --}}
                         {{-- Zone --}}
-                        <li class="nav-item">
-                        <a class="nav-link" href="{{route('zones')}}"><i class="fa fa-circle-o-notch"></i> Zones</a>
-                        </li>
+                        {{-- <li class="nav-item"> --}}
+                        {{-- <a class="nav-link" href="{{route('zones')}}"><i class="fa fa-circle-o-notch"></i> Zones</a> --}}
+                        {{-- </li> --}}
                         {{-- Residence --}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Residences</a>
-                        </li>
-                     
-                    </ul>
-                </li>
+                        {{-- <li class="nav-item"> --}}
+                            {{-- <a class="nav-link" href="#"><i class="fa fa-circle-o-notch"></i> Residences</a> --}}
+                        {{-- </li> --}}
+                     {{--  --}}
+                    {{-- </ul> --}}
+                {{-- </li> --}}
 
                 {{-- SETTINGS --}}
                 <li class="nav-item nav-dropdown">
@@ -146,6 +146,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('edit_user',['user'=>auth()->user()])}}"><i class="fa fa-user"></i> Account</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('logout',['user'=>auth()->user()])}}"><i class="fa fa-power-off"></i> Logout</a>
+                        </li>
+
+
                      
                     </ul>
                 </li>
@@ -159,23 +165,31 @@
 
                 {{-- PREFERENCE --}}
                 <li class="nav-item nav-dropdown">
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-star"></i> Sepcial</a>
+                        <ul class="nav-dropdown-items">  
+                        {{-- For Members --}}
+                        @if(auth()->user()->is_member)
 
-
-                    {{-- Students Alone --}}
-                    @if(auth()->user()->is_student)
-                        {{-- Special --}}
-                        <li class="nav-item nav-dropdown">
-                            <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-star"></i> Sepcial</a>
-                            <ul class="nav-dropdown-items">
-                                {{-- Zone --}}
+                            {{-- Zonal Members --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('view_zone_mates',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> Zone Members</a>
+                            </li>
+                            
+                            {{-- Students Alone --}}
+                            @if(auth()->user()->is_student)
+                                {{-- Program Mates --}}
                                 <li class="nav-item">
-                                <a class="nav-link" href="{{route('view_program_mates',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> Program Mates</a>
+                                    <a class="nav-link" href="{{route('view_program_mates',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> Program Mates</a>
                                 </li>
-         
-                             
-                            </ul>
-                        </li>
-                    @endif
+                
+                                
+                            @endif
+
+                        @endif
+                        
+                        </ul>
+                    </li>
 
                 </li>
 

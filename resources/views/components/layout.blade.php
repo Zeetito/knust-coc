@@ -93,7 +93,7 @@
                         
                         {{-- Success --}}
                         @if(session()->has('success'))
-                        <div class='container container--narrow'>
+                        <div class='container container--narrow PopMessage'>
                             <div id="success_msg" class='alert alert-success text-center '>
                             {{session('success')}}
                             </div>
@@ -101,7 +101,7 @@
 
                         {{-- Failure --}}
                         @elseif(session()->has('failure'))
-                        <div class='container container--narrow'>
+                        <div class='container container--narrow PopMessage'>
                             <div class='alert alert-danger text-center'>
                             {{session('failure')}}
                             </div>
@@ -109,7 +109,7 @@
 
                         {{-- Warning --}}
                         @elseif(session()->has('warning'))
-                        <div class='container container--narrow'>
+                        <div class='container container--narrow PopMessage'>
                             <div class='alert alert-warning text-center'>
                             {{session('warning')}}
                             </div>

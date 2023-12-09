@@ -588,6 +588,26 @@ Route::put('update_biodata_program/{user}',[ProgramController::class,'update_bio
     ->name('update_biodata_program')
     ;
 
+    // View Program Mates
+Route::get('/program_mates/{user}',[ProgramController::class, 'view_program_mates'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('view_program_mates')
+    ;
+
+// Search a program mates
+Route::get('/search_program_mates/{user}',[ProgramController::class,'search_program_mates'])
+    ->middleware('auth','control:system_online')
+    ->name('search_program_mates')
+    ;
+
+// Filter Program mates
+Route::get('/filter_program_mates/{user}',[ProgramController::class,'filter_program_mates'])
+    ->middleware('auth','control:system_online')
+    ->name('filter_program_mates')
+    ;
+
+
+
 
 
 
@@ -605,6 +625,18 @@ Route::get('/zones', [ZoneController::class, 'index'])
 Route::get('/zone/{zone}', [ZoneController::class, 'show'])
     ->middleware('auth','control:system_online')
     ->name('show_zone');
+
+// View Program Mates
+Route::get('/zone_mates/{user}',[ZoneController::class, 'view_zone_mates'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('view_zone_mates')
+    ;
+
+// Search a zone mates
+Route::get('/search_zone_mates/{user}',[ZoneController::class,'search_zone_mates'])
+    ->middleware('auth','control:system_online')
+    ->name('search_zone_mates')
+    ;
 
 
 // RESIDENCES
@@ -930,24 +962,6 @@ Route::get('/register_student',[UserController::class, 'register_student'])
     ->middleware('guest')
     ->name('register_student')
     ;
-// View Program Mates
-Route::get('/program_mates/{user}',[UserController::class, 'view_program_mates'])
-    ->middleware('auth','control:system_online','hasProfile')
-    ->name('view_program_mates')
-    ;
-
-// Search a program mates
-Route::get('/search_program_mates/{user}',[UserController::class,'search_program_mates'])
-    ->middleware('auth','control:system_online')
-    ->name('search_program_mates')
-    ;
-
-// Filter Program mates
-Route::get('/filter_program_mates/{user}',[UserController::class,'filter_program_mates'])
-    ->middleware('auth','control:system_online')
-    ->name('filter_program_mates')
-    ;
-
 
 
 // User Login
@@ -1076,7 +1090,9 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return User::find(1)->custom_program();
+    return fake()->dateTimeBetween($minDate, $maxDate)->format('Y-m-d');
+    
+    return User::find(1)->roles();
     return Accessory::find(1);
     return Accessory::where('name','system_online');
     // return config('constants.system_status');
@@ -1094,5 +1110,4 @@ Route::get('/hello', function () {
     $minDate = '2022-01-20'; // Set your desired minimum date
     $maxDate = '2023-12-31'; // Set your desired maximum date
 
-    return fake()->dateTimeBetween($minDate, $maxDate)->format('Y-m-d');
 })->middleware('auth');

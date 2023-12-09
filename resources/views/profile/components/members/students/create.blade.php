@@ -26,15 +26,7 @@
                                 <strong>Program Of Study</strong>
                                 <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id')}}" class="search_box form-control" name="program_id" id="for_program_list"  autocomplete="off" placeholder="Search Program..." >
                                     <datalist id="search_result_for_program_list">
-                                        @if(empty($programs))
-                                            <option>Search Program</option>
-                                        @else
-                                        
-                                            @foreach($programs as $program)
-                                                <option value="{{$program->name}}"></option>
-                                            @endforeach
-
-                                        @endif
+                                        <option value="unknown">I Can't Find My Program</option>
                                     </datalist>
                                 {{-- <span class="help-block">Residence</span> --}}
 

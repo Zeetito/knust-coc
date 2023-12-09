@@ -108,8 +108,14 @@ class BiodataController extends Controller
                     $residence = Residence::findResidenceByName($validated['residence_id']);
                 
                     if (!$program) {
-                        // Handle the case where either program or residence is null
-                        return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+
+                        if($validated['program_id'] == 'unknown'){
+                            $validated['program_id'] = NULL;
+                            $validated['college_id'] = NULL;
+                        }else{
+                            // if not, He simply typed in some wrong thing
+                            return redirect()->back()->with('failure', 'Make sure to  Select the program from the List Provided');
+                        }
                     }else{
                         $program_id = $program->id;
                         $college_id = $program->college->id;
@@ -137,12 +143,6 @@ class BiodataController extends Controller
                         $validated['zone_id'] = $zone_id;
                         
                     }
-                 
-
-
-
-
-
 
                 // Create the Student Profile Now
                 DB::table('members_biodatas')->insert([
@@ -157,98 +157,6 @@ class BiodataController extends Controller
                     'created_at' => now()->format('Y-m-d H:i:s'),
                     'updated_at' => now()->format('Y-m-d H:i:s'),
                 ]);
-
-            // Create Contacts For this user
-                // Main Phone
-                
-                if(!$user->phone){
-                $phone =  new Contact;
-                    $phone->user_id = $user->id;
-                    $phone->body = $validated['phone'];
-                    $phone->type = "phone";
-                    $phone->is_main = 1;
-                    $phone->is_visible = 1;
-                $phone->save();
-                }
-
-                // WhatsApp Contact
-                if(!$user->whatsapp){
-                $whatsapp =  new Contact;
-                    $whatsapp->user_id = $user->id;
-                    $whatsapp->body = $validated['whatsapp'];
-                    $whatsapp->type = "whatsapp";
-                    $whatsapp->is_main = 0;
-                    $whatsapp->is_visible = 1;
-                $whatsapp->save();
-                }
-
-                // If School Voda Exists, Save it as well
-                if($validated['school_voda'] != null){
-                    if(!$user->school_voda){
-                    $school_voda =  new Contact;
-                        $school_voda->user_id = $user->id;
-                        $school_voda->body = $validated['school_voda'];
-                        $school_voda->type = "school_voda";
-                        $school_voda->is_main = 0;
-                        $school_voda->is_visible = 1;
-                    $school_voda->save();
-                    }
-                }
-
-                // If other contact exists, do same as well
-                if($validated['other_contact'] != null){
-                    if(!$user->other_contact){
-                    $other_contact =  new Contact;
-                        $other_contact->user_id = $user->id;
-                        $other_contact->body = $validated['other_contact'];
-                        $other_contact->type = "other_contact";
-                        $other_contact->is_main = 0;
-                        $other_contact->is_visible = 1;
-                    $other_contact->save();
-                    }
-                }
-
-                // Guardian A Contact
-                if($validated['guardian_a'] != null){
-                    if(!$user->main_guardian_contact){
-                    $guardian_a =  new Contact;
-                        $guardian_a->user_id = $user->id;
-                        $guardian_a->body = $validated['guardian_a'];
-                        $guardian_a->type = "guardian";
-                        $guardian_a->ownership = "guardian";
-                        $guardian_a->relation = $validated['relation_a'];
-                        $guardian_a->is_main = 1;
-                        $guardian_a->is_visible = 0;
-                    $guardian_a->save();
-                    }
-                }
-
-                // Guardian B Contact
-                if($validated['guardian_b'] != null){
-                    if(!$user->other_guardian_contact){
-                    $guardian_b =  new Contact;
-                        $guardian_b->user_id = $user->id;
-                        $guardian_b->body = $validated['guardian_b'];
-                        $guardian_b->type = "guardian";
-                        $guardian_a->ownership = "guardian";
-                        $guardian_a->relation = $validated['relation_b'];
-                        $guardian_b->is_main = 0;
-                        $guardian_b->is_visible = 0;
-                    $guardian_b->save();
-                    }
-                }
-
-                if(!$user->email){
-                $email =  new Contact;
-                    $email->user_id = $user->id;
-                    $email->body = $user->email;
-                    $email->type = "email";
-                    $email->is_main = 0;
-                    $email->is_visible = 1;
-                $email->save();
-                }
-
-                return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
 
             } elseif ($user->is_student == 0 && $user->has_member_profile() == false) {
                 // If user is not. Non student member Like preacher and his family or N.S personelles
@@ -488,15 +396,53 @@ class BiodataController extends Controller
                     $program = Program::findProgramByName($validated_profile['program_id']);
                     $residence = Residence::findResidenceByName($validated_profile['residence_id']);
                 
-                    if (!$program || !$residence) {
+                    // Check for the Exisitence of User program
+
+                    if (!$program) {
+                        // Check if user has a custom program
+                        if($user->has_custom_program()){
+                           $custom_program = $user->custom_program();
+                           if($custom_program->name == $validated_profile['program_id'] ){
+                                $program_id = NULL;
+                                $college_id = NULL;
+                            }else{
+                               return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+                           }
+                        }else{
+                            return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+
+                        }
+
                         // Handle the case where either program or residence is null
-                        return redirect()->back()->with('failure', 'Make sure to  Select the Program / Residence from the List Provided');
+                    }else{
+                            $program_id = $program->id;
+                            $college_id = $program->college->id;
                     }
-                
-                    $program_id = $program->id;
-                    $college_id = $program->college->id;
-                    $residence_id = $residence->id;
-                    $zone_id = $residence->zone->id;
+
+
+                    // Check for the Existence of Residence
+                    if (!$residence) {
+                        // Check if user has a custom residence
+                        if($user->has_custom_residence()){
+                           $custom_residence = $user->custom_residence();
+                           if($custom_residence->name == $validated_profile['residence_id'] ){
+                                $residence_id = NULL;
+                                $zone_id = NULL;
+                            }else{
+                               return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                           }
+                        }else{
+                            return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+
+                        }
+
+                        // Handle the case where either residence or residence is null
+                    }else{
+                            $residence_id = $residence->id;
+                            $zone_id = $residence->zone->id;
+                    }
+
+
               
 
                     $validated_profile['user_id'] = $user->id;

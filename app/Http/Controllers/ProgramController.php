@@ -66,6 +66,30 @@ class ProgramController extends Controller
         //
     }
 
+    // View student program mates
+    public function view_program_mates(User $user){
+        // $program_mates = $user->program_mates;
+        return view('users.components.special.program-mates.index',['user'=>$user]);
+    }
+    
+    
+    // Search Program mates
+    public function search_program_mates(User $user, Request $request){
+
+        $users_id = User::search_user($request)
+                    ->where('users.is_student',1)
+                    ->where('users.is_member', 1)
+                    ->join('members_biodatas', 'members_biodatas.user_id', '=', 'users.id')
+                    ->where('users.id', '<>', $user->id)
+                    ->where('members_biodatas.program_id', $user->program()->id)
+                    ->pluck('users.id');
+        // return $users_id;
+                    
+
+        $users =  User::whereIn('id',$users_id)->get();
+        return view('users.components.special.program-mates.search-results',['mates'=>$users, 'user'=>$user]);
+    }
+
     // Create User-program
     public function create_user_program(User $user){
         return view('profile.components.members.students.unknown-program.create',['user'=>$user]);
