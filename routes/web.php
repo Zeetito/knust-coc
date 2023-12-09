@@ -33,6 +33,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
@@ -567,6 +568,29 @@ Route::get('/search_faculty_program/{faculty}', [FacultyController::class, 'sear
     ->middleware('auth','control:system_online')
     ->name('search_faculty_program');
 
+// PROGRAMS
+
+// Create User-Programs
+Route::get('user_program/{user}',[ProgramController::class,'create_user_program'])
+    ->middleware('auth','control:system_online')
+    ->name('create_user_program')
+    ;
+
+// Store User Program
+Route::post('store_user_program/{user}',[ProgramController::class,'store_user_program'])
+    ->middleware('auth','control:system_online')
+    ->name('store_user_program')
+    ;
+
+// Update Biodata Program
+Route::put('update_biodata_program/{user}',[ProgramController::class,'update_biodata_program'])
+    ->middleware('auth','control:system_online')
+    ->name('update_biodata_program')
+    ;
+
+
+
+
 // -----------------
 // HOUSING
 
@@ -1052,7 +1076,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return User::find(507)->residence();
+    return User::find(1)->custom_program();
     return Accessory::find(1);
     return Accessory::where('name','system_online');
     // return config('constants.system_status');

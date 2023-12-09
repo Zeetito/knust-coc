@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Program;
+use App\Models\Semester;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProgramController extends Controller
 {
@@ -62,4 +65,58 @@ class ProgramController extends Controller
     {
         //
     }
+
+    // Create User-program
+    public function create_user_program(User $user){
+        return view('profile.components.members.students.unknown-program.create',['user'=>$user]);
+    }
+
+    // Store User Program 
+    public function store_user_program(Request $request, User $user){
+        $validated = $request->validate([
+            'name'=>['required'],
+            'category'=>['required'],
+            'college_id'=>['required'],
+            'span'=>['nullable']
+        ]);
+
+        $instance['user_id'] = $user->id;
+        $instance['name'] = $validated['name'];
+        $instance['status'] = $validated['category'];
+        $instance['college_id'] = $validated['college_id'];
+        $instance['span'] = $validated['span'];
+        $instance['academic_year_id'] = Semester::active_semester()->academicYear->id;
+        $instance['created_at'] = now();
+        $instance['updated_at'] = now();
+
+
+        DB::table('user_programs')->insert($instance);
+
+        return redirect(route('view_profile',['user'=>$user]))->with('success','You have now completed Your Profile');
+
+    }
+
+    // Update Biodata Program
+    public function  update_biodata_program(Request $request, User $user){
+
+        $validated =  $request->validate([
+            'program_id' => ['required'],
+        ]);
+
+        $program = Program::findProgramByName($validated['program_id']);
+                
+        if (!$program) {
+            // Handle the case where either program or residence is null
+            return redirect()->back()->with('failure', 'Make sure to  Select the Residence from the List Provided');
+        }
+        
+        $update['program_id'] = $program->id;
+        $update['college_id'] = $program->college->id;
+
+        $user->biodata->update($update);
+
+        return redirect(route('view_profile',['user'=>$user]))->with('success','You have now completed Your Profile');
+
+    }
+
 }

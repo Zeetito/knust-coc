@@ -280,34 +280,26 @@ class UserController extends Controller
         $request->validate([
             'avatar' => 'required|image|max:5000',
         ]);
+    
+        // Get the file and generate a unique filename
         $file = $request->file('avatar');
         $filename = $user->username.'-'.uniqid().'.jpg';
-        $oldAvatar = $user->avatar;
-        $user = $user;
-
-        // Check if User has changed the profile pic from the default pic already
-
-        // delete existing pic from avatar folder
-        Storage::delete('/public/img/avatars/'.$oldAvatar);
-
-        // update the user avatar attribute
+    
+        // Delete existing avatar from the public disk
+        Storage::disk('public')->delete('img/avatars/'.$user->avatar);
+    
+        // Store the new avatar in the public disk
+        $imgData = Image::make($file)->fit(200)->encode('jpg');
+        Storage::disk('public')->put('img/avatars/'.$filename, $imgData);
+    
+        // Update the user's avatar attribute
         $user->avatar = $filename;
         $user->save();
-
-        // store the new user avatar in avatar folder
-        $imgData = Image::make($file)->fit(200)->encode('jpg');
-        Storage::put('/public/img/avatars/'.$filename, $imgData);
-
-        if ($oldAvatar != '/default_avatar.jpg') {
-            $msg = 'Avatar Updated Successfully';
-        }
-        $msg = 'New Avatar Uploaded';
-
+    
+        // Display success message
+        $msg = ($user->avatar != 'default_avatar.jpg') ? 'Avatar Updated Successfully' : 'New Avatar Uploaded';
+    
         return back()->with('success', $msg);
-        // return"Successfylly Added";
-
-        // $this->update_avatar($file,$filename,$oldAvatar,$user);
-
     }
 
     // Reset Avatar

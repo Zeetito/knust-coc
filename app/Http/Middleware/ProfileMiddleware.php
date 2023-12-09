@@ -17,7 +17,19 @@ class ProfileMiddleware
     {
         $user = auth()->user();
         $residence = $user->residence();
+        $program = $user->program();
+
         if($user->is_member==1){
+
+            // All members Must have  A profile and A zone
+
+            // A student must definitely have a program of study
+            if($user->is_student == 1){
+                if(!$program){
+                    return redirect(route('create_user_program',['user'=>$user]));
+                }
+            }
+
             if($user->has_member_profile()){
 
                 if(!$residence){

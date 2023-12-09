@@ -359,12 +359,21 @@ user-residence table
 id
 name
 description
+# Control Students whose programs are not in the lists of programs.
+user-programs table
+id
+name
+college_id
+span
+status - ug or pg
+# Dashboard Pics
 
 
+
+# Announcements.
 
 
 # Requests to join Group
-# Announcements.
 
 ### phase 19
 # Use GeoLocation to permit marking attendance 

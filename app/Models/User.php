@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Zone;
 use App\Models\Group;
 use App\Models\Image;
+use App\Models\College;
 use App\Models\Contact;
 use App\Models\Program;
 use App\Models\Semester;
@@ -93,15 +94,43 @@ class User extends Authenticatable
         if($this->biodata->residence){
             return $this->biodata->residence;
         }else{
-                $residence = DB::table('user_residences')->where('user_id',$this->id);
-                return $residence ? $residence->latest()->first() : Null;
+                return $this->custom_residence() ? $this->custom_residence() : Null;
         }
+    }
+
+    // Check if User has custom residence
+    public function has_custom_residence(){
+        $academic_year_id = Semester::active_semester()->academicYear->id;
+        return DB::table('user_residences')->where('academic_year_id',$academic_year_id)->where('user_id',$this->id)->exists();
+    }
+
+    // Get User Custom Residence
+    public function custom_residence(){
+        $academic_year_id = Semester::active_semester()->academicYear->id;
+        return DB::table('user_residences')->where('academic_year_id',$academic_year_id)->where('user_id',$this->id)->first();
     }
 
     // program
     public function program()
     {
-        return $this->biodata->program;
+        if($this->biodata->program){
+            return $this->biodata->program;
+        }else{
+               
+                return $this->custom_program() ? $this->custom_program() : Null;
+        }
+    }
+
+    // Check if User has custom residence
+    public function has_custom_program(){
+        $academic_year_id = Semester::active_semester()->academicYear->id;
+        return DB::table('user_programs')->where('academic_year_id',$academic_year_id)->where('user_id',$this->id)->exists();
+    }
+
+    // Get User Custom program
+    public function custom_program(){
+        $academic_year_id = Semester::active_semester()->academicYear->id;
+        return DB::table('user_programs')->where('academic_year_id',$academic_year_id)->where('user_id',$this->id)->first();
     }
 
     // zone
@@ -137,7 +166,12 @@ class User extends Authenticatable
     // college
     public function college()
     {
-        return $this->program()->college;
+        if($this->biodata->program){
+            return $this->program()->college;
+        }else{
+            $college = College::find($this->custom_program()->college_id);
+            return $college;
+        }
     }
 
     // Roles
@@ -350,15 +384,15 @@ class User extends Authenticatable
     public function get_avatar()
     {
         // return $this->avatar;
-        if ($this->avatar === 'default_avatar') {
+        if ($this->avatar == 'default_avatar') {
             if ($this->gender == 'm') {
                 return asset('img/avatars/male_avatar.jpg');
             } else {
                 return asset('img/avatars/female_avatar.jpg');
             }
         }
-
-        return asset('storage/img/avatars/'.$this->avatar);
+        return Storage::disk('public')->url('img/avatars/'.$this->avatar);
+        // return asset('storage/img/avatars/'.$this->avatar);
     }
 
     // Check if User is checked for a particular attendance session
