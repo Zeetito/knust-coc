@@ -39,7 +39,9 @@
                                             <button type="submit" name="submit" class="btn btn-primary px-4">Login</button>
                                         </div>
                                         <div class="col-6 text-right">
-                                            <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                                            <a  href="{{route('forgot_password')}}" class="btn btn-link px-0">
+                                                {{-- Forgot password? --}}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

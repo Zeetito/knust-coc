@@ -302,6 +302,41 @@ class UserController extends Controller
         return back()->with('success', $msg);
     }
 
+    // public function store_avatar(Request $request, User $user)
+    // {
+    //     $request->validate([
+    //         'avatar' => 'required|image|max:5000',
+    //     ]);
+    //     $file = $request->file('avatar');
+    //     $filename = $user->username.'-'.uniqid().'.jpg';
+    //     $oldAvatar = $user->avatar;
+    //     $user = $user;
+
+        // Check if User has changed the profile pic from the default pic already
+
+        // delete existing pic from avatar folder
+        // Storage::delete('/public/img/avatars/'.$oldAvatar);
+
+        // update the user avatar attribute
+        // $user->avatar = $filename;
+        // $user->save();
+
+        // store the new user avatar in avatar folder
+        // $imgData = Image::make($file)->fit(200)->encode('jpg');
+        // Storage::put('/public/img/avatars/'.$filename, $imgData);
+
+        // if ($oldAvatar != '/default_avatar.jpg') {
+        //     $msg = 'Avatar Updated Successfully';
+        // }
+        // $msg = 'New Avatar Uploaded';
+
+        // return back()->with('success', $msg);
+        // return"Successfylly Added";
+
+        // $this->update_avatar($file,$filename,$oldAvatar,$user);
+
+    // }
+
     // Reset Avatar
     public function reset_avatar(User $user)
     {

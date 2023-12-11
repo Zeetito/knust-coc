@@ -370,12 +370,19 @@ status - ug or pg
 
 <!-- If a User has a custom program or residence, the error would be thrown when updating... -->
 
-# Announcements.
+<!-- NOTIFICATIONS -->
+# Nofitications table
+id
+type /Announcements, birthdays, 
+start_date
+end_date //Equal to start_date by default
 
 
-# Requests to join Group
+Active or inactive to groups.
+
 
 ### phase 19
 # Use GeoLocation to permit marking attendance 
 # Implement the User history using the Biodata details.
 # A Two factor verification would be implement later on to cater for authrorization
+# Requests to join Group

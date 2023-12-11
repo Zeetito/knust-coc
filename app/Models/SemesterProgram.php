@@ -35,7 +35,7 @@ class SemesterProgram extends Model
     {
         $images = $this->morphMany(Image::class, 'imageable');
         if(empty($images)){
-            $images = $this->defaultImage;
+            $images = $this->defaultImage();
         }
 
         return $images; 

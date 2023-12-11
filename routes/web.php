@@ -34,6 +34,7 @@ use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
@@ -1060,6 +1061,34 @@ Route::post('/avatar/{user}', [UserController::class, 'store_avatar'])
 Route::get('/avatar/{user}/reset', [UserController::class, 'reset_avatar'])
     ->middleware('auth')
     ->name('reset_avatar');
+
+
+// Password
+Route::get('/forgot-password',[PasswordController::class,'forgot_password'])
+    ->middleware('guest')
+    ->name('forgot_password')
+    ;
+
+// Send Reset Links
+Route::post('/forgot-password',[PasswordController::class,'send_reset_link'])
+    ->middleware('guest')
+    ->name('send_reset_link')
+    ;
+
+// Reset Password form
+Route::get('/reset-password/{token}',[PasswordController::class,'reset_password'])
+    ->middleware('guest')
+    ->name('reset-password')
+    ;   
+
+// Update Password
+Route::post('/reset-password',[PasswordController::class,'update_password'])
+    ->middleware('guest')
+    ->name('update_password')
+    ;   
+
+
+
 
 // VIEWS
 Route::get('/users', [UserController::class, 'view_users'])

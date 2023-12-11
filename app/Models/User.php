@@ -386,13 +386,12 @@ class User extends Authenticatable
         // return $this->avatar;
         if ($this->avatar == 'default_avatar') {
             if ($this->gender == 'm') {
-                return asset('img/avatars/male_avatar.jpg');
+                return asset('storage/img/avatars/male_avatar.jpg');
             } else {
-                return asset('img/avatars/female_avatar.jpg');
+                return asset('storage/img/avatars/female_avatar.jpg');
             }
         }
-        return Storage::disk('public')->url('img/avatars/'.$this->avatar);
-        // return asset('storage/img/avatars/'.$this->avatar);
+        return asset('storage/img/avatars/'.$this->avatar);
     }
 
     // Check if User is checked for a particular attendance session
