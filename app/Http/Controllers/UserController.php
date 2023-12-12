@@ -275,32 +275,30 @@ class UserController extends Controller
     }
 
     // Store/Update User Avatar
-    public function store_avatar(Request $request, User $user)
-    {
-        $request->validate([
-            'avatar' => 'required|image|max:5000',
-        ]);
-    
-        // Get the file and generate a unique filename
-        $file = $request->file('avatar');
-        $filename = $user->username.'-'.uniqid().'.jpg';
-    
-        // Delete existing avatar from the public disk
-        Storage::disk('public')->delete('img/avatars/'.$user->avatar);
-    
-        // Store the new avatar in the public disk
-        $imgData = Image::make($file)->fit(200)->encode('jpg');
-        Storage::disk('public')->put('img/avatars/'.$filename, $imgData);
-    
-        // Update the user's avatar attribute
-        $user->avatar = $filename;
-        $user->save();
-    
-        // Display success message
-        $msg = ($user->avatar != 'default_avatar.jpg') ? 'Avatar Updated Successfully' : 'New Avatar Uploaded';
-    
-        return back()->with('success', $msg);
+  public function store_avatar(Request $request, User $user)
+{
+    $request->validate([
+        'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($request->hasFile('avatar')) {
+        $avatar = $request->file('avatar');
+
+        // Generate a unique filename based on the user's ID and original extension
+        $filename = 'user_' . $user->id . '_avatar.' . $avatar->getClientOriginalExtension();
+
+        // Resize and store the image
+        $image = Image::make($avatar)->fit(200, 200); // Adjust dimensions as needed
+        Storage::put('public/img/avatars/' . $filename, $image->encode());
+
+        // Update the user's avatar field in the database with the filename
+        $user->update(['avatar' => $filename]);
+
+        return redirect()->back()->with('success', 'Avatar uploaded successfully');
     }
+
+    return redirect()->back()->with('error', 'Avatar upload failed');
+}
 
     // public function store_avatar(Request $request, User $user)
     // {

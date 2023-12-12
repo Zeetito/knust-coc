@@ -52,19 +52,19 @@
 
                                                     {{-- Actions --}}
                                                     <td>
-                                                        @can('update',$role)
+                                                        @allowedTo(['update_role'])
                                                         {{-- View/Update A Role --}}
                                                         <a href="{{route('edit_role',$role)}}">
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
-                                                        @endcan
+                                                        @endallowedTo
 
-                                                        @can('delete',$role)
+                                                        @allowedTo(['remove_role'])
                                                          {{-- Delete A Role --}}
                                                          <a href="#">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
-                                                        @endcan
+                                                        @endallowedTo
 
                                                     </td>
 

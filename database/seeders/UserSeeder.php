@@ -26,10 +26,11 @@ class UserSeeder extends Seeder
             'is_baptized' => 1,
             'email' => 'tito44@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('password'), // password
+            'password' => bcrypt('passkmsssap'), // password
             'remember_token' => Str::random(10),
         ]);
-        User::factory(500)->create();
+        // User::factory(500)->create();
+        
 
     }
 }

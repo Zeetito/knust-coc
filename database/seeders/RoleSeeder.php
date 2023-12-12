@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Models\Semester;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -36,11 +37,14 @@ class RoleSeeder extends Seeder
         $role = Role::where('slug', 'preacher')->first();
         $role->assignAllPermissions();
 
+        $user = User::where('username','tito')->first();
+        $user->assignAllPermissions();
+
         // Assign Preacher Role to this First User
         DB::table('role_users')->insert(
             [
                 'user_id' => 1,
-                'role_id' => 1,
+                'role_id' => 6,
                 'academic_year_id' => Semester::active_semester()->academicYear->id,
                 'created_at' => now(),
                 'updated_at' => now(),

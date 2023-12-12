@@ -7,14 +7,21 @@
                            
                             <ul class="nav-dropdown-items">
 
-                                {{-- Profile --}}
+                                {{-- Dashboard --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('admin_home')}}"><i class="icon-speedometer"></i> Dashboard</a>
                                 </li>
-                                {{-- Groups --}}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('admin_config')}}"><i class="fa fa-warning"></i> Configurations</a>
-                                </li>
+                                @if(auth()->user()->hasAnyOf(App\Models\Role::preacher_level()->get()))
+
+                                    {{-- Configurations --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{route('admin_config')}}"><i class="fa fa-warning"></i> Configurations</a>
+                                    </li>
+                                    {{-- Roles --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{route('roles')}}"><i class="fa fa-warning"></i> User-Roles</a>
+                                    </li>
+                                @endif
         
                                 
                             </ul>

@@ -25,10 +25,10 @@
             <div class="tab-pane active" id="users" role="tabpanel">
                 <table class="table table-striped">
                         {{-- Add New User Button --}}
-                        @can('assign',$role)
+                        @allowedTo(['update_role'])
                         {{-- <span data-url="{{route('fetch_role_users_modal',$role)}}" class="get_content btn mb-3 btn-info float-right">Add User</span> --}}
                         <a href="{{route('create_users_roles',$role)}}" class="btn mb-3 btn-info float-right">Add User</a>
-                        @endcan
+                        @endallowedTo
 
                     {{-- Table Caption --}}
                     <caption>Users with the role: {{$role->name}}</caption>
@@ -37,9 +37,9 @@
                             <tr>
                                 <th>User Name</th>
 
-                                @can('assign',$role)
+                                @allowedTo(['update_role'])
                                 <th>Actions</th>
-                                 @endcan
+                                 @endallowedTo
                             </tr>
                         </thead>
                         {{-- Table Body --}}
@@ -57,13 +57,13 @@
                                     </td>
 
                                      {{-- Action  --}}
-                                     @can('assign',$role)
+                                     @allowedTo(['update_role'])
                                      <td>
                                         <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_user_remove',['role'=>$role , 'user'=>$user])}}" id="{{$user->id}}">
                                             <i class="fa fa-remove"></i>
                                         </a>     
                                     </td>
-                                    @endcan
+                                    @endallowedTo
 
                                 </tr>
                             @endforeach
@@ -78,18 +78,18 @@
             <div class="tab-pane" id="permissions" role="tabpanel">
                 <table class="table table-striped">
                     {{-- Add New Permission Button --}}
-                        @can('assign',$role)
+                        @allowedTo(['update_role'])
                         <a href="{{route('create_roles_permissions',$role)}}" class="btn mb-3 btn-info float-right">Add New Permission</a>
-                        @endcan
+                        @endallowedTo
                        <caption>Permissions attatched to the role: {{$role->name}}</caption>
 
                         {{-- Table Head --}}
                         <thead>
                             <tr>
                                 <th>Permission Name</th>
-                                @can('assign',$role)
+                                @allowedTo(['update_role'])
                                     <th>Actions</th>
-                                @endcan
+                                @endallowedTo
                             </tr>
                         </thead>
 
@@ -98,14 +98,14 @@
                             @foreach($role->permissions as $permission)
                                 <tr id="tr_{{$permission->slug}}">
                                      <td>{{$permission->name}} </td>
-                                     @can('assign',$role)
+                                     @allowedTo(['update_role'])
                                      <td>
                                         <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_permission_remove',['role'=>$role , 'permission'=>$permission])}}" id="{{$permission->id}}">
                                         {{-- <a class="btn check_button btn-danger" id="{{$permission->slug}}" data-url="{{route('remove_role_permission',['role'=>$role , 'permission'=>$permission])}}"> --}}
                                             <i class="fa fa-remove"></i>
                                         </a>    
                                     </td>
-                                    @endcan
+                                    @endallowedTo
                                 </tr>
                             @endforeach
                         </tbody>

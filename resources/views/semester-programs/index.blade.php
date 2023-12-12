@@ -1,7 +1,7 @@
 <x-layout>
         
-        <div class="container-fluid">
-                <div class="dashboard-container">
+        <div class="card">
+                <div class="">
     
                     {{-- Each Whole Table Screen --}}
                     <div class="process-bar">

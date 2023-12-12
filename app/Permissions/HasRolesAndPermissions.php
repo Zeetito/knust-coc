@@ -2,9 +2,10 @@
 
 namespace App\Permissions;
 
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Semester;
+use App\Models\Permission;
 
 trait HasRolesAndPermissions
 {
@@ -75,7 +76,7 @@ trait HasRolesAndPermissions
     {
         $permissions = Permission::all();
         foreach($permissions as $permission){
-            $this->permissions()->attach($permission->id);
+            $this->permissions()->attach($permission->id,['academic_year_id'=>Semester::active_semester()->academicYear->id, 'created_at'=>now(),'updated_at'=>now()]);
         }
         // $this->permissions()->sync($permissions);
     }
@@ -102,7 +103,7 @@ trait HasRolesAndPermissions
     public function giveRole(Role $role)
     {
 
-        $this->roles()->attach($role->id);
+        $this->roles()->attach($role->id,['academic_year_id'=>Semester::active_semester()->academicYear->id, 'created_at'=>now(),'updated_at'=>now()]);
     }
 
     // Remove Role to model

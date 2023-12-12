@@ -100,7 +100,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'Delete Program Outline', 'slug' => 'delete_program_outline'],
             
             // DOOR TO DOOR
-            ['name' => 'Access Fishing Out', 'slug' => 'access_fishing_out'],
 
 
             // FISHING OUT

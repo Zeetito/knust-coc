@@ -21,7 +21,7 @@ class RolePolicy
     public function view(User $user, Role $role): bool
     {
         //
-        return $user->hasRole('preacher', $role);
+        // return $user->hasPermissionTo(['update']);
     }
 
     /**
@@ -38,7 +38,7 @@ class RolePolicy
     public function update(User $user, Role $role): bool
     {
         //
-        return $user->hasRole('preacher', $role->slug);
+        return $user->allowedTo(['update_role']);
     }
 
     /**
@@ -47,7 +47,7 @@ class RolePolicy
     public function delete(User $user, Role $role): bool
     {
         //
-        return $user->hasRole('preacher');
+        return $user->allowedTo(['update_role']);
     }
 
     /**
@@ -69,12 +69,12 @@ class RolePolicy
     // Can Assign Role
     public function assign(User $user, Role $role): bool
     {
-        return $user->hasRole('preacher');
+        return $user->allowedTo(['update_role']);
     }
 
     // Can Retrieve Role
     public function retrieve(User $user, Role $role): bool
     {
-        return $user->hasRole('preacher');
+        return $user->allowedTo(['update_role']);
     }
 }

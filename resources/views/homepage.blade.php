@@ -30,7 +30,7 @@
 
                                                       @foreach(App\Models\Semester::active_semester()->upcoming_programs as $index => $semester_program) 
                                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                                          @if( ($semester_program->images() !="[]" ))
+                                                          @if( ($semester_program->image() !="[]" ))
                                                               <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->meeting->defaultImage->url)}});  height: 400px;    background-size: 100%; background-repeat: no-repeat;">
                                                           @else
                                                               <div class="bg-image" style= "background-image: url({{asset('storage/images/'.$semester_program->defaultImage())}});  height: 400px;    background-size: 100%; background-repeat: no-repeat;">

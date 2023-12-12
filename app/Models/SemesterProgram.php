@@ -31,9 +31,9 @@ class SemesterProgram extends Model
     protected $dates = ['start_date', 'end_date'];
     // RELATIONSHIPS
     // Retrieve Images of a user.
-    public function images(): MorphMany
+    public function image()
     {
-        $images = $this->morphMany(Image::class, 'imageable');
+        $images = $this->morphOne(Image::class, 'imageable');
         if(empty($images)){
             $images = $this->defaultImage();
         }

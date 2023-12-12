@@ -125,7 +125,7 @@ class RoleController extends Controller
 
         if ($exists) {
 
-            return view('roles\roles-users\components\users\confirm-role-remove', ['user' => $user, 'role' => $role]);
+            return view('roles.roles-users.components.users.confirm-role-remove', ['user' => $user, 'role' => $role]);
         }
     }
 
@@ -164,7 +164,7 @@ class RoleController extends Controller
     // Confirm Permission Role Remove
     public function confirm_role_permission_remove(Role $role, Permission $permission)
     {
-        return view('roles\roles-permissions\confirm-permission-remove', ['role' => $role, 'permission' => $permission]);
+        return view('roles.roles-permissions.confirm-permission-remove', ['role' => $role, 'permission' => $permission]);
     }
 
     // Remove role PErmission

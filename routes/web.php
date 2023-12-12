@@ -709,56 +709,56 @@ Route::get('/roles', [RoleController::class, 'index'])
 
 // Edit Role Page
 Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('edit_role');
 
 // Add User Roles Instance
 Route::get('/create_users_roles/{role}', [RoleController::class, 'create_users_roles'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('create_users_roles');
 
 // Search User Modal
 Route::get('/fetch_role_users_modal/{role}', [RoleController::class, 'fetch_role_users_modal'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('fetch_role_users_modal');
 
 // Search User among the users who do not have a particular role
 Route::get('/search_non_user_roles/{role}', [RoleController::class, 'search_non_user_roles'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:ministry_members_level')
     ->name('search_non_user_roles');
 
 // Give a user role
 Route::get('/role/{role}/{user}/assign', [RoleController::class, 'give_user_role'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('give_user_role');
 
 // Remove a user's role
 Route::delete('/role/{role}/{user}/remove', [RoleController::class, 'remove_user_role'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('remove_user_role');
 // confirm_role_user_remove
 Route::get('/confirm_role_user_remove/{role}/{user}', [RoleController::class, 'confirm_role_user_remove'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('confirm_role_user_remove');
 
 // Create role premissions form
 Route::get('/role/{role}/permissions', [RoleController::class, 'create_roles_permissions'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('create_roles_permissions');
 
 // Assign permission to role
 Route::get('/roles/{role}/{permission}/assign', [RoleController::class, 'assign_role_permission'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('assign_role_permission');
 
 // Remove a role's permission
 Route::delete('/permission/{role}/{permission}/remove', [RoleController::class, 'remove_role_permission'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('remove_role_permission');
 
 // Confirm A Role removal from permission
 Route::get('/confirm_role_permission_remove/{role}/{permission}', [RoleController::class, 'confirm_role_permission_remove'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','role:preacher_level')
     ->name('confirm_role_permission_remove');
 
 // Search Role Non-Permissions
@@ -1119,7 +1119,15 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return fake()->dateTimeBetween($minDate, $maxDate)->format('Y-m-d');
+
+    // User::where('username','tito')->first()->assignAllPermissions();
+
+    return auth()->user()->username == "tito";
+
+    return SemesterProgram::find(3)->image;
+    return asset('storage');
+
+
     
     return User::find(1)->roles();
     return Accessory::find(1);
