@@ -86,6 +86,12 @@ class AttendanceController extends Controller
         return view('attendance.attendance-users.show', ['attendance' => $attendance, 'members' => $members]);
     }
 
+
+    // Attendance Qr Scan Page
+    public function attendance_qr_page(Attendance $attendance){
+        return view('attendance/qr',['attendance'=>$attendance]);
+    }
+
     // Check or uncheck User
     public function check_user(Attendance $attendance, User $user)
     {

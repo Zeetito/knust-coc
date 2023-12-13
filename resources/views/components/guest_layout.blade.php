@@ -106,18 +106,19 @@
        
 
 
-    {{-- <script src={{asset("bower_components/tether/dist/js/tether.min.js")}}></script> --}}
-    
-    {{-- Plugins and scripts required by all views --}}
-    {{-- <script src={{asset("bower_components/bootstrap/dist/js/Chart.min.js")}}></script> --}}
-    
-    {{-- GenesisUI main scripts --}}
-    <script src={{asset("js/app.js")}}></script>
-    
-    {{-- Custom scripts --}}
-    {{-- <script src={{asset("js/views/main.js")}}></script> --}}
+     {{-- <script src={{asset("bower_components/tether/dist/js/tether.min.js")}}></script> --}}
+     
+     {{-- Plugins and scripts required by all views --}}
+     {{-- <script src={{asset("bower_components/bootstrap/dist/js/Chart.min.js")}}></script> --}}
+     
+     {{-- GenesisUI main scripts --}}
+     <script src={{asset("js/app.js")}}></script>
+     <script src={{asset("js/qr/qrcode.js")}}></script>
+     
+     {{-- Custom scripts --}}
+     {{-- <script src={{asset("js/views/main.js")}}></script> --}}
 
-    <script src={{asset("js/custom.js")}}></script>
+     <script src={{asset("js/custom.js")}}></script>
 
 </body>
 

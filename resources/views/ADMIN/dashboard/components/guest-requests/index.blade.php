@@ -31,6 +31,7 @@
         <div id="search_result_for_user_list" class=" row ">
             {{-- Each Account will sit in this --}}
             @foreach(App\Models\Guest::guest_requests()->get() as $request)
+            
                 <div class="col-sm-3 col-md-2 mt-3">
                     {{-- If User is a Fresher --}}
                     @if($request->guest()->status == 'fresher')
@@ -72,6 +73,7 @@
 
 
                 </div>
+                
             @endforeach
         </div>
 

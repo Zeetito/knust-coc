@@ -48,7 +48,15 @@
                                                                 
                                                                 <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                                 <td>
+
+                                                                    
                                                                     @allowedTo(['view_attendance'])
+                                                                    {{-- Qr Scan page --}}
+                                                                    @if($attendance->is_active == 1)
+                                                                    <a href="{{route('attendance_qr_page',$attendance->id)}}">
+                                                                        <i class="fa fa-qrcode"></i>
+                                                                    </a>                            
+                                                                    @endif
                                                                     {{-- View Attendance Session --}}
                                                                     <a href="{{route('show_attendance_users',$attendance->id)}}">
                                                                         <i class="fa fa-eye"></i>
@@ -87,6 +95,8 @@
                                                                             @endcan
                                                                         
                                                                     @endallowedTo
+
+                                                                    
                                                                 </td>
                                                                 {{-- <td>
                                                                     <span class="badge badge-success">Active</span>
@@ -101,7 +111,7 @@
                                                                 
                                                                 <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                                 <td>
-                                                                    @allowedTo(['view_attendance'])
+                                                                                                                                           @allowedTo(['view_attendance'])
                                                                     {{-- View Attendance Session --}}
                                                                     <a href="{{route('show_attendance_users',$attendance->id)}}">
                                                                         <i class="fa fa-eye"></i>

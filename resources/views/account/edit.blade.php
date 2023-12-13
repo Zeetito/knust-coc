@@ -41,7 +41,6 @@
                                    @error('lastname')
                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                    @enderror
-                                   
                                {{-- Othername --}}
                                    <div class="col-12 mb-3">
                                     <strong>Other Name</strong>
@@ -92,15 +91,20 @@
                                        @enderror
    
                                {{-- Date of Birth --}}
-                                       NB:Your Year of birth will not be displayed publicly
+                               @if(auth()->user()->is($user))
+
                                    <div class="col-12 mb-3">
-                                    <strong>Date Of Birth</strong>
+                                       <strong>Date Of Birth
+                                           
+                                           <p>Only You Can See this</p>
+                                    </strong>
 
                                        <input type="date" value="{{old('dob',$user->dob)}}" name="dob" class="form-control" required>
                                    </div>
                                    @error('dob')
                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                    @enderror
+                                @endif
    
                                 
                                {{-- Email --}}

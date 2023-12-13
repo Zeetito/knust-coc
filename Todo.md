@@ -367,8 +367,13 @@ college_id
 span
 status - ug or pg
 # Dashboard Pics
+Active or inactive to groups.
+QR code Attendance.
 
-<!-- If a User has a custom program or residence, the error would be thrown when updating... -->
+Denied Requests page(User and Guest).
+
+
+
 
 <!-- NOTIFICATIONS -->
 # Nofitications table
@@ -378,7 +383,6 @@ start_date
 end_date //Equal to start_date by default
 
 
-Active or inactive to groups.
 
 
 ### phase 19

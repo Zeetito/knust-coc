@@ -34,9 +34,9 @@ class UserResource extends JsonResource
             'Gender' => $this->when(isset($this->gender), function () {
                 return $this->gender;
             }),
-            'DateOfBirth' => $this->when(isset($this->dob), function () {
-                return $this->dob;
-            }),
+            // 'DateOfBirth' => $this->when(isset($this->dob), function () {
+            //     return $this->dob;
+            // }),
             'Email' => $this->when(isset($this->email), function () {
                 return $this->email;
             }),

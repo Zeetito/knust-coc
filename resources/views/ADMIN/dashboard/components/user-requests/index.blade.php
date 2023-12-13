@@ -48,6 +48,7 @@
         <div id="search_result_for_user_list" class=" row ">
             {{-- Each Account will sit in this --}}
             @foreach(App\Models\User::users_with_pending_request()->get() as $user)
+
                 <div class="col-sm-3 col-md-2 mt-3 " >
                     {{-- If User is a Fresher --}}
 
@@ -112,6 +113,7 @@
                     </div>
 
                 </div>
+                
             @endforeach
         </div>
 

@@ -119,6 +119,8 @@ class UserRequestController extends Controller
                     $user_request->handled_by = auth()->user()->id;
                     $user_request->instance_id = $instance_id;
                     $user_request->save();
+
+                    
                    
                     return redirect()->back()->with('success','Grant Success'); 
 

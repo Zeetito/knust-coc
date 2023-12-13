@@ -339,6 +339,15 @@ class BiodataController extends Controller
                         $email->is_visible = 1;
                     $email->save();
                     }
+
+                    if($user->is_available == 0){
+                        DB::table('unavailable_members')->insert([
+                            'user_id'=>$user->id,
+                            'category'=>"not_yet_in",
+                            'info'=>"No Info",
+                            'recorded_by'=>$user->id,
+                        ]);
+                    }
     
 
             return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');

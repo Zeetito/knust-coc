@@ -926,6 +926,12 @@ Route::put('/udpate_absentee_status/{attendance}/{user}',[AttendanceController::
     ->name('udpate_absentee_status')
     ;
 
+// Attendance Qr Scan Check
+Route::get('/attendance_qr/{attendance}',[AttendanceController::class,'attendance_qr_page'])
+    ->middleware('auth','control:system_online','role:zone_reps_level')
+    ->name('attendance_qr_page')
+    ;
+
 // ------------------------------
 
 // --------------------------------

@@ -32,8 +32,9 @@
         <div id="search_result_for_user_list" class=" row ">
             {{-- Each Account will sit in this --}}
             @foreach(App\Models\User::unavailable_members()->get() as $user)
-                <div class="col-sm-3 col-md-2 mt-3">
 
+                @if($user->has_member_profile() == true)
+                <div class="col-sm-3 col-md-2 mt-3">
                     {{-- If User is Ill --}}
                     @if($user->unavailable_member_category() == 'sick')
                     <a class="card text-white bg-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_unavailable_members_status',['user'=>$user])}}" >
@@ -86,6 +87,7 @@
 
 
                 </div>
+                @endif
             @endforeach
         </div>
 

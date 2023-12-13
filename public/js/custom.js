@@ -217,20 +217,33 @@ $(document).ready(function(){
             popMessageElement.slideUp(500);
         }, 5000);
     });
-    // CUSTOM EVENTS
 
-    // EVENT TO CHECK IF A SCROLLABLE ELEMENT HAS REACHED IT'S END
-    // function reachedEnd() {
-    //     const element = document.getElementsByClassName('loadMore');
+    // Qr Code
+    var qrcode = new QRCode("qrcode");
 
-    //     // Check if the user has scrolled to the bottom
-    //     if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
-    //         console.log('You have reached the bottom!');
-    //     }
-    // }
+    function makeCode () {    
+    var elText = document.getElementById("text");
+    
+    if (!elText.value) {
+        alert("Input a text");
+        elText.focus();
+        return;
+    }
+    
+    qrcode.makeCode(elText.value);
+    }
 
-    // const appendableElements = document.getElementsByClassName('loadMore');
-    // appendableElements.addEventListener('reachedEnd', reachedEnd);
+    makeCode();
+
+    $("#text").
+    on("blur", function () {
+        makeCode();
+    }).
+    on("keydown", function (e) {
+        if (e.keyCode == 13) {
+        makeCode();
+        }
+    });
 
 
 })
