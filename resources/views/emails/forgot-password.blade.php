@@ -1,8 +1,8 @@
 <x-mail::message>
-<p>Hello {{$user->firstname." ".$user->lastname }}</p>
+<p>Hello {{$name }}</p>
 
 
-<x-mail::button :url="url('reset-password/' . $user->remember_token)">
+<x-mail::button :url="url('reset-password/' . $remember_token)">
     Reset Your Password
 </x-mail::button>
 

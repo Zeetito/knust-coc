@@ -25,7 +25,7 @@
                                 {{-- Program Id --}}
                                 <div class="col-md-3 mb-4">
                                     <h6>Program Of Study</h6>
-                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program()->name)}}" autocomplete="off" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
+                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program() ? $user->program()->name : "None")}}" autocomplete="off" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
                                         <datalist id="search_result_for_program_list">
                                             @if(empty($programs))
                                                 <option>Search Program</option>
@@ -62,7 +62,7 @@
                                 {{-- Residence Id --}}
                                 <div class="col-md-3 mb-4">
                                     <h6>Residence</h6>
-                                    <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence()->name)}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
+                                    <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence() ? $user->residence()->name : "None")}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
                                     <datalist id="search_result_for_residence_list">
                                         @if(empty($residences))
                                             <option>Search residence...</option>

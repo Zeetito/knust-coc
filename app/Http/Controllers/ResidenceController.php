@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Zone;
 use App\Models\Semester;
 use App\Models\Residence;
 use Illuminate\Http\Request;
@@ -21,9 +22,10 @@ class ResidenceController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Zone $zone)
     {
-        //
+
+        return view('housing.zones.components.residences.create',['zone'=>$zone]);
     }
 
     /**
@@ -31,7 +33,20 @@ class ResidenceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_residence = $request->validate([
+            'name'=>['required','min:5','max:35'],
+            'zone_id'=>['required','numeric'],
+            'description'=>['required','min:10'],
+        ]);
+
+        $zone = Zone::find($validated_residence['zone_id']);
+        if($zone){
+            Residence::create($validated_residence);
+            return redirect()->back()->with('success','Residence Created Successfully');
+        }else{
+            return redirect()->back()->with('failure','Select A valid zone');
+        }
+    
     }
 
     /**
@@ -47,7 +62,7 @@ class ResidenceController extends Controller
      */
     public function edit(Residence $residence)
     {
-        //
+        return view('housing.zones.components.residences.edit',['residence'=>$residence]);
     }
 
     /**
@@ -55,7 +70,21 @@ class ResidenceController extends Controller
      */
     public function update(Request $request, Residence $residence)
     {
-        //
+        $validated_residence = $request->validate([
+            'name'=>['required','min:5','max:35'],
+            'zone_id'=>['required','numeric'],
+            'description'=>['required','min:10'],
+        ]);
+
+        $zone = Zone::find($validated_residence['zone_id']);
+        if($zone){
+            $residence->update($validated_residence);
+            return redirect()->back()->with('success','Residence Created Successfully');
+        }else{
+            return redirect()->back()->with('failure','Select A valid zone');
+        }
+
+        
     }
 
     /**

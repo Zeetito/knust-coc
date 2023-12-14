@@ -8,7 +8,7 @@
                     <div class="process-bar">
                         <div class="process-bar">
                             <div class="process-order">
-                                <h3 style="text-align:center">Zones</h3>
+                                <h3 style="text-align:center">ZONES</h3>
                                 <span>
                                         {{-- <form >
                                             <input type="text" class="search_box" data-url="" placeholder="search name..." style="text-align:center;">
@@ -17,72 +17,39 @@
                                 </span>
                             </div>
     
-                            {{-- Attendance Table --}}
-                            <div class="pre-scrollable" >
-    
-                                    <div class="card-body">
-                                            <table class="table table-striped">
-                                                {{-- Table Head --}}
-                                                <thead>
-                                                    <tr>
-                                                        <th>Zone Name</th>
-                                                        <th>People</th>
-                                                        <th>Hostels</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                {{-- Table Body --}}
-                                                <tbody class="search_result">
-                                                    @foreach(App\Models\Zone::all() as $zone)
-    
-                                                    <tr id="tr_{{$zone->id}}">
-                                                            {{-- Role Name --}}
-                                                        <td>
-                                                           {{$zone->name}}
-                                                        </td>
-                                                        {{-- Number of Users --}}
-                                                        <td>
-                                                           {{$zone->users()->count()}}
-                                                        </td>
-                                                        
-                                                        {{-- Description --}}
-                                                        <td>
-                                                           {{ $zone->residences->count() }}
-                                                        </td>
-    
-                                                        {{-- Actions --}}
-                                                        <td>
-                                                            {{-- View/Update A Role --}}
-                                                            <a href="{{route('show_zone',$zone)}}">
-                                                                <i class="fa fa-eye"></i>
-                                                            </a>
-    
-                                                            @can('update',$zone)
-                                                             {{-- Delete A Role --}}
-                                                             <a href="#">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
-                                                            @endcan
-    
-                                                        </td>
-    
-    
-    
-                                                       
-                                                    </tr>
-                                                  @endforeach
-    
-                                                </tbody>
-                                                {{-- Table Body Ends --}}
-                                            </table>
-                                           
+                            <div id="search_result_for_user_list" class=" row ">
+                                {{-- Each Account will sit in this --}}
+                                @foreach(App\Models\Zone::all() as $zone)
+                    
+                                    <div class="col-sm-3 col-md-4 mt-3">
+                                        {{-- If User is Ill --}}
+                                        <a class="card text-white bg-primary" href="{{route('show_zone',$zone)}}">
+                                            <div class="card-body">
+                                                <small class="text-uppercase font-weight-bold">Zone: {{$zone->name}}</small><br>
+                                                
+                                                <small class="text-uppercase font-weight-bold">Members - {{$zone->users()->count()}}</small><br>
+                                                
+                                                <small class="text-uppercase font-weight-bold">Residences - {{$zone->residences->count()}}</small>
+
+                                            </div>
+                                        </a>
                                     </div>
-                            
-                             
+                                @endforeach
+
+                                {{-- Others Zone --}}
+                                <div class="col-sm-3 col-md-4 mt-3">
+                                    {{-- If User is Ill --}}
+                                    <a class="card text-white bg-primary" >
+                                        <div class="card-body">
+                                            <small class=" text-uppercase font-weight-bold">Zone: Others</small><br>
+                                            <small class=" text-uppercase font-weight-bold">Members - {{App\Models\Zone::otherZoneMembers()->count()}} </small>
+
+                                        </div>
+                                    </a>
+                                </div>
+
+
                             </div>
-                            {{--Users Table Ends--}}
-    
-                            {{-- {{$role->links()}} --}}
                            
                         </div>
                     </div>
@@ -93,7 +60,7 @@
     
                 </div> <!-- end of dashboard container -->
     
-            </div>
+        </div>
             <!-- /.conainer-fluid -->
     
     </x-layout>

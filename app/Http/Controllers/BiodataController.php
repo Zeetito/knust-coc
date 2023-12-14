@@ -19,6 +19,7 @@ use App\Http\Resources\BiodataResource;
 use App\Http\Resources\ContactResource;
 use Illuminate\Database\QueryException;
 
+
 class BiodataController extends Controller
 {
     // VIEW/SHOW PROFILE
@@ -394,7 +395,7 @@ class BiodataController extends Controller
                 
 
                 $validated_profile = $request->validate([
-                    'room' => ['required'],
+                    'room' => ['nullable'],
                     'year' => ['required'],
                     'residence_id' => ['required'],
                     'program_id' => ['required'],
@@ -426,6 +427,12 @@ class BiodataController extends Controller
                     }else{
                             $program_id = $program->id;
                             $college_id = $program->college->id;
+
+                            if($user->has_custom_program() == true){
+                                // Delete Custom program If It Exists
+                                $academic_year_id = Semester::active_semester()->academicYear->id;
+                                DB::table('user_programs')->where('academic_year_id',$academic_year_id)->where('user_id',$user->id)->delete();
+                            }
                     }
 
 
@@ -434,21 +441,48 @@ class BiodataController extends Controller
                         // Check if user has a custom residence
                         if($user->has_custom_residence()){
                            $custom_residence = $user->custom_residence();
-                           if($custom_residence->name == $validated_profile['residence_id'] ){
+                           if($custom_residence->name == $validated_profile['residence_id'] || $validated_profile['residence_id'] == "None"){
                                 $residence_id = NULL;
                                 $zone_id = NULL;
                             }else{
-                               return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+
+                                // Check If User Chose Cannot find
+                                if($validated_profile['residence_id'] == 'unknown'){
+                                    $validated['residence_id'] = NULL;
+                                    $validated['zone_id'] = NULL;
+                                }else{
+                                   
+
+                                    return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                                }
+
                            }
                         }else{
-                            return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                              // Check If User Chose Cannot find
+                              if($validated_profile['residence_id'] == 'unknown'){
+                                $validated['residence_id'] = NULL;
+                                $validated['zone_id'] = NULL;
+                            }else{
+                                return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                            }
+
+                            $residence_id = $validated['residence_id'];
+                            $zone_id = $validated['zone_id'];
 
                         }
 
                         // Handle the case where either residence or residence is null
                     }else{
+                            $room_validate = $request->validate(['room'=>['required']]);
                             $residence_id = $residence->id;
                             $zone_id = $residence->zone->id;
+
+                            if($user->has_custom_residence() == true){
+                                // Delete Custom Residence If It Exists
+                                $academic_year_id = Semester::active_semester()->academicYear->id;
+                                DB::table('user_residences')->where('academic_year_id',$academic_year_id)->where('user_id',$user->id)->delete();
+                            }
+
                     }
 
 
@@ -500,13 +534,51 @@ class BiodataController extends Controller
 
                 // If the resdidence is null, that's when we need the zone_id from the form
                 $residence = Residence::findResidenceByName($validated_profile['residence_id']);
-                if ($residence == null) {
-                    $validated_profile['residence_id'] = null;
-                } else {
-                    //   If the residence is not null, we use it and query the zone from it
-                    $validated_profile['residence_id'] = $residence->id;
-                    $validated_profile['zone_id'] = $residence->zone->id;
-                }
+                                   // Check for the Existence of Residence
+                                   if (!$residence) {
+                                    // Check if user has a custom residence
+                                    if($user->has_custom_residence()){
+                                       $custom_residence = $user->custom_residence();
+                                       if($custom_residence->name == $validated_profile['residence_id'] || $validated_profile['residence_id'] == "None"){
+                                            $residence_id = NULL;
+                                            $zone_id = NULL;
+                                        }else{
+            
+                                            // Check If User Chose Cannot find
+                                            if($validated_profile['residence_id'] == 'unknown'){
+                                                $validated['residence_id'] = NULL;
+                                                $validated['zone_id'] = NULL;
+                                            }else{
+
+                                                return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                                            }
+            
+                                       }
+                                    }else{
+                                             // Check If User Chose Cannot find
+                                             if($validated_profile['residence_id'] == 'unknown'){
+                                                $validated['residence_id'] = NULL;
+                                                $validated['zone_id'] = NULL;
+                                            }else{
+
+                                                return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                                            }
+            
+                                    }
+            
+                                    // Handle the case where either residence or residence is null
+                                }else{
+                                        $room_validate = $request->validate(['room'=>['required']]);
+                                        $residence_id = $residence->id;
+                                        $zone_id = $residence->zone->id;
+            
+                                        if($user->has_custom_residence() == true){
+                                            // Delete Custom Residence If It Exists
+                                            $academic_year_id = Semester::active_semester()->academicYear->id;
+                                            DB::table('user_residences')->where('academic_year_id',$academic_year_id)->where('user_id',$user->id)->delete();
+                                        }
+            
+                                }
             }
 
         } elseif ($user->is_member == 0 && $user->has_alumni_profile() == true) {

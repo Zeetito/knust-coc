@@ -1,6 +1,6 @@
 <x-layout>
       
-        <div class="container">
+        <div class="">
             
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
@@ -11,7 +11,11 @@
                     <a class="nav-link" data-toggle="tab"  role="tab" aria-controls="residences">Residences</a>
                 </li>
             </ul>
-    
+
+            <a href="{{route('zones')}}" class="btn  ml-2 btn-primary float-right">Back To Zones</a>
+            @allowedTo(['add_residence'])
+                <span class="btn btn-primary float-right" data-url="{{route('create_residence',['zone'=>$zone->id])}}" data-toggle="modal" data-target="#myModal" >Add New Residence</span>
+            @endallowedTo
             
             
                 
@@ -21,57 +25,53 @@
             <div class="tab-content">
 
                 {{-- Users Tab Begins --}}
-                <div class="tab-pane active pre-scrollable " id="members" role="tabpanel">
+                <div class="tab-pane active " id="members" role="tabpanel">
                     <div>
                         {{-- Table Caption --}}
                         <h4>Members In: {{$zone->name}}</h4>
                         <span style=" ">
                                 <form >
-                                    <input type="text" id="for_members_list" class="search_box" data-url="#" placeholder="search name..." style="text-align:center;">
+                                    <input type="text" id="for_members_list" class="search_box" data-url="{{route("search_zone_members",['zone'=>$zone])}}" placeholder="search name..." style="text-align:center;">
                                         <i class="fa fa-search"></i>
                                 </form>
                         </span>         
                     </div>
-                    <div>
-                        <table class="table table-striped">
+
+                    <div id="search_result_for_members_list" class=" row ">
+                            {{-- Each Account will sit in this --}}
+                        @foreach($zone->users() as $user)
+
+                            <div class="col-sm-4 col-md-4 mt-3">
+                                {{-- If User is Ill --}}
+                                
+                                    <a class="card text-white bg-primary">
+                                        <div class="card-body">
+                                            <div class="h1 text-muted text-right mb-4">
+                                                <i>
+                                                    <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                </i>
+                                            </div>
+                                            <small class="text-uppercase font-weight-bold">Name: {{$user->fullname()}}</small> <br>
+                                            
+                                            <small class="text-uppercase font-weight-bold">Status: {{$user->status()}}</small> <br>
+                                            <small class="text-uppercase font-weight-bold">Residence: {{$user->residence()->name}}</small>
+                                            
+                                            @if($user->hasAnyRole())
+                                            <small class="text-uppercase font-weight-bold">Roles: @foreach($user->roles as $role){{$role->name}}, @endforeach </small>
+                                            
+                                            @endif
+
+                                            <div class="progress progress-white progress-xs mt-3">
+                                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </a>
                             
-        
-                                {{-- Table Head --}}
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        
-                                        <th>Residence</th>
+                            </div>
 
-                                </thead>
-                                {{-- Table Body --}}
-                                <tbody id="search_result_for_members_list">
-                                    @foreach($zone->users() as $member)
-                                        <tr id="tr_{{$member->id}}">
-                                        
-                                            {{-- Name And Avatar--}}
-                                        
-                                            <td>
-                                                <a >
-                                                    <img src="{{$member->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                                </a>
-                                                {{$member->fullname()}}
-                                            </td>
+                        @endforeach
 
-                                            {{-- Risidence --}}
-                                            <td>
-                                                {{$member->biodata != null ? $member->biodata->residence->name : "No Residence"}}
-                                            </td>
-
-        
-                                            {{-- Action  --}}
-                                         
-        
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                {{-- Table Body Ends --}}
-                        </table>
+                       
 
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                                 </form>
                         </span>         
                     </div>
-                    <div class="pre-scrollable">
+                    <div class="">
                         <table class="table table-striped ">
                         
                             
@@ -98,9 +98,9 @@
                                     <tr>
                                         <th>Residence Name</th>
 
-                                        <th>Zone</th>
+                                        <th>Description</th>
 
-                                        @allowedTo(['update_zone'])
+                                        @allowedTo(['update_residence'])
                                         <th>Actions</th>
                                         @endallowedTo
                                     </tr>
@@ -114,14 +114,14 @@
 
                                             {{-- Program Type --}}
                                             <td>
-                                                {{$residence->zone->name}}
+                                                {{$residence->description}}
                                             </td>
 
-                                            @allowedTo(['update_zone'])
+                                            @allowedTo(['update_residence'])
                                             <td>
-                                                <a class="btn check_button btn-secondary" id="{{$residence->id}}" data-url="#">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>    
+                                                <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_residence',['residence'=>$residence])}}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </span>    
                                             </td>
                                             @endallowedTo
                                         </tr>

@@ -39,7 +39,7 @@
                             {{-- Residence Id --}}
                             <div class="col-md-3 mb-4">
                                 <h6>Residence</h6>
-                                <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence()->name)}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
+                                <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence() ? $user->residence()->name : "None")}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
                                 <datalist id="search_result_for_residence_list">
                                     @if(empty($residences))
                                         <option>Search residence...</option>
@@ -50,10 +50,8 @@
                                     @endforeach
 
                                     @endif
-                                </datalist>
-                                @error('residence_id')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                                @enderror
+                                    </datalist>
+                                {{-- <span class="help-block">Residence</span> --}}
 
                             </div>
 

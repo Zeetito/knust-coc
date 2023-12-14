@@ -36,7 +36,8 @@ class PasswordController extends Controller
        {
             $user->remember_token = Str::random(40);
             $user->save();
-            Mail::to($user->email)->send(new PasswordMail($user));
+            
+            Mail::to($user)->send(new PasswordMail($user));
 
             return redirect()->back()->with('success','Please Check you email and reset your password');
 
@@ -80,21 +81,6 @@ class PasswordController extends Controller
                 : back()->withErrors(['email' => [__($status)]]);
 
     }
-
-
-    // public function send_reset_link(Request $request)
-    // {
-    //     $request->validate(['email' => 'required|email']);
- 
-    //     $status = Password::sendResetLink(
-    //         $request->only('email')
-    //     );
-
-    //     // Example response handling
-    //    return $status === Password::RESET_LINK_SENT
-    //             ? back()->with(['status' => __($status)])
-    //             : back()->withErrors(['email' => __($status)]);
-    // }
 
 
 }

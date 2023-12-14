@@ -149,6 +149,23 @@
                 {{-- </ul> --}}
             {{-- </li> --}}
 
+              {{-- Manage --}}
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-user"></i> General</a>
+                <ul class="nav-dropdown-items">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('zones')}}"><i class="fa fa-circle-o-notch"></i> Zones</a>
+                    </li>
+                    {{-- Groups --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('view_user_groups',['user'=>auth()->user()])}}"><i class="fa fa-users"></i> College</a>
+                    </li>
+
+                    
+                </ul>
+            </li>
+
             {{-- SETTINGS --}}
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-gear"></i> Settings</a>

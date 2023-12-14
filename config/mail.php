@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'mailgun'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +34,7 @@ return [
     */
 
     'mailers' => [
+
         'smtp' => [
             'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
@@ -83,6 +84,11 @@ return [
                 'smtp',
                 'log',
             ],
+        ],
+
+        'mailersend' => [
+            'transport' => 'mailersend',
+            'key' => env('MAILERSEND_API_KEY'),
         ],
     ],
 

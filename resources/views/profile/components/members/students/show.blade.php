@@ -26,7 +26,16 @@
                 About <strong> {{$user->username}} </strong>
                 <div class="card border-primary">
                     <div class="card-header">
-                        <i class="fa fa-user"></i><strong>{{$user->status()}}</strong>
+                        <i class="fa fa-user"></i><strong>{{$user->status()}}</strong><br>
+                        @if($user->hasAnyRole())
+                            <div class="bg-primary">
+                                @foreach($user->roles as $role)
+                                <strong>
+                                    {{$role->name.", "}}
+                                </strong>
+                                @endforeach
+                            </div>
+                        @endif
                         {{-- Update User Profile --}}
                         @can("update",$user)
                         <a class="btn" href="{{route('edit_user_profile_form',['user'=>$user])}}">
@@ -64,6 +73,9 @@
 
                             <li>
                                 Zone: {{$user->zone() ? $user->zone()->name : "None"}}
+                            </li>
+                            <li>
+                                Residence: {{$user->residence() ? $user->residence()->name : "None"}}
                             </li>
 
                             <li>

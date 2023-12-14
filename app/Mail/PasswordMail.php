@@ -23,6 +23,18 @@ class PasswordMail extends Mailable
         $this->user = $user;
     }
 
+    public function build()
+    {
+        return $this
+            ->from('agyareernest44@gmail.com', 'KMS')
+            ->to($this->user->email, $this->user->name)
+            ->subject('Forgot Password Notification')
+            ->markdown('emails.forgot-password', [
+                'name' => $this->user->fullname(),
+                'remember_token' => $this->user->remember_token,
+            ]);
+    }
+
     /**
      * Get the message envelope.
      */
@@ -36,16 +48,17 @@ class PasswordMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.user.forgot-password',
-            with: [
-                'user'=>$this->user,
+    // public function content(): Content
+    // {
+    //     return new Content(
+    //         markdown: 'emails.forgot-password',
+    //         with: [
+    //             'name'=>$this->user->fullname(),
+    //             'remember_token'=>$this->user->remember_token
                 
-            ]
-        );
-    }
+    //         ]
+    //     );
+    // }
 
     /**
      * Get the attachments for the message.

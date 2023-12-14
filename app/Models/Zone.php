@@ -32,7 +32,6 @@ class Zone extends Model
         return User::WhereHas('member_biodata', function ($query) {
             $query->where('zone_id', $this->id);
         })->get();
-        return User::whereIn('id',$users_id)->get();
     }
 
     // HOSTELS OR RESIDENCES
@@ -49,13 +48,6 @@ class Zone extends Model
         return $this->hasMany(User::class, 'rep_id');
     }
 
-    // EXTRA FRONTEND FUNCTIONS
-    // public function zones_in_select_list(){
-    //     $zones = $this->all();
-    // }
-
-    // Search Zones
-    // Search User By Name/Username
      public static function search(Request $request)
      {
  
@@ -81,6 +73,17 @@ class Zone extends Model
     {
         return self::where('name', $name)->first();
 
+    }
+
+    public static function OtherZone(){
+        $zone['name'] = "Others";
+        return $zone;
+    }
+
+    public static function otherZoneMembers(){
+        return User::WhereHas('member_biodata', function ($query) {
+            $query->where('zone_id', null);
+        })->get();
     }
 
 

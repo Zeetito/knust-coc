@@ -17,7 +17,7 @@
                                    <div class="col-12 mb-3 mt-3">
                                         <strong>Name Of Hostel/ Homestel</strong>
 
-                                       <input type="text" value="{{old('name')}}" name="name" autocomplete="off" class="form-control" placeholder="Eg. Adoma Hostel / Adamu and Friends Homestel / My Home" required>
+                                       <input type="text" value="{{old('name')}}" name="name" autocomplete="off" class="form-control" placeholder="Eg.My Home/ Adoma Hostel / Adamu and Friends Homestel " required>
                                    </div>
                                    @error('name')
                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
@@ -40,7 +40,7 @@
                                 {{-- Description --}}
                                 <div class="col-12 mb-3">
                                     <strong>Description</strong>
-                                    <input class="form-control"  placeholder="Eg. Near Ayigya Market" type="text" name="description" id="" required>
+                                    <input class="form-control"  placeholder="Eg. In Shalom Zone / Near Evandy Hostel" type="text" name="description" id="" required>
                                     
                                    </div>
                                    @error('description')

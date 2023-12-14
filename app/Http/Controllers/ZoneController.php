@@ -74,7 +74,7 @@ class ZoneController extends Controller
     }
     
     // Search Zone Members
-    public function search_zone_members(User $user, Request $request){
+    public function search_zone_mates(User $user, Request $request){
 
         $users_id = User::search_user($request)
                     ->where('users.is_student',1)
@@ -88,5 +88,18 @@ class ZoneController extends Controller
 
         $users =  User::whereIn('id',$users_id)->get();
         return view('users.students.special.program-mates.search-results',['mates'=>$users, 'user'=>$user]);
+    }
+
+
+    // Search Zone Members
+    public function search_members(Zone $zone, Request $request)
+    {
+        $users = User::search_user($request)
+            ->whereHas('member_biodata', function ($query) use ($zone) {
+                $query->where('zone_id', $zone->id);
+            })
+            ->get();
+    
+        return view('housing.zones.components.members.search-result', ['users' => $users]);
     }
 }

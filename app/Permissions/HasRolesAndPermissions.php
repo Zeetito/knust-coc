@@ -71,6 +71,11 @@ trait HasRolesAndPermissions
         return false;
     }
 
+    // If has any Role at All
+    public function hasAnyRole(){
+        return $this->roles->count() > 0;
+    }
+
     // Assign all permissions
     public function assignAllPermissions()
     {

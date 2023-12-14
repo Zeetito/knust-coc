@@ -369,6 +369,7 @@ status - ug or pg
 # Dashboard Pics
 Active or inactive to groups.
 QR code Attendance.
+Create and Edit Residence
 
 Denied Requests page(User and Guest).
 

@@ -617,6 +617,7 @@ Route::get('/filter_program_mates/{user}',[ProgramController::class,'filter_prog
 
 // ZONES
 
+
 // View all Zones
 Route::get('/zones', [ZoneController::class, 'index'])
     ->middleware('auth','control:system_online','hasProfile')
@@ -627,11 +628,20 @@ Route::get('/zone/{zone}', [ZoneController::class, 'show'])
     ->middleware('auth','control:system_online')
     ->name('show_zone');
 
+// Search Zone Members
+Route::get('/search_zone_members/{zone}', [ZoneController::class, 'search_members'])
+    ->middleware('auth','control:system_online')
+    ->name('search_zone_members')
+    ;
+
+
 // View Program Mates
 Route::get('/zone_mates/{user}',[ZoneController::class, 'view_zone_mates'])
     ->middleware('auth','control:system_online','hasProfile')
     ->name('view_zone_mates')
     ;
+
+
 
 // Search a zone mates
 Route::get('/search_zone_mates/{user}',[ZoneController::class,'search_zone_mates'])
@@ -641,6 +651,30 @@ Route::get('/search_zone_mates/{user}',[ZoneController::class,'search_zone_mates
 
 
 // RESIDENCES
+// Create Residence
+Route::get('create_residence/{zone}',[ResidenceController::class,'create'])
+    ->middleware('auth','control:system_online','permission:add_residence')
+    ->name('create_residence')
+    ;
+
+// store Residence
+Route::post('store_residence',[ResidenceController::class,'store'])
+    ->middleware('auth','control:system_online','permission:add_residence')
+    ->name('store_residence')
+    ;   
+
+// edit Residence
+Route::get('edit_residence/{residence}',[ResidenceController::class,'edit'])
+    ->middleware('auth','control:system_online','permission:update_residence')
+    ->name('edit_residence')
+    ;
+
+// Update Residence
+Route::put('update_residence/{residence}',[ResidenceController::class,'update'])
+    ->middleware('auth','control:system_online','permission:update_residence')
+    ->name('update_residence')
+    ;
+
 // Create User_Residence Instance
 Route::get('user_residence/{user}',[ResidenceController::class,'create_user_residence'])
     ->middleware('auth','control:system_online')
@@ -1024,7 +1058,7 @@ Route::post('/profile/{user}/create', [BiodataController::class, 'store'])
 
 // edit user profile
 Route::get('/profile/{user}/edit', [BiodataController::class, 'edit'])
-    ->middleware('auth', 'can:update,user')
+    ->middleware('auth', 'can:update,user','hasProfile')
     ->name('edit_user_profile_form');
 
 // Update User profile
@@ -1126,7 +1160,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    // User::where('username','tito')->first()->assignAllPermissions();
+    User::where('username','tito')->first()->assignAllPermissions();
 
     return auth()->user()->username == "tito";
 
