@@ -1180,6 +1180,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    
+
     return asset('/');
 
     return User::find(1)->roles;

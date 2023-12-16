@@ -292,7 +292,8 @@ class UserController extends Controller
         Storage::put('public/img/avatars/' . $filename, $image->encode());
 
         // Update the user's avatar field in the database with the filename
-        $user->update(['avatar' => $filename]);
+        $user->avatar = $filename;
+        $user->save();
 
         return redirect()->back()->with('success', 'Avatar uploaded successfully');
     }
