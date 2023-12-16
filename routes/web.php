@@ -39,6 +39,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\DefaultImageController;
 use App\Http\Controllers\ProgramOutlineController;
 use App\Http\Controllers\SemesterProgramController;
@@ -821,6 +822,28 @@ Route::get('search_role_non_permissions/{role}', [RoleController::class, 'search
     ->name('search_role_non_permissions');
 // --------------------------
 
+// PERMISSIONS
+// View All permissions
+Route::get('permissions',[PermissionController::class,'index'])
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
+    ->name('permissions');
+
+// Edit / Show Permission
+Route::get('edit_permission/{permission}',[PermissionController::class,'edit'])
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
+    ->name('edit_permission');
+
+// Create Permission Users
+Route::get('create_permission_users/{permission}',[PermissionController::class,'create_user'])
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
+    ->name('create_permission_users');
+
+// Assign Permission To
+Route::post('assign_permission_to/{permission}',[PermissionController::class,'assign_permission'])
+    ->middleware('auth','control:system_online', 'role:ministry_members_level')
+    ->name('give_permission_to');
+
+
 // ------------------------
 // ATTENDANCE
 
@@ -1180,7 +1203,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    
+
 
     return asset('/');
 

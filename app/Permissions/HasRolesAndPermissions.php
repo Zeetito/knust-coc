@@ -42,9 +42,7 @@ trait HasRolesAndPermissions
 
     public function hasPermission($permission)
     {
-        // return $permission_slugs;
-        // $permission = Permission::findBySlug($permission_slug);
-        // foreach($permission_slugs as  $permission_slug){
+
         if ($this->permissions->where('slug', $permission->slug)->count() == 1) {
             return true;
         }
@@ -83,7 +81,6 @@ trait HasRolesAndPermissions
         foreach($permissions as $permission){
             $this->permissions()->attach($permission->id,['academic_year_id'=>Semester::active_semester()->academicYear->id, 'created_at'=>now(),'updated_at'=>now()]);
         }
-        // $this->permissions()->sync($permissions);
     }
 
     // Assign specific permission to

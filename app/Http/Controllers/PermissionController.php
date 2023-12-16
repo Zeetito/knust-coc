@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ class PermissionController extends Controller
     public function index()
     {
         //
+        return view('permissions.index');
     }
 
     /**
@@ -23,12 +25,27 @@ class PermissionController extends Controller
         //
     }
 
+    public function create_user(Permission $permission){
+        return view('permissions.permission-users.create',['permission'=>$permission]);   
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         //
+    }
+
+    public function assign_permission(Request $request, Permission $permission){
+        $validated = $request->validate(['user_id'=>['required','numeric']]);
+        $user =  User::find($validated['user_id']);
+        if($user){
+            $user->givePermission($permission);
+        }
+
+        return redirect()->back()->with('success','Permission Assigned Successfully');
+
     }
 
     /**
@@ -45,6 +62,8 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         //
+        return view('permissions.edit',['permission'=>$permission]);
+
     }
 
     /**

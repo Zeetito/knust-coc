@@ -1,7 +1,7 @@
 <x-layout>
       
         
-    <div class="container-fluid">
+    <div class="">
             <div class="dashboard-container">
 
                 {{-- Each Whole Table Screen --}}
@@ -18,7 +18,7 @@
                         </div>
 
                         {{-- Attendance Table --}}
-                        <div class="pre-scrollable" >
+                        <div class="" >
 
                                 <div class="card-body">
                                         <table class="table table-striped">
@@ -54,7 +54,7 @@
                                                     <td>
                                                         @allowedTo(['update_permission'])
                                                         {{-- View/Update A permission --}}
-                                                        <a href="{{route('edit_permission',$permission)}}">
+                                                        <a href="{{route('edit_permission',['permission'=>$permission])}}">
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                         @endallowedTo
