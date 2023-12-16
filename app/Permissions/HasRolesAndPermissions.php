@@ -122,7 +122,7 @@ trait HasRolesAndPermissions
     public function givePermission(Permission $permission)
     {
 
-        $this->permissions()->attach($permission->id);
+        $this->permissions()->attach($permission->id,['academic_year_id'=>Semester::active_semester()->academicYear->id, 'created_at'=>now(),'updated_at'=>now()]);
     }
 
     // Remove Permission from model

@@ -9,9 +9,9 @@
             <li class="nav-item">
                 <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="permissions">Permissions</button>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" data-toggle="tab"  role="tab" aria-controls="messages">Messages</a>
-            </li>
+            </li> --}}
         </ul>
 
         
@@ -25,10 +25,10 @@
             <div class="tab-pane active" id="users" role="tabpanel">
                 <table class="table table-striped">
                         {{-- Add New User Button --}}
-                        @allowedTo(['update_role'])
+                        @if(auth()->user()->is_preacher() == true)
                         {{-- <span data-url="{{route('fetch_role_users_modal',$role)}}" class="get_content btn mb-3 btn-info float-right">Add User</span> --}}
                         <a href="{{route('create_users_roles',$role)}}" class="btn mb-3 btn-info float-right">Add User</a>
-                        @endallowedTo
+                        @endif
 
                     {{-- Table Caption --}}
                     <caption>Users with the role: {{$role->name}}</caption>
@@ -37,9 +37,9 @@
                             <tr>
                                 <th>User Name</th>
 
-                                @allowedTo(['update_role'])
+                                @if(auth()->user()->is_preacher() == true)
                                 <th>Actions</th>
-                                 @endallowedTo
+                                 @endif
                             </tr>
                         </thead>
                         {{-- Table Body --}}
@@ -57,13 +57,13 @@
                                     </td>
 
                                      {{-- Action  --}}
-                                     @allowedTo(['update_role'])
+                                     @if(auth()->user()->is_preacher() == true)
                                      <td>
                                         <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_user_remove',['role'=>$role , 'user'=>$user])}}" id="{{$user->id}}">
                                             <i class="fa fa-remove"></i>
                                         </a>     
                                     </td>
-                                    @endallowedTo
+                                    @endif
 
                                 </tr>
                             @endforeach
@@ -78,18 +78,18 @@
             <div class="tab-pane" id="permissions" role="tabpanel">
                 <table class="table table-striped">
                     {{-- Add New Permission Button --}}
-                        @allowedTo(['update_role'])
+                         @if(auth()->user()->is_preacher() == true)
                         <a href="{{route('create_roles_permissions',$role)}}" class="btn mb-3 btn-info float-right">Add New Permission</a>
-                        @endallowedTo
+                        @endif
                        <caption>Permissions attatched to the role: {{$role->name}}</caption>
 
                         {{-- Table Head --}}
                         <thead>
                             <tr>
                                 <th>Permission Name</th>
-                                @allowedTo(['update_role'])
+                                 @if(auth()->user()->is_preacher() == true)
                                     <th>Actions</th>
-                                @endallowedTo
+                                @endif
                             </tr>
                         </thead>
 
@@ -98,14 +98,14 @@
                             @foreach($role->permissions as $permission)
                                 <tr id="tr_{{$permission->slug}}">
                                      <td>{{$permission->name}} </td>
-                                     @allowedTo(['update_role'])
+                                      @if(auth()->user()->is_preacher() == true)
                                      <td>
                                         <a class="btn btn-danger"  data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_role_permission_remove',['role'=>$role , 'permission'=>$permission])}}" id="{{$permission->id}}">
                                         {{-- <a class="btn check_button btn-danger" id="{{$permission->slug}}" data-url="{{route('remove_role_permission',['role'=>$role , 'permission'=>$permission])}}"> --}}
                                             <i class="fa fa-remove"></i>
                                         </a>    
                                     </td>
-                                    @endallowedTo
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

@@ -54,7 +54,7 @@
                                             <small class="text-uppercase font-weight-bold">Name: {{$user->fullname()}}</small> <br>
                                             
                                             <small class="text-uppercase font-weight-bold">Status: {{$user->status()}}</small> <br>
-                                            <small class="text-uppercase font-weight-bold">Residence: {{$user->residence()->name}}</small>
+                                            <small class="text-uppercase font-weight-bold">Residence: {{$user->residence()->name}}</small><br>
                                             
                                             @if($user->hasAnyRole())
                                             <small class="text-uppercase font-weight-bold">Roles: @foreach($user->roles as $role){{$role->name}}, @endforeach </small>
@@ -84,7 +84,7 @@
                         <h4>Residence: {{$zone->name}}</h4>
                         <span style=" ">
                                 <form >
-                                    <input type="text" id="for_program_list" class="search_box" data-url="#" placeholder="search program..." style="text-align:center;">
+                                    <input type="text" id="for_program_list" class="" placeholder="search program..." style="text-align:center;">
                                         <i class="fa fa-search"></i>
                                 </form>
                         </span>         

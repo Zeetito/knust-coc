@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\GuestRequest;
 use Illuminate\Http\Request;
@@ -99,5 +100,25 @@ class GuestRequestController extends Controller
                 }
     
         
+        }
+
+        // Assign Guest Request
+        public function assign_guest_request(GuestRequest $guest_request){
+            return view('ADMIN.dashboard.components.guest-requests.assign.create',['guest_request'=>$guest_request]);
+        }
+
+        // Assign Guest Request to user
+        public function assign_guest_request_to(Request $request ,GuestRequest $guest_request){
+            $validated = $request->validate(['user_id'=>['required','numeric']]);
+            $user = User::where('id',$validated['user_id'])->first();
+            if($user){
+                $guest_request->assigned_to = $user->id;
+                $guest_request->save();
+                return redirect()->back()->with('success','Request Assigned Successfully');
+            }
+        }
+
+        public function view_assigned_guest_request(User $user){
+            return view('ADMIN.dashboard.components.guest-requests.assign.index',['user'=>$user]);
         }
 }

@@ -15,6 +15,7 @@ use App\Models\Semester;
 use App\Models\Accessory;
 use App\Models\Attendance;
 use App\Models\Permission;
+use App\Models\GuestRequest;
 use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -130,6 +131,25 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
         Route::post('handle_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'handle_guest_request'])
             ->name('handle_guest_request')
             ;
+
+        // Assign Guest Request
+        Route::get('assign_guest_request/{guest_request}',[Admin\GuestRequestController::class, 'assign_guest_request'])
+        ->name('assign_guest_request')
+        ;
+
+        // Assign Guest Request To User
+        Route::post('assign_guest_request_to/{guest_request}',[Admin\GuestRequestController::class, 'assign_guest_request_to'])
+        ->name('assign_guest_request_to')
+        ;
+
+        // view_assigned_guest_request
+        Route::get('view_assigned_guest_request/{user}',[Admin\GuestRequestController::class, 'view_assigned_guest_request'])
+        ->name('view_assigned_guest_request')
+        ;
+
+
+
+
 
             
         // UNAVAILABLE MEMBERS
@@ -1160,7 +1180,15 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    User::where('username','tito')->first()->assignAllPermissions();
+    return asset('/');
+
+    return User::find(1)->roles;
+
+    return GuestRequest::find(1)->is_assigned();
+
+    return User::handle_guest_request();
+
+    // User::where('username','tito')->first()->assignAllPermissions();
 
     return auth()->user()->username == "tito";
 
@@ -1168,21 +1196,7 @@ Route::get('/hello', function () {
     return asset('storage');
 
 
-    
-    return User::find(1)->roles();
-    return Accessory::find(1);
-    return Accessory::where('name','system_online');
-    // return config('constants.system_status');
-    return User::find(510)->contact_when_guest();
-   
-    $zone = Zone::find(16);
-    // return $zone;
-    return Attendance::find(41)->guests_present();
-
-    return College::find(1)->users()->count();
-
-    return strtotime('last week').'<br>';
-
+  
 
     $minDate = '2022-01-20'; // Set your desired minimum date
     $maxDate = '2023-12-31'; // Set your desired maximum date

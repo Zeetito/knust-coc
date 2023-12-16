@@ -34,9 +34,9 @@ class ResidenceController extends Controller
     public function store(Request $request)
     {
         $validated_residence = $request->validate([
-            'name'=>['required','min:5','max:35'],
+            'name'=>['required','min:5','max:60'],
             'zone_id'=>['required','numeric'],
-            'description'=>['required','min:10'],
+            'description'=>['required','min:4'],
         ]);
 
         $zone = Zone::find($validated_residence['zone_id']);
@@ -73,7 +73,7 @@ class ResidenceController extends Controller
         $validated_residence = $request->validate([
             'name'=>['required','min:5','max:35'],
             'zone_id'=>['required','numeric'],
-            'description'=>['required','min:10'],
+            'description'=>['required','min:4'],
         ]);
 
         $zone = Zone::find($validated_residence['zone_id']);

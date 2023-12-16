@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Guest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,5 +27,17 @@ class GuestRequest extends Model
     // Guest Relation
     public function guest(){
         return $this->belongsTo(Guest::class)->first();
+    }
+
+    // Assigned User
+    public function assigned_user(){
+        if($this->assigned_to != null){
+            return User::find($this->assigned_to);
+        }
+    }
+
+    // Check if request has been assigned
+    public function is_assigned(){
+        return $this->assigned_to != null;
     }
 }

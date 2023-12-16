@@ -75,6 +75,13 @@
                         </a>
                        
                     </li>
+
+                    @if(auth()->user()->has_assigned_guest_request())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('view_assigned_guest_request',['user'=>auth()->user()])}}"><i class="fa fa-book"></i> Assigned Requests  ({{auth()->user()->assigned_guest_requests()->count()}})</a>
+                        </li>
+                    @endif
+
                     {{-- Birthdays --}}
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa fa-heart-o"></i> Birthdays</a>

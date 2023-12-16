@@ -23,7 +23,10 @@ class Permission extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'permission_users');
+        return $this->belongsToMany(User::class, 'permission_users')
+        ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+        
+        ;
     }
 
     // Find permission  by slug

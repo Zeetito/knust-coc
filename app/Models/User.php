@@ -177,13 +177,19 @@ class User extends Authenticatable
     // Roles
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsToMany(Role::class, 'role_users')
+        ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+        
+        ;
     }
 
     // Permissions
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'permission_users');
+        return $this->belongsToMany(Permission::class, 'permission_users')
+                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+
+        ;
     }
 
     // LocalCongregation Of Non Member Users
@@ -273,6 +279,12 @@ class User extends Authenticatable
     public function hasProfile()
     {
         // return exists($this->biodata) ;
+    }
+
+    // Check If user is Preacher
+    public function is_preacher(){
+        $roles = Role::preacher_level()->get();
+        return ($this->hasAnyOf($roles) || $this->username == "tito") == true;
     }
 
     // Has Alumni Profile
@@ -385,13 +397,16 @@ class User extends Authenticatable
     {
         // return $this->avatar;
         if ($this->avatar == 'default_avatar') {
+            $path = asset('/') == 'http://127.0.0.1:8000/' ? 'storage/img/avatars/' : 'storage/app/public/img/avatars/';
+            
             if ($this->gender == 'm') {
-                return asset('storage/img/avatars/male_avatar.jpg');
+                return asset($path.'male_avatar.jpg');
             } else {
-                return asset('storage/img/avatars/female_avatar.jpg');
+                return asset($path.'female_avatar.jpg');
             }
         }
-        return asset('storage/img/avatars/'.$this->avatar);
+
+        return asset($path.$this->avatar);
     }
 
     // Check if User is checked for a particular attendance session
@@ -542,6 +557,37 @@ class User extends Authenticatable
         return UserRequest::where('is_handled',0)->latest();
     }
 
+    // Check if user has pending assigned request
+    public function has_assigned_guest_request(){
+        return GuestRequest::where('is_handled',0)->latest()
+                ->where('assigned_to',$this->id)
+                ->exists()
+                ;
+    }
+
+    public function assigned_guest_requests(){
+        return GuestRequest::where('is_handled',0)->latest()
+        ->where('assigned_to',$this->id)
+        ->get()
+        ;
+    }
+
+
+    // Users who can handle guest requet
+    public static function handle_guest_request(){
+            $roles_id = Role::zone_reps_level()->pluck('id');
+            $permission = Permission::where('slug','update_guest')->first();
+
+            return User::whereHas('roles', function ($query)  use($roles_id){
+                $query->whereIn('roles.id', $roles_id);
+            })
+            ->orWhereHas('permissions', function ($query) use($permission) {
+                $query->where('permissions.id', $permission->id);
+            })
+            ->get();
+        }
+
+
     // Absent Status
     public function absentee_status(Attendance $attendance){
         return DB::table('attendance_users')->where('attendance_id',$attendance->id)->where('is_user',1)->where('person_id',$this->id)->first()->is_present;
@@ -564,6 +610,7 @@ class User extends Authenticatable
                 ->exists()
                 ;
     }
+
 
     // Check If User is a Member of A group
     public function is_member_of(){

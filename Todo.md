@@ -371,7 +371,10 @@ Active or inactive to groups.
 QR code Attendance.
 Create and Edit Residence
 
+
+Assign Permissions Directly
 Denied Requests page(User and Guest).
+Delete Residence
 
 
 

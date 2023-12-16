@@ -8,7 +8,7 @@
                 <div class="process-bar">
                     <div class="process-bar">
                         <div class="process-order">
-                            <h3 style="text-align:center">Roles</h3>
+                            <h3 style="text-align:center">Permissions</h3>
                             <span>
                                     <form >
                                         <input type="text" class="search_box" data-url="" placeholder="search name..." style="text-align:center;">
@@ -25,36 +25,36 @@
                                             {{-- Table Head --}}
                                             <thead>
                                                 <tr>
-                                                    <th>Role Name</th>
-                                                    <th>Number of People</th>
+                                                    <th>Permission Name</th>
+                                                    {{-- <th>Number of People</th> --}}
                                                     <th>Description</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
                                             <tbody class="search_result">
-                                                @foreach(App\Models\Role::all() as $role)
+                                                @foreach(App\Models\Permission::all() as $permission)
 
-                                                <tr id="tr_{{$role->id}}">
-                                                        {{-- Role Name --}}
+                                                <tr id="tr_{{$permission->id}}">
+                                                        {{-- permission Name --}}
                                                     <td>
-                                                       {{$role->name}}
+                                                       {{$permission->name}}
                                                     </td>
                                                     {{-- Number of Users --}}
-                                                    <td>
-                                                       {{$role->users->count()}}
-                                                    </td>
+                                                    {{-- <td>
+                                                       {{$permission->users->count()}}
+                                                    </td> --}}
                                                     
                                                     {{-- Description --}}
                                                     <td>
-                                                       {{ $role->description != "" ? $role->description : "No Description" }}
+                                                       {{ $permission->description != "" ? $permission->description : "No Description" }}
                                                     </td>
 
                                                     {{-- Actions --}}
                                                     <td>
-                                                        @allowedTo(['update_role'])
-                                                        {{-- View/Update A Role --}}
-                                                        <a href="{{route('edit_role',$role)}}">
+                                                        @allowedTo(['update_permission'])
+                                                        {{-- View/Update A permission --}}
+                                                        <a href="{{route('edit_permission',$permission)}}">
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                         @endallowedTo
@@ -77,7 +77,7 @@
                         </div>
                         {{--Users Table Ends--}}
 
-                        {{-- {{$role->links()}} --}}
+                        {{-- {{$permission->links()}} --}}
                        
                     </div>
                 </div>

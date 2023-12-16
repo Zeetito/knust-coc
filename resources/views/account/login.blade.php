@@ -38,9 +38,10 @@
                                         <div class="col-6">
                                             <button type="submit" name="submit" class="btn btn-primary px-4">Login</button>
                                         </div>
+                                        
                                         <div class="col-6 text-right">
                                             <a  href="{{route('forgot_password')}}" class="btn btn-link px-0">
-                                                {{-- Forgot password? --}}
+                                                Forgot password?
                                             </a>
                                         </div>
                                     </div>
