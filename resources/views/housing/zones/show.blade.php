@@ -54,7 +54,7 @@
                                             <small class="text-uppercase font-weight-bold">Name: {{$user->fullname()}}</small> <br>
                                             
                                             <small class="text-uppercase font-weight-bold">Status: {{$user->status()}}</small> <br>
-                                            <small class="text-uppercase font-weight-bold">Residence: {{$user->residence()->name}}</small><br>
+                                            <small class="text-uppercase font-weight-bold">Residence: {{$user->residence()?  $user->residence()->name : "None"}}</small><br>
                                             
                                             @if($user->hasAnyRole())
                                             <small class="text-uppercase font-weight-bold">Roles: @foreach($user->roles as $role){{$role->name}}, @endforeach </small>
@@ -121,6 +121,9 @@
                                             <td>
                                                 <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_residence',['residence'=>$residence])}}">
                                                     <i class="fa fa-pencil"></i>
+                                                </span>    
+                                                <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('delete_residence_confirm',['residence'=>$residence])}}">
+                                                    <i class="fa fa-trash"></i>
                                                 </span>    
                                             </td>
                                             @endallowedTo

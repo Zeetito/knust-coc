@@ -646,12 +646,12 @@ Route::get('/zones', [ZoneController::class, 'index'])
 
 // Show A particular Zone
 Route::get('/zone/{zone}', [ZoneController::class, 'show'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('show_zone');
 
 // Search Zone Members
 Route::get('/search_zone_members/{zone}', [ZoneController::class, 'search_members'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('search_zone_members')
     ;
 
@@ -666,7 +666,7 @@ Route::get('/zone_mates/{user}',[ZoneController::class, 'view_zone_mates'])
 
 // Search a zone mates
 Route::get('/search_zone_mates/{user}',[ZoneController::class,'search_zone_mates'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','hasProfile')
     ->name('search_zone_mates')
     ;
 
@@ -674,44 +674,56 @@ Route::get('/search_zone_mates/{user}',[ZoneController::class,'search_zone_mates
 // RESIDENCES
 // Create Residence
 Route::get('create_residence/{zone}',[ResidenceController::class,'create'])
-    ->middleware('auth','control:system_online','permission:add_residence')
+    ->middleware('auth','control:system_online','permission:add_residence','hasProfile')
     ->name('create_residence')
     ;
 
 // store Residence
 Route::post('store_residence',[ResidenceController::class,'store'])
-    ->middleware('auth','control:system_online','permission:add_residence')
+    ->middleware('auth','control:system_online','permission:add_residence','hasProfile')
     ->name('store_residence')
     ;   
 
 // edit Residence
 Route::get('edit_residence/{residence}',[ResidenceController::class,'edit'])
-    ->middleware('auth','control:system_online','permission:update_residence')
+    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
     ->name('edit_residence')
     ;
 
 // Update Residence
 Route::put('update_residence/{residence}',[ResidenceController::class,'update'])
-    ->middleware('auth','control:system_online','permission:update_residence')
+    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
     ->name('update_residence')
     ;
 
 // Create User_Residence Instance
 Route::get('user_residence/{user}',[ResidenceController::class,'create_user_residence'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','permission:update_residence')
     ->name('create_user_residence')
     ;
 
 // Store User Residence   
 Route::post('store_user_residence/{user}',[ResidenceController::class,'store_user_residence'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
     ->name('store_user_residence')
     ;
 
 // Update Biodata Residence   
 Route::put('update_biodata_residence/{user}',[ResidenceController::class,'update_biodata_residence'])
-    ->middleware('auth','control:system_online')
+    ->middleware('auth','control:system_online','permission:update_residence')
     ->name('update_biodata_residence')
+    ;
+
+// Confrim Delete Residence
+Route::get('delete_residence_confirm/{residence}',[ResidenceController::class,'confirm_delete'])
+    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
+    ->name('delete_residence_confirm')
+    ;
+
+// Delete Residence
+Route::delete('delete_residence/{residence}',[ResidenceController::class,'delete'])
+    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
+    ->name('delete_residence')
     ;
 
 // ---------------
@@ -1204,14 +1216,14 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 Route::get('/hello', function () {
 
 
-
+    
+    return User::handle_guest_request();
     return asset('/');
 
     return User::find(1)->roles;
 
     return GuestRequest::find(1)->is_assigned();
 
-    return User::handle_guest_request();
 
     // User::where('username','tito')->first()->assignAllPermissions();
 

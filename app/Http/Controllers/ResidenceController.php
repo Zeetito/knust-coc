@@ -90,9 +90,21 @@ class ResidenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Residence $residence)
+    public function confirm_delete(Residence $residence)
     {
-        //
+        return view('housing.zones.components.residences.delete',['residence'=>$residence]);
+    }
+
+    // Delete
+    public function delete(Request $request,Residence $residence){
+        $validated = $request->validate([
+            'response'=>['required','numeric']
+        ]);
+
+        if($validated['response'] == 1){
+            $residence->delete();
+            return redirect()->back()->with('warning','Residence Deleted Successfully');
+        }
     }
 
     public function create_user_residence(User $user){
