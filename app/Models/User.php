@@ -278,7 +278,7 @@ class User extends Authenticatable
 
     public function hasProfile()
     {
-        // return exists($this->biodata) ;
+        // return exists($this->biodata);
     }
 
     // Check If user is Preacher
@@ -396,8 +396,8 @@ class User extends Authenticatable
     public function get_avatar()
     {
         // return $this->avatar;
+        $path = asset('/') == 'http://127.0.0.1:8000/' ? 'storage/img/avatars/' : 'storage/app/public/img/avatars/';
         if ($this->avatar == 'default_avatar') {
-            $path = asset('/') == 'http://127.0.0.1:8000/' ? 'storage/img/avatars/' : 'storage/app/public/img/avatars/';
             
             if ($this->gender == 'm') {
                 return asset($path.'male_avatar.jpg');
@@ -494,9 +494,15 @@ class User extends Authenticatable
     public function inactive_account_reason()
     {
         if ($this->account_status() == 'Inactive') {
-            return DB::table('inactive_accounts')
+            $instance = DB::table('inactive_accounts')
                 ->where('user_id', $this->id)
-                ->first()->category;
+                ->first();
+                if ($instance){
+                    return $instance->category;
+                }else{
+                    $instance['category']='none';
+                    return $instance;
+                }
         }
     }
 
@@ -511,9 +517,15 @@ class User extends Authenticatable
     public function unavailable_member_category()
     {
         if ($this->is_available == 0) {
-            return DB::table('unavailable_members')
+            $instance =  DB::table('unavailable_members')
                 ->where('user_id', $this->id)
-                ->first()->category;
+                ->first();
+                 if ($instance){
+                    return $instance->category;
+                }else{
+                    $instance['category']='none';
+                    return $instance;
+                }
         }
     }
 

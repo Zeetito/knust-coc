@@ -159,6 +159,7 @@
      
      {{-- GenesisUI main scripts --}}
      <script src={{asset("js/app.js")}}></script>
+     <script src={{asset("js/qr/qrcode.js")}}></script>
      
      {{-- Custom scripts --}}
      {{-- <script src={{asset("js/views/main.js")}}></script> --}}
