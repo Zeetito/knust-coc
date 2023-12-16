@@ -16,7 +16,7 @@
                     @endforeach
                 </datalist> --}}
 
-                <select name="user_id" id="" class="form-control" required>
+                <select name="user_id"  class="form-control" required>
                     <option value="">Select</option>
                     @foreach(App\Models\User::handle_guest_request() as $user)
                         <option value="{{$user->id}}">{{$user->fullname()." -- (".$user->assigned_guest_requests()->count()." Requests)"}} </option>

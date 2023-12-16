@@ -176,9 +176,10 @@ class User extends Authenticatable
 
     // Roles
     public function roles()
-    {
+    {   
+        $academic_year_id = Semester::active_semester()->academicYear->id;
         return $this->belongsToMany(Role::class, 'role_users')
-        ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+        // ->where('academic_year_id',$academic_year_id)
         
         ;
     }
@@ -187,7 +188,7 @@ class User extends Authenticatable
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_users')
-                ->where('academic_year_id', Semester::active_semester()->academicYear->id)
+                // ->where('academic_year_id', Semester::active_semester()->academicYear->id)
 
         ;
     }
@@ -587,17 +588,18 @@ class User extends Authenticatable
 
     // Users who can handle guest requet
     public static function handle_guest_request(){
-            $roles_id = Role::zone_reps_level()->pluck('id');
-            $permission = Permission::where('slug','update_guest')->first();
+        $roles_id = Role::zone_reps_level()->pluck('roles.id')->toArray();
+        $permission = Permission::where('slug','update_guest')->first();
 
-            return User::whereHas('roles', function ($query)  use($roles_id){
-                $query->whereIn('roles.id', $roles_id);
-            })
-            ->orWhereHas('permissions', function ($query) use($permission) {
-                $query->where('permissions.id', $permission->id);
-            })
-            ->get();
-        }
+
+        return User::whereHas('roles', function ($query)  use($roles_id){
+            $query->whereIn('roles.id', $roles_id);
+        })
+        ->orWhereHas('permissions', function ($query) use($permission) {
+            $query->where('permissions.id', $permission->id);
+        })
+        ->get();
+    }
 
 
     // Absent Status

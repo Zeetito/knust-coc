@@ -1216,11 +1216,12 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 Route::get('/hello', function () {
 
 
-    
     return User::handle_guest_request();
+    return User::find(1)->roles;
+
+
     return asset('/');
 
-    return User::find(1)->roles;
 
     return GuestRequest::find(1)->is_assigned();
 

@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    // protected $hidden = 'pivot';
 
     use HasFactory,HasRolesAndPermissions;
 
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'slug', 'description','academic_year_id'];
 
     public function users()
     {
