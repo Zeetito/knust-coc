@@ -294,6 +294,7 @@ class UserController extends Controller
         // Update the user's avatar field in the database with the filename
         $user->avatar = $filename;
         $user->save();
+        //
 
         return redirect()->back()->with('success', 'Avatar uploaded successfully');
     }
