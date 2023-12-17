@@ -62,7 +62,7 @@ class UserController extends Controller
         //
         if ($validated['is_member'] == 0) {
             $validated['is_available'] = 0;
-            $guest['status'] = "alumini";
+            $guest['status'] = "alumni";
         }else{
             $guest['status'] = "member";
         }

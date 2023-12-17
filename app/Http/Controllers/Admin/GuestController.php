@@ -35,7 +35,7 @@ class GuestController extends Controller
     {
         // Check the string value of the request
         $string = $request->input('str');
-        if ($string == 'fresher' || $string == 'member') {
+        if ($string == 'fresher' || $string == 'member' || $string == 'alumni' ||$string == 'alumini') {
             $guests_id = Guest::where('status',"$string")->pluck('id');
             $requests = Guest::guest_requests()->whereIn('guest_id',$guests_id)
                 ->get()
