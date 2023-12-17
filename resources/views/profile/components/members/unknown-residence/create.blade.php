@@ -11,9 +11,55 @@
                        <div class="col-md-6">
                            <div class="card mx-4" style="border-radius:25px;">
                                <div class="card-body p-4 row">
+
+                                <div class="accordion col-12" id="accordionExample">
+                                    <div class="accordion-item">
+                                      <h2 class="accordion-header" id="headingOne">
+                                        <div class="accordion-button  btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                          Read Me...
+                                        </div>
+                                      </h2>
+                                      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+    
+                                            <div class="card">
+    
+                                                <strong>INSTRUCTIONS FOR ALL</strong>
+                                                <p>
+                                                    <strong>1.If You're In A Hostel Or Homestel</strong>
+                                                    <ul>
+                                                        <li>Confrim Again the existence of your hostel or homestel's name from the Second form at the bottom of this page.</li>
+
+                                                        <li>Still can't find? Type in the Name of Your Hostel or Homestel.</li>
+                                                        
+                                                        <li>If You're In A homestel with No Name, Just Say "Homestel". If it has a name, <strong>please</strong> provide it</li>
+
+                                                        <li>In The Description Section, type in The Zone inwhich your residence is found (If you know.)</li>
+
+                                                        <li>If You don't know the zone and asking too would be a problem, Just input any Landmark</li>
+                                                    </ul>
+
+                                                    <strong>2.If You Come From Home</strong>
+                                                    <ul>
+                                                        <li>I doubt your home has a name does it? If it does, please input the name.</li>
+
+                                                        <li>You Can Simply input "My Home" or "Desmond Atchu's Home" (Using Your own name)</li>
+                                                        
+                                                        <li>If it is within the boundaries of any zone, input the name of the zone in the description or simply put there any landmark</li>
+                                                      
+                                                    </ul>
+    
+                                                </p>
+                                                    
+                                            </div>
+    
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
    
                                {{-- Username --}}
-                                    <strong>You're here because You either said, you couldn't find your hostel or you live at the house</strong>
+                                    <strong>Welcome to the "Can't Find My Hostel && I come from Home Community".Carefully read the instructions</strong>
                                    <div class="col-12 mb-3 mt-3">
                                         <strong>Name Of Hostel/ Homestel</strong>
 

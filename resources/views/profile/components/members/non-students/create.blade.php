@@ -12,12 +12,52 @@
                         {{-- UserName --}}
                         <div class="form-group row">
                             {{-- <label class="col-md-3 form-control-label">Hello</label> --}}
+
                             <div class="col-md-6">
                                 <p class="form-control-static">Hello {{$user->username}} Help us know more about you</p>
                             </div>
                         </div>
 
                         <div class="form-group row">
+
+                            <div class="accordion col-12" id="accordionExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="headingOne">
+                                    <div class="accordion-button  btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                      Read Me...
+                                    </div>
+                                  </h2>
+                                  <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+
+                                        <div class="card">
+
+                                            <strong>INSTRUCTIONS FOR ALL</strong>
+                                            <p>
+                                                <strong>1.Selecting Your Residence</strong>
+                                                <ul>
+                                                    <li>Search The Name of Your Residence(Hostel or Homestel)</li>
+
+                                                    <li>Select Your choice from the list that appear (Probably at the bottom of your screen)</li>
+                                                </ul>
+
+                                                <strong>Can't Find Your Hostel Or Homestel ?  You Come From Home Daily ?</strong>
+                                                <ul>
+                                                    <li>Clear the Search box and Choose "Can't Find Hostel/Homestel"</li>
+
+                                                    <li>Continue with the Rest of the Details you would complete with your residence on another page. </li>
+                                                </ul>
+
+
+                                        
+                                            </p>
+                                                
+                                        </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
 
 
                             {{-- Residence List for Each Zone --}}

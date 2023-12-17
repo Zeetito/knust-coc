@@ -9,19 +9,19 @@
                    Select or Search User
                 </div>
 
-                {{-- <input type="text" name="user_id" list="user_list" class="form-control" placeholder="Search user">
+                <input type="text" name="user_id" list="user_list" class="form-control" placeholder="Search user">
                 <datalist id="user_list">
                     @foreach(App\Models\User::handle_guest_request() as $user)
                         <option value="{{$user->id}}">{{$user->fullname()." -- (".$user->assigned_guest_requests()->count()." Requests)"}} </option>
                     @endforeach
-                </datalist> --}}
+                </datalist>
 
-                <select name="user_id"  class="form-control" required>
+                {{-- <select name="user_id"  class="form-control" required>
                     <option value="">Select</option>
                     @foreach(App\Models\User::handle_guest_request() as $user)
                         <option value="{{$user->id}}">{{$user->fullname()." -- (".$user->assigned_guest_requests()->count()." Requests)"}} </option>
                     @endforeach
-                </select>
+                </select> --}}
 
         </div>
         

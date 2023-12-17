@@ -14,6 +14,39 @@
    
                                {{-- Username --}}
                                     <strong>Can't Find Program of Study?</strong>
+
+                                    <div class="accordion col-12" id="accordionExample">
+                                        <div class="accordion-item">
+                                          <h2 class="accordion-header" id="headingOne">
+                                            <div class="accordion-button  btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                              Read Me...
+                                            </div>
+                                          </h2>
+                                          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+        
+                                                <div class="card">
+        
+                                                    <strong>INSTRUCTIONS FOR ALL</strong>
+                                                    <p>
+                                                        <strong>1.Choosing Your Program Of Study</strong>
+                                                        <ul>
+                                                            <li>Confirm Once again from the second form on the bottom of this page if you cannot find your program of study.</li>
+        
+                                                            <li>If so, Come back to the First Form, input the name of your program and select the college</li>
+                                                        </ul>
+        
+                                                    </p>
+                                                        
+                                                </div>
+        
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+        
+
+
                                    <div class="col-12 mb-3 mt-3">
                                         <strong>Name Of Program of Study</strong>
 

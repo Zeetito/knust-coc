@@ -43,7 +43,7 @@
                     @endif
                         <div class="card-body">
                         
-                            <span class=" float-right btn fa fa-pencil" data-toggle="modal" data-target="#myModal" data-url="{{route('assign_guest_request',['guest_request'=>$request])}}" >Assign To</span>
+                            {{-- <span class=" float-right btn fa fa-pencil" data-toggle="modal" data-target="#myModal" data-url="{{route('assign_guest_request',['guest_request'=>$request])}}" >Assign To</span> --}}
 
                             <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname." - ".$request->guest()->status." (".$request->method." ".$request->type.")" }}</small>

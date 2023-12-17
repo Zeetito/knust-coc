@@ -8,6 +8,8 @@ use App\Models\Semester;
 use App\Models\Residence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class ResidenceController extends Controller
 {
@@ -127,7 +129,20 @@ class ResidenceController extends Controller
         $instance['updated_at'] = now();
 
 
-        DB::table('user_residences')->insert($instance);
+        try{
+
+            DB::table('user_residences')->insert($instance);
+        }catch (QueryException $e) {
+            Log::error($e);
+                    
+            $errorCode = $e->errorInfo[1];
+
+            if ($errorCode == 1062) {
+                // Redirect to a custom error page for duplicate entry
+                return redirect(route('view_profile',['user'=>$user]))->with('warning', 'You Already Have A Custom Residence.');
+            }
+
+        }
 
         return redirect(route('view_profile',['user'=>$user]))->with('success','You have now completed Your Profile');
 

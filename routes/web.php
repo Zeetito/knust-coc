@@ -698,19 +698,19 @@ Route::put('update_residence/{residence}',[ResidenceController::class,'update'])
 
 // Create User_Residence Instance
 Route::get('user_residence/{user}',[ResidenceController::class,'create_user_residence'])
-    ->middleware('auth','control:system_online','permission:update_residence')
+    ->middleware('auth','control:system_online')
     ->name('create_user_residence')
     ;
 
 // Store User Residence   
 Route::post('store_user_residence/{user}',[ResidenceController::class,'store_user_residence'])
-    ->middleware('auth','control:system_online','permission:update_residence','hasProfile')
+    ->middleware('auth','control:system_online')
     ->name('store_user_residence')
     ;
 
 // Update Biodata Residence   
 Route::put('update_biodata_residence/{user}',[ResidenceController::class,'update_biodata_residence'])
-    ->middleware('auth','control:system_online','permission:update_residence')
+    ->middleware('auth','control:system_online')
     ->name('update_biodata_residence')
     ;
 
