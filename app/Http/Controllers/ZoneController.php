@@ -43,6 +43,10 @@ class ZoneController extends Controller
         return view('housing.zones.show', compact('zone'));
     }
 
+    public function show_others(){
+        return view('housing.zones.others.show',['zone'=>Zone::OtherZone()]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

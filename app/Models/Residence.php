@@ -60,4 +60,11 @@ class Residence extends Model
 
         return $residences;
     }
+
+    // Find the User of a Custom Residence
+    public static function custom_residence_user($residence){
+        // $user_id = DB::table('user_residences')->where('id',$residence->id)->first()->user_id;
+        $user_id = $residence->user_id;
+        return User::find($user_id);
+    }
 }

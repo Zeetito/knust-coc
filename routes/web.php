@@ -13,6 +13,7 @@ use App\Models\Faculty;
 use App\Models\Program;
 use App\Models\Semester;
 use App\Models\Accessory;
+use App\Models\Residence;
 use App\Models\Attendance;
 use App\Models\Permission;
 use App\Models\GuestRequest;
@@ -655,6 +656,11 @@ Route::get('/search_zone_members/{zone}', [ZoneController::class, 'search_member
     ->name('search_zone_members')
     ;
 
+// Show Others Zone
+Route::get('/others_zone', [ZoneController::class, 'show_others'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('show_others_zone');
+
 
 // View Program Mates
 Route::get('/zone_mates/{user}',[ZoneController::class, 'view_zone_mates'])
@@ -707,6 +713,42 @@ Route::post('store_user_residence/{user}',[ResidenceController::class,'store_use
     ->middleware('auth','control:system_online')
     ->name('store_user_residence')
     ;
+
+// Edit user REsidence
+Route::get('edit_user_residence/{id}',[ResidenceController::class,'edit_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('edit_user_residence','hasProfile')
+    ;
+
+// Update user residence
+Route::put('update_user_residence/{id}',[ResidenceController::class,'update_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('update_user_residence')
+    ;
+// Confirm user residence delete
+Route::get('confirm_delete_user_residence/{id}',[ResidenceController::class,'confirm_delete_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('confirm_delete_user_residence','hasProfile')
+    ;
+
+// Delete User Residence
+Route::delete('delete_user_residence/{id}',[ResidenceController::class,'delete_user_residence'])
+    ->middleware('auth','control:system_online')
+    ->name('delete_user_residence','hasProfile')
+    ;
+
+//  Confirm Save User Residence
+Route::get('confirm_save_user_residence/{id}',[ResidenceController::class,'confrim_save'])
+    ->middleware('auth','control:system_online')
+    ->name('confirm_save_user_residence','hasProfile')
+    ;   
+// Save User Residence
+Route::post('save_user_residence/{id}/{user}',[ResidenceController::class,'save_user_residence'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('save_user_residence')
+    ;
+    //permission to SAve User residence
+
 
 // Update Biodata Residence   
 Route::put('update_biodata_residence/{user}',[ResidenceController::class,'update_biodata_residence'])
@@ -1215,23 +1257,11 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return Residence::custom_residence_user(DB::table('user_residences')->where('id',2)->first());
 
-    return User::handle_guest_request();
-    return User::find(1)->roles;
+    return Zone::OtherZone();
+    return Zone::find(1)->roles;
 
-
-    return asset('/');
-
-
-    return GuestRequest::find(1)->is_assigned();
-
-
-    // User::where('username','tito')->first()->assignAllPermissions();
-
-    return auth()->user()->username == "tito";
-
-    return SemesterProgram::find(3)->image;
-    return asset('storage');
 
 
   

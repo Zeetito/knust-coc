@@ -148,6 +148,47 @@ class ResidenceController extends Controller
 
     }
 
+    // Edit User REsidence
+    public function edit_user_residence($id){
+        $residence = DB::table('user_residences')->where('id',$id)->first();
+        return view('housing.zones.others.residences.edit',['residence'=>$residence]);        
+    }
+
+    // Confirm Delte User Residence
+    public function confirm_delete_user_residence($id){
+        $residence = DB::table('user_residences')->where('id',$id)->first();
+        return view('housing.zones.others.residences.delete',['residence'=>$residence]);        
+    }
+
+    // Update User Residence
+    public function update_user_residence(Request $request,$id){
+        $validated = $request->validate([
+            'name'=>['required'],
+            'description'=>['nullable']
+        ]);
+        $instance = DB::table('user_residences')->where('id',$id);
+        if($instance->exists()){
+            $instance->update($validated);
+            return redirect()->back()->with('success','Update Successful.');
+        }else{
+            return redirect()->back()->with('failure','Error');
+        }
+    }
+
+    // Delte User REsidence
+    public function delete_user_residence(Request $request,$id){
+        $validated = $request->validate([
+            'response'=>['required','numeric'],
+        ]);
+        $instance = DB::table('user_residences')->where('id',$id);
+        if($instance->exists()){
+            $instance->delete();
+            return redirect()->back()->with('warning','Delete Successful.');
+        }else{
+            return redirect()->back()->with('failure','Error');
+        }
+    }
+
     // update_biodata_residence
     public function  update_biodata_residence(Request $request, User $user){
 
@@ -170,6 +211,39 @@ class ResidenceController extends Controller
         $user->biodata->update($update);
 
         return redirect(route('view_profile',['user'=>$user]))->with('success','You have now completed Your Profile');
+
+    }
+
+    // Confrim Save User REsidence
+    public function confrim_save($id){
+        $residence = DB::table('user_residences')->where('id',$id)->first();
+        $user = Residence::custom_residence_user($residence);
+        return view('housing.zones.others.residences.save',['residence'=>$residence, 'user'=>$user ]);   
+    }
+
+    // Save User REsidence, Making it general and applicable to all
+    public function save_user_residence(Request $request, $id , $user){
+        $user = User::find($user);
+        $instance = DB::table('user_residences')->where('id',$id);
+        $validated_residence = $request->validate([
+            'name'=>['required','min:5','max:60'],
+            'zone_id'=>['required','numeric'],
+            'description'=>['required','min:4'],
+        ]);
+        // Create New Residence
+        $residence = Residence::create($validated_residence);
+
+        // Update User Biodata
+        $user->member_biodata->residence_id = $residence->id;
+        $user->member_biodata->zone_id = $residence->zone_id;
+        $user->member_biodata->save();
+
+        // Delete User REsidence INstance
+        $instance->delete();
+        
+        // Return to appropriate Screen
+        return redirect()->back()->with('success','Residence Saved and Created Successfully');
+
 
     }
 

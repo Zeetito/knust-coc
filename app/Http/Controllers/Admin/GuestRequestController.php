@@ -112,9 +112,14 @@ class GuestRequestController extends Controller
             $validated = $request->validate(['user_id'=>['required','numeric']]);
             $user = User::where('id',$validated['user_id'])->first();
             if($user){
-                $guest_request->assigned_to = $user->id;
-                $guest_request->save();
-                return redirect()->back()->with('success','Request Assigned Successfully');
+                if($guest_request->assigned_to != null){
+                    return redirect()->back()->with('warning','Request Already Assigned to someone');
+                }else{
+
+                    $guest_request->assigned_to = $user->id;
+                    $guest_request->save();
+                    return redirect()->back()->with('success','Request Assigned Successfully');
+                }
             }
         }
 

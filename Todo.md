@@ -371,10 +371,14 @@ Active or inactive to groups.
 QR code Attendance.
 Create and Edit Residence
 
-
 Assign Permissions Directly
 Denied Requests page(User and Guest).
 Delete Residence
+
+Work On Others Zone Display
+Convert Custom Residence to Actual Residence 
+Convert Custom Program to Actual Program 
+Protect Routes with Permission Middleware rather than Roles.
 
 
 
@@ -387,9 +391,12 @@ start_date
 end_date //Equal to start_date by default
 
 
+## Phase 19
+## Attendance Statistics [Under User Statistics]
+Link Attendance Sessions to their corresponding Academic years and Semesters.
 
 
-### phase 19
+### phase 20
 # Use GeoLocation to permit marking attendance 
 # Implement the User history using the Biodata details.
 # A Two factor verification would be implement later on to cater for authrorization

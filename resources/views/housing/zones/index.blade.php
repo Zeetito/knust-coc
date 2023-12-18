@@ -39,10 +39,13 @@
                                 {{-- Others Zone --}}
                                 <div class="col-sm-3 col-md-4 mt-3">
                                     {{-- If User is Ill --}}
-                                    <a class="card text-white bg-primary" >
+                                    <a class="card text-white bg-primary" href="{{route('show_others_zone')}}">
                                         <div class="card-body">
                                             <small class=" text-uppercase font-weight-bold">Zone: Others</small><br>
-                                            <small class=" text-uppercase font-weight-bold">Members - {{App\Models\Zone::otherZoneMembers()->count()}} </small>
+
+                                            <small class=" text-uppercase font-weight-bold">Members - {{App\Models\Zone::otherZoneMembers()->count()}} </small><br>
+
+                                            <small class=" text-uppercase font-weight-bold">Residences - {{App\Models\Zone::otherZoneResidences()->count()}} </small>
 
                                         </div>
                                     </a>

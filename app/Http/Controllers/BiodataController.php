@@ -416,11 +416,27 @@ class BiodataController extends Controller
                                 $program_id = NULL;
                                 $college_id = NULL;
                             }else{
-                               return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+
+                                    // Check If User Chose Cannot find
+                                    if($validated_profile['program_id'] == 'unknown'){
+                                        $validated['program_id'] = NULL;
+                                        $validated['college_id'] = NULL;
+                                    }else{
+
+                                        return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+                                    }
                            }
                         }else{
-                            return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+                              // Check If User Chose Cannot find
+                              if($validated_profile['program_id'] == 'unknown'){
+                                $validated['program_id'] = NULL;
+                                $validated['college_id'] = NULL;
+                            }else{
+                              return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
+                            }
 
+                            $program_id = $validated['program_id'];
+                            $college_id = $validated['college_id'];
                         }
 
                         // Handle the case where either program or residence is null

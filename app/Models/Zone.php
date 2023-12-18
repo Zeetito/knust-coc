@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\MembersBiodata;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\hasManyThrough;
@@ -84,6 +85,10 @@ class Zone extends Model
         return User::WhereHas('member_biodata', function ($query) {
             $query->where('zone_id', null);
         })->get();
+    }
+
+    public static function otherZoneResidences(){
+        return DB::table('user_residences')->where('category','hostel')->orWhere('category','homestel')->get();
     }
 
 
