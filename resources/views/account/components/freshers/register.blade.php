@@ -11,7 +11,7 @@
                         <div class="card mx-4" style="border-radius:25px;">
                             <div class="card-body p-4">
                                 <h1>Dear Fresher <i class="fa fa-smile-o"> </i></h1>
-                                <a href={{route('login_page_fresher')}}   class="btn btn-primary float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
+                                <a href={{route('login_page_fresher')}}   class="float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
                                 <p class="text-muted">Create your account</p>
 
                             {{-- Username --}}

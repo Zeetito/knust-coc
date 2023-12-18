@@ -34,8 +34,8 @@
     <script src={{asset("js/views/bootstrap.bundle.min.js")}}></script>
 
     {{-- Some specific for view features --}}
-    {{-- <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script> --}}
-    {{-- <script src={{asset("js/views/charts.js")}}></script> --}}
+    <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script>
+    <script src={{asset("js/views/charts.js")}}></script>
     <script src={{asset("js/views/main.js")}}></script>
     <script src={{asset("js/views/widgets.js")}}></script>
  

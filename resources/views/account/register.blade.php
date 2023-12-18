@@ -1,7 +1,7 @@
 <x-guest_layout>
  
  <body class="app flex-row align-items-center">
-     <div class="container">
+     <div class="">
 
         {{-- Form Begins --}}
              <form action="{{route('register_user')}}" method="Post">
@@ -12,7 +12,7 @@
                             <div class="card-body p-4  row">
                                 <div class="col-12">
                                     <h1>Register</h1>
-                                    <a href={{route('login')}}   class="btn btn-primary float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
+                                    <a href={{route('login')}}   class=" float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
                                     <p class="text-muted">Create your account</p>
                                 </div>
 
@@ -27,7 +27,7 @@
                                 @enderror
 
                                 {{-- Firstname --}}
-                                <div class="col-4 mb-3">
+                                <div class="col-12 mb-3">
                                     
                                     <input type="text" value="{{old('firstname',"")}}" name="firstname" autocomplete="off" class="form-control" placeholder="firstname">
                                 </div>
@@ -37,7 +37,7 @@
 
 
                                 {{-- Lastname --}}
-                                <div class="col-4 mb-3">
+                                <div class="col-12 mb-3">
                                     
                                     <input type="text" value="{{old('lastname',"")}}" name="lastname" autocomplete="off" class="form-control" placeholder="lastname">
                                 </div>
@@ -46,7 +46,7 @@
                                 @enderror
                                 
                                 {{-- Othername --}}
-                                <div class="col-4 mb-3">
+                                <div class="col-12 mb-3">
                                     
                                     <input type="text" value="{{old('othername')}}" name="othername" autocomplete="off" class="form-control" placeholder="othername">
                                 </div>
@@ -117,7 +117,7 @@
                                 @enderror
 
                                 {{-- Is_Student --}}
-                                <div class="col-6 mb-3">
+                                <div class="col-12 mb-3">
                                     <strong>Are You Currently A student in KNUST ?</strong>
                                 <select name="is_student"  class="form-control" id="is_student" required> 
                                     <option value="">Select</option>
@@ -130,7 +130,7 @@
                                 @enderror
 
                                 {{-- Is_Member --}}
-                                <div class="col-6 mb-3">
+                                <div class="col-12 mb-3">
                                     <strong>Are You Currently  Worshipping with the  KNUST Church Of Christ ?</strong>
                                 <select name="is_member"  class="form-control" id="is_member" required>
                                     <option value="">Select</option>

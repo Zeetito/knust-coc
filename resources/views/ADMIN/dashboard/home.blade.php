@@ -78,6 +78,45 @@
                     </a>
                 </div>
 
+                {{-- User Statistics --}}
+                <div class="col-sm-6 col-md-4 mt-3">
+                    <div class="card">
+                        <div class="card-header bg-success">
+                            <div class="font-weight-bold">
+                                <span>USERS STATISTICS</span>
+                                <span class="float-right">Users ({{App\Models\User::all()->count()}})</span>
+                            </div>
+                            <div>
+                                <span>
+                                    {{-- <small>Today 6:43 AM</small> --}}
+                                    <small>Today</small>
+                                </span>
+                                <span class="float-right">
+                                    <small>Members({{App\Models\User::where('is_member','1')->count()}})</small>,
+                                    <small>Alumni({{App\Models\User::where('is_member','0')->count()}})</small>
+                                </span>
+                            </div>
+
+                            <div class="menu-container">
+                                <button class="menu-button fa fa-list"></button>
+                                <div class="menu-content">
+
+                                  <a class="bg-warning btn mt-1"  href="#">Members</a>
+                                  <a class="bg-warning btn mt-1"  href="#">Alumni</a>
+
+                                </div>
+                            </div>
+
+                            <div class="chart-wrapper" style="height:38px;"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; inset: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                                <canvas class="chart-7-3 chart chart-line" height="76" width="716" style="display: block; height: 38px; width: 358px;"></canvas>
+                            </div>
+                            <div class="chart-wrapper" style="height:38px;"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; inset: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+                                <canvas class="chart-8-3 chart chart-bar" height="76" width="716" style="display: block; height: 38px; width: 358px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             {{-- User Related Ends Here --}}
 
                 {{-- GUEST RELATED --}}

@@ -20,9 +20,11 @@
                         <option value="member">New Members</option>
                         <option value="alumni">Alumni</option>
                         <option value="alumini">__Alumni</option>
-{{-- 
-                        <option value="latest">Latest</option>
-                        <option value="oldest">oldest</option> --}}
+                        {{-- 
+                            <option value="latest">Latest</option>
+                            
+                            <option value="oldest">oldest</option>
+                         --}}
                     </select>        
                     <i class="fa fa-filter"></i>                                       
                 </form>
