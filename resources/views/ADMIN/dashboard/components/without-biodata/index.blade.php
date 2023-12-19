@@ -40,7 +40,7 @@
                             </div>
                             <div class=" mb-0">{{$user->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-uppercase font-weight-bold">{{$user->fullname()." - ".$user->status()}}</small>
-                            <div class="font-weight-bold">Contact: {{$user->phone? $user->phone->body : ($user->was_a_guest() ? $user->when_guest()->contact : ""  )}}</div>
+                            <div class="font-weight-bold">Contact: {{$user->phone? "wa.me/".$user->phone->body : ($user->was_a_guest() ? "wa.me/".$user->when_guest()->contact : ""  )}}</div>
                             <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
