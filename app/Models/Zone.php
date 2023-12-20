@@ -32,7 +32,11 @@ class Zone extends Model
     {
         return User::WhereHas('member_biodata', function ($query) {
             $query->where('zone_id', $this->id);
-        })->get();
+        })->union(
+            User::whereHas('custom_residence', function ($query) {
+            $query->where('zone_id',$this->id);
+            })
+        )->get();
     }
 
     // HOSTELS OR RESIDENCES
@@ -84,11 +88,15 @@ class Zone extends Model
     public static function otherZoneMembers(){
         return User::WhereHas('member_biodata', function ($query) {
             $query->where('zone_id', null);
-        })->get();
+        })
+        ->WhereHas('custom_residence', function ($query) {
+            $query->where('zone_id', null);
+    })
+        ->get();
     }
 
     public static function otherZoneResidences(){
-        return DB::table('user_residences')->where('category','hostel')->orWhere('category','homestel')->get();
+        return UserResidence::where('category','hostel')->orWhere('category','homestel')->get();
     }
 
 

@@ -17,6 +17,7 @@ use App\Models\Residence;
 use App\Models\Attendance;
 use App\Models\Permission;
 use App\Models\GuestRequest;
+use App\Models\UserResidence;
 use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -1256,10 +1257,9 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-
-    return Residence::custom_residence_user(DB::table('user_residences')->where('id',2)->first());
-
-    return Zone::OtherZone();
+    return Zone::otherZoneResidences();
+    return UserResidence::find(5)->user;
+    return User::find(502)->custom_residence;
     return Zone::find(1)->roles;
 
 

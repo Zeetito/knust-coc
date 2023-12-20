@@ -97,12 +97,12 @@ class ZoneController extends Controller
 
     // Search Zone Members
     public function search_members(Zone $zone, Request $request)
-    {
+    {   $zone_members = $zone->users();
         $users = User::search_user($request)
             ->whereHas('member_biodata', function ($query) use ($zone) {
                 $query->where('zone_id', $zone->id);
             })
-            ->get();
+            ->get()->intersect($zone_members) ;
     
         return view('housing.zones.components.members.search-result', ['users' => $users]);
     }

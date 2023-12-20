@@ -34,9 +34,10 @@
                                                         
                                                         <li>If You're In A homestel with No Name, Just Say "Homestel". If it has a name, <strong>please</strong> provide it</li>
 
-                                                        <li>In The Description Section, type in The Zone inwhich your residence is found (If you know.)</li>
+                                                        <li>Select The Zone inwhich your Homestel is found if you know. If you don't, select "Not Sure"</li>
+                                                        
+                                                        <li>In The Description Section, type in any landmark</li>
 
-                                                        <li>If You don't know the zone and asking too would be a problem, Just input any Landmark</li>
                                                     </ul>
 
                                                     <strong>2.If You Come From Home</strong>
@@ -77,6 +78,22 @@
                                         <option value="hostel">Hostel</option>
                                         <option value="homestel">Homestel</option>
                                         <option value="home">My Home</option>
+                                    </select>
+                                   </div>
+                                   @error('category')
+                                   <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                   @enderror
+
+                                {{-- Zone --}}
+                                <div class="col-12 mb-3">
+                                    <strong>Zone</strong>
+                                    <select class="form-control" name="zone_id" id="" required>
+                                        <option value="">Select</option>
+                                        <option class="bg-info" value="none">Not Sure</option>
+                                        @foreach(App\Models\Zone::all() as $zone)
+                                        <option value="{{$zone->id}}">{{$zone->name}}</option>
+                                        @endforeach
+                                        <option class="bg-info" value="none">OTHERS</option>
                                     </select>
                                    </div>
                                    @error('category')

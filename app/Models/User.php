@@ -20,6 +20,7 @@ use App\Models\UserRequest;
 use App\Models\GuestRequest;
 use Illuminate\Http\Request;
 use App\Models\AlumniBiodata;
+use App\Models\UserResidence;
 use App\Models\MembersBiodata;
 use App\Models\SemesterProgram;
 use Laravel\Sanctum\HasApiTokens;
@@ -94,7 +95,7 @@ class User extends Authenticatable
         if($this->biodata &&  $this->biodata->residence){
             return $this->biodata->residence;
         }else{
-                return $this->custom_residence() ? $this->custom_residence() : Null;
+                return $this->custom_residence ? $this->custom_residence : Null;
         }
     }
 
@@ -106,8 +107,9 @@ class User extends Authenticatable
 
     // Get User Custom Residence
     public function custom_residence(){
-        $academic_year_id = Semester::active_semester()->academicYear->id;
-        return DB::table('user_residences')->where('academic_year_id',$academic_year_id)->where('user_id',$this->id)->first();
+        // $academic_year_id = Semester::active_semester()->academicYear->id;
+        return $this->hasOne(UserResidence::class);
+        // ->where('academic_year_id',$academic_year_id);
     }
 
     // program
@@ -139,8 +141,20 @@ class User extends Authenticatable
         if($this->biodata &&  $this->biodata->zone){
             return $this->biodata->zone;
         }else{
-            $zone['name'] = "OTHERS";
-            $zone = Zone::make($zone); 
+                // Check If User has A custom Residence
+                if($this->has_custom_residence() == true){
+                    // Check if the custom residence has a zone
+                    if($this->custom_residence->zone_id != null){
+                        $zone = Zone::find($this->custom_residence->zone_id);
+                    }else{
+                        $zone['name'] = "OTHERS";
+                        $zone = Zone::make($zone); 
+                    }
+
+                }else{
+                    return Null;
+                }
+
             return $zone;
         }
 
