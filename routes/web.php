@@ -716,35 +716,35 @@ Route::post('store_user_residence/{user}',[ResidenceController::class,'store_use
     ;
 
 // Edit user REsidence
-Route::get('edit_user_residence/{id}',[ResidenceController::class,'edit_user_residence'])
+Route::get('edit_user_residence/{user_residence}',[ResidenceController::class,'edit_user_residence'])
     ->middleware('auth','control:system_online')
     ->name('edit_user_residence','hasProfile')
     ;
 
 // Update user residence
-Route::put('update_user_residence/{id}',[ResidenceController::class,'update_user_residence'])
+Route::put('update_user_residence/{user_residence}',[ResidenceController::class,'update_user_residence'])
     ->middleware('auth','control:system_online')
     ->name('update_user_residence')
     ;
 // Confirm user residence delete
-Route::get('confirm_delete_user_residence/{id}',[ResidenceController::class,'confirm_delete_user_residence'])
+Route::get('confirm_delete_user_residence/{user_residence}',[ResidenceController::class,'confirm_delete_user_residence'])
     ->middleware('auth','control:system_online')
     ->name('confirm_delete_user_residence','hasProfile')
     ;
 
 // Delete User Residence
-Route::delete('delete_user_residence/{id}',[ResidenceController::class,'delete_user_residence'])
+Route::delete('delete_user_residence/{user_residence}',[ResidenceController::class,'delete_user_residence'])
     ->middleware('auth','control:system_online')
     ->name('delete_user_residence','hasProfile')
     ;
 
 //  Confirm Save User Residence
-Route::get('confirm_save_user_residence/{id}',[ResidenceController::class,'confrim_save'])
+Route::get('confirm_save_user_residence/{user_residence}',[ResidenceController::class,'confrim_save'])
     ->middleware('auth','control:system_online')
     ->name('confirm_save_user_residence','hasProfile')
     ;   
 // Save User Residence
-Route::post('save_user_residence/{id}/{user}',[ResidenceController::class,'save_user_residence'])
+Route::post('save_user_residence/{user_residence}/{user}',[ResidenceController::class,'save_user_residence'])
     ->middleware('auth','control:system_online','hasProfile')
     ->name('save_user_residence')
     ;
@@ -1257,8 +1257,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+    return UserResidence::find(6)->zone;
     return Zone::otherZoneResidences();
-    return UserResidence::find(5)->user;
     return User::find(502)->custom_residence;
     return Zone::find(1)->roles;
 

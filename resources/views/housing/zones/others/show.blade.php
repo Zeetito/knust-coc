@@ -119,24 +119,24 @@
 
                                         @allowedTo(['update_residence'])
                                         <td>
-                                            {{-- <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="#">
+                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_user_residence',['user_residence'=>$residence->id])}}">
                                                 <i class="fa fa-pencil"></i>
-                                            </span>     --}}
-                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_delete_user_residence',['id'=>$residence->id])}}">
+                                            </span>  
+                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_delete_user_residence',['user_residence'=>$residence->id])}}">
                                                 <i class="fa fa-trash"></i>
                                             </span>    
 
-                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_save_user_residence',['id'=>$residence->id])}}">
+                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_save_user_residence',['user_residence'=>$residence->id])}}">
                                                 <i class="fa fa-save"></i>
                                             </span>    
                                         </td>
 
                                         @elseif(auth()->user()->is(App\Models\Residence::custom_residence_user($residence)))
                                         <td>
-                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_user_residence',['id'=>$residence->id])}}">
+                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_user_residence',['user_residence'=>$residence->id])}}">
                                                 <i class="fa fa-pencil"></i>
                                             </span>    
-                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_delete_user_residence',['id'=>$residence->id])}}">
+                                            <span class="btn  btn-secondary" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_delete_user_residence',['user_residence'=>$residence->id])}}">
                                                 <i class="fa fa-trash"></i>
                                             </span>    
 

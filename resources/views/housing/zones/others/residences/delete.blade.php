@@ -1,4 +1,4 @@
-<form action="{{route('delete_user_residence',['id'=>$residence->id])}}" method="post">
+<form action="{{route('delete_user_residence',['user_residence'=>$residence->id])}}" method="post">
     @csrf
     @method('delete')
         <div class="modal-title" id="myModalLabel">

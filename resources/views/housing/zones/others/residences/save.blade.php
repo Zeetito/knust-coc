@@ -1,4 +1,4 @@
-<form action="{{route('save_user_residence',['id'=>$residence->id,'user'=>$user])}}" method="post">
+<form action="{{route('save_user_residence',['user_residence'=>$residence->id,'user'=>$user])}}" method="post">
     @csrf
         <div class="modal-title" id="myModalLabel">
                     {{-- <h5 style="text-align:center">e</h5> --}}

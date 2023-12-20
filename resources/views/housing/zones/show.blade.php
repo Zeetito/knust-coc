@@ -44,11 +44,13 @@
                             <div class="col-sm-4 col-md-4 mt-3">
                                 {{-- If User is Ill --}}
                                 
-                                    <a class="card text-white bg-primary">
+                                    <div class="card text-white bg-primary">
                                         <div class="card-body">
                                             <div class="h1 text-muted text-right mb-4">
                                                 <i>
-                                                    <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                    <a href="{{route('view_profile', $user)}}">
+                                                        <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                                    </a>
                                                 </i>
                                             </div>
                                             <small class="text-uppercase font-weight-bold">Name: {{$user->fullname()}}</small> <br>
@@ -65,7 +67,7 @@
                                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                             
                             </div>
 

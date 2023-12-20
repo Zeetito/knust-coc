@@ -7,6 +7,7 @@ use App\Models\Zone;
 use App\Models\Semester;
 use App\Models\Residence;
 use Illuminate\Http\Request;
+use App\Models\UserResidence;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
@@ -164,26 +165,28 @@ class ResidenceController extends Controller
     }
 
     // Edit User REsidence
-    public function edit_user_residence($id){
-        $residence = DB::table('user_residences')->where('id',$id)->first();
-        return view('housing.zones.others.residences.edit',['residence'=>$residence]);        
+    public function edit_user_residence(UserResidence $user_residence){
+        
+        return view('housing.zones.others.residences.edit',['residence'=>$user_residence]);        
     }
 
     // Confirm Delte User Residence
-    public function confirm_delete_user_residence($id){
-        $residence = DB::table('user_residences')->where('id',$id)->first();
-        return view('housing.zones.others.residences.delete',['residence'=>$residence]);        
+    public function confirm_delete_user_residence(UserResidence $user_residence){
+        return view('housing.zones.others.residences.delete',['residence'=>$user_residence]);        
     }
 
     // Update User Residence
-    public function update_user_residence(Request $request,$id){
+    public function update_user_residence(Request $request,UserResidence $user_residence){
         $validated = $request->validate([
             'name'=>['required'],
+            'zone_id'=>['nullable','numeric'],
             'description'=>['nullable']
         ]);
-        $instance = DB::table('user_residences')->where('id',$id);
-        if($instance->exists()){
-            $instance->update($validated);
+        if($user_residence){
+            $user_residence->name = $validated['name'];
+            $user_residence->zone_id = $validated['zone_id'];
+            $user_residence->description = $validated['description'];
+            $user_residence->save();
             return redirect()->back()->with('success','Update Successful.');
         }else{
             return redirect()->back()->with('failure','Error');
@@ -191,13 +194,12 @@ class ResidenceController extends Controller
     }
 
     // Delte User REsidence
-    public function delete_user_residence(Request $request,$id){
+    public function delete_user_residence(Request $request,UserResidence $user_residence){
         $validated = $request->validate([
             'response'=>['required','numeric'],
         ]);
-        $instance = DB::table('user_residences')->where('id',$id);
-        if($instance->exists()){
-            $instance->delete();
+        if($user_residence){
+            $user_residence->delete();
             return redirect()->back()->with('warning','Delete Successful.');
         }else{
             return redirect()->back()->with('failure','Error');
@@ -230,16 +232,14 @@ class ResidenceController extends Controller
     }
 
     // Confrim Save User REsidence
-    public function confrim_save($id){
-        $residence = DB::table('user_residences')->where('id',$id)->first();
-        $user = Residence::custom_residence_user($residence);
-        return view('housing.zones.others.residences.save',['residence'=>$residence, 'user'=>$user ]);   
+    public function confrim_save(UserResidence $user_residence){
+        $user = Residence::custom_residence_user($user_residence);
+        return view('housing.zones.others.residences.save',['residence'=>$user_residence, 'user'=>$user ]);   
     }
 
     // Save User REsidence, Making it general and applicable to all
-    public function save_user_residence(Request $request, $id , $user){
+    public function save_user_residence(Request $request, UserResidence $user_residence , $user){
         $user = User::find($user);
-        $instance = DB::table('user_residences')->where('id',$id);
         $validated_residence = $request->validate([
             'name'=>['required','min:5','max:60'],
             'zone_id'=>['required','numeric'],
@@ -254,7 +254,7 @@ class ResidenceController extends Controller
         $user->member_biodata->save();
 
         // Delete User REsidence INstance
-        $instance->delete();
+        $user_residence->delete();
         
         // Return to appropriate Screen
         return redirect()->back()->with('success','Residence Saved and Created Successfully');

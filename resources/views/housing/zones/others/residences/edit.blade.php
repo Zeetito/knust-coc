@@ -1,4 +1,4 @@
-<form action="{{route('update_user_residence',['id'=>$residence->id])}}" method="post">
+<form action="{{route('update_user_residence',['user_residence'=>$residence->id])}}" method="post">
     @csrf
     @method('put')
         <div class="modal-title" id="myModalLabel">
@@ -11,9 +11,25 @@
 
             <strong>Name</strong>
             <input type="text" name="name" class="form-control" value="{{$residence->name}}" required><br>
+
+            @allowedTo(['update_residence'])
+            <strong>Zone</strong>
+            <select name="zone_id" id="zone_id" class="form-control" >
+                <option value="{{$residence->zone->id}}">{{$residence->zone->name}}</option>
+                @foreach(App\Models\Zone::all() as $zone)
+                    <option value="{{$zone->id}}">{{$zone->name}}</option>
+                @endforeach
+    </select>
+            @error('zone_id')
+            <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+            @enderror
+            @endallowedTo
             
             <strong>Description</strong>
             <input type="text" name="description" class="form-control" value="{{$residence->description}}" required><br>
+            @error('description')
+            <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+            @enderror
             
             {{-- <input type="text" name="category" class="form-control" value="{{$residence->name}}"><br> --}}
         </div>

@@ -21,4 +21,9 @@ class UserResidence extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    // Get Zone if any
+    public function zone(){
+        return $this->belongsTo(Zone::class);
+    }
 }

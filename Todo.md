@@ -377,10 +377,11 @@ Delete Residence
 
 Work On Others Zone Display
 Convert Custom Residence to Actual Residence 
-Convert Custom Program to Actual Program 
-Protect Routes with Permission Middleware rather than Roles.
-
 Custom residence can choose a zone if they are sure of their zone.
+Create UserResidence Model
+
+Convert Custom Program to Actual Program
+Protect Routes with Permission Middleware rather than Roles.
 
 
 

@@ -43,7 +43,6 @@ class Zone extends Model
     public function residences()
     {
         return $this->hasMany(Residence::class);
-        // return $this->hasManyThrough(Residence::class,Biodata::class,"zone_id","id","id","residence_id");
 
     }
 
