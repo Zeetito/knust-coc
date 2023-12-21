@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 // use App\Models\Zone;
+use App\Models\DTD;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Zone;
@@ -31,6 +32,7 @@ use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -641,9 +643,11 @@ class User extends Authenticatable
 
 
     // Check If User is a Member of A group
-    public function is_member_of(){
+    public function is_member_of(Group $group){
         return DB::table('group_users')
                 ->where('user_id',$this->id)
+                ->where('group_id',$group->id)
+
                 ->where('is_member',1)
                 ->exists()
                 ;
@@ -653,6 +657,7 @@ class User extends Authenticatable
     public function is_admin_for(Group $group){
         return DB::table('group_users')
         ->where('user_id',$this->id)
+        ->where('group_id',$group->id)
         ->where('is_member',1)
         ->where('is_admin',1)
         ->exists()
@@ -663,6 +668,17 @@ class User extends Authenticatable
     public function is_creator_for(Group $group){
         return $group->created_by == $this->id;
         
+    }
+
+
+    // Check for the DTD sessions a User is involved in
+    public function dtd_sessions(){
+        $user = $this->with('groups')->find($this->id);
+
+       return DTD::whereHas('groups', function ($query) use ($user) {
+        $query->whereIn('groups.id', $user->groups->pluck('id'));
+        })
+    ->get();
     }
 
 }

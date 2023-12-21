@@ -110,7 +110,7 @@
 
                     {{-- Door To Door --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('create_dtd')}}"><i class="fa fa-child"></i> Door To Door</a>
+                        <a class="nav-link" href="{{route('user_dtd',['user'=>auth()->user()])}}"><i class="fa fa-child"></i> Door To Door</a>
                     </li>
 
                  

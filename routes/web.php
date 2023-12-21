@@ -258,6 +258,30 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
 
 // -----------------------------------------------------------------------
 // DOOR TO DOOR
+
+    // Index - Show all door to door sessions a user is associated with
+    Route::get('user_dtd/{user}',[DTDController::class,'user_dtd'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('user_dtd')
+    ;  
+
+    // Show Groups for A particular DTD Session
+    Route::get('dtd_groups/{dtd}',[DTDController::class,'groups'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('dtd_groups')
+    ;  
+
+    // Show User for a particular DTD session
+    Route::get('dtd_users/{dtd}',[DTDController::class,'users'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('dtd_users')
+    ;     
+
+    // View Door To Door Groups For A Particular User - User
+    Route::get('dtd_groups/{user}',[DTDController::class,'user_groups'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('user_dtd_groups')
+    ; 
     // Create Door To Door Form
     Route::get('dtd_create',[DTDController::class,'create'])
             ->middleware('auth','control:system_online','hasProfile')
@@ -1257,9 +1281,16 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return DTD::find(2)->groups;
+    return User::find(1)->dtd_sessions();
+
+
+    return $dtd->users;
+
+    return Group::find(1)->groupable;
     return UserResidence::find(6)->zone;
     return Zone::otherZoneResidences();
-    return User::find(502)->custom_residence;
     return Zone::find(1)->roles;
 
 

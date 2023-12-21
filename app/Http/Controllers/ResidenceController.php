@@ -180,11 +180,27 @@ class ResidenceController extends Controller
         $validated = $request->validate([
             'name'=>['required'],
             'zone_id'=>['nullable','numeric'],
-            'description'=>['nullable']
+            'description'=>['nullable'],
+            'zone_id'=>['required'],
         ]);
+
+        $zone = Zone::find($validated['zone_id']);
+        if($zone || $validated['zone_id'] == "none"){
+
+            if($zone){
+                $zone_id = $validated['zone_id'];
+            }else{
+                $zone_id = null;
+            }
+
+
+        }else{
+            return redirect()->back()->with('failure','Select A Valid Zone');
+        }
+
         if($user_residence){
             $user_residence->name = $validated['name'];
-            $user_residence->zone_id = $validated['zone_id'];
+            $user_residence->zone_id = $zone_id;
             $user_residence->description = $validated['description'];
             $user_residence->save();
             return redirect()->back()->with('success','Update Successful.');

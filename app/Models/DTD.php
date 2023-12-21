@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Group;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 
 class DTD extends Model
 {
@@ -36,6 +38,22 @@ class DTD extends Model
                 ->get()
                 ->sortBy('room')
                 ;
+    }
+
+    // Get Users Involved
+    public function users(){
+        return User::whereHas('groups', function(Builder $query){
+            $query->where('groupable_type','App\Models\DTD')
+                    ->where('groupable_id',$this->id)
+            ;
+        })->get();
+    }
+
+    // Users involved in any DTD sessions
+    public static function DTD_Users(){
+        return User::whereHas('groups', function(Builder $query){
+            $query->where('groupable_type','App\Models\DTD');
+        })->get();
     }
 
 }

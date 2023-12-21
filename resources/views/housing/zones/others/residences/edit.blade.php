@@ -15,11 +15,17 @@
             @allowedTo(['update_residence'])
             <strong>Zone</strong>
             <select name="zone_id" id="zone_id" class="form-control" >
+                @if($residence->zone)
                 <option value="{{$residence->zone->id}}">{{$residence->zone->name}}</option>
+                @else
+                <option value="none">Not Sure</option>
+                @endif
+                
                 @foreach(App\Models\Zone::all() as $zone)
-                    <option value="{{$zone->id}}">{{$zone->name}}</option>
+                <option value="{{$zone->id}}">{{$zone->name}}</option>
                 @endforeach
-    </select>
+                <option value="none">OTHERS</option>
+            </select>
             @error('zone_id')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror

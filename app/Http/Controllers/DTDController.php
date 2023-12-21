@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DTD;
+use App\Models\User;
 use App\Models\Group;
 use App\Models\Semester;
 use Illuminate\Http\Request;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 class DTDController extends Controller
 {
     //
+    // Door To Door For A particular User
+    public function user_dtd(User $user){
+        return view('DoorToDoor.user-dtd-index',['user'=>$user]);
+    }
 
     // Create Door To Door Form
     public function create(){
@@ -28,6 +33,16 @@ class DTDController extends Controller
         }elseif($dtd->type == "visitation"){
             return "Great Visitation";
         }
+    }
+
+    // View User Groups - Modal
+    public function groups(DTD $dtd){
+        return view('DoorToDoor.groups.index',['dtd'=>$dtd]);
+    }
+
+    // View All Users - Modal
+    public function users(DTD $dtd){
+        return view('DoorToDoor.user.index',['dtd'=>$dtd]);
     }
 
     // Create A Door To Door Record Instance
