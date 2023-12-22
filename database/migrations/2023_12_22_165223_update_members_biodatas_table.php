@@ -16,7 +16,7 @@ return new class extends Migration
 
             // Drop existing foreign keys
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['academic_year_id']);
+            // $table->dropForeign(['academic_year_id']);
             $table->dropForeign(['year_group_id']);
             
             // Modify columns
