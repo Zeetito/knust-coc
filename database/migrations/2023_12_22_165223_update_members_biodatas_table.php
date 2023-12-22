@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::table('members_biodatas', function (Blueprint $table) {
 
             // Drop existing foreign keys
-            $table->dropForeign(['user_id']);
+            // $table->dropForeign(['user_id']);
             // $table->dropForeign(['academic_year_id']);
-            $table->dropForeign(['year_group_id']);
+            // $table->dropForeign(['year_group_id']);
             
             // Modify columns
             $table->unsignedBigInteger('user_id')->change();
@@ -27,7 +27,7 @@ return new class extends Migration
             // Add new foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('academic_year_id')->references('id')->on('academic_years')->onDelete('cascade');
-            $table->foreign('year_group_id')->references('id')->on('year_groups')->onDelete('cascade');
+            $table->foreign('year_group_id')->references('id')->on('year_groups')->onDelete('set null');
         });
     }
 

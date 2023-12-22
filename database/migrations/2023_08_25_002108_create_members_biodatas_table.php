@@ -17,6 +17,7 @@ return new class extends Migration
             // For All members
             $table->foreignId('user_id')->constrained();
             $table->foreignId('academic_year_id')->constained();
+            $table->foreignId('year_group_id')->nullable();
 
             // For Student Members
             $table->integer('year')->nullable();
@@ -33,7 +34,6 @@ return new class extends Migration
 
             // For Alumini non-Members
             $table->boolean('is_alumni')->default(0);
-            $table->foreignId('year_group_id')->nullable();
 
             $table->timestamps();
         });
