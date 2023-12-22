@@ -251,12 +251,33 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
+    // Confrim Delete User
+    public function confirm_delete(User $user)
     {
-        //
+        return view('account.delete',['user'=>$user]);
+    }
+
+    // Delete User
+    public function delete(User $user, Request $request){
+        $validated = $request->validate([
+            'password'=>['required'],
+        ]);
+        $logins['password'] = $validated['password'];
+        $logins['username'] = auth()->user()->username;
+
+        if (Auth::attempt($logins)) {
+
+            $user->delete();
+
+            return redirect()->back()->with('warning', 'Account Deleted!');
+
+            // Check if user has requested an account.
+        }else{
+            return redirect()->back()->with('failure', 'You cannot perform this action');
+
+        }
+
+
     }
 
     public function logout()

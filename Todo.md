@@ -381,7 +381,9 @@ Create UserResidence Model
 
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
-
+Door to Door Groups must not show in user groups but in
+the door to door sessions
+Implement Delete User.
 
 
 

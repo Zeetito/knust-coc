@@ -1209,6 +1209,18 @@ Route::put('/update_account/{user}',[UserController::class,'update'])
     ->name('update_user')
     ;
 
+// Confirm_Delete_user
+Route::get('/confirm_delete_account/{user}',[UserController::class,'confirm_delete'])
+    ->middleware('auth','hasProfile','control:system_online','permission:delete_user')
+    ->name('confirm_delete_user')
+    ;
+
+// delete User
+Route::delete('/delete_account/{user}',[UserController::class,'delete'])
+    ->middleware('auth','hasProfile','control:system_online','permission:delete_user')
+    ->name('delete_user')
+    ;
+
 
 // View avatar change form
 Route::get('/avatar/{user}', [UserController::class, 'edit_avatar'])

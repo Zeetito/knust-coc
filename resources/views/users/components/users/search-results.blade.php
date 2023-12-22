@@ -6,13 +6,14 @@
             <div class="menu-container">
                 <button class="menu-button">&#8286;</button>
                 <div class="menu-content">
-                    {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
-                    @allowedTo(['update_user'])
-                    <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('mark_unavailable_confirm',['user'=>$user])}} href="{{route('mark_unavailable_confirm',['user'=>$user])}}">Mark Unavailable</a>
-                    <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Deactivate User</a>
-                    <a class="bg-warning btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
-                    @endallowedTo
-                    {{-- <a href="#">Option 3</a> --}}
+                  {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
+                  @allowedTo(['update_user'])
+                  <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('mark_unavailable_confirm',['user'=>$user])}} href="{{route('mark_unavailable_confirm',['user'=>$user])}}">Mark Unavailable</a>
+                  <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Deactivate User</a>
+                  <a class="bg-warning btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
+                  <a class="bg-danger btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('confirm_delete_user',['user'=>$user])}}">Delete Account</a>
+                  @endallowedTo
+                  {{-- <a href="#">Option 3</a> --}}
                 </div>
             </div>
             

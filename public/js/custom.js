@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 
-// Getting Info into Static modal/screen
+    // Getting Info into Static modal/screen
     $(document.body).on('click', '.modal_button',function () {
         var url = $(this).data('url');
         var data;
@@ -22,7 +22,7 @@ $(document).ready(function(){
         });
     });
 
-// Content Reciever 
+    // Content Reciever 
 
     $('#myModal').on('shown.bs.modal', handleModalShown);
     $('#myLargeModal').on('shown.bs.modal', handleModalShown);
@@ -244,6 +244,22 @@ $(document).ready(function(){
         makeCode();
         }
     });
+
+
+    // Toggle Password
+    function toggle_password() {
+        console.log('Yes');
+        var x = document.getElementsByClassName("password");
+        if (x.type == "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+
+      $('.password-toggle').click(toggle_password);
+
+    
 
 
 })
