@@ -153,7 +153,7 @@ class DTDController extends Controller
     // FISHING OUT
     // Create A fishing out session
     public function fishing_out_create(){
-        return view('DoorToDoor\FishingOut\create');
+        return view('DoorToDoor.FishingOut.create');
     }
 
     // Store DTD Sessoin
