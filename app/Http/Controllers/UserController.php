@@ -409,10 +409,7 @@ class UserController extends Controller
 
 
 
-    // View User Groups
-    public function view_user_groups(User $user){
-        return view('groups.user-groups.index',['user'=>$user]);
-    }
+
 
     // View User Invites
     public function view_user_invites(User $user){

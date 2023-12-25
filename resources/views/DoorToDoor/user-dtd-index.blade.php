@@ -4,26 +4,42 @@
 
         <div class="container-fluid">
             {{-- Search User --}}
-            <span class="form-control ">
-                <form >
-                    <input type="text" class="search_box" id="for_user_list" data-url="{{route('search_inactive_user')}}" placeholder="search name..." style="text-align:center;">
-                        <i class="fa fa-search"></i>
-                </form>
-            </span>
+            {{-- <span class=""> --}}
+                {{-- <form > --}}
+                    {{-- <input type="text" class="search_box" id="for_user_list" data-url="{{route('search_inactive_user')}}" placeholder="search name..." style="text-align:center;"> --}}
+                        {{-- <i class="fa fa-search"></i> --}}
+                {{-- </form> --}}
+            {{-- </span> --}}
 
             {{-- Filter User --}}
-            <span class="form-control float-right">
-                <form >
-                    <select type="text" id="_for_user_list" class="filter_box" data-url="{{route('filter_inactive_users')}}" >    
-                        <option>Filter By </option>
-                        <option value="suspended">Suspended Only</option>
+            {{-- <span class="form-control float-right"> --}}
+                {{-- <form > --}}
+                    {{-- <select type="text" id="_for_user_list" class="filter_box" data-url="{{route('filter_inactive_users')}}" >     --}}
+                        {{-- <option>Filter By </option> --}}
+                        {{-- <option value="suspended">Suspended Only</option> --}}
                         {{-- 
                         <option value="latest">Latest</option>
                         <option value="oldest">oldest</option> --}}
-                    </select>        
-                    <i class="fa fa-filter"></i>                                       
-                </form>
+                    {{-- </select>         --}}
+                    {{-- <i class="fa fa-filter"></i>                                        --}}
+                {{-- </form> --}}
+            {{-- </span> --}}
+
+            @allowedTo(['create_fishing_out'])
+            <span class="float-right btn btn-info">
+                <div class="menu-container">
+                    <button class="menu-button">Create a New Session</button>
+                    <div class="menu-content">
+                      {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
+                      <a class="bg-primary btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('fishing_out_create',['user'=>$user])}}">Fishing Out</a>
+                      <a class="bg-primary btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="">Evangelism</a>
+                      <a class="bg-primary btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="">Visitation</a>
+                      {{-- <a href="#">Option 3</a> --}}
+                    </div>
+                </div>
             </span>
+            @endallowedTo
+
 
         </div>
 
@@ -44,21 +60,19 @@
                         <div class="menu-container">
                             <button class="menu-button">&#8286;</button>
                             <div class="menu-content">
-                              {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
-                              {{-- @allowedTo(['update_user']) --}}
+                            
                               <a class="bg-info btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('dtd_users',['dtd'=>$dtd])}}">See Users</a>
                               <a class="bg-info btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('dtd_groups',['dtd'=>$dtd])}}">See Groups</a>
-                              <a class="bg-info btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
-                              {{-- @endallowedTo --}}
-                              {{-- <a href="#">Option 3</a> --}}
+                              @can('delete',$dtd)
+                                <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('confirm_dtd_delete',['dtd'=>$dtd])}}">Delete Session</a>
+                              @endcan
+
                             </div>
                         </div>
 
                         <div class="card-body"data-toggle="" data-target="#myModal" data-url="{{route('user_dtd_groups',$user)}}">
                             <div class="h1 text-muted text-right mb-4">
-                                {{-- <i>
-                                    <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                </i> --}}
+
                             </div>
                             <div class=" mb-0">{{$dtd->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-muted text-uppercase font-weight-bold">{{$dtd->name}}</small>

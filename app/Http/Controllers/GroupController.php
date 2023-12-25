@@ -23,6 +23,14 @@ class GroupController extends Controller
         // General groups would not have any groupable_type
     }
 
+    // Show User Groups
+        // View User Groups
+        public function view_user_groups(User $user){
+            $groups = Group::where('groupable_type','!=','App\\Models\\DTD')->get();
+            return view('groups.user-groups.index',['user'=>$user,'groups'=>$groups]);
+    
+        }
+
     // Edit Group
     public function edit(Group $group){
         return view('groups.edit',['group'=>$group]);
@@ -39,14 +47,14 @@ class GroupController extends Controller
         $group->info = $validated['info'];
         $group->updated_at = now();
         $group->save();
-        return redirect(route('view_user_groups',['user'=>$request->user()]))->with('success','Update Successful');
+        return redirect()->back()->with('success','Update Successful');
 
     }
 
     // Store Group
     public function store(Request $request){
 
-    }
+    }   
 
     // Confirm Delete
     public function confirm_delete(Group $group){
@@ -59,7 +67,7 @@ class GroupController extends Controller
         $validated = $request->validate(['response'=>'required','numeric']);
         if($validated['response'] == 1){
             $group->delete();
-            return redirect(route('view_user_groups',['user'=>$request->user()]))->with('warning','Group Deleted');
+            return redirect()->back()->with('warning','Group Deleted');
         }
 
     }

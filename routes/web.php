@@ -265,6 +265,17 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
     ->name('user_dtd')
     ;  
 
+    // Confrim dtd delete
+    Route::get('confirm_dtd_delete/{dtd}',[DTDController::class,'confirm_delete'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('confirm_dtd_delete')
+    ;  
+    // Delete DTD Session
+    Route::delete('dtd_delete/{dtd}',[DTDController::class,'delete'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('dtd_delete')
+    ;  
+
     // Show Groups for A particular DTD Session
     Route::get('dtd_groups/{dtd}',[DTDController::class,'groups'])
     ->middleware('auth','control:system_online','hasProfile')
@@ -415,7 +426,7 @@ Route::put('remove_user/{group}/{user}',[GroupController::class,'remove_user'])
         ;
 
 // View User Groups
-Route::get('groups/user/{user}',[UserController::class,'view_user_groups'])
+Route::get('groups/user/{user}',[GroupController::class,'view_user_groups'])
         ->middleware('auth','control:system_online','hasProfile')
         ->name('view_user_groups')
         ;
@@ -1294,8 +1305,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    return DTD::find(2)->groups;
-    return User::find(1)->dtd_sessions();
+    return DTD::find(3)->creator();
+    return User::find(1)->groups;
 
 
     return $dtd->users;

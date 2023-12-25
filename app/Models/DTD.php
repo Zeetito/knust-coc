@@ -56,4 +56,9 @@ class DTD extends Model
         })->get();
     }
 
+    // Find the One Who Created The session
+    public function creator(){
+        return User::find($this->created_by);
+    }
+
 }

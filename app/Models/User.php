@@ -280,6 +280,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class,'group_users','user_id','group_id')
                 ->where('is_member',1)
                 ->where('is_active',1)
+                // ->where('groupable_type','!=','App\\Models\\DTD')
                 ->latest();
     }
     public function invites()
@@ -678,6 +679,7 @@ class User extends Authenticatable
        return DTD::whereHas('groups', function ($query) use ($user) {
         $query->whereIn('groups.id', $user->groups->pluck('id'));
         })
+        ->orWhere('created_by',$this->id)
     ->get();
     }
 

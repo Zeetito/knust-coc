@@ -39,9 +39,13 @@
 
                             {{-- New Semester Program Button --}}
                             @if(auth()->user()->is_admin_for($group))
-                            <span class="btn btn-info float-right mb-2" data-toggle="modal" data-target="#myModal" data-url="{{route('dtd_subgroup_create',['dtd'=>$dtd])}}" >
+                            <span class="btn btn-info mr-2 float-right mb-2" data-toggle="modal" data-target="#myModal" data-url="{{route('dtd_subgroup_create',['dtd'=>$dtd])}}" >
                                 Create Sub-Group
                             </span>
+
+                            <a class="btn btn-info mr-2 float-right mb-2" href="{{route('user_dtd',['user'=>auth()->user()])}}" >
+                                My Sessions
+                            </a>
                             @endif
 
                         </div>
@@ -50,6 +54,7 @@
                         <div class="" >
 
                                    <span class="h5">{{$group->name}}</span>
+                                   <P class="">Mission: {{$group->info}}</P>
 
 
                             {{-- Accordion - Table of Rooms Covered --}}
@@ -127,8 +132,12 @@
                             {{-- Accordion Ends Here --}}
 
                             {{-- Create DTD-Persons INstance Button--}}
-                            <span class="mt-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('create_dtd_record',['group'=>$group])}}" >Add New Record</span>
-                         
+                            @if(auth()->user()->is_member_of($group))
+                                <span class="mt-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('create_dtd_record',['group'=>$group])}}" >
+                                    Add New Record
+                                </span>
+                            @endif
+
                         </div>
 
                        

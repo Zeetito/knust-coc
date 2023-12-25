@@ -63,7 +63,7 @@
         </div>
         
         <div class="modal-footer mt-3">
-            <input type="submit" value="submit_user" name="submit_user" value="Save" class=" btn btn-secondary">  
+            <input type="submit" name="submit_user" value="Save" class=" btn btn-secondary">  
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         </div>                                  
 </form>

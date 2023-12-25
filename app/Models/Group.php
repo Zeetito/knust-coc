@@ -17,6 +17,7 @@ class Group extends Model
         'groupable_type',
         'created_by',
         'visibility',
+        'info',
         'target',
         'academic_year_id',
     ];

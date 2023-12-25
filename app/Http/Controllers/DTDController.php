@@ -35,6 +35,30 @@ class DTDController extends Controller
         }
     }
 
+    // Confrim Delete
+    public function confirm_delete(DTD $dtd){
+        return view('DoorToDoor.delete',['dtd'=>$dtd]);
+    }
+
+    // Delete DTD Session
+    public function delete(Request $request, DTD $dtd){
+        $validated = $request->validate([
+            'response'=>['required','numeric'],
+        ]);
+        if ($validated['response'] == 1){
+
+            if($dtd->groups->count() > 0){
+                $dtd->groups->each->delete();
+            }
+            $dtd->delete();
+            return redirect()->back()->with('warning','Session Deleted!');
+
+
+        }else{
+            return redirect()->back()->with('failure','Select A Valid Response');
+        }
+    }
+
     // View User Groups - Modal
     public function groups(DTD $dtd){
         return view('DoorToDoor.groups.index',['dtd'=>$dtd]);
@@ -157,29 +181,29 @@ class DTDController extends Controller
 
         $dtd = DTD::create($validated);
 
-        // Create A General Group for this session
-        $group = new Group;
-        $group['name'] ="Group A -- ".$dtd->name;
-        $group['groupable_id'] = $dtd->id;
-        $group['groupable_type'] = "App\Models\DTD";
-        $group['created_by'] = auth()->user()->id;
-        $group['visibility'] = 1;
-        $group['target'] = 'guests';
-        $group['academic_year_id'] = Semester::active_semester()->academicYear->id;
-        $group->save();
+        // // Create A General Group for this session
+        // $group = new Group;
+        // $group['name'] ="Group A -- ".$dtd->name;
+        // $group['groupable_id'] = $dtd->id;
+        // $group['groupable_type'] = "App\Models\DTD";
+        // $group['created_by'] = auth()->user()->id;
+        // $group['visibility'] = 1;
+        // $group['target'] = 'guests';
+        // $group['academic_year_id'] = Semester::active_semester()->academicYear->id;
+        // $group->save();
         
         // Create A Group_User Instance between the creator and the group
-        DB::table('group_users')->insert([
-            'group_id'=>$group->id,
-            'user_id'=>auth()->user()->id,
-            'created_by'=>auth()->user()->id,
-            'is_member'=>1,
-            'is_admin'=>1,
-            'created_at' =>now(),
-            'updated_at' =>now(),
-        ]);
+        // DB::table('group_users')->insert([
+        //     'group_id'=>$group->id,
+        //     'user_id'=>auth()->user()->id,
+        //     'created_by'=>auth()->user()->id,
+        //     'is_member'=>1,
+        //     'is_admin'=>1,
+        //     'created_at' =>now(),
+        //     'updated_at' =>now(),
+        // ]);
 
-        return redirect(route('create_dtd'))->with('success','Door To Door Session Created');
+        return redirect()->back()->with('success','Door To Door Session Created');
     }
 
     // Door To Door Subgroup Create
@@ -193,6 +217,7 @@ class DTDController extends Controller
             'name'=>['required'],
             'info'=>['nullable'],
         ]);
+        $validated['info'];
         $validated['name'] = $validated['name']." -- ".$dtd->name;
         $validated['groupable_id'] = $dtd->id;
         $validated['groupable_type'] = "App\Models\DTD";

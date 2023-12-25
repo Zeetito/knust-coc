@@ -50,7 +50,7 @@
                         <div class="" >
 
                                 <div class="card-body">
-                                    @if($user->groups != "[]")
+                                    @if($groups != "[]")
                                         <table class="table table-striped">
                                             {{-- Table Head --}}
                                             <thead>
@@ -63,7 +63,7 @@
                                             </thead>
                                             {{-- Table Body --}}
                                                     <tbody id="search_result_for_semester_program_list">
-                                                    @foreach($user->groups as $group)
+                                                    @foreach($groups as $group)
 
                                                         <tr id="tr_{{$group->id}}">
                                                             <td>

@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row card-body">
     @if($dtd->groups != "[]")
         <div class="col-12 bg-info">Members of This Session</div>
         @foreach($dtd->users() as $user)

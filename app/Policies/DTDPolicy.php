@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Role;
+use App\Models\DTD;
 use App\Models\User;
-use App\Models\Group;
 use Illuminate\Auth\Access\Response;
 
-class GroupPolicy
+class DTDPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,10 +19,9 @@ class GroupPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Group $group): bool
+    public function view(User $user, DTD $dTD): bool
     {
         //
-        return $user->is_member_of($group) || $user->hasAnyOf(Role::ministry_members_level()) || $group->groupable_type == "App\\Models\\DTD";
     }
 
     /**
@@ -37,25 +35,25 @@ class GroupPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Group $group): bool
+    public function update(User $user, DTD $dTD): bool
     {
         //
-        return $user->is_admin_for($group);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Group $group): bool
+    public function delete(User $user, DTD $dTD): bool
     {
         //
-        return $user->is_creator_for($group);
+        return $user->is($dTD->creator());
+
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Group $group): bool
+    public function restore(User $user, DTD $dTD): bool
     {
         //
     }
@@ -63,7 +61,7 @@ class GroupPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Group $group): bool
+    public function forceDelete(User $user, DTD $dTD): bool
     {
         //
     }

@@ -377,14 +377,20 @@ Work On Others Zone Display
 Convert Custom Residence to Actual Residence 
 Custom residence can choose a zone if they are sure of their zone.
 Create UserResidence Model
-
-
-Convert Custom Program to Actual Program
-Protect Routes with Permission Middleware rather than Roles.
 Door to Door Groups must not show in user groups but in
 the door to door sessions
 Implement Delete User.
+Delete Door To Door Session
 
+
+
+
+## Phase 19
+## Attendance Statistics [Under User Statistics]
+Link Attendance Sessions to their corresponding Academic years and Semesters.
+Support Section - [Contacts,etc pages]
+Convert Custom Program to Actual Program
+Protect Routes with Permission Middleware rather than Roles.
 
 
 <!-- NOTIFICATIONS -->
@@ -393,12 +399,6 @@ id
 type /Announcements, birthdays, 
 start_date
 end_date //Equal to start_date by default
-
-
-## Phase 19
-## Attendance Statistics [Under User Statistics]
-Support Section - [Contacts,etc pages]
-Link Attendance Sessions to their corresponding Academic years and Semesters.
 
 
 ### phase 20
