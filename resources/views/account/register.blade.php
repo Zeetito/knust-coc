@@ -131,7 +131,7 @@
 
                                 {{-- Is_Member --}}
                                 <div class="col-12 mb-3">
-                                    <strong>Are You Currently  Worshipping with the  KNUST Church Of Christ ?</strong>
+                                    <strong>Are You Currently  A member of the  KNUST Church Of Christ ?</strong>
                                 <select name="is_member"  class="form-control" id="is_member" required>
                                     <option value="">Select</option>
                                     <option value="1">Yes</option>
