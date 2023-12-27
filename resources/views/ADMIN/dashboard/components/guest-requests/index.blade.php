@@ -30,6 +30,12 @@
                 </form>
             </span>
 
+            @if(auth()->user()->has_assigned_guest_request())
+            <a href="{{route('view_assigned_guest_request',['user'=>auth()->id()])}}" class="btn btn-info float-right">
+                Assigned Request ({{auth()->user()->assigned_guest_requests()->count()}})
+            </a>
+            @endif
+
         </div>
 
         <div id="search_result_for_user_list" class=" row ">

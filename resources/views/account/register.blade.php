@@ -170,12 +170,12 @@
                             <div class="card-footer p-4">
                                 <div class="row">
                                     <div class="col-6">
-                                        <button class="btn btn-block btn-facebook" type="button">
+                                        <a href="https://www.facebook.com/churchofchristknust?mibextid=ZbWKwL" target="_blank" class="btn btn-block btn-facebook" type="button">
                                             <span>facebook</span>
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="#" class="btn btn-block btn-google" type="button">
+                                        <a href="https://knustcoc.org" target="_blank" class="btn btn-block bg-primary fa fa-globe" type="button">
                                             <span>Visit Our Website</span>
                                         </a>
                                     </div>

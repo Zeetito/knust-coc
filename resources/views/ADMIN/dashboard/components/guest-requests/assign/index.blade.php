@@ -26,6 +26,10 @@
                 {{-- </form> --}}
             {{-- </span> --}}
 
+            <a href="{{route('show_guest_requests')}}" class="btn btn-info float-right mt-2">
+                Guest Requests
+            </a>
+
         </div>
 
         <div id="search_result_for_user_list" class=" row ">

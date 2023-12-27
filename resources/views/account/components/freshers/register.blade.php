@@ -11,6 +11,38 @@
                         <div class="card mx-4" style="border-radius:25px;">
                             <div class="card-body p-4">
                                 <h1>Dear Fresher <i class="fa fa-smile-o"> </i></h1>
+
+                                    <div class="accordion col-12" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                            <div class="accordion-button  btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Read Me...
+                                            </div>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+        
+                                                <div class="card">
+        
+                                                    <strong>INSTRUCTIONS FOR ALL</strong>
+                                                    <p>
+                                                        
+                                                        <ul>
+                                                            <li>
+                                                                <strong>This Excercise Is For Brethren Joining Knust Church Of Christ (Kumasi Campus Only)</strong>
+                                                            </li>
+        
+                                                        </ul>
+        
+                                                    </p>
+                                                        
+                                                </div>
+        
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 <a href={{route('login_page_fresher')}}   class="float-right" style="border-radius:10px "> <strong>Already Have an Account ?</strong> </a>
                                 <p class="text-muted">Create your account</p>
 
@@ -70,8 +102,8 @@
 
 
                             {{-- Gender --}}
+                                <strong>Gender</strong>
                                 <div class="input-group mb-3">
-                                    Gender
                                     <span class="input-group-addon"><i class="icon-user"></i>
                                     </span>
                                     <select name="gender"  class="form-control" id="gender" required>
@@ -85,8 +117,8 @@
                                     @enderror
 
                             {{-- is_baptized --}}
+                            <strong>Are you Baptized ?</strong>
                                 <div class="input-group mb-3">
-                                    Are you Baptized ?
                                     <span class="input-group-addon"><i class="icon-drop"></i>
                                     </span>
                                     <select name="is_baptized"  class="form-control" id="is_baptized" required>
@@ -101,7 +133,7 @@
                                     @enderror
 
                             {{-- Date of Birth --}}
-                                    NB:Your Year of birth will not be displayed publicly
+                                    <strong>NB:Your Year of birth will not be displayed publicly</strong>
                                 <div class="input-group mb-3">
 
                                     <span class="input-group-addon"><i class="icon-time"></i>
@@ -157,12 +189,12 @@
                             <div class="card-footer p-4">
                                 <div class="row">
                                     <div class="col-6">
-                                        <button class="btn btn-block btn-facebook" type="button">
+                                        <a href="https://www.facebook.com/churchofchristknust?mibextid=ZbWKwL" target="_blank" class="btn btn-block btn-facebook" type="button">
                                             <span>facebook</span>
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="#" class="btn btn-block btn-google" type="button">
+                                        <a href="https://knustcoc.org" target="_blank" class="btn btn-block bg-primary fa fa-globe" type="button">
                                             <span>Visit Our Website</span>
                                         </a>
                                     </div>

@@ -262,6 +262,8 @@ class AttendanceController extends Controller
                             'is_present'=>$member->is_available == '1' ? '0' : '2',
                              'reason' => $member->is_available == '0' ? ($member->unavailable_member_info() == null ? "None" : $member->unavailable_member_info() ) : 'none', 
                             'checked_by'=>auth()->user()->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
 
                         ]);
                     }
