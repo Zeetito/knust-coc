@@ -31,4 +31,11 @@ class Group extends Model
                     ->where('group_users.is_member',1)        
                 ;
     }
+
+    // Find Invited Users
+    public function invited(){
+        return $this->belongsToMany(User::class,'group_users','group_id','user_id')
+        ->where('group_users.is_member',0)        
+    ;
+    }
 }

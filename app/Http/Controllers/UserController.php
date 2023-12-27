@@ -251,6 +251,43 @@ class UserController extends Controller
         }
     }
 
+    // Confrim Password form
+    public function account_confirm_password(User $user){
+        return view('account.confirm-password',['user'=>$user]);
+        
+    }
+
+    // Account Check Password
+    public function account_new_password(Request $request, User $user){
+
+        $logins['username'] = auth()->user()->username;
+        $logins['password'] = $request->input('password');
+
+        if (Auth::attempt($logins)) {
+
+            return view('account.change-password',['user'=>$user]);
+
+            // Check if user has requested an account.
+        }else{
+            return redirect(route('edit_user',['user'=>$user]))->with('failure', 'You cannot perform this action');
+
+        }
+
+
+        // return view('')
+    }
+
+    public function change_password(Request $request,User $user){
+        $validated = $request->validate([
+            'password'=>['confirmed','required'],
+        ]);
+            $user->password = bcrypt($validated['password']);
+            $user->save();
+            return redirect(route('edit_user',['user'=>$user]))->with('success', 'Password Changed!');
+
+    }
+
+
     // Confrim Delete User
     public function confirm_delete(User $user)
     {

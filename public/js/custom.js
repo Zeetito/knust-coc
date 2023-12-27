@@ -25,6 +25,7 @@ $(document).ready(function(){
     // Content Reciever 
 
     $('#myModal').on('shown.bs.modal', handleModalShown);
+    $('#myModal2').on('shown.bs.modal', handleModalShown);
     $('#myLargeModal').on('shown.bs.modal', handleModalShown);
     function handleModalShown(event) {
         // $('#myModal').modal('show');
@@ -32,6 +33,8 @@ $(document).ready(function(){
             
         console.log(url);
         var data;
+        var formData = $('#myForm').serialize();
+        console.log(formData);
 
         $.ajax({
             type: "GET",
@@ -51,7 +54,40 @@ $(document).ready(function(){
     };
 
 
+    // // Confrim Password
+    // $(document.body).on('click','.confirm_password', function () {
+    //     var formData = $('#myForm').serialize();
+    //     var url = $(this).data('url');
+    //     // var str = $(this).val();
 
+    //     // if (url.includes("?")) {
+
+    //     //     var url = (url+"&str="+str);
+    //     // }else{
+
+    //     //     var url = (url+"?str="+str);
+    //     // }
+
+
+
+    //     // console.log(url);
+    //     var data;
+    //     $.ajax({
+    //         type: "POST",
+    //         url: url,
+    //         data: formData,
+    //         cache: false,
+    //         success: function (data) {
+                
+    //             console.log(url);
+    //             $('.modal-content').html(data);
+    //             $('#myModal').modal('show');
+    //         },
+    //         error: function(err) {
+    //             console.log(err);
+    //         }
+    //     });
+    // });
 
     // Seach Box
     $(document.body).on('keyup','.search_box', function () {

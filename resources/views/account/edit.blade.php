@@ -2,6 +2,7 @@
  
     <body class="app flex-row align-items-center">
         <div class="container">
+
    
            {{-- Form Begins --}}
                 <form action="{{route('update_user',['user'=>$user])}}" method="Post">
@@ -14,6 +15,25 @@
    
                                {{-- Username --}}
                                     {{-- <strong>Tip: Use KNUST username (If you have) for convenience </strong> --}}
+                                    <div class="menu-container">
+                                        <button class="menu-button">
+                                            <span class="btn btn-secondary"><strong>Extra</strong></span>
+                                        </button>
+                                        <div class="menu-content">
+                                          {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
+                                          @if(auth()->user()->is($user))
+                                            <a class="bg-secondary btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('account_confirm_password',['user'=>$user])}}>Change Password</a>
+                                            {{-- <a class="bg-secondary btn mt-1" data-toggle='modal' data-target="#myModal"
+                                            data-url="{{ route('confirm_password_form', ['user' => $user, 'url' => route('change_password', ['user' => $user])]) }}">
+                                            Change Password
+                                            </a> --}}
+                                            {{-- <a class="bg-secondary btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">I'm Not Available</a> --}}
+                                            {{-- <a class="bg-secondary btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Delete Account</a> --}}
+                                          @endif
+                                          {{-- <a href="#">Option 3</a> --}}
+                                        </div>
+                                    </div>
+
                                    <div class="col-12 mb-3">
                                         <strong>Username</strong>
 

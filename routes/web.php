@@ -456,6 +456,22 @@ Route::put('handle_invite/{user}/{group}',[GroupController::class,'handle_invite
         ->name('handle_invite')
         ;
 
+// Show Invited Users
+Route::get('group_invites//{group}',[GroupController::class,'invites'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('group_invites')
+        ;
+// Confirm Delete Invite
+Route::get('confirm_invite_delete/{group}/{user}',[GroupController::class,'confirm_invite_delete'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('confirm_invite_delete')
+        ;
+// Delete Invite
+Route::delete('delete_invite/{group}/{user}',[GroupController::class,'delete_invite'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('delete_invite')
+        ;
+
 // ------------------------------------------------------------------------------
 
 
@@ -1219,6 +1235,26 @@ Route::put('/update_account/{user}',[UserController::class,'update'])
     ->middleware('auth','hasProfile','control:system_online','can:update,user')
     ->name('update_user')
     ;
+
+// Check User Password and Move on
+Route::get('/account_confirm_password/{user}',[UserController::class,'account_confirm_password'])
+    ->middleware('auth','control:system_online','can:update,user')
+    ->name('account_confirm_password')
+    ;
+
+// Change Password
+Route::put('/change_password/{user}',[UserController::class,'change_password'])
+    ->middleware('auth','control:system_online','can:update,user')
+    ->name('change_password')
+    ;
+    
+// Account check Password
+Route::get('/account_new_password/{user}',[UserController::class,'account_new_password'])
+    ->middleware('auth','control:system_online','can:update,user')
+    ->name('account_new_password')
+    ;
+
+
 
 // Confirm_Delete_user
 Route::get('/confirm_delete_account/{user}',[UserController::class,'confirm_delete'])

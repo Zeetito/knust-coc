@@ -15,27 +15,7 @@
                                         {{-- <i class="fa fa-search"></i> --}}
                                 </form>
                             </span>
-                            {{-- <span> --}}
-                                {{-- <form > --}}
-                                    {{-- <select type="text" id="_for_record_list" class="filter_box" data-url="{{route('filter_semester_programs')}}" placeholder="search name..." style="text-align:center;">     --}}
-                                        {{-- <option>
-                                            Filter By
-                                        </option> --}}
-                                        {{-- A list of all semesters in from now to the past --}}
-
-                                        {{-- @foreach(App\Models\AcademicYear::orderByDesc('start_year')->get() as $academic_year)
-                                            @foreach($academic_year->semesters->sortByDesc('name') as $semester)
-                                                    <option value={{$semester->id}}>
-                                                        {{$academic_year->start_year."-".$academic_year->end_year." Sem ".$semester->name}}
-                                                    </option>
-                                            @endforeach
-                                        @endforeach --}}
-
-                                    {{-- </select>         --}}
-                                    {{-- <i class="fa fa-filter"></i> --}}
-                                         {{--  --}}
-                                {{-- </form> --}}
-                            {{-- </span> --}}
+                          
 
                             {{-- New Semester Program Button --}}
                             @if(auth()->user()->is_admin_for($group))
@@ -199,7 +179,8 @@
 
                 @if(auth()->user()->is_admin_for($group))
                 {{-- Invite User Button --}}
-                <span class="mt-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('create_invite',['group'=>$group])}}" >Invite User</span>
+                <span class="mt-2 ml-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('create_invite',['group'=>$group])}}" >Invite User</span>
+                <span class="mt-2 ml-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('group_invites',['group'=>$group])}}" >See Invites</span>
                 @endif
 
 

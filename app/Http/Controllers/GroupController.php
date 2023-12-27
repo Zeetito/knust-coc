@@ -82,6 +82,20 @@ class GroupController extends Controller
     // Store Invite
     public function store_invite(Group $group, Request $request){
         $validated = $request->validate(['user_id'=>'required','numeric']);
+
+
+        // Check If Instance Exist
+        $instance = DB::table('group_users')->where('user_id',$validated['user_id'])->where('group_id',$group->id)->first();
+        if($instance){
+            if($instance->is_member == 0){
+                return redirect()->back()->with('warning','Invite Already Sent');
+            }elseif($instance->is_member == 1){
+                return redirect()->back()->with('warning','User is a member already');
+            }
+        }
+
+
+
         $validated['group_id'] = $group->id;
         $validated['is_member'] = 0;
         $validated['is_admin'] = 0;
@@ -122,6 +136,32 @@ class GroupController extends Controller
 
 
     }
+
+    // Show All Invites For A Group
+    public function invites(Group $group){
+        return view('groups.invited-users.index',['group'=>$group]);
+    }
+
+    // Confirm INvte Delete
+    public function confirm_invite_delete(Group $group, User $user){
+        return view('groups.invited-users.delete',['group'=>$group,'user'=>$user]);
+    }
+
+    // Delete Invite
+    public function delete_invite(Group $group, User $user, Request $request){
+        $validated = $request->validate(['response'=>'required','numeric']);
+        $instance = DB::table('group_users')->where('user_id',$user->id)->where('group_id',$group->id);
+
+        if($validated['response'] == 1){
+            $instance->delete();
+            return redirect()->back()->with('warning','Invite Deleted!');
+        }else{
+            return redirect()->back()->with('failure','Select A Valid response');
+
+        }
+
+    }
+
 
     // Confirm Making User Admin
     public function confirm_make_admin(Group $group, User $user){

@@ -125,6 +125,15 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        {{-- My Second Modal --}}
+                        <div class="modal fade" data-backdrop="true"  id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content" class="container bg-white">
+                                
+                                </div>
+                            </div>
+                        </div>
 
                         {{-- Large Modal --}}
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="myLargeModal">
