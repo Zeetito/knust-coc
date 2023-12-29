@@ -390,6 +390,29 @@ Delete Door To Door Session✔️
 See and Delete Invited Users - Admin ✔️
 Change Password ✔️
 
+Ministry pages ✔️
+Account Model & Table.✔️
+id✔️
+name (Settlement for First Month)✔️
+accountable_id [role/user_id]✔️
+accountable_type✔️
+created_by✔️
+type['calculate','text_record']✔️
+✔️
+timestamps✔️
+✔️
+Account_Records Table.✔️
+id✔️
+account_id✔️
+created_by✔️
+item eg...Using the example above [Users Name]✔️
+info [2bags of Rice] [nullable]✔️
+value [50 Cedis Cash] [nullable]✔️
+included [1 or 0] default 1. 1means included in calculations and 0 means opposite.✔️
+
+
+timestamps✔️
+
 Link Attendance Sessions to their corresponding Academic years and Semesters.
 Support Section - [Contacts,etc pages]
 Convert Custom Program to Actual Program

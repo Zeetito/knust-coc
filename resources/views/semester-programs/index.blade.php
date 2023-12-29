@@ -6,6 +6,14 @@
                     {{-- Each Whole Table Screen --}}
                     <div class="process-bar">
                         <div class="process-bar">
+                                {{-- New Semester Program Button --}}
+                                @allowedTo(['add_semester_program'])
+                                <span class="btn btn-info float-right mt-2 mb-2 mr-2" data-toggle="modal" data-target="#myModal" data-url="{{route('add_semester_program')}}" >
+                                    New Semester Program
+                                </span>
+                                @endallowedTo
+                            @if($semester_programs != "[]")
+
                             <div class="process-order">
                                 <h3 style="text-align:center">Programs for the Semester</h3>
                                 {{-- Search Program bar --}}
@@ -37,12 +45,7 @@
                                     </form>
                                 </span>
 
-                                {{-- New Semester Program Button --}}
-                                @allowedTo(['create_attendance'])
-                                <span class="btn btn-info float-right mb-2" data-toggle="modal" data-target="#myModal" data-url="{{route('add_semester_program')}}" >
-                                    New Semester Program
-                                </span>
-                                @endallowedTo
+                            
 
                             </div>
     
@@ -50,7 +53,6 @@
                             <div class="" >
     
                                     <div class="card-body">
-                                        @if($semester_programs != null)
                                             <table class="table table-striped">
                                                 {{-- Table Head --}}
                                                 <thead>
@@ -96,9 +98,7 @@
                                                 {{-- Table Body Ends --}}
                                             </table>
                                             
-                                        @else
-                                        No Programs To show
-                                        @endif
+             
 
                                     </div>
                             
@@ -107,7 +107,11 @@
                             {{--Users Table Ends--}}
     
                             {{-- {{$semester_programs->links()}} --}}
-                           
+                            @else
+                            <strong class="h5 card-body">
+                                No Semester Programs To show
+                            </strong>
+                            @endif
                         </div>
                     </div>
                     {{-- Whole Table Screen Ends --}}

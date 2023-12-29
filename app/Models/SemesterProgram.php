@@ -33,12 +33,15 @@ class SemesterProgram extends Model
     // Retrieve Images of a user.
     public function image()
     {
-        $images = $this->morphOne(Image::class, 'imageable');
-        if(empty($images)){
-            $images = $this->defaultImage();
+        $image = $this->morphOne(Image::class, 'imageable');
+        if(empty($image)){
+            $image = $this->defaultImage();
         }
 
-        return $images; 
+        if(empty($image)){
+            return $image; 
+        }
+        return "[]";
     }
     // Default Images
     public function defaultImage()

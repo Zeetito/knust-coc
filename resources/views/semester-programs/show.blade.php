@@ -1,6 +1,6 @@
 <x-layout>
       
-        <div class="container">
+        <div class="card-body">
             
             <ul class="nav nav-tabs" role="tablist">
                 
@@ -10,9 +10,9 @@
                 <li class="nav-item">
                     <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="program_outline">Program Outline</button>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <button class="nav-link" data-toggle="tab"   role="tab" aria-controls="images"><i class="fa fa-camera"></i></button>
-                </li>
+                </li> --}}
 
             </ul>
     
@@ -20,6 +20,7 @@
             <div class="tab-content">
                 {{-- Users Tab Begins --}}
                 <div class="tab-pane active" id="officiators" role="tabpanel">
+                    @if($semester_program->user_officiators() != "[]")
                     <table class="table table-striped">
                             {{-- Add New User Button --}}
                             @can('update',$semester_program)
@@ -29,7 +30,6 @@
     
                         {{-- Table h5 --}}
                         <h5>Officiators For : {{$semester_program->name}}</h5>
-                        @if($semester_program->user_officiators() != null)
                             {{-- Table Head --}}
                             <thead>
                                 <tr>
@@ -115,16 +115,22 @@
 
                             </tbody>
                             {{-- Table Body Ends --}}
+                        </table>
                         @else
-                            <div class="Container">NO PROGRAMS TO SHOW</div>
+                            <div class="card-body h6">NO PROGRAMS TO SHOW
+                                @can('update',$semester_program)
+                                {{-- <span data-url="{{route('fetch_role_users_modal',$role)}}" class="get_content btn mb-3 btn-info float-right">Add User</span> --}}
+                                <a href="{{route('add_officiator_form',['semesterProgram'=>$semester_program])}}" class="btn mb-3 btn-info float-right">Add Officiator</a>
+                                @endcan
+                            </div>
                         @endif
-                    </table>
-                </div>
+                    </div>
                 {{-- Users Tab Ends --}}
     
     
                 {{-- Permissions Tab Begins --}}
                 <div class="tab-pane" id="program_outline" role="tabpanel">
+                    @if($semester_program->sessions() != "[]")
                     <table class="table table-striped">
                         {{-- Add New Permission Button --}}
                             @can('update',$semester_program)
@@ -160,6 +166,14 @@
                             </tbody>
                             {{-- Table Body Ends --}}
                     </table>
+                    @else
+                    <div class="h6 card-body">
+                        No Outline To Show
+                        @can('update',$semester_program)
+                        <a href="{{route('create_program_outline',['semesterProgram'=>$semester_program])}}" class="btn mb-3 btn-info float-right">Add New Session</a>
+                        @endcan
+                    </div>
+                    @endif
                 </div>
                 {{-- Users Tab Ends --}}
                 
@@ -188,13 +202,18 @@
                         </form>
                     </div>
                     @endallowedTo
+{{-- 
+                    @if($semester_program->image() != "[]")
+                        <div class="card">
+                            <span ><i class="fa fa-trash"></i></span>
+                            <img class="image-display" src="{{asset('storage/images/'.$photo->url) }}" alt="photo">
+                        </div>
+                    
+                    @else
 
-                    @foreach($semester_program->images as $photo )
-                    <div class="card">
-                        <span ><i class="fa fa-trash"></i></span>
-                        <img class="image-display" src="{{asset('storage/images/'.$photo->url) }}" alt="photo">
-                    </div>
-                    @endforeach 
+                    <span class="h6">No Image to show</span>
+
+                    @endif --}}
 
                 </div>
                 {{-- Users Tab Ends --}}

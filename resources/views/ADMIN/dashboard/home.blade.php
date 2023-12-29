@@ -1,6 +1,6 @@
 <x-layout>
       
-    <div class="container ">
+    <div class="card-body ">
 
         <div class="row ">
 
@@ -116,6 +116,115 @@
                         </div>
                     </div>
                 </div>
+
+
+                {{-- Welfare Ministry Page--}}
+                @if(auth()->user()->hasRoleAs(['welfare_ministry_member']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','welfare_ministry_member')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="fa fa-heartbeat"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Welfare Ministry Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+                {{-- edification Ministry Page--}}
+                @if(auth()->user()->hasRoleAs(['edification_ministry_member']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','edification_ministry_member')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="fa fa-map-o"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Edification Ministry Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+                {{-- evangelism Ministry Page--}}
+                @if(auth()->user()->hasRoleAs(['evangelism_ministry_member']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','evangelism_ministry_member')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="fa fa-anchor"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Evangelism Ministry Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+                {{-- Finance Ministry Page--}}
+                @if(auth()->user()->hasRoleAs(['finance_ministry_member']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','finance_ministry_member')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="fa fa-money"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Finance Ministry Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+                {{-- Organising Ministry Page--}}
+                @if(auth()->user()->hasRoleAs(['organising_ministry_member']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','organising_ministry_member')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="fa fa-sitemap"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Organising Ministry Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+
+                {{-- Zonal Rep Page--}}
+                @if(auth()->user()->hasRoleAs(['zone_rep']))
+                    <div class="col-sm-6 col-md-4 mt-3">
+                        <a class="card text-white bg-secondary" href="{{route('ministry_index',['ministry'=>App\Models\Role::where('slug','zone_rep')->first()])}}">
+                            <div class="card-body">
+                                <div class="h1 text-muted text-right mb-4">
+                                    <i class="icon-home"></i>
+                                </div>
+                                {{-- <div class="h4 mb-0">{{App\Models\User::user_requests()->count()}}</div> --}}
+                                <small class="text-muted text-uppercase font-weight-bold">Zonal Rep Space</small>
+                                <div class="progress progress-white progress-xs mt-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endif
 
             {{-- User Related Ends Here --}}
 

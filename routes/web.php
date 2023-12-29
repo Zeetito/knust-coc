@@ -7,6 +7,7 @@ use App\Models\Zone;
 use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Image;
+use App\Models\Account;
 use App\Models\College;
 use App\Models\Contact;
 use App\Models\Faculty;
@@ -17,6 +18,7 @@ use App\Models\Residence;
 use App\Models\Attendance;
 use App\Models\Permission;
 use App\Models\GuestRequest;
+use App\Models\AccountRecord;
 use App\Models\UserResidence;
 use App\Http\Controllers\Admin;
 use App\Models\SemesterProgram;
@@ -32,6 +34,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\FacultyController;
@@ -43,6 +46,7 @@ use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\DefaultImageController;
+use App\Http\Controllers\AccountRecordController;
 use App\Http\Controllers\ProgramOutlineController;
 use App\Http\Controllers\SemesterProgramController;
 
@@ -61,6 +65,79 @@ use App\Http\Controllers\SemesterProgramController;
 Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'role:zone_reps_level')->group(function () {
     // DASHBOARD
         // USER RELATED
+
+        // MINISTRIES SPACE
+
+        // WELFARE MINISTRY
+        // Landing Page
+        Route::get('/ministry_index/{ministry}',[Admin\MinistrySpaceController::class,'ministry_index'])
+        ->name('ministry_index')
+        ;
+
+
+        // ACCOUNTS-SESSIONS
+        // View Account Sessions for Ministry
+        Route::get('/ministry_account_sessions/{ministry}',[Admin\MinistrySpaceController::class,'account_sessions'])
+        ->name('ministry_account_sessions')
+        ;
+
+        // Create Account Session For A ministry
+        Route::get('/create_ministry_account_session/{ministry}',[AccountController::class,'create_ministry_account_session'])
+        ->name('create_ministry_account_session')
+        ;
+
+        // Store Ministry Account Session
+        Route::post('/store_ministry_account_session/{ministry}',[AccountController::class,'store_ministry_account_session'])
+        ->name('store_ministry_account_session')
+        ;
+
+        // Show Ministry Acccount Session
+        Route::get('/show_ministry_account_session/{ministry}/{account}',[AccountController::class,'show_ministry_account_session'])
+        ->name('show_ministry_account_session')
+        ;
+
+        // Confirm Ministry Account Session Delete
+        Route::get('/confirm_delete_ministry_account_session/{account}',[AccountController::class,'confirm_delete_ministry_account_session'])
+        ->name('confirm_delete_ministry_account_session')
+        ;
+
+        // Delete Account Session
+        Route::delete('/delete_ministry_account_session/{account}',[AccountController::class,'delete_ministry_account_session'])
+        ->name('delete_ministry_account_session')
+        ;        
+
+
+        // ACCOUTN RECORDS
+        // Create Minsitry Account Records
+        Route::get('/create_ministry_account_record/{account}',[AccountRecordController::class,'create_ministry_account_record'])
+        ->name('create_ministry_account_record')
+        ;
+        // Store Ministry Account Records
+        Route::post('/store_ministry_account_record/{account}',[AccountRecordController::class,'store_ministry_account_record'])
+        ->name('store_ministry_account_record')
+        ;
+
+        // Edit Account Record
+        Route::get('/edit_account_record/{record}',[AccountRecordController::class,'edit_account_record'])
+        ->name('edit_account_record')
+        ;
+
+        // Update Account Record
+        Route::put('/update_account_record/{record}',[AccountRecordController::class,'update_account_record'])
+        ->name('update_account_record')
+        ;
+
+        // Confirm Record Delete
+        Route::get('/confirm_delete_account_record/{record}',[AccountRecordController::class,'confirm_delete_account_record'])
+        ->name('confirm_delete_account_record')
+        ;        
+
+        // Delete Record
+        Route::delete('/delete_account_record/{record}',[AccountRecordController::class,'delete_account_record'])
+        ->name('delete_account_record')
+        ;        
+
+
 
         // USERS WITHOUT BIODATA
         // Index page
@@ -1340,6 +1417,10 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return Account::find(3)->records;
+
+    return Program::find(438)->users();
 
     return DTD::find(3)->creator();
     return User::find(1)->groups;

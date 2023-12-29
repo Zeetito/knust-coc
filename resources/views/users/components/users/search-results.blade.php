@@ -1,3 +1,11 @@
+@if($users == "[]")
+    <div class="col-lg-4 col-sm-3 col-md-3 ">
+    
+        <span class="btn btn-info h5">No Results Found</span>
+
+    </div>
+@else
+
 @foreach($users as $user)
 <div class="col-lg-4 col-sm-3 col-md-3 ">
     <div class="card text-white bg-info" data-toggle="" data-target="#myModal" data-url="{{route('edit_inactive_account_status',['user'=>$user])}}">
@@ -33,3 +41,5 @@
     </div>
 </div>
 @endforeach
+
+@endif

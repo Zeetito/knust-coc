@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <span class="float-right btn h2 bg-info">{{$user->program()->name}}</span>
             {{-- Search User --}}
-            {{-- <span class="form-control card">
+            <span class="form-control card">
                 <form >
                     <input type="text" class="search_box" id="for_program_mate_list" data-url="{{route('search_program_mates',['user'=>$user])}}" placeholder="search name..." style="text-align:center;">
                         <i class="fa fa-search"></i>
                 </form>
-            </span> --}}
+            </span>
 
             {{-- Filter User --}}
             {{-- <span calss="form-control card float-right"> --}}
@@ -38,19 +38,20 @@
                         {{-- If User is a Fresher --}}
 
                         {{-- @if($user->inactive_account_reason() == 'fresher') --}}
-                        <a class="card text-white bg-info" data-toggle="" data-target="#myModal" >
+                        <div class="card text-white bg-info" data-toggle="" data-target="#myModal" >
                             <div class="card-body">
                                 <div class="h1 text-muted text-right mb-4">
                                     <i>
-                                        <img src="{{$mate->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                        <a href="{{route('view_profile', $mate)}}">
+                                            <img src="{{$mate->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
+                                        </a>
                                     </i>
                                 </div>
                                 {{-- <div class=" mb-0">{{$mate->created_at->diffInDays(now())}} Days Ago</div> --}}
-                                <small class="text-uppercase font-weight-bold">{{$mate->fullname()." - Year : ".$mate->year()}} </small>
-                                
-                          
+                                <small class="text-uppercase font-weight-bold">Name: {{$mate->fullname()}} </small><br>
+                                <small class="text-uppercase font-weight-bold">Year: {{$mate->year()}} </small><br>
                             </div>
-                        </a>
+                        </div>
                 
                         {{-- @endif --}}
 

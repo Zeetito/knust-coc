@@ -560,14 +560,7 @@ class User extends Authenticatable
     // User Program Mates Get
     public function program_mates()
     {
-        $program_mates_id = DB::table('users')->where('is_student', 1)
-            ->where('is_member', 1)
-            ->where('users.id', '<>', $this->id)
-            ->join('members_biodatas', 'members_biodatas.user_id', '=', 'users.id')
-            ->where('members_biodatas.program_id', $this->program()->id)
-            ->pluck('users.id');
-
-        return User::whereIn('id', $program_mates_id)->get();
+       return $this->program()->users()->where('id','!=',$this->id);
     }
 
     // Check IF user has pendeing requests

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Account;
+use Illuminate\Database\Eloquent\Model;
 use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
@@ -93,4 +94,11 @@ class Role extends Model
     {
         return self::zone_reps_level()->orWhere('slug', 'residence_rep');
     }
+
+    // Retrieve Account Sessions for a role
+    public function account_sessions(){
+        return $this->morphMany(Account::class,'accountable');
+    }
+
+
 }

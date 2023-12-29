@@ -26,6 +26,7 @@
                             <div class="pre-scrollable" >
     
                                     <div class="card-body">
+                                        @if($attendances == "[]")
                                             <table class="table table-striped">
                                                 {{-- Table Head --}}
                                                 <thead>
@@ -49,7 +50,6 @@
                                                                 <td> {{$attendance->is_active === 0 ? "Ended":"In Session"}}</td>
                                                                 <td>
 
-                                                                    
                                                                     @allowedTo(['view_attendance'])
                                                                     {{-- Qr Scan page --}}
                                                                     @if($attendance->is_active == 1)
@@ -162,6 +162,11 @@
                                                 </tbody>
                                                 {{-- Table Body Ends --}}
                                             </table>
+                                        @else
+                                            <div class="card-body h6">
+                                                No Attendance In Session
+                                            </div>
+                                        @endif
  
                                            
                                             

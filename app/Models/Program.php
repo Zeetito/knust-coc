@@ -24,12 +24,10 @@ class Program extends Model
 
     public function users()
     {
-        $users_id = User::where('is_student')
-                    ->join('members_biodatas','members_biodatas.user_id','=','users.id')
-                    ->where('members_biodatas.program_id',$this->id)
-                    ->pluck('users.id')
-                    ;
-        return User::whereIn('id',$users_id)->get();
+        return User::WhereHas('member_biodata', function ($query) {
+            $query->where('program_id', $this->id)
+            ;
+        })->get();
     }
 
     public function college(): belongsTo

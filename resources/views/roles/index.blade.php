@@ -18,7 +18,7 @@
                         </div>
 
                         {{-- Attendance Table --}}
-                        <div class="pre-scrollable" >
+                        <div class="" >
 
                                 <div class="card-body">
                                         <table class="table table-striped">
