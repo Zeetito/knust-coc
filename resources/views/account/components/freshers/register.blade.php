@@ -29,7 +29,11 @@
                                                         
                                                         <ul>
                                                             <li>
-                                                                <strong>This Excercise Is For Brethren Joining Knust Church Of Christ (Kumasi Campus Only)</strong>
+                                                                This Excercise Is For Brethren Joining Knust Church Of Christ <strong>(Kumasi Campus Only)</strong>
+                                                            </li>
+                                                            <li>
+                                                                Use the Link below If you're a student in <strong>Obuasi Campus.</strong><br>
+                                                                <a href="https://docs.google.com/forms/d/1M5LIG7goIf7UKc5f8JGyYHCEjRH2usso8d9firwWpkk/">Cick Here</a>
                                                             </li>
         
                                                         </ul>
@@ -195,7 +199,7 @@
                                     </div>
                                     <div class="col-6">
                                         <a href="https://knustcoc.org" target="_blank" class="btn btn-block bg-primary fa fa-globe" type="button">
-                                            <span>Visit Our Website</span>
+                                            <span>Visit Us</span>
                                         </a>
                                     </div>
                                     

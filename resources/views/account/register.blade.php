@@ -176,7 +176,7 @@
                                     </div>
                                     <div class="col-6">
                                         <a href="https://knustcoc.org" target="_blank" class="btn btn-block bg-primary fa fa-globe" type="button">
-                                            <span>Visit Our Website</span>
+                                            <span>Visit Us</span>
                                         </a>
                                     </div>
                                     

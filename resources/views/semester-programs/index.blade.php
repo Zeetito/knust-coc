@@ -12,7 +12,7 @@
                                     New Semester Program
                                 </span>
                                 @endallowedTo
-                            @if($semester_programs != "[]")
+                            @if($semester_programs->get() != "[]")
 
                             <div class="process-order">
                                 <h3 style="text-align:center">Programs for the Semester</h3>

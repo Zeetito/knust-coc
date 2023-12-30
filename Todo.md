@@ -414,6 +414,21 @@ included [1 or 0] default 1. 1means included in calculations and 0 means opposit
 timestamps✔️
 
 Link Attendance Sessions to their corresponding Academic years and Semesters.
+# Share Files between Mnistries of even users
+Shares Table
+id
+sharable_id
+sharable_type [Files,accounts,etc]
+sendable_id
+sendable_type
+receivable_id
+receivable_type
+shared_by 
+
+timestamps
+
+
+
 Support Section - [Contacts,etc pages]
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
