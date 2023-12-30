@@ -37,15 +37,17 @@
             @foreach($user->assigned_guest_requests() as $request)
             
                 
-                <div class="col-sm-3 col-md-2 mt-3">
-                    {{-- If User is a Fresher --}}
-
-                    @if($request->is_assigned() == true)
-                        <div class="card text-white bg-info" >
-                    @else
-                        <div class="card text-white bg-info" >
-                    @endif
-                        <div class="card-body">
+            <div class="col-sm-3 col-md-3 mt-3">
+                {{-- If User is a Fresher --}}
+                {{-- @if($request->guest()->status == 'fresher') --}}
+        
+                @if($request->is_assigned() == true)
+                    <div class="card text-white bg-success" >
+                @else
+                    <div class="card text-white bg-info" >
+                @endif
+                    <div class="card-body">
+                        
                         
                             {{-- <span class=" float-right btn fa fa-pencil" data-toggle="modal" data-target="#myModal" data-url="{{route('assign_guest_request',['guest_request'=>$request])}}" >Assign To</span> --}}
 
@@ -58,7 +60,7 @@
                         </div>
                     </div>
 
-                </div>
+            </div>
                 
             @endforeach
         </div>
