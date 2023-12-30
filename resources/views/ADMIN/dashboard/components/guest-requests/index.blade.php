@@ -60,7 +60,7 @@
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname}}</small><br>
                             <small class="text-uppercase font-weight-bold">Status:{{$request->guest()->status." (".$request->method." ".$request->type.")" }}</small><br>
                             <small class="text-uppercase font-weight-bold">Request:({{$request->method." ".$request->type}})</small><br>
-                            <div class="font-weight-bold">Contact: {{$request->guest()->contact}}</div>
+                            <div class="font-weight-bold">Contact: {{"wa.me/+233".$request->guest()->contact}}</div>
                             @if($request->is_assigned() == false)
                             <span class=" float-right btn fa fa-pencil" data-toggle="modal" data-target="#myModal" data-url="{{route('assign_guest_request',['guest_request'=>$request])}}" >Assign To</span>
                             @else
