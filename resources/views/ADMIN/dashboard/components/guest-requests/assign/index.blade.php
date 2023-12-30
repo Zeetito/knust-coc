@@ -51,7 +51,7 @@
 
                             <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname." - ".$request->guest()->status." (".$request->method." ".$request->type.")" }}</small>
-                            <div class="font-weight-bold">Contact: {{$request->guest()->contact}}</div>
+                            <div class="font-weight-bold">Contact: {{"wa.me/+233".$request->guest()->contact}}</div>
 
                             <span class="btn fa fa-pencil" data-toggle="modal" data-target="#myModal" data-url="{{route('edit_guest_request',['guest_request'=>$request])}}"   >Handle</span>
                          
