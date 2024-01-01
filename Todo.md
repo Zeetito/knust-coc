@@ -409,11 +409,14 @@ item eg...Using the example above [Users Name]✔️
 info [2bags of Rice] [nullable]✔️
 value [50 Cedis Cash] [nullable]✔️
 included [1 or 0] default 1. 1means included in calculations and 0 means opposite.✔️
-
-
 timestamps✔️
 
-Link Attendance Sessions to their corresponding Academic years and Semesters.
+
+Set Up Door to Door Session for Evangelism ✔️
+
+
+Link Attendance Sessions to their corresponding Academic years and Semesters and meetings as well..✔️
+
 # Share Files between Mnistries of even users
 Shares Table
 id

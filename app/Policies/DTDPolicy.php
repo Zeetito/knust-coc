@@ -38,6 +38,8 @@ class DTDPolicy
     public function update(User $user, DTD $dTD): bool
     {
         //
+        return $user->is($dTD->creator());
+
     }
 
     /**

@@ -2,7 +2,7 @@
     @method('put')
     @csrf
         <div class="modal-title" id="myModalLabel">
-            <h5 style="text-align:center">Create New Record</h5>
+            <h5 style="text-align:center">Update This Record</h5>
         </div>
 
         <div class="modal-body form-group">
@@ -12,6 +12,24 @@
             @error('name')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
+
+            @if($dtd->is_zone == 0)
+            <input type="text" name="residence_id" value="{{$record->residence_id}}" hidden>
+            @else
+            <strong for="">Residence</strong>
+            ({{App\Models\Residence::find($record->residence_id)->name}})
+            <input list="search_result_for_residence_list" autocomplete="off" value="{{$record->residence_id}}" id="for_residence_list"  class="form-control" name="residence_id"  >
+                <datalist id="search_result_for_residence_list">
+                    {{-- <option value="{{$record->residence_id}}">{{App\Models\Residence::find($record->residence_id)->name}}</option> --}}
+                    @foreach($dtd->zone->residences as $residence)
+                        <option value="{{$residence->id}}">{{$residence->name." - ".$residence->zone->name}}</option>
+                    @endforeach
+                </datalist>
+                @error('residence_id')
+                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                @enderror
+            @endif
+
  
             <strong for="room">Room Number</strong>
             <input class="form-control" type="text"  value="{{old('room',$record->room)}}" name="room" autocomplete="off" id="room" >
@@ -40,14 +58,16 @@
 
 
             <strong for="info">Extra Info</strong>
-            <input class="form-control" type="text" Value="None"  value="{{old('info',$record->info)}}" name="info" autocomplete="off" id="info" >
+            <textarea class="form-control" type="text" Value="None"   name="info" autocomplete="off" id="info" >
+                {{$record->info}}
+            </textarea>
             @error('info')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
 
             <strong>Success ?</strong>
             <select class="form-control" value="{{old('success',$record->success)}}" name="success" id="" required>
-                <option value="{{$record->success}}">Select</option>
+                <option value="{{$record->success}}">Maintain</option>
                 <option value="3">Complete</option>
                 <option value="2">May Have to come back</option>
                 <option value="1">Met No One</option>
@@ -57,7 +77,6 @@
             @enderror
 
             
-            <input type="text" name="residence_id" value="{{$record->residence_id}}" hidden>
 
 
         </div>

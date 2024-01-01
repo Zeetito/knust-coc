@@ -61,4 +61,9 @@ class DTD extends Model
         return User::find($this->created_by);
     }
 
+    // Find The Zone for A DTD session
+    public function zone(){
+        return $this->belongsTo(Zone::class,'location_id');
+    }
+
 }

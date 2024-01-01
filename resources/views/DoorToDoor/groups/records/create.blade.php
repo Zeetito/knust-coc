@@ -11,6 +11,21 @@
             @error('name')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
+
+            @if($dtd->is_zone == 0)
+            <input type="text" name="residence_id" value="{{$group->groupable->location_id}}" hidden>
+            @else
+            <strong for="">Residence</strong>
+            <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  class="form-control" name="residence_id" placeholder="Residence search..." >
+                <datalist id="search_result_for_residence_list">
+                    @foreach($dtd->zone->residences as $residence)
+                        <option value="{{$residence->id}}">{{$residence->name." - ".$residence->zone->name}}</option>
+                    @endforeach
+                </datalist>
+                @error('residence_id')
+                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                @enderror
+            @endif
  
             <strong for="room">Room Number</strong>
             <input class="form-control" type="text"  name="room" autocomplete="off" id="room" >
@@ -38,7 +53,8 @@
 
 
             <strong for="info">Extra Info</strong>
-            <input class="form-control" type="text" Value="None"  name="info" autocomplete="off" id="info" >
+            <textarea class="form-control" type="text" Value="None"  name="info" autocomplete="off" id="info" >
+            </textarea>
             @error('info')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
@@ -54,7 +70,10 @@
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
 
-            <input type="text" name="residence_id" value="{{$group->groupable->location_id}}" hidden>
+
+            
+
+
 
         </div>
         

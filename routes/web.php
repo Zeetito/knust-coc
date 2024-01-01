@@ -375,11 +375,23 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
             ->middleware('auth','control:system_online','hasProfile')
             ->name('create_dtd')
             ;
-    // Store Fishing out
+    // Store DTD session
     Route::post('store_dtd',[DTDController::class,'store'])
             ->middleware('auth','control:system_online','permission:create_fishing_out')
             ->name('store_dtd')
             ;
+
+    // Update DTD Session
+    Route::put('update_dtd/{dtd}',[DTDController::class,'update'])
+            ->middleware('auth','control:system_online','permission:create_fishing_out')
+            ->name('update_dtd')
+            ;
+
+    // Edit DTD Session
+    Route::get('edit_dtd/{dtd}',[DTDController::class,'edit'])
+    ->middleware('auth','control:system_online','permission:create_fishing_out')
+    ->name('edit_dtd')
+    ;
         
     // Show DTD group
     Route::get('dtd_group/{group}',[DTDController::class,'show_dtd_group'])
@@ -432,6 +444,13 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
             ->middleware('auth','control:system_online','permission:create_fishing_out')
             ->name('fishing_out_create')
             ;
+
+    // EVANGELISM
+    // Create Evangelism session
+    Route::get('evangelism_create',[DTDController::class,'evangelism_create'])
+    ->middleware('auth','control:system_online','permission:create_fishing_out')
+    ->name('evangelism_create')
+    ;
 
 
 // -------------------------------------------------------------------------
@@ -1418,11 +1437,11 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return DTD::find(8)->zone;
     return Account::find(3)->records;
 
     return Program::find(438)->users();
 
-    return DTD::find(3)->creator();
     return User::find(1)->groups;
 
 

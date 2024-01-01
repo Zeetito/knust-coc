@@ -1,7 +1,7 @@
-<form action="{{route('fishing_out_store')}}" method="post">
+<form action="{{route('store_dtd')}}" method="post">
     @csrf
         <div class="modal-title" id="myModalLabel">
-            <h5 style="text-align:center">Create New Record</h5>
+            <h5 style="text-align:center">Create Evangelism Session</h5>
         </div>
 
         <div class="modal-body form-group">
@@ -49,7 +49,7 @@
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror
 
-            <input type="text" name="type" value="fishing_out" hidden>
+            <input type="text" name="type" value="evangelism" hidden>
             @error('type')
             <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
             @enderror

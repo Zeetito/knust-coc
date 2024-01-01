@@ -10,7 +10,7 @@
 
     <link rel="icon" href="{{asset('img/logo.png')}}" type = "image/x-icon"> 
 
-    <title>Knust Church Of Christ</title>
+    <title>Church Of Christ, Knust</title>
 
 
 

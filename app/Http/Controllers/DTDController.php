@@ -22,17 +22,33 @@ class DTDController extends Controller
         return view('DoorToDoor.create');
     }
 
+    // Edit DTD session
+    public function edit(DTD $dtd){
+        return view('DoorToDoor.edit',['dtd'=>$dtd]);
+    }
+
+    public function update(Request $request,DTD $dtd){
+        $validated = $request->validate([
+            'name'=>['required','min:4'],
+            'info'=>['nullable'],
+        ]);
+
+        $validated['updated_at'] = now();
+        
+        $dtd->name = $validated['name'];
+        $dtd->info = $validated['info'];
+        $dtd->save();
+
+        return redirect()->back()->with('success','Session Updated!');
+
+
+        
+    }
+
     // Show A Door To Door Group
     public function show_dtd_group(Group $group){
         $dtd = $group->groupable;
-
-        if($dtd->type == "fishing_out"){
-            return view('DoorToDoor.FishingOut.groups.show',['group'=>$group,'dtd'=>$dtd]);
-        }elseif($dtd->type == "evangelism"){
-            return "Great Evangelism";
-        }elseif($dtd->type == "visitation"){
-            return "Great Visitation";
-        }
+        return view('DoorToDoor.groups.show',['group'=>$group,'dtd'=>$dtd]);
     }
 
     // Confrim Delete
@@ -73,32 +89,18 @@ class DTDController extends Controller
     public function create_record(Group $group){
         $dtd = $group->groupable;
 
-        if($dtd->type == "fishing_out"){
-            // Check if the target is a zone or residence
-            if($dtd->is_zone == 0){
-                return view('DoorToDoor.FishingOut.groups.create-record-residence',['group'=>$group,'dtd'=>$dtd]);
-            }else{
-                return view('DoorToDoor.FishingOut.groups.create-record-zone',['group'=>$group,'dtd'=>$dtd]);
 
-            }
+         return view('DoorToDoor.groups.records.create',['group'=>$group,'dtd'=>$dtd]);
 
-        }elseif($dtd->type == "evangelism"){
-            return "Great Evangelism";
-        }elseif($dtd->type == "visitation"){
-            return "Great Visitation";
-        }
     }
 
     // Edit A DTD Record Instance
     public function edit_record($record_id){
         $record = DB::table('dtd_persons')->where('id',$record_id)->first();
+        $dtd = DTD::find($record->d_t_d_s_id);
         // the View to be returned would be based on whether or not the dtd session is_zone or not
-        $is_zone = DTD::find($record->d_t_d_s_id)->is_zone;
-        if($is_zone == 1 ){
-            return "Aden";
-        }else{
-            return view('DoorToDoor\FishingOut\groups\edit-record-residence',['record'=>$record]);
-        }
+
+            return view('DoorToDoor.groups.records.edit',['record'=>$record,'dtd'=>$dtd]);
 
     }
 
@@ -113,6 +115,7 @@ class DTDController extends Controller
             'success'=>['required'],
         ]);
 
+
         $validated['updated_at'] = now();
         $record = DB::table('dtd_persons')->where('id',$record_id);
         $record->update($validated);
@@ -125,6 +128,7 @@ class DTDController extends Controller
     // Store Door To Door Record Instance
     public function store_record(Group $group, Request $request){
         $dtd = $group->groupable;
+        
         $validated = $request->validate([
             'name' => ['nullable'],
             'residence_id'=>['required','numeric'],
@@ -138,13 +142,9 @@ class DTDController extends Controller
         $validated['created_at'] = now();
         $validated['updated_at'] = now();
 
-        if($dtd->type == "fishing_out"){
+        // if($dtd->type == "fishing_out"){
             DB::table('dtd_persons')->insert($validated);
-        }elseif($dtd->type == "evangelism"){
-            return "Great Evangelism";
-        }elseif($dtd->type == "visitation"){
-            return "Great Visitation";
-        }
+
 
         return redirect(route('show_dtd_group',['group'=>$group]))->with('success','New Record Created');
 
@@ -154,6 +154,12 @@ class DTDController extends Controller
     // Create A fishing out session
     public function fishing_out_create(){
         return view('DoorToDoor.FishingOut.create');
+    }
+
+
+    // EVAGELISM
+    public function evangelism_create(){
+        return view('DoorToDoor.Evangelism.create');
     }
 
     // Store DTD Sessoin
@@ -181,28 +187,6 @@ class DTDController extends Controller
 
         $dtd = DTD::create($validated);
 
-        // // Create A General Group for this session
-        // $group = new Group;
-        // $group['name'] ="Group A -- ".$dtd->name;
-        // $group['groupable_id'] = $dtd->id;
-        // $group['groupable_type'] = "App\Models\DTD";
-        // $group['created_by'] = auth()->user()->id;
-        // $group['visibility'] = 1;
-        // $group['target'] = 'guests';
-        // $group['academic_year_id'] = Semester::active_semester()->academicYear->id;
-        // $group->save();
-        
-        // Create A Group_User Instance between the creator and the group
-        // DB::table('group_users')->insert([
-        //     'group_id'=>$group->id,
-        //     'user_id'=>auth()->user()->id,
-        //     'created_by'=>auth()->user()->id,
-        //     'is_member'=>1,
-        //     'is_admin'=>1,
-        //     'created_at' =>now(),
-        //     'updated_at' =>now(),
-        // ]);
-
         return redirect()->back()->with('success','Door To Door Session Created');
     }
 
@@ -218,7 +202,7 @@ class DTDController extends Controller
             'info'=>['nullable'],
         ]);
         $validated['info'];
-        $validated['name'] = $validated['name']." -- ".$dtd->name;
+        $validated['name'] = $validated['name'];
         $validated['groupable_id'] = $dtd->id;
         $validated['groupable_type'] = "App\Models\DTD";
         $validated['created_by'] = auth()->user()->id;
