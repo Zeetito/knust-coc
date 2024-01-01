@@ -14,7 +14,9 @@
             <input type="text" name="item" class="form-control" value="{{$record->item}}" required>
 
             <strong>Info</strong>
-            <input type="text" name="info" class="form-control" value="{{$record->info}}" required>
+            <textarea type="text" name="info" class="form-control"  required>
+                {{$record->info}}
+            </textarea> 
 
 
             <strong>Value</strong>

@@ -14,7 +14,9 @@
             <input type="text" name="item" class="form-control" value="{{old('item')}}" required>
 
             <strong>Info</strong>
-            <input type="text" name="info" class="form-control" value="{{old('info')}}" required>
+            <textarea type="text" name="info" class="form-control"  required>
+                {{old('info')}}
+            </textarea>
 
 
             <strong>Value</strong>

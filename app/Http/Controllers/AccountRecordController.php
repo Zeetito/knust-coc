@@ -18,10 +18,14 @@ class AccountRecordController extends Controller
     // Store Ministry Account Record
     public function store_ministry_account_record(Request $request, Account $account){
 
+        if($account->type == "calculate"){
+            $request->validate(['value'=>['numeric'] ]);
+        }
+
         $validated = $request->validate([
             'item'=>['required'],
             'info'=>['nullable'],
-            'value'=>['required','numeric'],
+            'value'=>['required'],
             'account_id'=>['required'],
         ]);
         $validated['created_by'] = auth()->id();
@@ -39,10 +43,14 @@ class AccountRecordController extends Controller
 
     // Update Account Record
     public function update_account_record(Request $request, AccountRecord $record){
+        if($record->account_session->type == "calculate"){
+            $request->validate(['value'=>['numeric'] ]);
+        }
+
         $validated = $request->validate([
             'item'=>['required'],
             'info'=>['nullable'],
-            'value'=>['required','numeric'],
+            'value'=>['required'],
         ]);
 
         $record->update($validated);

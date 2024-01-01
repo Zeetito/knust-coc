@@ -38,8 +38,8 @@
                         <th>Name</th>
                         
                         <th>Info</th>
-                        
-                        <th>Cost</th>
+
+                        <th>Value</th>
 
                         <th>Actions</th>
                     </tr>
@@ -75,20 +75,23 @@
 
                     @endforeach
 
+                    @if($account->type == "calculate")
                     <tr>
                         <td>
                             
                         </td>
                         <td>
-                            Average:
+                            Average: {{$account->values_average()}} (per record)
                         </td>
                         <td>
-                            Total:     
+                            Total: {{$account->values_sum()}} 
                         </td>
                         <td>
                             
                         </td>
                     </tr>
+                    @endif
+
 
                 </tbody>
 

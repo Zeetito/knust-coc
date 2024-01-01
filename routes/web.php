@@ -1437,8 +1437,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return Account::find(6)->values_sum();
     return DTD::find(8)->zone;
-    return Account::find(3)->records;
 
     return Program::find(438)->users();
 

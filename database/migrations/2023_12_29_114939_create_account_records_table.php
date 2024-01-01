@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by');
             $table->string('item');
             $table->string('info')->nullable();
-            $table->double('value')->nullable();
+            $table->string('value')->nullable();
+            $table->char('sign')->default('p');
             $table->boolean('included')->default(1);
 
             $table->timestamps();

@@ -417,7 +417,9 @@ Set Up Door to Door Session for Evangelism ✔️
 
 Link Attendance Sessions to their corresponding Academic years and Semesters and meetings as well..✔️
 
-User Email to log in
+Use Email to log in ✔️
+
+Finding Average of sums for Accounts ✔️
 
 # Share Files between Mnistries of even users
 Shares Table
