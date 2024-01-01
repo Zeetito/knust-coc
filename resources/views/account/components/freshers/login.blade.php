@@ -18,7 +18,7 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-addon"><i class="icon-user"></i>
                                         </span>
-                                        <input type="text" class="form-control" name="username" placeholder="Username">
+                                        <input type="text" class="form-control" name="username" placeholder="Username Or Email">
                                     </div>
                                         @error('username')
                                         <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>

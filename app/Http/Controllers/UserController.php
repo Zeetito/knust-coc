@@ -118,7 +118,13 @@ class UserController extends Controller
             'username' => ['required', 'min:2'],
             'password' => ['required'],
         ]);
-        // $validated['password'] = bcrypt($validated['password']);
+        $username = $validated['username'];
+        // Check if user used password
+        $user = User::where('email',$validated['username'])->first();
+        if($user){
+            $validated['username'] = $user->username;
+        }
+
         if (Auth::attempt($validated)) {
 
             $request->session()->regenerate();
