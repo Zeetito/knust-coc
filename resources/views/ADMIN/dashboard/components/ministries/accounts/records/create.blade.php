@@ -22,6 +22,16 @@
             <strong>Value</strong>
             <input type="text" name="value" class="form-control" value="{{old('value')}}" required>
 
+            @if($account->type == "calculate")
+            <strong>Operation</strong>
+            <select name="sign" id="" class="form-control">
+                <option value="p">Add</option>
+                <option value="n">Subtract</option>
+            </select>
+            @else
+            <input type="text" name="sign" value="p" readonly hidden required>
+            @endif
+
 
             <input type="text" name="account_id" value="{{$account->id}}" readonly hidden required>
         

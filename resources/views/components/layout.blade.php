@@ -25,6 +25,7 @@
      
      {{-- Custom Styles --}}
      <link href={{ asset("css/custom.css") }} rel="stylesheet">
+     <link href={{ asset("css/custom.css") }} rel="stylesheet">
 
 
     <!-- Bootstrap and necessary plugins -->
@@ -38,6 +39,8 @@
     <script src={{asset("js/views/charts.js")}}></script>
     <script src={{asset("js/views/main.js")}}></script>
     <script src={{asset("js/views/widgets.js")}}></script>
+    <script src={{asset("js/jquery.dataTables.min.js")}}></script>
+    <script src={{asset("js/jquery.dataTables.bootstrap5.min.js")}}></script>
  
  </head>
 

@@ -16,7 +16,7 @@
 
             <span class="col-3 btn"> <a class="btn" href="{{route('ministry_account_sessions',['ministry'=>$ministry])}}">Accounts</a> </span>
 
-            <span class="col-3 btn"> <a class="btn" href="">Info</a> </span>
+            <span class="col-3 btn"> <a class="btn" href="{{route('ministry_received_items',['ministry'=>$ministry])}}">Shared Items</a> </span>
 
             <span class="col-3 btn"> <a class="btn" href="">Archive</a> </span>
 

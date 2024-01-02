@@ -33,7 +33,7 @@ class Account extends Model
     public function values_sum(){
         $positive = $this->records->where('sign','p')->where('included',1)->sum('value');
         $negative = $this->records->where('sign','n')->where('included',1)->sum('value');
-        return number_format(($positive+$negative),2);
+        return (($positive-$negative));
     }
 
     // Find the Average of the values

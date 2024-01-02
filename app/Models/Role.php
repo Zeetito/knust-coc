@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Share;
 use App\Models\Account;
 use Illuminate\Database\Eloquent\Model;
 use App\Permissions\HasRolesAndPermissions;
@@ -100,5 +101,13 @@ class Role extends Model
         return $this->morphMany(Account::class,'accountable');
     }
 
+    // Retrieve Shared Items
+    public function received_items(){
+        return $this->morphMany(Share::class,'receivable');
+    }
 
+    // Retrieve Sent Items
+    public function sent_items(){
+        return $this->morphMany(Share::class,'sendable');
+    }
 }

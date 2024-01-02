@@ -23,4 +23,9 @@ class MinistrySpaceController extends Controller
         // }
     }
 
+    // View Ministry Shared Items
+    public function received_items(Role $ministry){
+        return view('ADMIN.dashboard.components.ministries.space.shared-items',['ministry'=>$ministry]);
+    }
+
 }

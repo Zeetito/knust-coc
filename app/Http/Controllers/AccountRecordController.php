@@ -19,13 +19,14 @@ class AccountRecordController extends Controller
     public function store_ministry_account_record(Request $request, Account $account){
 
         if($account->type == "calculate"){
-            $request->validate(['value'=>['numeric'] ]);
+            $request->validate(['value'=>['numeric']]);
         }
 
         $validated = $request->validate([
             'item'=>['required'],
             'info'=>['nullable'],
             'value'=>['required'],
+            'sign'=>['nullable'],
             'account_id'=>['required'],
         ]);
         $validated['created_by'] = auth()->id();

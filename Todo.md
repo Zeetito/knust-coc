@@ -421,21 +421,20 @@ Use Email to log in ✔️
 
 Finding Average of sums for Accounts ✔️
 
-# Share Files between Mnistries of even users
-Shares Table
-id
-sharable_id
-sharable_type [Files,accounts,etc]
-sendable_id
-sendable_type
-receivable_id
-receivable_type
-shared_by 
+# Share Files between Mnistries of even users ✔️
+Shares - Table✔️
+id✔️
+sharable_id✔️
+sharable_type [Files,accounts,etc]✔️
+sendable_id✔️
+sendable_type✔️
+receivable_id✔️
+receivable_type✔️
+shared_by ✔️
+✔️
+timestamps✔️
 
-timestamps
-
-
-
+Cancel Shares 
 Support Section - [Contacts,etc pages]
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
@@ -447,6 +446,8 @@ id
 type /Announcements, birthdays, Question[Demands A Yes or No answer and has Data Url for action to be performed],
 start_date
 end_date //Equal to start_date by default
+
+Semester Programs on Homepage
 
 
 ### phase 20

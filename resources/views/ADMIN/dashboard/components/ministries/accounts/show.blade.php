@@ -1,6 +1,8 @@
 <x-layout>
     {{-- Whole Page Begins --}}
+    @if(auth()->user()->hasRole($account->ministry->slug))
     <a href="{{route('ministry_account_sessions',$account->ministry)}}" class="btn-secondary btn float-right mr-2 mt-2">Go Back</a>
+    @endif
     <div class="card-body bg-white">
 
         <span class="h6">
@@ -28,9 +30,11 @@
 
             @else
 
+            @if(auth()->user()->hasRole($account->ministry->slug))
             <span class="btn btn-info" data-url="{{route('create_ministry_account_record',['account'=>$account])}}" data-toggle="modal" data-target="#myModal" > 
                 New Record
             </span>
+            @endif
 
             <table class="table table-striped">
                 <thead>
@@ -41,7 +45,9 @@
 
                         <th>Value</th>
 
+                        @if(auth()->user()->hasRole($account->ministry->slug))
                         <th>Actions</th>
+                        @endif
                     </tr>
                 </thead>
 
@@ -57,8 +63,10 @@
                             {{$record->info}}
                         </td>
                         <td>
-                            {{$record->value}}
+                            {{$record->value}} @if($account->type == "calculate") {{$record->sign == 'p' ? "(+)" : "(-)"}} @endif
                         </td>
+
+                        @if(auth()->user()->hasRole($account->ministry->slug))
                         <td>
                             {{-- View Attendance Session --}}
                             <span class="btn" data-url="{{route('edit_account_record',['record'=>$record])}}" data-target="#myModal" data-toggle="modal" >
@@ -69,8 +77,9 @@
 
                                 <i class="fa fa-trash"></i>
                             </span>
-
                         </td>
+                        @endif
+                        
                     </tr>
 
                     @endforeach

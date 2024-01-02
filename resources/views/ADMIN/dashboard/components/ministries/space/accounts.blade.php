@@ -45,8 +45,15 @@
                                 <a class="btn" href="{{route('show_ministry_account_session',['ministry'=>$ministry, 'account'=>$session])}}">
                                     <i class="fa fa-key"></i>
                                 </a>
-                                <span class="btn">
-                                    <i class="fa fa-sticky-note"></i>
+                                
+                                <a class="btn" href="{{route('share_account_sessions',['sendable'=>'App\Models\Role', 'ministry'=>$ministry, 'account'=>$session])}}">
+                                {{-- <span class="btn" data-url="" data-target="#myLargeModal" data-toggle="modal" > --}}
+                                    <i class="fa fa-share-alt"></i>
+                                </a>
+
+                                <span class="btn" data-url="{{route('edit_ministry_account_session',['account'=>$session,'ministry'=>$ministry])}}" data-target="#myModal" data-toggle="modal" >
+
+                                    <i class="fa fa-pencil"></i>
                                 </span>
 
                                 <span class="btn" data-url="{{route('confirm_delete_ministry_account_session',['account'=>$session])}}" data-target="#myModal" data-toggle="modal" >

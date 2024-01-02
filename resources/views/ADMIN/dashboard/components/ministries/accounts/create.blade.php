@@ -21,9 +21,7 @@
             </select>
             
             <input type="text" name="accountable_id" value="{{$ministry->id}}" readonly hidden required>
-            <input type="text" name="accountable_type" value="App\Models\Role" readonly hidden required>
-
-            
+            <input type="text" name="accountable_type" value="App\Models\Role" readonly hidden required>   
 
         </div>
         

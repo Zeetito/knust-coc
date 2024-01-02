@@ -7,6 +7,7 @@ use App\Models\Zone;
 use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Image;
+use App\Models\Share;
 use App\Models\Account;
 use App\Models\College;
 use App\Models\Contact;
@@ -34,6 +35,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ShareController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
@@ -67,15 +69,24 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
         // USER RELATED
 
         // MINISTRIES SPACE
-
-        // WELFARE MINISTRY
         // Landing Page
         Route::get('/ministry_index/{ministry}',[Admin\MinistrySpaceController::class,'ministry_index'])
         ->name('ministry_index')
         ;
+        // View Ministry Shared Items
+        Route::get('/ministry_received_items/{ministry}',[Admin\MinistrySpaceController::class,'received_items'])
+        ->name('ministry_received_items')
+        ;
 
 
         // ACCOUNTS-SESSIONS
+
+        // Share  Account page Session
+        Route::get('/share_account_sessions/{account}/{ministry}/{sendable}',[AccountController::class,'create_share'])
+        ->name('share_account_sessions')
+        ;
+
+
         // View Account Sessions for Ministry
         Route::get('/ministry_account_sessions/{ministry}',[Admin\MinistrySpaceController::class,'account_sessions'])
         ->name('ministry_account_sessions')
@@ -91,8 +102,18 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
         ->name('store_ministry_account_session')
         ;
 
+        // Update Ministry account Session
+        Route::put('/update_ministry_account_session/{account}',[AccountController::class,'update_ministry_account_session'])
+        ->name('update_ministry_account_session')
+        ;
+        // Edit Ministry account Session
+        Route::get('/edit_ministry_account_session/{ministry}/{account}',[AccountController::class,'edit_ministry_account_session'])
+        ->name('edit_ministry_account_session')
+        ;
+
+
         // Show Ministry Acccount Session
-        Route::get('/show_ministry_account_session/{ministry}/{account}',[AccountController::class,'show_ministry_account_session'])
+        Route::get('/show_ministry_account_session/{account}',[AccountController::class,'show_ministry_account_session'])
         ->name('show_ministry_account_session')
         ;
 
@@ -324,14 +345,32 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
             ->name('switch_system_offline')
         ;
 
-
-
 });
 
 // ------------------END ADMIN PAGES GROUPS ROUTES------------------
 
 
 
+
+// -----------------------------------------------------------------------
+
+    // SHARES
+    // Create A Share instance - modal
+    Route::get('create_share/{sharable}/{sendable}',[ShareController::class,'create'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('create_share');
+
+    // Store Share
+    Route::post('store_share',[ShareController::class,'store'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('store_share');
+
+    // Show Shared Item
+    Route::get('show_shared_item/{item}',[ShareController::class,'show'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('show_shared_item');
+
+    
 
 // -----------------------------------------------------------------------
 // DOOR TO DOOR
@@ -1426,6 +1465,9 @@ Route::get('/system_offline',[AccessoryController::class, 'system_offline'])
 // MODAL VIEWS
 
 // modal view user profile info
+
+
+
 Route::get('/info/{user}', [BiodataController::class, 'show_modal_info'])
     ->middleware('auth')
     ->name('show_modal_info');
@@ -1436,21 +1478,9 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+    return Role::find(6)->sent_items;
+    return Share::find(2)->sendable;
 
-    return Account::find(6)->values_sum();
-    return DTD::find(8)->zone;
-
-    return Program::find(438)->users();
-
-    return User::find(1)->groups;
-
-
-    return $dtd->users;
-
-    return Group::find(1)->groupable;
-    return UserResidence::find(6)->zone;
-    return Zone::otherZoneResidences();
-    return Zone::find(1)->roles;
 
 
 

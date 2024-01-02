@@ -53,6 +53,14 @@ $(document).ready(function(){
         
     };
 
+    $('.datatable').DataTable( {
+        dom:'Bfrtip',
+        buttons: [
+            'copy',  'pdf','print','excel'
+        ]
+    
+    } );
+
 
     // // Confrim Password
     // $(document.body).on('click','.confirm_password', function () {

@@ -33,9 +33,27 @@ class AccountController extends Controller
     }
 
     // Show Ministry Account Session
-    public function show_ministry_account_session(Role $ministry, Account $account){
-        return view('ADMIN.dashboard.components.ministries.accounts.show',['ministry'=>$ministry, 'account'=>$account]);
+    public function show_ministry_account_session(Account $account){
+        return view('ADMIN.dashboard.components.ministries.accounts.show',['ministry'=>$account->ministry, 'account'=>$account]);
     }
+
+    // edit Ministry Account Session
+    public function edit_ministry_account_session(Role $ministry, Account $account){
+        return view('ADMIN.dashboard.components.ministries.accounts.edit',['ministry'=>$ministry, 'account'=>$account]);
+    }
+
+    // Update Minsitry Account Session
+    public function update_ministry_account_session(Request $request,Account $account){
+        $validated = $request->validate([
+            'name'=>['required'],
+        ]);
+
+        $validated['updated_at'] = now();
+       $account->update($validated);
+       return redirect()->back()->with('success','Account Session Updated!');
+    }
+
+    
 
     // confirm_delete_ministry_account_session
     public function confirm_delete_ministry_account_session(Account $account){
@@ -50,5 +68,10 @@ class AccountController extends Controller
         }else{
             return redirect()->back()->with('warning','Input A valid response');
         }
+    }
+
+    // create Share instance
+    public function create_share(Account $account,Role $ministry, $sendable){
+        return view('ADMIN.dashboard.components.ministries.accounts.share',['account'=>$account,  'sharable_type'=>'App\Models\Account' , 'ministry'=>$ministry, 'sendable_type'=>$sendable]);
     }
 }

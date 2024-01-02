@@ -14,6 +14,7 @@ class AccountRecord extends Model
         'item',
         'info',
         'value',
+        'sign',
         'account_id',
         'created_by',
     ];
