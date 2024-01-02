@@ -56,6 +56,10 @@
                                     <a class="btn" href="{{route('show_shared_item',['item'=>$item])}}" >
                                         <i class="fa fa-eye"></i>
                                     </a>
+
+                                    <a class="btn" href="{{route('show_shared_item',['item'=>$item])}}" >
+                                        <i class="fa fa-times"></i>
+                                    </a>
         
                                    
                                 </td>
@@ -106,10 +110,10 @@
                                 </td>
 
                                 <td>
-                                    {{-- View Attendance Session --}}
-                                    {{-- <a class="btn" href="{{route('show_shared_item',['item'=>$item])}}" > --}}
-                                        {{-- <i class="fa fa-eye"></i> --}}
-                                    {{-- </a> --}}
+
+                                    <span class="btn" data-url="{{route('confirm_cancel_shared_item',['item'=>$item])}}" data-toggle="modal" data-target="#myModal" >
+                                        <i class="fa fa-times"></i>
+                                    </span>
         
                                    
                                 </td>

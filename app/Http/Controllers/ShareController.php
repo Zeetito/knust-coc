@@ -75,5 +75,23 @@ class ShareController extends Controller
 
     }
 
+    // Confrim Cancel
+    public function confirm_cancel(Share $item){
+        return view('shares.cancel',['item'=>$item]);
+    }
+
+    // Cancel Share
+    public function cancel(Share $item , Request $request){
+        if($request->input('response') == 1 ){
+            if($item){
+                $item->delete();
+            return redirect()->back()->with('warning','Share Cancelled!');
+
+            }
+        }else{
+            return redirect()->back()->with('failure','Enter Valid response');
+        }
+    }
+
 
 }

@@ -431,10 +431,11 @@ sendable_type✔️
 receivable_id✔️
 receivable_type✔️
 shared_by ✔️
-✔️
+
 timestamps✔️
 
-Cancel Shares 
+Cancel Shares✔️
+
 Support Section - [Contacts,etc pages]
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.

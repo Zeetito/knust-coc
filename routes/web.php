@@ -86,7 +86,6 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
         ->name('share_account_sessions')
         ;
 
-
         // View Account Sessions for Ministry
         Route::get('/ministry_account_sessions/{ministry}',[Admin\MinistrySpaceController::class,'account_sessions'])
         ->name('ministry_account_sessions')
@@ -369,6 +368,17 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
     Route::get('show_shared_item/{item}',[ShareController::class,'show'])
     ->middleware('auth','control:system_online','hasProfile')
     ->name('show_shared_item');
+
+    // Confrim Cancel Share
+    Route::get('confirm_cancel_shared_item/{item}',[ShareController::class,'confirm_cancel'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('confirm_cancel_shared_item');
+
+    // Cacnel Share
+    Route::delete('cancel_share/{item}',[ShareController::class,'cancel'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('cancel_share');
+
 
     
 
