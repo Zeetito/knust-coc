@@ -213,7 +213,7 @@
             {{-- PREFERENCE --}}
             <li class="nav-item nav-dropdown">
                 <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-star"></i> Sepcial</a>
+                    <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-star"></i> Special</a>
                     <ul class="nav-dropdown-items">  
                     {{-- For Members --}}
                     @if(auth()->user()->is_member)

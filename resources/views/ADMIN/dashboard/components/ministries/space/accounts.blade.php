@@ -25,7 +25,7 @@
                 <span class="btn btn-info mb-2" data-url="{{route('create_ministry_account_session',['ministry'=>$ministry])}}" data-toggle="modal" data-target="#myModal" > 
                     Create New Account Session
                 </span>
-                <table class="table table-striped">
+                <table class="table datatable table-striped">
                     <thead>
                         <tr>
                             <th>Name</th>
