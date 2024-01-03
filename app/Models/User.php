@@ -193,7 +193,7 @@ class User extends Authenticatable
     // Roles
     public function roles()
     {   
-        $academic_year_id = Semester::active_semester()->academicYear->id;
+        // $academic_year_id = Semester::active_semester()->academicYear->id;
         return $this->belongsToMany(Role::class, 'role_users')
         // ->where('academic_year_id',$academic_year_id)
         

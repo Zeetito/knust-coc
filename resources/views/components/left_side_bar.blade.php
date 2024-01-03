@@ -162,7 +162,7 @@
                 <ul class="nav-dropdown-items">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('zones')}}"><i class="fa fa-circle-o-notch"></i> Zones</a>
+                        <a class="nav-link" href="{{route('zones')}}"><i class="fa fa-street-view"></i> Zones</a>
                     </li>
                     {{-- Groups --}}
                     <li class="nav-item">
@@ -190,6 +190,18 @@
                  
                 </ul>
             </li>
+            {{-- HELP --}}
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" ><i class="fa fa-question"></i> Help</a>
+                <ul class="nav-dropdown-items">
+                    {{-- Zone --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('support_page')}}"><i class="fa fa-support"></i> Support</a>
+                    </li>
+                 
+                </ul>
+            </li>
+
            
            
             <li class="divider"></li>

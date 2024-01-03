@@ -348,7 +348,11 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
 
 // ------------------END ADMIN PAGES GROUPS ROUTES------------------
 
-
+// SUPPORT PAGE
+// View Support Page
+    Route::get('view_support',[UserController::class,'support'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('support_page');
 
 
 // -----------------------------------------------------------------------
@@ -1488,7 +1492,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
-    return Role::find(6)->sent_items;
+    return Role::ministries();
     return Share::find(2)->sendable;
 
 

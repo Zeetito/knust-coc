@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Share;
 use App\Models\Account;
 use Illuminate\Database\Eloquent\Model;
@@ -73,6 +74,15 @@ class Role extends Model
         return self::where('slug', 'preacher');
     }
 
+
+    // Get Preacher(s)
+    public static function preachers(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'preacher');
+        })->get();
+    }
+
+
     public static function ministry_members_level()
     {
         return self::preacher_level()
@@ -83,6 +93,76 @@ class Role extends Model
             ->orWhere('slug', 'welfare_ministry_member');
         // ->get()
     }
+
+    // Edification Ministry Members
+    public static function edification_ministry_members(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'edification_ministry_member');
+        })->get();
+    }
+
+    // Get evangelism Ministry members
+    public static function evangelism_ministry_members(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'evangelism_ministry_member');
+        })->get();
+    }
+
+    // Get Finance Ministry Members
+    public static function finance_ministry_members(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'finance_ministry_member');
+        })->get();
+    }
+
+    // Get Organising Ministry members
+    public static function organising_ministry_members(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'organising_ministry_member');
+        })->get();
+    }
+
+    // Get Welfare Mnistry Members
+    public static function welfare_ministry_members(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'welfare_ministry_member');
+        })->get();
+    }
+
+    // Get Zonal Reps
+    public static function zonal_reps(){
+        return User::whereHas('roles', function ($query) {
+            $query->where('slug', 'zone_rep');
+        })->get();
+    }
+
+    // Get All Ministry Members
+    public static function ministry_members(){
+        return User::
+        whereHas('roles', function ($query) {
+            $query->where('slug', 'edification_ministry_member');
+        })
+        ->orWhereHas('roles', function ($query) {
+            $query->where('slug', 'evangelism_ministry_member');
+        })
+        ->orWhereHas('roles', function ($query) {
+            $query->where('slug', 'finance_ministry_member');
+        })
+        ->orWhereHas('roles', function ($query) {
+            $query->where('slug', 'organising_ministry_member');
+        })
+        ->orWhereHas('roles', function ($query) {
+            $query->where('slug', 'welfare_ministry_member');
+        })
+        
+        ->get();
+    }
+
+    // Get All Ministries (minus - zonal reps and preacher)
+    public static function ministries(){
+        return self::where('slug','!=','preacher')->where('slug','!=','zone_rep')->where('slug','!=','residence_rep')->with('users')->get();
+    }
+    
 
     // Get Zonal Reps Level Roles
     public static function zone_reps_level()

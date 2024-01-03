@@ -22,6 +22,12 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
+
+    // View Support
+    public function support(){
+        return view('help.support.index');
+    }
+
     // Register Fresher Page
     public function create_fresher(){
         return view('account.components.freshers.register');

@@ -437,6 +437,14 @@ timestamps✔️
 Cancel Shares✔️
 
 Support Section - [Contacts,etc pages]
+
+Updating Profile for a new Academic year
+-- Check If user has some past Member Profile.
+If so, Member should be redirected by the middleware to 
+page for him or her to confirm if they're still a member or not 
+or even a student or not.
+
+
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
 
