@@ -1,7 +1,7 @@
 <x-layout>
         
-    <div class="container-fluid">
-            <div class="dashboard-container">
+    <div class="container">
+            <div class="bg-white">
 
                 {{-- Each Whole Table Screen --}}
                 <div class="process-bar">
@@ -58,7 +58,7 @@
                                                 </form>
                                             </span> --}}
 
-                                            <table class="table table-striped datatable">
+                                            <table class="table table-striped table-responsive datatable">
                                                 {{-- Table Head --}}
                                                 <thead>
                                                     <tr>

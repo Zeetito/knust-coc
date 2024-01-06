@@ -2,7 +2,7 @@
       
     <div class=" card ">
 
-        <div class="container-fluid">
+        <div class="container">
             {{-- Search User --}}
             {{-- <span class=""> --}}
                 {{-- <form > --}}
@@ -57,7 +57,7 @@
                     {{-- If User is a Fresher --}}
                     <div class="card text-white bg-secondary" >
 
-                        <div class="menu-container">
+                        <div class="menu-container ml-3">
                             <button class="menu-button">&#8286;</button>
                             <div class="menu-content">
                             
