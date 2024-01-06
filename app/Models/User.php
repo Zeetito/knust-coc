@@ -673,6 +673,7 @@ class User extends Authenticatable
         $query->whereIn('groups.id', $user->groups->pluck('id'));
         })
         ->orWhere('created_by',$this->id)
+        ->latest()
     ->get();
     }
 

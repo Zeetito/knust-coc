@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Semester;
 use App\Models\Accessory;
+use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -46,6 +48,28 @@ class ConfigController extends Controller
             $accessory->save();
         return redirect()->back()->with('warning','You have succesffully turned off the System');
         }
+    }
+
+
+    // ACADEMIC YEAR
+    // Create New Academic Year
+    public function create_new_academic_year(){
+        $current_year = Semester::active_semester()->academicYear;
+        return view('ADMIN.configurations.academic-year.create',['current_year'=>$current_year]);
+    }
+
+    // Store New Academic Year
+    public function store_new_academic_year(Request $request){
+        $current_year = Semester::active_semester()->academicYear;
+        $validated = $request->validate([
+            'start_year' =>['required'],
+            'end_year' =>['required'],
+        ]);
+
+        AcademicYear::create($validated);
+        $sem =  new Semester;
+        $sem[''];
+
     }
     
 }

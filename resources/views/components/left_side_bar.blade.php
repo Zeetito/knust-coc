@@ -14,9 +14,9 @@
                             @if(auth()->user()->hasAnyOf(App\Models\Role::preacher_level()->get()))
 
                                 {{-- Configurations --}}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('admin_config')}}"><i class="fa fa-warning"></i> Configurations</a>
-                                </li>
+                                {{-- <li class="nav-item"> --}}
+                                    {{-- <a class="nav-link" href="{{route('admin_config')}}"><i class="fa fa-warning"></i> Configurations</a> --}}
+                                {{-- </li> --}}
                             @endif
                                 {{-- Roles --}}
                                 <li class="nav-item">

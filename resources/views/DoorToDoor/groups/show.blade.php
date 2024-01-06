@@ -51,29 +51,31 @@
                                         @if($dtd->group_records($group) != "[]")
                                         <div class="">
 
-                                            <span>
+                                            {{-- <span>
                                                 <form >
                                                     <input type="text" id="for_record_list" class="search_box" data-url="#" placeholder="search name..." style="text-align:center;">
                                                         <i class="fa fa-search"></i>
                                                 </form>
-                                            </span>
+                                            </span> --}}
 
-                                            <table class="table table-striped">
+                                            <table class="table table-striped datatable">
                                                 {{-- Table Head --}}
                                                 <thead>
                                                     <tr>
                                                         <th>Person Name</th>
                                                         <th>Room </th>
+                                                        <th>Contact & Info</th>
                                                         <th>Floor</th>
                                                         
+                                                        <th>Status</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 {{-- Table Body --}}
                                                 <tbody id="search_result_for_record_list">
                                                     @foreach($dtd->group_records($group) as $record)
-
-                                                        <tr id="tr_{{$record->id}}">
+                                                        {{-- Check The color of the row --}}
+                                                        <tr class="" id="tr_{{$record->id}}">
                                                             <td>
                                                             {{$record->name}}
                                                         </td>
@@ -81,7 +83,21 @@
                                                                 {{$record->room}}
                                                             </td>
 
+                                                            <td>
+                                                                {{$record->info}}
+                                                            </td>
+
                                                             <td>{{$record->floor}}</td>
+                                                            
+                                                            {{-- Check the Status Color --}}
+                                                            @if($record->success == 1)
+                                                            <td class="fa fa-bell  bg-danger">1</td>
+                                                            @elseif($record->success == 2)
+                                                            <td class="fa fa-bell bg-warning">2</td>
+                                                            @elseif($record->success == 3)
+                                                            <td class="fa fa-bell bg-success">3</td>
+                                                            @endif
+
 
                                                             <td>
                                                                 {{-- View Attendance Session --}}

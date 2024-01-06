@@ -52,7 +52,7 @@
             @enderror
 
 
-            <strong for="info">Extra Info</strong>
+            <strong for="info">Contact Or Extra Info</strong>
             <textarea class="form-control" type="text" Value="None"  name="info" autocomplete="off" id="info" >
             </textarea>
             @error('info')

@@ -344,6 +344,26 @@ Route::prefix('admin')->middleware('auth:sanctum', 'control:system_online', 'rol
             ->name('switch_system_offline')
         ;
 
+        // ACADEMIC YEAR
+        // Create New Academic Year - modal
+        Route::get('create_new_academic_year',[Admin\ConfigController::class,'create_new_academic_year'])
+        ->middleware('role:ministry_members_level')
+        ->name('create_new_academic_year')
+        ;
+
+        // Store New Academic Year
+        Route::post('store_new_academic_year',[Admin\ConfigController::class,'store_new_academic_year'])
+        ->middleware('role:ministry_members_level')
+        ->name('store_new_academic_year')
+        ;
+
+        // Delete Current Academic Year - modal
+        Route::get('delete_current_academic_year',[Admin\ConfigController::class,'delete_current_academic_year'])
+        ->middleware('role:ministry_members_level')
+        ->name('delete_current_academic_year')
+        ;
+
+
 });
 
 // ------------------END ADMIN PAGES GROUPS ROUTES------------------

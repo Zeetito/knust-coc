@@ -436,7 +436,7 @@ timestamps✔️
 
 Cancel Shares✔️
 
-Support Section - [Contacts,etc pages]
+Support Section - [Contacts,etc pages]✔️
 
 Updating Profile for a new Academic year
 -- Check If user has some past Member Profile.

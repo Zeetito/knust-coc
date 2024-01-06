@@ -38,6 +38,31 @@
                                                    
                                                 </tr>
 
+
+                                                {{-- Academic Year  --}}
+                                                <tr>
+                                                    <td>Academic Year</td>
+                                                    
+                                                    <td>None</td>
+                                                    
+                                                    <td class="btn btn-warning fa fa-power-off" >
+                                                        Action
+                                                        
+                                                        <div class="menu-container">
+                                                            <button class="menu-button">&#8286;</button>
+                                                            <div class="menu-content">
+
+                                                              {{-- <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal"  >Deactivate User</a> --}}
+                                                              <span  data-toggle='modal' data-target="#myModal" data-url="{{route('create_new_academic_year')}}" class="bg-info btn mt-1">Start New</span>
+                                                              <span  data-toggle='modal' data-target="#myModal" data-url="{{route('delete_current_academic_year')}}" class="bg-info btn mt-1">Delete Current</span>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+
                                             </tbody>
                                             {{-- Table Body Ends --}}
                                         </table>
