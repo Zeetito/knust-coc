@@ -609,6 +609,19 @@ Route::post('store_invite/{group}',[GroupController::class,'store_invite'])
         ->middleware('auth','control:system_online','hasProfile')
         ->name('store_invite')
         ;
+// Add User without invite page
+Route::get('skip_invite_page/{group}',[GroupController::class,'skip_invite_page'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('skip_invite_page')
+        ;
+// Skip User
+Route::post('skip_invite/{group}',[GroupController::class,'skip_invite'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('skip_invite')
+        ;
+
+
+
 // Show User Invites
 Route::get('invites/{user}',[UserController::class,'view_user_invites'])
         ->middleware('auth','control:system_online','hasProfile')

@@ -29,11 +29,11 @@ trait HasRolesAndPermissions
     public function hasRoleAs(array $role_slugs){
         foreach($role_slugs as $slug){
             $instance = $this->roles->where('slug',$slug)->first();
-            if(!$instance){
-                return false;
+            if($instance){
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public function hasPermissionThroughRole($permission)

@@ -677,4 +677,9 @@ class User extends Authenticatable
     ->get();
     }
 
+    // Check If User is A Ministry Member
+    public function is_ministry_member(){
+        return ($this->hasRoleAs(['preacher','edification_ministry_member','evangelism_ministry_member','welfare_ministry_member','finance_ministry_member','organising_ministry_member']) == true);
+    }
+
 }

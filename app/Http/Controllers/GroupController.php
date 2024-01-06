@@ -209,7 +209,39 @@ class GroupController extends Controller
             return redirect()->back()->with('failure','Memeber Removed');
         }
     }
+
+    // Skip Invite page
+    public function skip_invite_page(Group $group){
+        $users =  User::all();
+        return view('groups.user-invites.skip-invite',['group'=>$group,'users'=>$users]);
+    }
+    
+    // Skip invite
+    public function skip_invite(Group $group, Request $request){
+        $validated = $request->validate(['user_id'=>'required','numeric']);
+
+
+        // Check If Instance Exist
+        $instance = DB::table('group_users')->where('user_id',$validated['user_id'])->where('group_id',$group->id)->first();
+        if($instance){
+            if($instance->is_member == 0){
+                return redirect()->back()->with('warning','Invite Already Sent');
+            }elseif($instance->is_member == 1){
+                return redirect()->back()->with('warning','User is a member already');
+            }
+        }
     
 
+            $validated['group_id'] = $group->id;
+            $validated['is_member'] = 1;
+            $validated['is_admin'] = 0;
+            $validated['created_by'] = auth()->user()->id;
+            $validated['created_at'] = now();
+            $validated['updated_at'] = now();
+            
+            DB::table('group_users')->insert($validated);
 
+        return redirect(route('show_dtd_group',['group'=>$group]))->with('success','User Added Successfully');
+    }
 }
+

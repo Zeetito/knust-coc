@@ -197,6 +197,11 @@
                 {{-- Invite User Button --}}
                 <span class="mt-2 ml-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('create_invite',['group'=>$group])}}" >Invite User</span>
                 <span class="mt-2 ml-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('group_invites',['group'=>$group])}}" >See Invites</span>
+                
+                    @if(auth()->user()->is_ministry_member())
+                        <span class="mt-2 ml-2 btn btn-warning" data-toggle="modal" data-target="#myModal" data-url="{{route('skip_invite_page',['group'=>$group])}}" >Add User</span>
+                    @endif
+
                 @endif
 
 
