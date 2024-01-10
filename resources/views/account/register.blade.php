@@ -18,9 +18,10 @@
 
                                 {{-- Username --}}
                                 <div class="col-12 mb-3">
-                                    <strong>Tip: Use KNUST username (If you have) for convenience </strong>
-                                    
-                                    <input type="text" value="{{old('username',"")}}" name="username" autocomplete="off" class="form-control" placeholder="Username">
+                                    <strong>Tip: Use KNUST username (If you have) for convenience </strong><br><br>
+
+                                    <strong>Username</strong>
+                                    <input type="text" value="{{old('username',"")}}" name="username" autocomplete="off" class="form-control" placeholder="NB:Avoid Spaces in the username">
                                 </div>
                                 @error('username')
                                 <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
@@ -28,7 +29,7 @@
 
                                 {{-- Firstname --}}
                                 <div class="col-12 mb-3">
-                                    
+                                    <strong>Firstname</strong>
                                     <input type="text" value="{{old('firstname',"")}}" name="firstname" autocomplete="off" class="form-control" placeholder="firstname">
                                 </div>
                                 @error('firstname')
@@ -38,7 +39,7 @@
 
                                 {{-- Lastname --}}
                                 <div class="col-12 mb-3">
-                                    
+                                    <strong>Lastname</strong>
                                     <input type="text" value="{{old('lastname',"")}}" name="lastname" autocomplete="off" class="form-control" placeholder="lastname">
                                 </div>
                                 @error('lastname')
@@ -47,7 +48,7 @@
                                 
                                 {{-- Othername --}}
                                 <div class="col-12 mb-3">
-                                    
+                                    <strong>Othername</strong>
                                     <input type="text" value="{{old('othername')}}" name="othername" autocomplete="off" class="form-control" placeholder="othername">
                                 </div>
                                     @error('othername')

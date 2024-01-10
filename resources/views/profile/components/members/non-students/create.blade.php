@@ -69,11 +69,14 @@
                                     @if(empty($residences))
 
                                         <option>Search residence...</option>
-                                        @else
+                                        <option value="unknown">I come from Home</option>
+                                        <option value="unknown">Can't Find My Hostel/Homestel</option>
+                                    @else
                                     
                                         @foreach($residences as $residence)
                                             <option value="{{$residence->name}}"></option>
                                         @endforeach
+
 
                                     @endif
                                 </datalist>

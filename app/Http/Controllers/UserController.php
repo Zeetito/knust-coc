@@ -50,7 +50,7 @@ class UserController extends Controller
             'firstname' => ['required', 'min:3', 'max:30'],
             'lastname' => ['required', 'min:3', 'max:30'],
             'othername' => ['nullable', 'max:30'],
-            'username' => ['required', 'min:3', 'max:30', new UniqueAcrossTables(['users', 'guests'], 'username')],
+            'username' => ['required', 'min:3', 'max:30', 'string', 'regex:/^[a-zA-Z0-9_]+$/',new UniqueAcrossTables(['users', 'guests'], 'username')],
             'email' => ['email', 'required', new UniqueAcrossTables(['users', 'guests'], 'email')],
             'password' => ['required', 'confirmed', 'max:225', 'min:6'],
             'dob' => ['required'],

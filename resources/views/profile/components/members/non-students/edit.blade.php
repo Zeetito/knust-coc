@@ -43,6 +43,8 @@
                                 <datalist id="search_result_for_residence_list">
                                     @if(empty($residences))
                                         <option>Search residence...</option>
+                                        <option value="unknown">I come from Home</option>
+                                        <option value="unknown">Can't Find My Hostel/Homestel</option>
                                     @else
                                 
                                     @foreach($residences as $residence)

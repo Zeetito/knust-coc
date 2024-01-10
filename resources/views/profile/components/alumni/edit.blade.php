@@ -69,23 +69,24 @@
                                 @enderror
                             </div>
 
-                             {{-- Year Group Id --}}
-                            <div class="col-md-3 mb-4">
-                                <h6>Year Group</h6>
-                                <strong>For Alumini Only</strong>
-                                <select class="form-control"  value="{{old('year_group_id',$user->biodata->year_group_id)}}" name="year_group_id" id="year_group_id">
-                                    <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
-                                    @foreach(App\Models\YearGroup::all() as $year_group)
-                                        <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
-                                    @endforeach
-                                </select>
-                                {{-- <span class="help-block">Zone</span> --}}
-                                {{-- Error Message --}}
-                                @error('year_group_id')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{"Please Select A Zone"}}</p>
-                                @enderror
-
-                            </div>
+                            {{-- @if($user->biodata->is_alumni == 1) --}}
+                                {{-- Year Group Id --}}
+                                <div class="col-md-3 mb-4">
+                                    <h6>Year Group</h6>
+                                    <strong>For Alumini Only</strong>
+                                    <select class="form-control"  value="{{old('year_group_id',$user->biodata->year_group_id)}}" name="year_group_id" id="year_group_id">
+                                        <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
+                                        @foreach(App\Models\YearGroup::all() as $year_group)
+                                            <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <span class="help-block">Zone</span> --}}
+                                    {{-- Error Message --}}
+                                    @error('year_group_id')
+                                    <p class='m=0 small alert alert-danger shadow-sm'>{{"Please Select A Zone"}}</p>
+                                    @enderror
+                                </div>
+                            {{-- @endif --}}
 
                              {{-- Phone --}}
                              <div class="col-md-3 mb-4">
