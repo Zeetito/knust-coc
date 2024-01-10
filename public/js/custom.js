@@ -53,12 +53,18 @@ $(document).ready(function(){
         
     };
 
-    $('.datatable').DataTable( {
+    // Data Tables
+    $('.datatable_print').DataTable( {
         dom:'Bfrtip',
         buttons: [
-            'copy',  'pdf','print','excel'
+            // 'copy', 'pdf','print','excel',
+            'print','excel',
         ]
     
+    } );
+
+    $('.datatable').DataTable( {
+ 
     } );
 
 
