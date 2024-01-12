@@ -71,9 +71,9 @@
             
             <ul class="nav navbar-nav ml-auto">
                
-                <li class="nav-item d-md-down-none">
+                {{-- <li class="nav-item d-md-down-none">
                     <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
-                </li>
+                </li> --}}
 
                 {{-- User Updates and Setting Nav --}}
                 <li class="nav-item ">
@@ -82,6 +82,21 @@
                         <img src="{{Auth::user()->get_avatar() }}" class="img-avatar" alt="Profile Picture">
                     </a>
                 </li>
+                {{-- Refresh Icon --}}
+                <li class="nav-item ">
+                    <a class="nav-link fa fa-refresh"  href="{{request()->url()}}">
+                    </a>
+                </li>
+                {{-- Back Icon --}}
+                @if(session()->has('custom.previousUrls') && count(session('custom.previousUrls')) > 1)
+                    @php
+                        $previousUrl = array_pop(session('custom.previousUrls'));
+                    @endphp
+                     <li class="nav-item ">
+                        <a class="nav-link fa fa-long-arrow-left"  href="{{ $previousUrl }}">
+                        </a>
+                    </li>
+                @endif
                 
             </ul>
             {{-- <button class="navbar-toggler aside-menu-toggler" type="button">☰</button> --}}
@@ -153,7 +168,7 @@
                               </div>
                             </div>
                           </div>
-
+         
                         {{$slot}}
 
                     </main>

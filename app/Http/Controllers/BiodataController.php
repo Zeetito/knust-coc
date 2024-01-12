@@ -419,8 +419,8 @@ class BiodataController extends Controller
 
                                     // Check If User Chose Cannot find
                                     if($validated_profile['program_id'] == 'unknown'){
-                                        $validated['program_id'] = NULL;
-                                        $validated['college_id'] = NULL;
+                                        $validated_profile['program_id'] = NULL;
+                                        $validated_profile['college_id'] = NULL;
                                     }else{
 
                                         return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
@@ -429,14 +429,14 @@ class BiodataController extends Controller
                         }else{
                               // Check If User Chose Cannot find
                               if($validated_profile['program_id'] == 'unknown'){
-                                $validated['program_id'] = NULL;
-                                $validated['college_id'] = NULL;
+                                $validated_profile['program_id'] = NULL;
+                                $validated_profile['college_id'] = NULL;
                             }else{
                               return redirect()->back()->with('failure', 'Make sure to  Select the Program from the List Provided');
                             }
 
-                            $program_id = $validated['program_id'];
-                            $college_id = $validated['college_id'];
+                            // $program_id = $validated_profile['program_id'];
+                            // $college_id = $validated_profile['college_id'];
                         }
 
                         // Handle the case where either program or residence is null
@@ -464,8 +464,8 @@ class BiodataController extends Controller
 
                                 // Check If User Chose Cannot find
                                 if($validated_profile['residence_id'] == 'unknown'){
-                                    $validated['residence_id'] = NULL;
-                                    $validated['zone_id'] = NULL;
+                                    $residence_id = NULL;
+                                    $zone_id = NULL;
                                 }else{
                                    
 
@@ -475,15 +475,12 @@ class BiodataController extends Controller
                            }
                         }else{
                               // Check If User Chose Cannot find
-                            //   if($validated_profile['residence_id'] == 'unknown'){
-                            //     $validated['residence_id'] = NULL;
-                            //     $validated['zone_id'] = NULL;
-                            // }else{
-                                return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
-                            // }
-
-                            // $residence_id = $validated['residence_id'];
-                            // $zone_id = $validated['zone_id'];
+                              if($validated_profile['residence_id'] == 'unknown'){
+                                    $residence_id = NULL;
+                                    $zone_id = NULL;
+                                }else{
+                                    return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
+                                }
 
                         }
 
@@ -552,31 +549,31 @@ class BiodataController extends Controller
                 $residence = Residence::findResidenceByName($validated_profile['residence_id']);
                                    // Check for the Existence of Residence
                                    if (!$residence) {
-                                    // Check if user has a custom residence
+                                     // Check if user has a custom residence
                                         if($user->has_custom_residence()){
-                                        $custom_residence = $user->custom_residence();
-                                        if($custom_residence->name == $validated_profile['residence_id'] || $validated_profile['residence_id'] == "None"){
+                                            $custom_residence = $user->custom_residence();
+                                            if($custom_residence->name == $validated_profile['residence_id'] || $validated_profile['residence_id'] == "None"){
                                                 $residence_id = NULL;
                                                 $zone_id = NULL;
                                             }else{
                 
                                                 // Check If User Chose Cannot find
                                                 if($validated_profile['residence_id'] == 'unknown'){
-                                                    $validated['residence_id'] = NULL;
-                                                    $validated['zone_id'] = NULL;
+                                                    $residence_id = NULL;
+                                                    $zone_id = NULL;
                                                 }else{
-
+                                                    
+                
                                                     return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
                                                 }
                 
-                                        }
+                                            }
                                         }else{
-                                                // Check If User Chose Cannot find
-                                                if($validated_profile['residence_id'] == 'unknown'){
-                                                    $validated['residence_id'] = NULL;
-                                                    $validated['zone_id'] = NULL;
+                                            // Check If User Chose Cannot find
+                                            if($validated_profile['residence_id'] == 'unknown'){
+                                                    $residence_id = NULL;
+                                                    $zone_id = NULL;
                                                 }else{
-
                                                     return redirect()->back()->with('failure', 'Make sure to  Select the residence from the List Provided');
                                                 }
                 
@@ -595,6 +592,8 @@ class BiodataController extends Controller
                                         }
             
                                 }
+                                $validated_profile['residence_id'] = $residence_id;
+                                $validated_profile['zone_id'] = $zone_id;
             }
 
         } elseif ($user->is_member == 0 && $user->has_alumni_profile() == true) {
