@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+     // Show loading overlay when the page starts loading
+     $('#loading-overlay').show();
+
+     // Hide loading overlay when the page has finished loading
+     $(window).on('load', function() {
+         $('#loading-overlay').fadeOut('slow');
+     });
+     
 
     // Getting Info into Static modal/screen
     $(document.body).on('click', '.modal_button',function () {
