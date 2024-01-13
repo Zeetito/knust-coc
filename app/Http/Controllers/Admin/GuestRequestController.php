@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Mail\AccountCreated;
 use App\Models\GuestRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class GuestRequestController extends Controller
 {
@@ -62,6 +64,17 @@ class GuestRequestController extends Controller
                             $guest_request->handled_by = auth()->user()->id;
                             $guest_request->instance_id = $instance_id;
                             $guest_request->save();
+
+                            
+                            // Send Email if It's A User Account Created
+                            if($guest_request->table_name == 'users'){
+                                $user = User::find($instance_id)->first();
+                                Mail::to($user->email)->send(new AccountCreated($user));
+
+                                return redirect()->back()->with('success','Grant Success. User Notified On Email');  
+
+
+                            }
     
                             // If it's creation of account, the username must not be reserved anymore for that guest
                             $guest = $guest_request->guest();

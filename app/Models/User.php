@@ -361,6 +361,18 @@ class User extends Authenticatable
         return User::whereDoesntHave('alumni_biodata')->whereDoesntHave('member_biodata');
     }
 
+    
+    // Check If a Member has ever had a biodata
+    public function has_old_member_biodata(){
+        return MembersBiodata::where('user_id',$this->id)->exists();
+    }
+
+    // Check If A member has ever had a previous alumni biodata
+    public function has_old_alumni_biodata(){
+        return AlumniBiodata::where('user_id',$this->id)->exists();
+    }
+
+
     // Get User Contact when He was Guest
     public function when_guest(){
         $when_guest = Guest::find(GuestRequest::where('instance_id',$this->id)->where('table_name','users')->first()->guest_id);
@@ -680,6 +692,23 @@ class User extends Authenticatable
     // Check If User is A Ministry Member
     public function is_ministry_member(){
         return ($this->hasRoleAs(['preacher','edification_ministry_member','evangelism_ministry_member','welfare_ministry_member','finance_ministry_member','organising_ministry_member']) == true);
+    }
+
+    // STATIC -  MEMBRES
+    // Members
+    public static function members(){
+        return User::where('is_member',1);
+    }
+    // Alumni
+    public static function alumni(){
+        return User::where('is_member',0);
+    }
+    // Members of Year
+    public static function year_members($year){
+        return User::whereHas('member_biodata', function ($query) use ($year) {
+            $query->where('year',$year);
+            })
+            ;
     }
 
 }

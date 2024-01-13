@@ -183,7 +183,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('logout',['user'=>auth()->user()])}}"><i class="fa fa-power-off"></i> Logout</a>
+                        <a class="nav-link" href="{{route('user_logout',['user'=>auth()->user()])}}"><i class="fa fa-power-off"></i> Logout</a>
                     </li>
 
 

@@ -41,7 +41,7 @@
                                         
                                         <div class="col-6 text-right">
                                             <a  href="{{route('forgot_password')}}" class="btn btn-link px-0">
-                                                {{-- Forgot password? --}}
+                                                Forgot Password
                                             </a>
                                         </div>
                                     </div>

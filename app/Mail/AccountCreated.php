@@ -14,48 +14,18 @@ class AccountCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(
-        public User $user,
-    )
+    public $user;
 
-    {    
-
-    }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function __construct($user)
     {
-        return new Envelope(
-            from: new Address('agyareernest44@gmail.com', 'Knust Coc KMS'),
-            subject: 'Account Created Successfully',
-        );
+        $this->user = $user;
     }
 
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
+    public function build()
     {
-        return new Content(
-            view: 'emails.account-created',
-            with: [
-                'name' => $this->user->fullname(),
-            ],
-        );
+        // return $this->subject('Knust COC Welcome You')->view('emails.account-created');
+        return $this->markdown('emails.account-created');
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
+
 }
