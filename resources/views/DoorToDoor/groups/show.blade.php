@@ -58,7 +58,7 @@
                                                 </form>
                                             </span> --}}
 
-                                            <table class="table table-striped table-responsive datatable">
+                                            <table class="table table-striped table-responsive datatable_print">
                                                 {{-- Table Head --}}
                                                 <thead>
                                                     <tr>
