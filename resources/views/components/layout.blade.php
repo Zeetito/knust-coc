@@ -104,10 +104,7 @@
         </header>
     
         <div class="app-body">
-            
-            <div id="loading-overlay">
-                <div id="loading-spinner"></div>
-            </div>
+         
                 {{-- LEFT SIDEBAR STARTS --}}
                 <x-left_side_bar/>
                     {{-- LEFT SIDEBAR ENDS --}}
