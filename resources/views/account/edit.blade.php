@@ -1,7 +1,7 @@
 <x-layout>
  
-    <body class="app flex-row align-items-center">
-        <div class="container">
+    <body class="">
+        <div class="">
 
    
            {{-- Form Begins --}}
@@ -9,7 +9,7 @@
                     @method('put')
                    @csrf
                    <div class="row justify-content-center" >
-                       <div class="col-md-6">
+                       <div class="col-md-12">
                            <div class="card mx-4" style="border-radius:25px;">
                                <div class="card-body p-4 row">
    

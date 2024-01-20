@@ -101,7 +101,7 @@
                                 <button class="menu-button fa fa-list"></button>
                                 <div class="menu-content">
 
-                                  <a class="bg-warning btn mt-1"  href="#">Members</a>
+                                  <a class="bg-warning btn mt-1"  href="{{route('stats_members')}}">Members</a>
                                   <a class="bg-warning btn mt-1"  href="#">Alumni</a>
 
                                 </div>

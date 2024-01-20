@@ -15,6 +15,14 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
     // DASHBOARD
         // USER RELATED
 
+        // USER STATISTICS
+
+        // Members
+        Route::get('/stats_members',[UserController::class,'stats_members'])
+        ->name('stats_members')
+        ;
+
+
         // MINISTRIES SPACE
         // Landing Page
         Route::get('/ministry_index/{ministry}',[MinistrySpaceController::class,'ministry_index'])

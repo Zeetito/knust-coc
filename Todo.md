@@ -438,6 +438,20 @@ Cancel Shares✔️
 
 Support Section - [Contacts,etc pages]✔️
 
+File -mc
+
+id
+name
+uploadable_id
+uploadable_type
+type /mp3, pdf, etc
+semester_id
+timestamps
+
+**Mistake : on Create_shares_table, the foreing key 
+
+Files
+
 Updating Profile for a new Academic year
 -- Check If user has some past Member Profile.
 If so, Member should be redirected by the middleware to 

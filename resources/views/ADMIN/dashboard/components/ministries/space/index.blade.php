@@ -12,14 +12,15 @@
 
         <div class="row nav">
 
-            <span class="col-3 btn"> <a class="btn-info " href="">History</a> </span>
+            <span class="col-3 btn"> <a class="btn" href="">History</a> </span>
 
             <span class="col-3 btn"> <a class="btn" href="{{route('ministry_account_sessions',['ministry'=>$ministry])}}">Accounts</a> </span>
 
             <span class="col-3 btn"> <a class="btn" href="{{route('ministry_received_items',['ministry'=>$ministry])}}">Shared Items</a> </span>
 
             <span class="col-3 btn"> <a class="btn" href="">Archive</a> </span>
-
+            
+            {{-- <span class="col-3 btn"> <a class="btn" href="{{route('view_files',['uploadable_type'=>'App\Models\Role','uploadable_id'=>$ministry->id])}}">Files</a> </span> --}}
         </div>
 
     </div>

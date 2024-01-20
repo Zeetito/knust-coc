@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use App\Http\Controllers\DTDController;
 use App\Http\Resources\BiodataResource;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZoneController;
@@ -72,8 +73,31 @@ Auth::routes();
         ->middleware('auth','control:system_online','hasProfile')
         ->name('support_page');
 
+    
 
 // -----------------------------------------------------------------------
+// ----------------
+    // FILES
+
+    // View All files uploaded by a Model instance
+    Route::get('view_files/{uploadable_type}/{uploadable_id}',[FileController::class,'view_files'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('view_files');
+
+    // Upload File Form - modal
+    Route::get('upload_file_form/{uploadable_type}/{uploadable_id}/{type}',[FileController::class,'upload_file_form'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('upload_file_form');
+
+    // Upload File Action
+    Route::post('upload_file',[FileController::class,'upload_file'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('upload_file');
+
+
+
+
+// ----------------
 
     // SHARES
     // Create A Share instance - modal
@@ -1227,8 +1251,9 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return Role::find(6)->files;
+    return User::year_members(2)->count();
     return User::find(1)->has_old_alumni_biodata();
-    return Role::ministries();
     return Share::find(2)->sendable;
 
     $minDate = '2022-01-20'; // Set your desired minimum date

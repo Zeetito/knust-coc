@@ -251,5 +251,11 @@ class UserController extends Controller
         return view('ADMIN.dashboard.components.without-biodata.search-results', ['users' => $users]);
 
     }
+
+
+    // View Members Statistics Page
+    public function stats_members(){
+        return view('ADMIN.dashboard.components.users-statistics.members.index');
+    }
     
 }

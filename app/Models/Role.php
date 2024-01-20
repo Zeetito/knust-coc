@@ -190,4 +190,9 @@ class Role extends Model
     public function sent_items(){
         return $this->morphMany(Share::class,'sendable');
     }
+
+    // Retrieve Uploaded Files
+    public function files(){
+        return $this->morphMany(File::class,'uploadable');
+    }
 }
