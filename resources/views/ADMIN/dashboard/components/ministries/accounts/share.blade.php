@@ -41,10 +41,11 @@
                         <tr id="tr_{{$user->id}}">
                                 {{-- user Name --}}
                             <td>
-                            {{$user->fullname()}}
+                                {{$user->fullname()}}
                             </td>
+                            
                             <td>
-                            <input type="checkbox"  name="users[]" value="{{$user->id}}">
+                                <input type="checkbox"  name="users[]" value="{{$user->id}}">
                             </td>
                             {{-- Number of Users --}}
                         </tr>

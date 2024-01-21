@@ -132,6 +132,9 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
 
         
         // USER REQUESTS
+
+
+
         // View all user request
         Route::get('user_requests',[UserRequestController::class, 'show_user_requests'])
             ->name('show_user_requests')
@@ -201,6 +204,17 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         Route::get('view_assigned_guest_request/{user}',[GuestRequestController::class, 'view_assigned_guest_request'])
         ->name('view_assigned_guest_request')
         ;
+
+        // Handel Bulk Guest Request Page
+        Route::get('handle_bulk_guest_request_page',[GuestRequestController::class, 'handle_bulk_guest_request_page'])
+        ->name('handle_bulk_guest_request_page')
+        ;
+
+        // Bulk Handle Guests requests
+        Route::post('bulk_handle_guests_requests',[GuestRequestController::class, 'bulk_handle_guests_requests'])
+        ->name('bulk_handle_guests_requests')
+        ;
+
 
             
         // UNAVAILABLE MEMBERS

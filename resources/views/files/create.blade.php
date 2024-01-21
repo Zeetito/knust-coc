@@ -12,8 +12,7 @@
             <input type="text" name="type" value="{{$type}}" hidden>
             <input type="text" name="uploadable_type" value="{{$uploadable_type}}" hidden>
             <input type="text" name="uploadable_id" value="{{$uploadable_id}}" hidden>
-
-
+                
         </div>
         
         <div class="modal-footer mt-3">

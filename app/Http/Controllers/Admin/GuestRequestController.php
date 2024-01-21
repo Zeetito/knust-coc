@@ -43,73 +43,14 @@ class GuestRequestController extends Controller
             ]);
             
                 if($validated['action'] == 'grant'){
-                    // Check if it's an insert method
-                    if($guest_request->method == 'insert'){
-                            $body = json_decode($guest_request->body, true);
-                            $body['is_activated'] = 1;
-                            $body['created_at'] = now();
-                            $body['updated_at'] = now();
-                            $body['email_verified_at'] = now();
-                            $body['remember_token'] = Str::random(10);
-                            // Create New Table Instance
-                            $result = DB::table($guest_request->table_name)->{$guest_request->method}($body);
-                            if ($result) {
-                                // Retrieve the last inserted ID
-                                $instance_id = DB::getPdo()->lastInsertId();
-                            }
-                            // Update the request as one handled/denied
-                            $guest_request->handle_method ="granted";
-                            $guest_request->is_handled = 1;
-                            $guest_request->handled_on = now();
-                            $guest_request->handled_by = auth()->user()->id;
-                            $guest_request->instance_id = $instance_id;
-                            $guest_request->save();
+                  
+                    self::grant_request($guest_request);
+                    return redirect()->back()->with('success','Grant Success');  
 
-                            
-                            // Send Email if It's A User Account Created
-                            if($guest_request->table_name == 'users'){
-                                $user = User::find($instance_id)->first();
-                                Mail::to($user->email)->send(new AccountCreated($user));
-
-                                return redirect()->back()->with('success','Grant Success. User Notified On Email');  
-
-
-                            }
-    
-                            // If it's creation of account, the username must not be reserved anymore for that guest
-                            $guest = $guest_request->guest();
-                            if($guest->username != null){
-                                $guest->username = $guest->username."_".now();
-                                $guest->email = $guest->email."_".now();
-                                $guest->save(); 
-                            }
-                            
-                            return redirect()->back()->with('success','Grant Success');  
-    
-                        // Check if it's Update
-                    }elseif($guest_request->method == 'update'){
-                        return "Update the Guy";
-                        // Check if it's Delte
-                    }elseif($guest_request->method == 'delete'){
-                        return "Delete The guy Nana";
-                    }
     
                 }else{
-                            $guest_request->handle_method ="denied";
-                            $guest_request->is_handled = 1;
-                            $guest_request->handled_on = now();
-                            $guest_request->handled_by = auth()->user()->id;
-                            $guest_request->save();
-    
-                        // If it's creation of account, the username must not be reserved anymore for that guest
-                            $guest = $guest_request->guest();
-                                if($guest->username != null){
-                                    $guest->username = $guest->username."_".now();
-                                    $guest->email = $guest->email."_".now();
-                                    $guest->save(); 
-                                }
-    
-                        return redirect()->back()->with('warning','Request Denied Successful'); 
+                    self::deny_request($guest_request);
+                    return redirect()->back()->with('warning','Request Denied Successful'); 
                 }
     
         
@@ -139,4 +80,111 @@ class GuestRequestController extends Controller
         public function view_assigned_guest_request(User $user){
             return view('ADMIN.dashboard.components.guest-requests.assign.index',['user'=>$user]);
         }
+
+        // Bulk Request Controller
+        public function handle_bulk_guest_request_page(){
+            return view('ADMIN.dashboard.components.guest-requests.bulk-handle.create');
+            
+        }
+
+        // Bulk Handle Guests requests
+        public function bulk_handle_guests_requests(Request $request){
+
+            if(!($request->input('requests'))){
+                return redirect()->back()->with('failure','Select At least one request');
+            }
+
+            if($request->input('submit') == "Deny"){
+                
+                $guest_requests = GuestRequest::whereIn('id',$request->input('requests'))->get();
+
+                // Handle Each separately
+                foreach($guest_requests as $request){
+                    self::deny_request($request);
+                }
+                return redirect(route('show_guest_requests'))->with('warning','Requests Denied Successfully');
+
+            }elseif($request->input('submit') == "Grant"){
+
+                $guest_requests = GuestRequest::whereIn('id',$request->input('requests'))->get();
+
+                // Handle Each separately
+                foreach($guest_requests as $request){
+                    self::grant_request($request);
+                }
+
+
+                return redirect(route('show_guest_requests'))->with('success','Requests Granted Successfully');
+
+
+            }
+            
+        }
+
+
+
+        // HANDLE REQUEST FUNCTIONN
+
+        // Grant
+        public function grant_request(GuestRequest $guest_request){
+                // Check if it's an insert method
+                if($guest_request->method == 'insert'){
+                        $body = json_decode($guest_request->body, true);
+                        $body['is_activated'] = 1;
+                        $body['created_at'] = now();
+                        $body['updated_at'] = now();
+                        $body['email_verified_at'] = now();
+                        $body['remember_token'] = Str::random(10);
+                        // Create New Table Instance
+                        $result = DB::table($guest_request->table_name)->{$guest_request->method}($body);
+                        if ($result) {
+                            // Retrieve the last inserted ID
+                            $instance_id = DB::getPdo()->lastInsertId();
+                        }
+                        // Update the request as one handled/denied
+                        $guest_request->handle_method ="granted";
+                        $guest_request->is_handled = 1;
+                        $guest_request->handled_on = now();
+                        $guest_request->handled_by = auth()->user()->id;
+                        $guest_request->instance_id = $instance_id;
+                        $guest_request->save();
+
+                        
+                    
+                        // If it's creation of account, the username must not be reserved anymore for that guest
+                        $guest = $guest_request->guest();
+                        if($guest->username != null){
+                            $guest->username = $guest->username."_".now();
+                            $guest->email = $guest->email."_".now();
+                            $guest->save(); 
+                        }
+                        
+
+                    // Check if it's Update
+                }elseif($guest_request->method == 'update'){
+                    return "Update the Guy";
+                    // Check if it's Delte
+                }elseif($guest_request->method == 'delete'){
+                    return "Delete The guy Nana";
+                }
+
+        }
+
+        // Deny
+        public function deny_request(GuestRequest $guest_request){
+            $guest_request->handle_method ="denied";
+            $guest_request->is_handled = 1;
+            $guest_request->handled_on = now();
+            $guest_request->handled_by = auth()->user()->id;
+            $guest_request->save();
+    
+            // If it's creation of account, the username must not be reserved anymore for that guest
+                $guest = $guest_request->guest();
+                    if($guest->username != null){
+                        $guest->username = $guest->username."_".now();
+                        $guest->email = $guest->email."_".now();
+                        $guest->save(); 
+                    }   
+        }
+
 }

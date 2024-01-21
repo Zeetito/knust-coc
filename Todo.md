@@ -462,6 +462,8 @@ or even a student or not.
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
 
+Bulk handle requests.
+
 
 <!-- NOTIFICATIONS -->
 # Nofitications table

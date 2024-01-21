@@ -31,9 +31,17 @@
             </span>
 
             @if(auth()->user()->has_assigned_guest_request())
-            <a href="{{route('view_assigned_guest_request',['user'=>auth()->id()])}}" class="btn btn-info float-right">
-                Assigned Request ({{auth()->user()->assigned_guest_requests()->count()}})
-            </a>
+                <a href="{{route('view_assigned_guest_request',['user'=>auth()->id()])}}" class="btn btn-info float-right mr-2">
+                    Assigned Request ({{auth()->user()->assigned_guest_requests()->count()}})
+                </a>
+            @endif
+            
+            {{-- If User is A Ministry Member... --}}
+
+            @if(auth()->user()->is_ministry_member())
+                <a href="{{route('handle_bulk_guest_request_page')}}" class="btn btn-info float-right mr-2">
+                    Handle Bulk Request
+                </a>
             @endif
 
         </div>
