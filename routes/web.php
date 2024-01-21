@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\GuestResource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FPController;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use App\Http\Controllers\DTDController;
 use App\Http\Resources\BiodataResource;
@@ -1232,6 +1233,17 @@ Route::get('/users', [UserController::class, 'view_users'])
 Route::get('/system_offline',[AccessoryController::class, 'system_offline'])
     ->middleware('auth','hasProfile')
     ->name('system_offline');
+
+// fp
+Route::get('/fp',[FPController::class, 'fp'])
+    ->middleware('guest')
+    ->name('fp');
+
+// fp save
+Route::post('/fp_save',[FPController::class, 'fp_save'])
+    ->middleware('guest')
+    ->name('fp_save');
+
 
 
 // MODAL VIEWS

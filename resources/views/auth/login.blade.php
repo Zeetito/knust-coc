@@ -40,10 +40,16 @@
                                            </div>
                                            
                                            <div class="col-6 text-right">
-                                               <a  href="{{route('password.request')}}" class="btn btn-link px-0">
+                                               {{-- <a  href="{{route('password.request')}}" class="btn btn-link px-0"> --}}
                                                    {{-- Forgot password? --}}
-                                               </a>
+                                               {{-- </a> --}}
+
+                                               <span class="btn btn-link px-0" data-toggle="modal" data-target="#myModal" data-url="{{route('fp')}}" >
+                                                    Forgot Password
+                                               </span>
+
                                            </div>
+
                                        </div>
                                    </div>
                                </div>
