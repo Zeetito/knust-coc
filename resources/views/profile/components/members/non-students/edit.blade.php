@@ -94,11 +94,16 @@
                             </div>
 
                              {{-- Year Group Id --}}
+
                             <div class="col-md-3 mb-4">
                                 <h6>Year Group</h6>
                                 <strong>For Alumini Only</strong>
                                 <select class="form-control"  value="{{old('year_group_id',$user->biodata->year_group_id)}}" name="year_group_id" id="year_group_id">
-                                    <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
+                                    @if($user->biodata->is_alumni == 1)
+                                        <option value="{{$user->biodata->year_group_id}}">{{App\Models\YearGroup::find($user->biodata->year_group_id)->name}}</option>
+                                    @else
+                                        <option value="">Select</option>
+                                    @endif
                                     @foreach(App\Models\YearGroup::all() as $year_group)
                                         <option value="{{$year_group->id}}"> {{$year_group->name}} </option>
                                     @endforeach
