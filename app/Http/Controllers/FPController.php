@@ -72,4 +72,12 @@ class FPController extends Controller
     public function fp_index(){
         return view('fp.index');
     }
+
+    // Fp Notify
+    public function fp_notify(FP $fp){
+        $fp->notified = 1;
+        $fp->save();
+
+        return redirect()->back()->with('Marked as Notified');
+    }
 }

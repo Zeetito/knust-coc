@@ -336,6 +336,12 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->middleware('auth', 'role:ministry_members_level')
         ->name('fp_index')
         ;
+
+        // Fp Notify
+        Route::get('fp_notify/{fp}',[FPController::class,'fp_notify'])
+        ->middleware('auth', 'role:ministry_members_level')
+        ->name('fp_notify')
+        ;   
         
 
 

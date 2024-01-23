@@ -7,7 +7,7 @@
                 <div class="process-bar">
                     <div class="process-bar">
                         <div class="process-order">
-                            <h3 style="text-align:center">Forgot Password Requests</h3>
+                            <h3 style="text-align:center">Forgot Password Requests ({{App\Models\FP::where('handled',0)->count()}}) </h3>
 
                         </div>
 
@@ -22,6 +22,7 @@
                                                     <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Reset Link</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             {{-- Table Body --}}
@@ -45,6 +46,13 @@
                                                     </td>
 
                                                     {{-- Actions --}}
+                                                    <td>
+                                                        @if($fp->notified == 0)
+                                                            <a href="{{route('fp_notify',['fp'=>$fp])}}" class="btn btn-info">Mark Notified</a>
+                                                        @else
+                                                            <span class="btn btn-success">Notified</span>
+                                                        @endif
+                                                     </td>
                                                     
 
 
