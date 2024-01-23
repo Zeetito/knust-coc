@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\UserRequestController;
 use App\Http\Controllers\Admin\GuestRequestController;
 use App\Http\Controllers\Admin\MinistrySpaceController;
 
+use App\Http\Controllers\FPController;
+
 // -------------------ADMIN PAGES GROUPS ROUTES--------------
 Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_reps_level')->group(function () {
     // DASHBOARD
@@ -327,6 +329,14 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->middleware('role:ministry_members_level')
         ->name('delete_current_academic_year')
         ;
+
+
+        // View Forgot password Requests
+        Route::get('fp_index',[FPController::class,'fp_index'])
+        ->middleware('auth', 'role:ministry_members_level')
+        ->name('fp_index')
+        ;
+        
 
 
 });

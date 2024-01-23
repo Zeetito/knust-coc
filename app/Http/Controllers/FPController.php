@@ -32,4 +32,44 @@ class FPController extends Controller
         }
 
     }
+
+    public function fp_reset_page($email){
+        $user =  User::where('email',$email)->first();
+
+        if( FP::where('email',$user->email)->where('handled','0')->exists() == true ){
+            return view('fp.reset',['user'=>$user]);
+        }else{
+            return redirect()->back()->with("warning","You're Not Authorized to perform this action");
+        }
+
+    }
+
+    public function fp_reset(Request $request){
+        // Validate the password
+        $validated = $request->validate([
+            'password'=>['confirmed','min:6'],
+            'email'=>['email',]
+        ]);
+
+        $user = User::where('email',$validated['email'])->first();
+        // Update the old password
+        $user->password = bcrypt($validated['password']);
+        $user->save();
+
+        // mark the FP instance as handled
+        $fps = FP::where('email',$user->email)->get();
+
+        foreach($fps as $fp){
+            $fp->handled = 1;
+            $fp->save();
+        }
+
+        return redirect()->route('login')->with('success','password reset Successful. Login Now');
+
+    }
+
+    // View all forgot password Requests
+    public function fp_index(){
+        return view('fp.index');
+    }
 }

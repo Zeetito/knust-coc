@@ -104,7 +104,7 @@ class UserController extends Controller
         $account_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
         $account_request->save();
 
-        return redirect()->back()->with('success','Account Being Processed. You will receive A notification through Email or WhatsApp When It is ready.');
+        return redirect()->back()->with('success','Account Being Processed.');
 
 
         // There should be a guest-home page to redirect such guest to

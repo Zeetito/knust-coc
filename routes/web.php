@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FP;
 use App\Models\DTD;
 use App\Models\Role;
 use App\Models\User;
@@ -1244,6 +1245,17 @@ Route::post('/fp_save',[FPController::class, 'fp_save'])
     ->middleware('guest')
     ->name('fp_save');
 
+// fp reset page
+Route::get('/fp_reset_page/{email}',[FPController::class, 'fp_reset_page'])
+    ->middleware('guest')
+    ->name('fp_reset_page');
+
+// fp reset
+Route::post('/fp_reset',[FPController::class, 'fp_reset'])
+    ->middleware('guest')
+    ->name('fp_reset');
+
+
 
 
 // MODAL VIEWS
@@ -1262,6 +1274,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return FP::find(3)->user;
 
     return Role::find(6)->files;
     return User::year_members(2)->count();

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FP extends Model
 {
@@ -13,5 +14,9 @@ class FP extends Model
         'email'
     ];
 
+
+    public function user(){
+        return User::where('email',$this->email)->first();
+    }
     
 }
