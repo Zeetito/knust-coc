@@ -75,8 +75,14 @@ class FPController extends Controller
 
     // Fp Notify
     public function fp_notify(FP $fp){
-        $fp->notified = 1;
-        $fp->save();
+
+
+        $fps = FP::where('email',$fp->email)->get();
+
+        foreach($fps as $fp){
+            $fp->notified = 1;
+            $fp->save();
+        }
 
         return redirect()->back()->with('Marked as Notified');
     }
