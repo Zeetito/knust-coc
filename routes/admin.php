@@ -344,6 +344,13 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ;   
         
 
+        // Send Emails to All Users Who have not updated their profiles
+        Route::get('emails_to_all_users_without_biodata',[ConfigController::class,'emails_to_all_users_without_biodata'])
+        ->middleware('auth', 'role:ministry_members_level')
+        ->name('emails_to_all_users_without_biodata')
+        ;   
+
+
 
 });
 

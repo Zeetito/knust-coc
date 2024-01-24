@@ -45,6 +45,7 @@ class GuestRequestController extends Controller
                 if($validated['action'] == 'grant'){
                   
                     self::grant_request($guest_request);
+
                     return redirect()->back()->with('success','Grant Success');  
 
     
@@ -156,6 +157,12 @@ class GuestRequestController extends Controller
                         if($guest->username != null){
                             $guest->username = $guest->username."_".now();
                             $guest->email = $guest->email."_".now();
+                                
+                                // Send Email if It's A User Account Created
+                                if($guest_request->table_name == "users"){
+                                    $user = User::find($instance_id)->first();
+                                    Mail::to($guest_request->guest()->email)->send(new AccountCreated($user));
+                                }
                             $guest->save(); 
                         }
                         

@@ -63,6 +63,21 @@
 
                                                 </tr>
 
+                                                {{-- Remind Users with no profile  --}}
+                                                <tr>
+                                                    <td>Reminder - Users with no profile</td>
+                                                    
+                                                    <td>
+                                                        This Sends an email to all users who do not have a profile,
+                                                        to do so if the last time they were reminded is over 2 Days
+                                                    </td>
+                                                    
+                                                    <td class="btn btn-warning fa fa-power-off" >
+                                                        <a class="bg-warning btn mt-1" href="{{route('emails_to_all_users_without_biodata')}}" >Send Emails</a>
+                                                    </td>
+
+                                                </tr>
+
                                             </tbody>
                                             {{-- Table Body Ends --}}
                                         </table>

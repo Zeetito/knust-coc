@@ -24,7 +24,8 @@ class AccountCreated extends Mailable
     public function build()
     {
         // return $this->subject('Knust COC Welcome You')->view('emails.account-created');
-        return $this->markdown('emails.account-created');
+        return $this->markdown('emails.account-created')
+        ->subject('CHURCH OF CHRIST, KNUST');
     }
 
 

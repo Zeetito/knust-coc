@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Semester;
 use App\Models\Accessory;
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
+use App\Mail\CreateBiodataMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class ConfigController extends Controller
 {
@@ -69,6 +72,26 @@ class ConfigController extends Controller
         AcademicYear::create($validated);
         $sem =  new Semester;
         $sem[''];
+
+    }
+
+    // Emails to all users without biodata
+    public function emails_to_all_users_without_biodata(){
+
+        $users =  User::without_biodata()->get();
+
+
+        if(auth()->user()->is_ministry_member()){
+            foreach($users as $user){
+                if($user->updated_at->diffInDays(now()) >= 1 ){
+                    Mail::to($user->email)->send(new CreateBiodataMail($user));
+                }else{
+                    return redirect()->back()->with('warning','All Users withtout Biodata have been notified not more than 24hours ago');
+                }
+            }
+    
+        }
+        return redirect()->back()->with('success','Members Notified');
 
     }
     
