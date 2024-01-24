@@ -32,7 +32,7 @@
                                            Gender
                                         </div>
                                         <small class="text-uppercase font-weight-bold">Gents: {{App\Models\User::members()->where('gender','m')->count()}}</small> <br>
-                                        <small class="text-uppercase font-weight-bold">Ladies: {{App\Models\User::members()->where('gender','m')->count()}}</small> <br>
+                                        <small class="text-uppercase font-weight-bold">Ladies: {{App\Models\User::members()->where('gender','f')->count()}}</small> <br>
                                         <br>
                                         <div class="h5   mb-1">
                                            Batismal Status

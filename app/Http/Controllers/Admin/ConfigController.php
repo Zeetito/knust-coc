@@ -80,8 +80,8 @@ class ConfigController extends Controller
 
         $users =  User::without_biodata()->get();
 
-
         if(auth()->user()->is_ministry_member()){
+
             foreach($users as $user){
                 if($user->updated_at->diffInDays(now()) >= 1 ){
                     Mail::to($user->email)->send(new CreateBiodataMail($user));
