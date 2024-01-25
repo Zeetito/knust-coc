@@ -95,6 +95,7 @@ class ConfigController extends Controller
                 // if($user->updated_at->diffInDays(now()) >= 1 ){
                     Mail::to($user->email)->send(new CreateBiodataMail($user));
                     $user->updated_at = now();
+                    $user->save();
                 // }else{
                 //     return redirect()->back()->with('warning','All Users withtout Biodata have been notified not more than 24hours ago');
                 // }
