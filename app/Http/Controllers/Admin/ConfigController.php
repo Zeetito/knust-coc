@@ -83,7 +83,7 @@ class ConfigController extends Controller
 
         $OneDayAgo = Carbon::now()->subDays(1);
 
-        $users = User::without_biodata()->where('updated_at' ,'>=',$OneDayAgo)->get();
+        $users = User::without_biodata()->where('updated_at' ,'<',$OneDayAgo)->get();
 
         if(auth()->user()->is_ministry_member()){
 

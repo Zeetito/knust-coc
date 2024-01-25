@@ -1280,7 +1280,7 @@ Route::get('/hello', function () {
 
     $OneDayAgo = Carbon::now()->subDays(1);
 
-    return User::without_biodata()->where('updated_at' ,'>=',$OneDayAgo)->get();
+    return User::without_biodata()->where('updated_at' ,'<',$OneDayAgo)->get();
 
 })->middleware('auth');
 
