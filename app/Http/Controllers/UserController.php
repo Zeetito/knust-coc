@@ -104,7 +104,7 @@ class UserController extends Controller
         $account_request['academic_year_id'] = Semester::active_semester()->academicYear->id;
         $account_request->save();
 
-        return redirect()->back()->with('success','Account Being Processed.');
+        return redirect()->back()->with('success','Account Being Processed. You will receive an email prompt when it is ready');
 
 
         // There should be a guest-home page to redirect such guest to
@@ -216,7 +216,7 @@ class UserController extends Controller
             }else{
                 // create a request to update account
                 
-                if(now()->diffInDays($user->updated_at) < 7) {
+                if(now()->diffInDays($user->updated_at) < 3) {
                     $days_left = (7- now()->diffInDays($user->updated_at));
                     return redirect()->back()->with('warning','Try again after '.$days_left.' days. Contact Your Rep or any leader if necessary');
                 }

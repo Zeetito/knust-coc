@@ -16,9 +16,9 @@
                                {{-- Username --}}
                                     {{-- <strong>Tip: Use KNUST username (If you have) for convenience </strong> --}}
                                     <div class="menu-container">
-                                        <button class="menu-button">
-                                            <span class="btn btn-secondary"><strong>Extra</strong></span>
-                                        </button>
+                                        <span class="menu-button">
+                                            <span class="btn-info"><strong class="fa fa-list">More</strong></span>
+                                        </span>
                                         <div class="menu-content">
                                           {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
                                           @if(auth()->user()->is($user))

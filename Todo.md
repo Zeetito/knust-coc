@@ -464,6 +464,8 @@ Protect Routes with Permission Middleware rather than Roles.
 
 Bulk handle requests.
 
+Send custom mail to user(s).
+
 
 <!-- NOTIFICATIONS -->
 # Nofitications table

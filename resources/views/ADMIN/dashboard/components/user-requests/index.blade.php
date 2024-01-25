@@ -63,12 +63,20 @@
                                      <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture"> 
                                 </i> 
                             </div>
-                            <div class=" mb-0">{{$user->pending_requests->sortByDesc('created_at')->first()->created_at->diffInDays(now())}} Days Ago</div>
+
+                            @if($user->pending_requests->sortByDesc('created_at')->first()->created_at->diffInDays(now()) > 0)
+                                <div class=" mb-0">{{$user->pending_requests->sortByDesc('created_at')->first()->created_at->diffInDays(now())}} Days Ago</div>
+                            @else
+                                <div class=" mb-0">{{$user->pending_requests->sortByDesc('created_at')->first()->created_at->diffInHours(now())}} Hours Ago</div>
+                            @endif
+
                             <small class="text-uppercase font-weight-bold">{{$user->fullname()}}</small> <br>
                             <small class="text-uppercase font-weight-bold">Status: {{$user->status()}}</small> <br>
                             <small class="text-uppercase font-weight-bold">Zone: {{$user->zone() ? $user->zone()->name : "None"}} </small> <br>
-                            <small class="text-uppercase font-weight-bold">Phone: {{$user->phone->body}} </small><br>
-                            <small class="text-uppercase font-weight-bold">whatsapp: {{$user->whatsapp->body}} </small><br>
+                            <div class="font-weight-bold">Phone: {{$user->phone? $user->phone->body : ($user->was_a_guest() ? $user->when_guest()->contact : "None"  )}}</div>
+                            <div class="font-weight-bold">WhatsApp: {{$user->whatsapp? $user->whatsapp->body :  "None"  }}</div>
+
+                            {{-- <small class="text-uppercase font-weight-bold">whatsapp: {{$user->whatsapp->body}} </small><br> --}}
                             <div class="progress progress-white progress-xs mt-3">
                                 {{-- <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> --}}
                             </div>
@@ -102,7 +110,11 @@
                                         {{$request->type}}
                                     </td>
                                     <td>
-                                        {{$request->created_at->diffInDays(now())." Days Ago" }}
+                                        @if($request->created_at->diffInDays(now()) > 0)
+                                            <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
+                                            @else
+                                            <div class=" mb-0">{{$request->created_at->diffInHours(now())}} Hours Ago</div>
+                                        @endif
                                     </td>
                                     <td data-toggle="modal" data-target="#myLargeModal"  data-url="{{route('edit_user_request',['user_request'=>$request])}}"   class="btn fa fa-reply ">
                                         {{$request->method}}

@@ -1,5 +1,5 @@
 <p>
-    Hello {{$user->fullname()}}
+    Hello Brethren!
 </p>
 <p>
     Knust Church Of Christ Welcomes You!

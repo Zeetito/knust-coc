@@ -64,7 +64,12 @@
                             
                             
 
+                            @if($request->created_at->diffInDays(now()) > 0)
                             <div class=" mb-0">{{$request->created_at->diffInDays(now())}} Days Ago</div>
+                            @else
+                                <div class=" mb-0">{{$request->created_at->diffInHours(now())}} Hours Ago</div>
+                            @endif
+
                             <small class="text-uppercase font-weight-bold">{{$request->guest()->fullname}}</small><br>
                             <small class="text-uppercase font-weight-bold">Status:{{$request->guest()->status." (".$request->method." ".$request->type.")" }}</small><br>
                             <small class="text-uppercase font-weight-bold">Request:({{$request->method." ".$request->type}})</small><br>

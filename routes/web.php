@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\FP;
+use Carbon\Carbon;
 use App\Models\DTD;
 use App\Models\Role;
 use App\Models\User;
@@ -23,6 +24,7 @@ use App\Models\GuestRequest;
 use App\Models\AccountRecord;
 use App\Models\UserResidence;
 use App\Http\Controllers\Admin;
+use App\Mail\CreateBiodataMail;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\UserResource;
@@ -1275,15 +1277,10 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    return FP::find(3)->user;
 
-    return Role::find(6)->files;
-    return User::year_members(2)->count();
-    return User::find(1)->has_old_alumni_biodata();
-    return Share::find(2)->sendable;
+    $OneDayAgo = Carbon::now()->subDays(1);
 
-    $minDate = '2022-01-20'; // Set your desired minimum date
-    $maxDate = '2023-12-31'; // Set your desired maximum date
+    return User::without_biodata()->where('updated_at' ,'>=',$OneDayAgo)->get();
 
 })->middleware('auth');
 

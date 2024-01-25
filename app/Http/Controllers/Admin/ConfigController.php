@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Semester;
 use App\Models\Accessory;
@@ -78,17 +79,25 @@ class ConfigController extends Controller
     // Emails to all users without biodata
     public function emails_to_all_users_without_biodata(){
 
-        $users =  User::without_biodata()->get();
+        //  =  User::without_biodata()->get();
+
+        $OneDayAgo = Carbon::now()->subDays(1);
+
+        $users = User::without_biodata()->where('updated_at' ,'>=',$OneDayAgo)->get();
 
         if(auth()->user()->is_ministry_member()){
 
+            if($users->count() == 0){
+                    return redirect()->back()->with('warning','All Users withtout Biodata have been notified not more than 24hours ago');
+            }
+
             foreach($users as $user){
-                if($user->updated_at->diffInDays(now()) >= 1 ){
+                // if($user->updated_at->diffInDays(now()) >= 1 ){
                     Mail::to($user->email)->send(new CreateBiodataMail($user));
                     $user->updated_at = now();
-                }else{
-                    return redirect()->back()->with('warning','All Users withtout Biodata have been notified not more than 24hours ago');
-                }
+                // }else{
+                //     return redirect()->back()->with('warning','All Users withtout Biodata have been notified not more than 24hours ago');
+                // }
             }
     
         }
