@@ -1284,8 +1284,18 @@ Route::get('/hello', function () {
 
 })->middleware('auth');
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->middleware('auth','control:system_online','hasProfile')
     ->name('home');
+
+// Privacy Policy Page
+Route::get('/privacy_policy', function () {
+
+return view('privacy-policy');
+
+})->middleware('guest')
+    ->name('privacy_policy')
+;

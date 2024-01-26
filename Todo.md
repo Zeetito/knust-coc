@@ -438,19 +438,19 @@ Cancel Shares✔️
 
 Support Section - [Contacts,etc pages]✔️
 
-File -mc
+File -mc✔️
 
-id
-name
-uploadable_id
-uploadable_type
-type /mp3, pdf, etc
-semester_id
-timestamps
+id✔️
+name✔️
+uploadable_id✔️
+uploadable_type✔️
+type /mp3, pdf, etc✔️
+semester_id✔️
+timestamps✔️
 
 **Mistake : on Create_shares_table, the foreing key 
 
-Files
+Files 
 
 Updating Profile for a new Academic year
 -- Check If user has some past Member Profile.
@@ -462,7 +462,7 @@ or even a student or not.
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
 
-Bulk handle requests.
+Bulk handle requests. ✔️
 
 Send custom mail to user(s).
 

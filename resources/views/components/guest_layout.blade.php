@@ -105,7 +105,8 @@
        </div>
 
        <footer class="app-footer">
-               <a href="">Knust CoC </a> © {{Date('Y')}}
+               <span class="btn" >Church Of Christ, KNUST © {{Date('Y')}}</span> 
+               <a href="{{route('privacy_policy')}}" class="btn" >Privacy Policy </span>
        </footer>
        
        

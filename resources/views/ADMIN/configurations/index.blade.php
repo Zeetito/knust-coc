@@ -65,14 +65,16 @@
 
                                                 {{-- Remind Users with no profile  --}}
                                                 <tr>
-                                                    <td>Reminder - Users with no profile</td>
+                                                    <td>Reminder - Users with no profile </td>
                                                     
                                                     <td>
                                                         This Sends an email to all users who do not have a profile,
-                                                        to do so if the last time they were reminded is over 2 Days
+                                                        to do so if the last time they were reminded is over 2 Days.
+                                                        Currently there are <strong>{{App\Models\User::without_biodata()->where('updated_at' ,'<',(Carbon\Carbon::now()->subDays(1)))->get()->count()}}</strong>
+                                                        Members in this class of users.
                                                     </td>
                                                     
-                                                    <td class="btn btn-warning fa fa-power-off" >
+                                                    <td class="btn btn-warning fa fa-send" >
                                                         <a class="bg-warning btn mt-1" href="{{route('emails_to_all_users_without_biodata')}}" >Send Emails</a>
                                                     </td>
 
