@@ -462,9 +462,12 @@ or even a student or not.
 Convert Custom Program to Actual Program
 Protect Routes with Permission Middleware rather than Roles.
 
+Change Datalist for edit and create profile to datatable.
+Ensure Datatables are responsive on the hosted project
+
 Bulk handle requests. ✔️
 
-Send custom mail to user(s).
+Send custom mail to user(s).✔️
 
 
 <!-- NOTIFICATIONS -->

@@ -405,6 +405,8 @@ class BiodataController extends Controller
            
                     $program = Program::findProgramByName($validated_profile['program_id']);
                     $residence = Residence::findResidenceByName($validated_profile['residence_id']);
+
+                    // return $residence;
                 
                     // Check for the Exisitence of User program
 
@@ -548,7 +550,7 @@ class BiodataController extends Controller
                 }
 
                 // If the resdidence is null, that's when we need the zone_id from the form
-                $residence = Residence::findResidenceByName($validated_profile['residence_id']);
+                $residence = Residence::find($validated_profile['residence_id']);
                                    // Check for the Existence of Residence
                                    if (!$residence) {
                                      // Check if user has a custom residence

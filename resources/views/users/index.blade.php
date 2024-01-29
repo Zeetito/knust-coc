@@ -51,6 +51,7 @@
                                                   <a class="bg-warning btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
                                                   <a class="bg-danger btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('confirm_delete_user',['user'=>$user])}}">Delete Account</a>
                                                   @endallowedTo
+                                                  <a class="bg-success btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('custom_email_single_user',['user'=>$user])}}" href="#">Send Custom Email</a>
                                                   {{-- <a href="#">Option 3</a> --}}
                                                 </div>
                                             </div>

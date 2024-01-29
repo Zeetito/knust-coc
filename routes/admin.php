@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FPController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\AccountRecordController;
 use App\Http\Controllers\Admin\UserRequestController;
+
 use App\Http\Controllers\Admin\GuestRequestController;
 use App\Http\Controllers\Admin\MinistrySpaceController;
-
-use App\Http\Controllers\FPController;
 
 // -------------------ADMIN PAGES GROUPS ROUTES--------------
 Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_reps_level')->group(function () {
@@ -343,11 +344,25 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('fp_notify')
         ;   
         
-
         // Send Emails to All Users Who have not updated their profiles
         Route::get('emails_to_all_users_without_biodata',[ConfigController::class,'emails_to_all_users_without_biodata'])
         ->middleware('auth', 'role:ministry_members_level')
         ->name('emails_to_all_users_without_biodata')
+        ;   
+
+        // EMAIL
+
+        // CUSTOM EMAIL
+        // Custom Email Single User page
+        Route::get('custom_email_single_user/{user}',[EmailController::class,'custom_email_single_user'])
+        ->middleware('auth', 'role:ministry_members_level')
+        ->name('custom_email_single_user')
+        ;   
+
+        // Send Email Action
+        Route::post('send_email',[EmailController::class,'send_email'])
+        ->middleware('auth', 'role:ministry_members_level')
+        ->name('send_email')
         ;   
 
 

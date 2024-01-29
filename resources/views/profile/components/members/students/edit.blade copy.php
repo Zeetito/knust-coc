@@ -22,52 +22,23 @@
                             <div class="form-group row">
                             
                             {{-- Program List for Each College --}}
-                                {{-- Program Id --}}                                   
+                                {{-- Program Id --}}
+                                <div class="col-md-3 mb-4">
+                                    <h6>Program Of Study</h6>
+                                    <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id',$user->program() ? $user->program()->name : "None")}}" autocomplete="off" class="search_box form-control" name="program_id" id="for_program_list" placeholder="Search Program..." >
+                                        <datalist id="search_result_for_program_list">
+                                            @if(empty($programs))
+                                                <option>Search Program</option>
+                                            @else
+                                                @foreach($programs as $program)
+                                                    <option value="{{$program->id}}"> {{$program->name}} </option>
+                                                @endforeach
         
-                                    <div class="col-md-3 mb-4 card">
-                                        <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" id="accordionExampleThree" style="font-size: 22px; font-weight:bold " >Tap Choose Program Of Study</span>
-                                            <div class="accordion-body accordion-collapse collapse" id="collapseThree" data-bs-parent="#accordionExampleThree">
-    
-                                                <table   class="table  datatable table-striped " >
-                                                    {{-- Table Head --}}
-                                                    
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Program</th>
-                                                            <th>#</th>
-                                                        </tr>
-                                                    </thead>
-                                                    {{-- Table Body --}}
-                                                    <tbody class="search_result">
-                                                        @foreach(App\Models\Program::all() as $program)
-                                                        
-                                                        <tr id="tr_{{$program->id}}">
-                                                            {{-- user Name --}}
-                                                            <td>
-                                                                {{$program->name}}
-                                                            </td>
-                                                            
-                                                            <td>
-                                                                <input type="radio"  name="program_id" value="{{$program->name}}">
-                                                            </td>
-                                                            {{-- Number of Users --}}
-                                                        </tr>
-                                                        @endforeach
-
-                                                        <input type="radio"  name="program_id" value="{{$user->program()->name}}" checked hidden>
-                                                      
-                                                    </tbody>
-                                                    {{-- Table Body Ends --}}
-                                                </table>
-                                            </div>
-                                            <br>
-                                            <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
-                                                Current Program:{{$user->program()->name}} <br> <br>
-
-                                                Can't Find Your Program? <input type="radio" class=""  name="program_id" value="unknown">
-                                            </span>
-                                    </div>
-
+                                            @endif
+                                        </datalist>
+                                    {{-- <span class="help-block">Residence</span> --}}
+        
+                                </div>
 
                                 {{-- Year --}}
                                 <div class="col-md-3 mb-4">
@@ -98,13 +69,23 @@
                                                 
                                                 <thead>
                                                     <tr>
-                                                        <th>Name</th>
-                                                        <th data-searchable="false">Zone</th>
+                                                        <th>User</th>
                                                         <th>#</th>
                                                     </tr>
                                                 </thead>
                                                 {{-- Table Body --}}
                                                 <tbody class="search_result">
+                                                    <tr id="tr_unknown">
+                                                        {{-- user Name --}}
+                                                        <td>
+                                                            Can't Find My Residence
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <input type="radio"  name="residence_id" value="unknown">
+                                                        </td>
+                                                        {{-- Number of Users --}}
+                                                    </tr>
                                                     @foreach(App\Models\Residence::all() as $residence)
                                                     
                                                     <tr id="tr_{{$residence->id}}">
@@ -112,19 +93,13 @@
                                                         <td>
                                                             {{$residence->name}}
                                                         </td>
-                                                        <td>
-                                                            {{$residence->zone->name}}
-                                                        </td>
                                                         
                                                         <td>
-                                                            <input type="radio"  name="residence_id" value="{{$residence->name}}">
+                                                            <input type="radio"  name="residence_id" value="{{$residence->id}}">
                                                         </td>
                                                         {{-- Number of Users --}}
                                                     </tr>
                                                     @endforeach
-
-                                                    <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
-
                                                   
                                                 </tbody>
                                                 {{-- Table Body Ends --}}
@@ -132,10 +107,6 @@
                                         </div>
                                         <br>
                                         <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
-
-                                            Current Residence:{{$user->residence()->name}} <br> <br>
-
-
                                             Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
                                         </span>
                                 </div>

@@ -29,8 +29,8 @@
 
    <!-- Bootstrap and necessary plugins -->
    <script src={{asset("js/jquery-3.6.0.min.js")}}></script>
-   <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
-   {{-- <script src={{asset("js/views/bootstrap.min.js")}}></script> --}}
+   {{-- <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script> --}}
+   <script src={{asset("js/views/bootstrap.min.js")}}></script>
    <script src={{asset("js/views/bootstrap.bundle.min.js")}}></script>
 
    {{-- Some specific for view features --}}

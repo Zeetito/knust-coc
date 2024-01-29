@@ -37,24 +37,55 @@
 
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
-                            <div class="col-md-3 mb-4">
-                                <h6>Residence</h6>
-                                <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id',$user->residence() ? $user->residence()->name : "None")}}"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
-                                <datalist id="search_result_for_residence_list">
-                                    @if(empty($residences))
-                                        <option>Search residence...</option>
-                                        <option value="unknown">I come from Home</option>
-                                        <option value="unknown">Can't Find My Hostel/Homestel</option>
-                                    @else
-                                
-                                    @foreach($residences as $residence)
-                                        <option value="{{$residence->name}}">{{$residence->zone->name}}</option>
-                                    @endforeach
+                            <div class="col-md-3 mb-4 card">
+                                <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="accordionExampleTwo" style="font-size: 22px; font-weight:bold " >Tap Choose Residence</span>
+                                    <div class="accordion-body accordion-collapse collapse" id="collapseTwo" data-bs-parent="#accordionExampleTwo">
 
-                                    @endif
-                                    </datalist>
-                                {{-- <span class="help-block">Residence</span> --}}
+                                        <table   class="table  datatable table-striped " >
+                                            {{-- Table Head --}}
+                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th data-searchable="false">Zone</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            {{-- Table Body --}}
+                                            <tbody class="search_result">
+                                                @foreach(App\Models\Residence::all() as $residence)
+                                                
+                                                <tr id="tr_{{$residence->id}}">
+                                                    {{-- user Name --}}
+                                                    <td>
+                                                        {{$residence->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$residence->zone->name}}
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <input type="radio"  name="residence_id" value="{{$residence->name}}">
+                                                    </td>
+                                                    {{-- Number of Users --}}
+                                                </tr>
+                                                @endforeach
 
+                                                <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
+
+                                              
+                                            </tbody>
+                                            {{-- Table Body Ends --}}
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
+
+                                        Current Residence:{{$user->residence()->name}} <br> <br>
+
+
+                                        Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
+                                    </span>
                             </div>
 
                             {{-- NsStatus --}}

@@ -30,12 +30,12 @@
 
     <!-- Bootstrap and necessary plugins -->
     <script src={{asset("js/jquery-3.6.0.min.js")}}></script>
-    <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script>
-    {{-- <script src={{asset("js/views/bootstrap.min.js")}}></script> --}}
+    {{-- <script src={{asset("bower_components/bootstrap/dist/js/bootstrap.min.js")}}></script> --}}
+    <script src={{asset("js/views/bootstrap.min.js")}}></script>
     <script src={{asset("js/views/bootstrap.bundle.min.js")}}></script>
 
     {{-- Some specific for view features --}}
-    <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script>
+    {{-- <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script> --}}
     <script src={{asset("js/views/charts.js")}}></script>
     <script src={{asset("js/views/main.js")}}></script>
     <script src={{asset("js/views/widgets.js")}}></script>
@@ -88,7 +88,7 @@
                     </a>
                 </li>
                 {{-- Back Icon --}}
-                @if(session()->has('custom.previousUrls') && count(session('custom.previousUrls')) > 1)
+                {{-- @if(session()->has('custom.previousUrls') && count(session('custom.previousUrls')) > 1)
                     @php
                         $previousUrl = array_pop(session('custom.previousUrls'));
                     @endphp
@@ -96,7 +96,7 @@
                         <a class="nav-link fa fa-long-arrow-left"  href="{{ $previousUrl }}">
                         </a>
                     </li>
-                @endif
+                @endif --}}
                 
             </ul>
             {{-- <button class="navbar-toggler aside-menu-toggler" type="button">☰</button> --}}
