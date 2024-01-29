@@ -38,8 +38,8 @@
    {{-- <script src={{asset("js/views/charts.js")}}></script> --}}
    <script src={{asset("js/views/main.js")}}></script>
    <script src={{asset("js/views/widgets.js")}}></script>
-   <script src={{asset("js/jquery.dataTables.min.js")}}></script>
-   <script src={{asset("js/jquery.dataTables.bootstrap5.min.js")}}></script>
+   <script src={{asset("js/dataTables.min.js")}}></script>
+   <script src={{asset("js/dataTables.bootstrap5.min.js")}}></script>
 
 </head>
 <body class="app header-fixed  aside-menu-fixed aside-menu-hidden">
