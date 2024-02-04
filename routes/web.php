@@ -1278,6 +1278,12 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    $users  = User::all();
+    foreach($users as $user){
+        $user->is_available = 1;
+        $user->save();
+    }
+
     return today();
     return Semester::active_semester()->upcoming_programs;
 

@@ -231,7 +231,7 @@ class AttendanceController extends Controller
     // Access the attendance session to check user
     public function access_attendance_session(Attendance $attendance)
     {
-        $users = User::where('is_member', 1)->where('is_available',1)
+        $users = User::where('is_member', 1)
             ->paginate(
                 $perPage = 25, $columns = ['*'], $pageName = 'Users'
             );
