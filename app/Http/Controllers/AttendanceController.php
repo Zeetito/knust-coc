@@ -515,16 +515,24 @@ class AttendanceController extends Controller
             // If user exists
             if($user){
 
-                DB::table('attendance_users')->updateOrInsert([
-                    'attendance_id' => $attendance->id,
-                    'person_id' => $user->id,
-                    'is_user' => 1],
-                    [
-                    'is_present' => 1,
-                    'checked_by' => 1,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $instance =  DB::table('attendance_users')->where('is_user',1)->where('person_id',$user->id)->where('attendance_id',$attendance->id)->first();
+                if($instance){
+                return redirect()->back()->with('warning','You have been marked already.');
+                    
+                }else{
+
+                    DB::table('attendance_users')->updateOrInsert([
+                        'attendance_id' => $attendance->id,
+                        'person_id' => $user->id,
+                        'is_user' => 1],
+                        [
+                        'is_present' => 1,
+                        'checked_by' => 1,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+
 
                 return redirect()->back()->with('success','Attendance Marked Successfully.');
 
