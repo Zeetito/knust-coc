@@ -82,7 +82,7 @@ class Semester extends Model
     // query for upcoming programs
     public function upcoming_programs()
     {
-        return $this->hasMany(SemesterProgram::class)->orderBy('start_date')->where('start_date', '>=', now());
+        return $this->hasMany(SemesterProgram::class)->orderBy('start_date')->where('start_date', '>=', today());
     }
 
     // Get attendance sessions for a particular semester

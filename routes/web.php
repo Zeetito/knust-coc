@@ -1278,6 +1278,9 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return today();
+    return Semester::active_semester()->upcoming_programs;
+
 
     return Attendance::find(42)->males_members_present();
 
