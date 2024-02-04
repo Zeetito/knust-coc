@@ -862,6 +862,17 @@ Route::post('assign_permission_to/{permission}',[PermissionController::class,'as
 // ------------------------
 // ATTENDANCE
 
+// Email check page
+Route::get('/email_check_page/{attendance}', [AttendanceController::class, 'email_check_page'])
+    ->middleware('control:system_online')
+    ->name('email_check_page');
+
+Route::post('/email_check/{attendance}', [AttendanceController::class, 'email_check'])
+->middleware('control:system_online')
+->name('email_check');
+
+
+
 // Index page to view the various attendance sessions
 Route::get('/attendance', [AttendanceController::class, 'index'])
     ->middleware('auth','control:system_online','hasProfile')

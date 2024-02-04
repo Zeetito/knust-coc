@@ -502,5 +502,39 @@ class AttendanceController extends Controller
     }
 
 
+    // Email Check papge
+
+    public function email_check_page(Attendance $attendance){
+        return view('attendance.attendance-users.email-check',['attendance'=>$attendance]);
+    }
+
+    // Email Check
+    public function email_check(Request $request,  Attendance $attendance){
+            $user = User::where('email',$request->input('email'))->first();
+
+            // If user exists
+            if($user){
+
+                DB::table('attendance_users')->updateOrInsert([
+                    'attendance_id' => $attendance->id,
+                    'person_id' => $user->id,
+                    'is_user' => 1],
+                    [
+                    'is_present' => 1,
+                    'checked_by' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                return redirect()->back()->with('success','Attendance Marked Successfully.');
+
+            }else{
+                return redirect()->back()->with('failure','Email not on our Database. Kindly use the button below to register');
+            }
+
+
+            return $user;
+    }
+
 
 }
