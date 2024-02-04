@@ -468,6 +468,13 @@ Ensure Datatables are responsive on the hosted project
 Bulk handle requests. ✔️
 
 Send custom mail to user(s).✔️
+user_emails table
+
+AttendanceUser Model for attendanceUsers table.✔️
+Find Users active biodata in a given semester✔️
+
+Set delete constraints on contacts table for users
+
 
 
 <!-- NOTIFICATIONS -->

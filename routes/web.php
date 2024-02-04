@@ -23,6 +23,7 @@ use App\Models\Permission;
 use App\Models\GuestRequest;
 use App\Models\AccountRecord;
 use App\Models\UserResidence;
+use App\Models\AttendanceUser;
 use App\Http\Controllers\Admin;
 use App\Mail\CreateBiodataMail;
 use App\Models\SemesterProgram;
@@ -1277,6 +1278,12 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+
+    return Attendance::find(42)->males_members_present();
+
+    return AttendanceUser::find(822)->residence();
+
+    return User::find(1)->profile_at(2);
 
     $OneDayAgo = Carbon::now()->subDays(1);
 

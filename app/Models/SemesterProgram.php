@@ -185,4 +185,9 @@ class SemesterProgram extends Model
     public function attendance_session(){
         return $this->hasOne(Attendance::class);
     }
+
+    // Get the related Semester 
+    public function semester(){
+        return $this->belongsTo(Semester::class);
+    }
 }

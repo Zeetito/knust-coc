@@ -1,7 +1,7 @@
 @foreach($absentees as $member)
-{{-- {{$user_who_marked = $attendance->user_marked_by($member->pivot->checked_by)}} --}}
-<tr  id="tr_{{$member->id}}">
-    
+ {{-- {{$user_who_marked = $attendance->user_marked_by($member->pivot->checked_by)}} --}}
+ <tr  id="tr_{{$member->id}}">
+                                                    
     <td>
         <a >
             <img src="{{$member->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
@@ -16,7 +16,7 @@
 
     </td>
     
-    <td>{{$member->biodata !=null ? $member->zone()->name : "No Zone" }}</td>
+    <td>{{$member->profile_at($attendance->semester->academic_year_id) !=null ? $member->profile_at($attendance->semester->academic_year_id)->zone->name : "No Zone" }}</td>
     
     <td style="word-wrap: break-word;"> {{ $member->absentee_reason($attendance)}} </td>
 

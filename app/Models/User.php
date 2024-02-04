@@ -711,11 +711,16 @@ class User extends Authenticatable
             ;
     }
 
-    // Check if there are members for a particular members
+    // Check if there are members for a particular year group
     public static function year_members_exist($year){
         return User::whereHas('member_biodata', function ($query) use ($year) {
             $query->where('year',$year);
             })->exists()
             ;
+    }
+
+    // Check for a user's active biodata in a particular Academic Year
+    public function profile_at($aca){
+        return MembersBiodata::where('academic_year_id',$aca)->where('user_id',$this->id)->latest()->first();
     }
 }

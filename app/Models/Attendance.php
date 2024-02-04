@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use App\Models\SemesterProgram;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,18 @@ class Attendance extends Model
                     ->where('is_present', 1)
                     ->withPivot('person_id', 'checked_by');
     }
+
+    // Find the related Semester
+    public function semester(){
+        return $this->belongsTo(Semester::class);
+    }
+
+    // Retrieve Attendance users instances
+    public function attendance_users(){
+        return $this->hasMany(AttendanceUser::class);
+    }
+
+
 
     // Get Semester Program
     public function semesterProgram(): BelongsTo

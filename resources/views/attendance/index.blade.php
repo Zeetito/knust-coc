@@ -26,7 +26,7 @@
                             <div class="pre-scrollable" >
     
                                     <div class="card-body">
-                                        @if($attendances == "[]")
+                                        @if($attendances != "[]")
                                             <table class="table table-striped">
                                                 {{-- Table Head --}}
                                                 <thead>

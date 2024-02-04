@@ -14,29 +14,29 @@
                             </a>
 
                             {{-- Search Box --}}
-                            <span>
-                                <form >
-                                    <input  type="text" id="for_user_list" class="search_box" data-url="{{route("search_absentees",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;">
-                                        <i class="fa fa-search"></i>
-                                </form>
-                            </span>
+                            {{-- <span> --}}
+                                {{-- <form > --}}
+                                    {{-- <input  type="text" id="for_user_list" class="search_box" data-url="{{route("search_absentees",['attendance'=>$attendance] )}}" placeholder="search name..." style="text-align:center;"> --}}
+                                        {{-- <i class="fa fa-search"></i> --}}
+                                {{-- </form> --}}
+                            {{-- </span> --}}
 
                             {{-- Filter User --}}
-                            <span class=" btn float-right">
-                                <form method="get" action="{{route('confirm_print_absentees',[ 'attendance'=>$attendance])}}">
-                                    <select type="text" id="_for_user_list" name="zone" class="filter_box" data-url="{{route('filter_absentees',['attendance'=>$attendance])}}" required>    
-                                        <option value="">Select Zone </option>
+                            {{-- <span class=" btn float-right"> --}}
+                                {{-- <form method="get" action="{{route('confirm_print_absentees',[ 'attendance'=>$attendance])}}"> --}}
+                                    {{-- <select type="text" id="_for_user_list" name="zone" class="filter_box" data-url="{{route('filter_absentees',['attendance'=>$attendance])}}" required>     --}}
+                                        {{-- <option value="">Select Zone </option> --}}
                                         {{-- <option value="all">All Zones </option> --}}
 
-                                          @foreach(App\Models\Zone::all() as $zone)
-                                            <option value="{{$zone->name}}">{{$zone->name}}</option>
-                                          @endforeach
+                                          {{-- @foreach(App\Models\Zone::all() as $zone) --}}
+                                            {{-- <option value="{{$zone->name}}">{{$zone->name}}</option> --}}
+                                          {{-- @endforeach --}}
                                       
-                                    </select>        
-                                    <i class="fa fa-filter"></i>
-                                    
-                                    <button type="submit" class="fa fa-print" >Print</button>
-                                </form>
+                                    {{-- </select>         --}}
+                                    {{-- <i class="fa fa-filter"></i> --}}
+                                    {{--  --}}
+                                    {{-- <button type="submit" class="fa fa-print" >Print</button> --}}
+                                {{-- </form> --}}
                                 @allowedTo(['print_absentees'])
                                 {{-- <form class="form-group card-info mt-3">
                                     <select type="text"   required>    
@@ -49,7 +49,7 @@
                                     <span type="submit" data-toggle="modal" data-target="#myModal" data-url="{{route('confirm_print_attendance',['attendance'=>$attendance])}}" class="btn fa fa-print">Print</span>                                       
                                 </form> --}}
                                 @endallowedTo
-                            </span>
+                            {{-- </span> --}}
 
                         </div>
 
@@ -58,7 +58,7 @@
 
                                 <div class="">
                                     <h5>Absentees</h5>
-                                        <table class="table table-striped">
+                                        <table class="table datatable_print table-striped">
                                             
                                             {{-- Table Head --}}
                                             <thead>
@@ -93,7 +93,7 @@
 
                                                     </td>
                                                     
-                                                    <td>{{$member->biodata !=null ? $member->zone()->name : "No Zone" }}</td>
+                                                    <td>{{$member->profile_at($attendance->semester->academic_year_id) !=null ? $member->profile_at($attendance->semester->academic_year_id)->zone->name : "No Zone" }}</td>
                                                     
                                                     <td style="word-wrap: break-word;"> {{ $member->absentee_reason($attendance)}} </td>
 
@@ -127,7 +127,7 @@
                         {{-- </div> --}}
                         {{--Scrollable Table Ends--}}
 
-                        {{$absentees->links()}}
+                        {{-- {{$absentees->links()}} --}}
                        
                     </div>
                 </div>

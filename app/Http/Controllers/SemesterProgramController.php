@@ -40,10 +40,10 @@ class SemesterProgramController extends Controller
      */
     public function store(Request $request)
     {
-        $reader = new Reader($databasePath);
-        $ipAddress = $request->ip();
-        $record = $reader->city($ipAddress);
-        return $record;
+        // $reader = new Reader($databasePath);
+        // $ipAddress = $request->ip();
+        // $record = $reader->city($ipAddress);
+        // return $record;
         //
         $validated = $request->validate([
             'name' => ['required'],
