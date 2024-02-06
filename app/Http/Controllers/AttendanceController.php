@@ -324,7 +324,7 @@ class AttendanceController extends Controller
 
     // Show Absentees
     public function show_absentees(Attendance $attendance){
-        $absentees = $attendance->all_absentees()->paginate(25);
+        $absentees = $attendance->all_absentees()->get();
         return view('attendance.attendance-users.components.absentees.index',['attendance'=>$attendance, 'absentees'=>$absentees]);
     }
 
