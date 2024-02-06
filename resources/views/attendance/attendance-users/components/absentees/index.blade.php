@@ -93,7 +93,7 @@
 
                                                     </td>
                                                     
-                                                    <td>{{$member->profile_at($attendance->semester->academic_year_id) !=null ? $member->profile_at($attendance->semester->academic_year_id)->zone->name : "No Zone" }}</td>
+                                                    <td>{{$member->profile_at($attendance->semester->academic_year_id)  ? $member->profile_at($attendance->semester->academic_year_id)->zone->name : "No Zone" }}</td>
                                                     
                                                     <td style="word-wrap: break-word;"> {{ $member->absentee_reason($attendance)}} </td>
 

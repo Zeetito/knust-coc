@@ -32,9 +32,9 @@
                                
                             </div>
                             
-                                                           <span class="btn">
-                                                               <a href="{{route('register')}}">Register New Account ?</a>
-                                                           </span>
+                                <span class="btn">
+                                    <a href="{{route('register')}}">Register New Account ?</a>
+                                </span>
                         </div>
                         
                         
