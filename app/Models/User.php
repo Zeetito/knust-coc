@@ -382,7 +382,7 @@ class User extends Authenticatable
     // Check if User was once a guest
     public function was_a_guest(){
         $when_guest = Guest::find(GuestRequest::where('instance_id',$this->id)->where('table_name','users')->first());
-        return $when_guest;
+        return $when_guest == true;
     }
 
     // User Status - Whether a Non-Student Member, etc

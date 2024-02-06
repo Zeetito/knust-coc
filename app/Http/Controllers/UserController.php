@@ -466,6 +466,10 @@ class UserController extends Controller
     }
 
 
+    // Return Users Table
+    public function users_table(){
+        return view('users.components.users.users_table');
+    }
 
 
 }

@@ -465,7 +465,7 @@ class AttendanceController extends Controller
 
     // Edit Absentee Status
     public function edit_absentee_status(Attendance $attendance, User $user){
-        return view('attendance\attendance-users\components\absentees\edit-status',['user'=>$user , 'attendance'=>$attendance]);
+        return view('attendance.attendance-users.components.absentees.edit-status',['user'=>$user , 'attendance'=>$attendance]);
     }
 
     // Update Absentee Status

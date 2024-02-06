@@ -147,6 +147,30 @@ $(document).ready(function(){
         });
     });
 
+    // Table Replace Stuff
+    $(document.body).on('click','.table_replace_button', function () {
+        var url = $(this).data('url');
+
+
+        // console.log(url);
+        var data;
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: data,
+            cache: false,
+            success: function (data) {
+                
+                console.log(url);
+                $('#table_replaceable').html(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+    
+
     // Filter Box
     $(document.body).on('change','.filter_box', function () {
         var url = $(this).data('url');

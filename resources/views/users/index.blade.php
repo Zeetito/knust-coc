@@ -1,12 +1,18 @@
 <x-layout>
       
         
-        <div class="container-fluid">
+        <div class="container-fluid  bg-white">
             <div class="">
                 {{Breadcrumbs::render('view_users')}}
                 {{-- Each Whole Table Screen --}}
                 <div class="process-bar-container">
-                    <div class="process-bar">
+
+                    
+                    <div class="process-bar" id="table_replaceable">
+                        
+                        <span  class="btn btn-info table_replace_button" data-url="{{route('users_table')}}" data-target="#table_replaceable" >Users Table</span>
+
+
                         <div class="process-order">
                             <h3 style="text-align:center">Members</h3>
                             
@@ -34,7 +40,7 @@
 
                         {{-- Users Table --}}
 
-                            <div class="row" id="search_result_for_user_list" >
+                            <div class="row"  id="search_result_for_user_list" >
                                        
                                 @foreach($users as $user)
                                 <div class="col-lg-4 col-sm-3 col-md-3 ">
@@ -74,7 +80,7 @@
                                 @endforeach
 
                                        
-                                </div>
+                            </div>
                         
                          
                         {{--Users Table Ends--}}

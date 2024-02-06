@@ -1239,6 +1239,12 @@ Route::get('/users', [UserController::class, 'view_users'])
     ->middleware('auth','hasProfile','control:system_online')
     ->name('view_users');
 
+// Users Table
+// VIEWS
+Route::get('/users_table', [UserController::class, 'users_table'])
+    ->middleware('auth','hasProfile','control:system_online')
+    ->name('users_table');
+
 // -------------------------------------------------
 
 
