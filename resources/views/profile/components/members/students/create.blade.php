@@ -78,14 +78,46 @@
 
                           {{-- Program List for Each College --}}
                             {{-- Program Id --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Program Of Study</strong>
-                                <input list="search_result_for_program_list" data-url="{{route('profile_search_programs')}}" value="{{old('program_id')}}" class="search_box form-control" name="program_id" id="for_program_list"  autocomplete="off" placeholder="Search Program..." >
-                                    <datalist id="search_result_for_program_list">
-                                        <option value="unknown">I Can't Find My Program</option>
-                                    </datalist>
-                                {{-- <span class="help-block">Residence</span> --}}
+                            <div class="col-md-3 mb-4 card ">
+                                <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" id="accordionExampleThree" style="font-size: 22px; font-weight:bold " >Tap Choose Program Of Study</span>
+                                    <div class="accordion-body accordion-collapse collapse" id="collapseThree" data-bs-parent="#accordionExampleThree">
 
+                                        <table   class="table  datatable table-striped " >
+                                            {{-- Table Head --}}
+                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>Program</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            {{-- Table Body --}}
+                                            <tbody class="search_result">
+                                                @foreach(App\Models\Program::all() as $program)
+                                                
+                                                <tr id="tr_{{$program->id}}">
+                                                    {{-- user Name --}}
+                                                    <td>
+                                                        {{$program->name}}
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <input type="radio"  name="program_id" value="{{$program->name}}">
+                                                    </td>
+                                                    {{-- Number of Users --}}
+                                                </tr>
+                                                @endforeach
+
+                                              
+                                            </tbody>
+                                            {{-- Table Body Ends --}}
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
+
+                                        Can't Find Your Program? <input type="radio" class=""  name="program_id" value="unknown">
+                                    </span>
                             </div>
 
                             {{-- Year --}}
@@ -106,15 +138,54 @@
 
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Select Hall/Hostel/Homestel</strong>
-                                    <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="search..." >
-                                    <datalist id="search_result_for_residence_list">
-                                        <option value="unknown">I come from Home</option>
-                                        <option value="unknown">Can'f Find My Hostel/Homestel</option>
-                                    </datalist>
-                                {{-- <span class="help-block">Residence</span> --}}
+                            <div class="col-md-3 mb-4 card ">
+                                <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="accordionExampleTwo" style="font-size: 22px; font-weight:bold " >Tap Choose Residence</span>
+                                    <div class="accordion-body accordion-collapse collapse" id="collapseTwo" data-bs-parent="#accordionExampleTwo">
 
+                                        <table   class="table  datatable table-striped " >
+                                            {{-- Table Head --}}
+                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th data-searchable="false">Zone</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            {{-- Table Body --}}
+                                            <tbody class="search_result">
+                                                @foreach(App\Models\Residence::all() as $residence)
+                                                
+                                                <tr id="tr_{{$residence->id}}">
+                                                    {{-- user Name --}}
+                                                    <td>
+                                                        {{$residence->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$residence->zone->name}}
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <input type="radio"  name="residence_id" value="{{$residence->name}}">
+                                                    </td>
+                                                    {{-- Number of Users --}}
+                                                </tr>
+                                                @endforeach
+
+                                                {{-- <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden> --}}
+
+                                              
+                                            </tbody>
+                                            {{-- Table Body Ends --}}
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
+
+
+
+                                        Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
+                                    </span>
                             </div>
 
                                {{-- Room --}}
@@ -129,52 +200,56 @@
                                      @enderror
                             </div>
 
-                            {{-- Contacts --}}
+                            {{-- <div>Contacts</div> --}}
 
-                            {{-- Main Phone --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Main Phone Contact</strong>
-                                <input type="text" class="form-control" value="{{old('phone')}}" name="phone" required>
-                            </div>
-                            
-                            {{-- WhatsApp Contact --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>WhatsApp Contact</strong>
-                                <input type="text" class="form-control" value="{{old('whatsapp')}}" name="whatsapp" required>
-                            </div>
+                            {{-- <div> --}}
+                                {{-- Contacts --}}
 
-                            {{-- School Voda --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>School Vodafone</strong>
-                                <input type="text" class="form-control" value="{{old('school_voda')}}" name="school_voda">
-                            </div>
+                                {{-- Main Phone --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>Main Phone Contact</strong>
+                                    <input type="text" class="form-control" value="{{old('phone')}}" name="phone" required>
+                                </div>
+                                
+                                {{-- WhatsApp Contact --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>WhatsApp Contact</strong>
+                                    <input type="text" class="form-control" value="{{old('whatsapp')}}" name="whatsapp" required>
+                                </div>
 
-                            {{-- Other Contact --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Other Contact (Optional)</strong>
-                                <input type="text" class="form-control" value="{{old('other_contact')}}" name="other_contact">
-                            </div>
+                                {{-- School Voda --}}
+                                <div class="col-md-3 mb-4">
+                                    <strong>School Vodafone</strong>
+                                    <input type="text" class="form-control" value="{{old('school_voda')}}" name="school_voda">
+                                </div>
 
-                            {{-- GUARDIAN CONTACTS --}}
-                            <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
-                            
-                            <div class="col-md-6 mb-4">
-                                <strong>Guardian Contact A</strong>
-                                <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" required>
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <strong>Relation with Guardian A</strong>
-                                <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
-                            </div>
+                                {{-- Other Contact --}}
+                                {{-- <div class="col-md-3 mb-4">
+                                    <strong>Other Contact (Optional)</strong> --}}
+                                    <input type="text" class="form-control" value="{{old('other_contact')}}" hidden name="other_contact">
+                                {{-- </div> --}}
 
-                            <div class="col-md-6 mb-4">
-                                <strong>Guardian Contact B (Optional) </strong>
-                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" >
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <strong>Relation with Guardian B (Optional)</strong>
-                                <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" placeholder="Eg. Father, Mother, etc">
-                            </div>
+                                {{-- GUARDIAN CONTACTS --}}
+                                <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <strong>Guardian Contact A</strong>
+                                    <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <strong>Relation with Guardian A</strong>
+                                    <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
+                                </div>
+
+                                {{-- <div class="col-md-6 mb-4"> --}}
+                                    {{-- <strong>Guardian Contact B (Optional) </strong> --}}
+                                    <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" hidden placeholder="Contact Here" >
+                                {{-- </div> --}}
+                                {{-- <div class="col-md-6 mb-4"> --}}
+                                    {{-- <strong>Relation with Guardian B (Optional)</strong> --}}
+                                    <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" hidden placeholder="Eg. Father, Mother, etc">
+                                {{-- </div> --}}
+                            {{-- </div> --}}
 
                         </div>
 

@@ -105,6 +105,7 @@ class BiodataController extends Controller
                 ]);
 
 
+
                 $program = Program::findProgramByName($validated['program_id']);
                     $residence = Residence::findResidenceByName($validated['residence_id']);
                 
@@ -274,7 +275,7 @@ class BiodataController extends Controller
                         $whatsapp->is_visible = 1;
                     $whatsapp->save();
                     }
-    
+
                     // If School Voda Exists, Save it as well
                     if($validated['school_voda'] != null){
                         if(!$user->school_voda){

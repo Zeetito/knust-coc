@@ -62,28 +62,54 @@
 
                             {{-- Residence List for Each Zone --}}
                             {{-- Residence Id --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Select Residence</strong>
-                                <input list="search_result_for_residence_list" autocomplete="off"  value="{{old('residence_id')}}" id="for_residence_list"  data-url="{{route('profile_search_residences')}}" class=" search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
-                                <datalist id="search_result_for_residence_list">
-                                    @if(empty($residences))
+                            <div class="col-md-3 mb-4 card ">
+                                <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="accordionExampleTwo" style="font-size: 22px; font-weight:bold " >Tap Choose Residence</span>
+                                    <div class="accordion-body accordion-collapse collapse" id="collapseTwo" data-bs-parent="#accordionExampleTwo">
 
-                                        <option>Search residence...</option>
-                                        <option value="unknown">I come from Home</option>
-                                        <option value="unknown">Can't Find My Hostel/Homestel</option>
-                                    @else
-                                    
-                                        @foreach($residences as $residence)
-                                            <option value="{{$residence->name}}"></option>
-                                        @endforeach
+                                        <table   class="table  datatable table-striped " >
+                                            {{-- Table Head --}}
+                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th data-searchable="false">Zone</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            {{-- Table Body --}}
+                                            <tbody class="search_result">
+                                                @foreach(App\Models\Residence::all() as $residence)
+                                                
+                                                <tr id="tr_{{$residence->id}}">
+                                                    {{-- user Name --}}
+                                                    <td>
+                                                        {{$residence->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$residence->zone->name}}
+                                                    </td>
+                                                    
+                                                    <td>
+                                                        <input type="radio"  name="residence_id" value="{{$residence->name}}">
+                                                    </td>
+                                                    {{-- Number of Users --}}
+                                                </tr>
+                                                @endforeach
+
+                                                {{-- <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden> --}}
+
+                                              
+                                            </tbody>
+                                            {{-- Table Body Ends --}}
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <span class="" style="font-family:Verdana, Geneva, Tahoma, sans-serif">
 
 
-                                    @endif
-                                </datalist>
-                                @error('residence_id')
-                                <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
-                                @enderror
 
+                                        Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
+                                    </span>
                             </div>
 
                             {{-- NsStatus --}}
@@ -160,16 +186,16 @@
                             </div>
 
                             {{-- School Voda --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>School Vodafone</strong>
-                                <input type="text" class="form-control" value="{{old('school_voda')}}" name="school_voda">
-                            </div>
+                            {{-- <div class="col-md-3 mb-4">
+                                <strong>School Vodafone</strong> --}}
+                                <input type="text" class="form-control" value="{{old('school_voda')}}" hidden name="school_voda">
+                            {{-- </div> --}}
 
                             {{-- Other Contact --}}
-                            <div class="col-md-3 mb-4">
-                                <strong>Other Contact (Optional)</strong>
-                                <input type="text" class="form-control" value="{{old('other_contact')}}" name="other_contact">
-                            </div>
+                            {{-- <div class="col-md-3 mb-4">
+                                <strong>Other Contact (Optional)</strong> --}}
+                                <input type="text" class="form-control" hidden value="{{old('other_contact')}}" name="other_contact">
+                            {{-- </div> --}}
 
                             {{-- GUARDIAN CONTACTS --}}
                             <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
@@ -183,14 +209,14 @@
                                 <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
                             </div>
 
-                            <div class="col-md-6 mb-4">
-                                <strong>Guardian Contact B (Optional) </strong>
-                                <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" placeholder="Contact Here" >
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <strong>Relation with Guardian B (Optional)</strong>
-                                <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" placeholder="Eg. Father, Mother, etc">
-                            </div>
+                            {{-- <div class="col-md-6 mb-4">
+                                <strong>Guardian Contact B (Optional) </strong> --}}
+                                <input type="text" class="form-control" value="{{old('guardian_b')}}" hidden name="guardian_b" placeholder="Contact Here" >
+                            {{-- </div> --}}
+                            {{-- <div class="col-md-6 mb-4">
+                                <strong>Relation with Guardian B (Optional)</strong> --}}
+                                <input type="text" hidden class="form-control" value="{{old('relation_b')}}" name="relation_b" placeholder="Eg. Father, Mother, etc">
+                            {{-- </div> --}}
 
                         </div>
 
