@@ -421,6 +421,11 @@ class User extends Authenticatable
     {
         return $this->firstname.' '.$this->lastname;
     }
+    // Get user full name
+    public function fullnames()
+    {
+        return $this->firstname.' '.$this->othername.' '.$this->lastname;
+    }
 
     // Get User Avatar
     public function get_avatar()

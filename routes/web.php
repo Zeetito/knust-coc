@@ -1118,7 +1118,8 @@ Route::get('/', function () {
     return view('homepage');
 })
     ->middleware('auth','control:system_online','hasProfile')
-    ->name('home');
+    // ->name('home')
+    ;
 
 //  PROFILE / BIODATA
 

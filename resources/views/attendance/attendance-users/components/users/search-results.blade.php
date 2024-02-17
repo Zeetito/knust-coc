@@ -8,7 +8,7 @@
             <a href="{{route('view_profile',['user'=>$member])}}">
                 <img src="{{$member->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
             </a>
-            {{$member->fullname()}}
+            {{$member->fullnames()}}
         </td>
 
         {{-- Email --}}
