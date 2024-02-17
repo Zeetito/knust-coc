@@ -10,6 +10,7 @@ use App\Models\Contact;
 use App\Models\Program;
 use App\Models\Semester;
 use App\Models\Residence;
+use App\Models\Attendance;
 use App\Models\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\MembersBiodata;
@@ -45,7 +46,7 @@ class BiodataController extends Controller
             return view('profile.components.alumni.show', ['user' => $user]);
         }
 
-        if(auth()->user()->is($user)){
+        if(auth()->user()->is($user) || (auth()->user()->is_ministry_member() && Attendance::in_session())){
             return redirect(route('create_user_profile_form', ['user' => $user]));
         }else{
             return redirect()->back()->with('warning','This User has no profile');
