@@ -33,7 +33,42 @@
 
                     @endallowedTo
 
+                    @if(App\Models\Attendance::in_session())
+                        @if($user->is_checked(App\Models\Attendance::in_session()))
+                            @can('check',$user)
+                                {{-- Uncheck User button --}}
+                                <span type="button" data-toggle="modal" data-target="#myModal" id="{{$user->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>App\Models\Attendance::in_session() , 'user'=>$user])}}" >
+                                    <i class="text-success fa fa-check"></i>
+                                </span> 
+                                @else
+                                {{-- Not A button --}}
+                                <span type="button" class="button message"  >
+                                    <i class="text-success fa fa-check"></i>
+                                </span>
+                            @endcan
+
+                            @else
+                            {{-- Check User Button --}}
+                            @can('check',$user)
+                            <button class="check_button" id="{{$user->id}}" data-url="{{route('check_user',['attendance'=>App\Models\Attendance::in_session() , 'user'=>$user])}}" >
+                                <i class=" text-danger fa fa-check"></i>
+                            </button>
+
+                            @else
+
+                            <button class="" id="{{$user->id}}" data-url="" >
+                                    <i class=" text-info fa fa-check"></i>
+                            </button>
+                            @endcan
+
+                         @endif
+
+                    @endif
+
                 </td>
+
+
+
             </tr>
 
 

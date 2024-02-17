@@ -301,9 +301,9 @@ class Attendance extends Model
         return $this->all_absentees()->get()->intersect($zone->users());
     }
 
-    // find Attendnace in session
-    // public static function in_session(){
-    //     return Attendance::where('in')
-    // }
+    // Return Attendnace in session
+    public static function in_session(){
+        return Attendance::where('is_active',1)->first();
+    }
 
 }

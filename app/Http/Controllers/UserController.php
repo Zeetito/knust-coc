@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\Guest;
 use App\Models\Semester;
+use App\Models\Attendance;
 use App\Models\UserRequest;
 use App\Models\GuestRequest;
 use Illuminate\Http\Request;
@@ -508,6 +509,11 @@ class UserController extends Controller
     // Return Users Table
     public function users_table(){
         return view('users.components.users.users_table');
+    }
+    // Return Users Page
+    public function users_table_page(){
+        $attendance_in_session = Attendance::in_session();
+        return view('users.components.users.table-page',['attendance'=>$attendance_in_session]);
     }
 
 

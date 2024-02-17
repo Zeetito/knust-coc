@@ -1263,6 +1263,11 @@ Route::get('/users_table', [UserController::class, 'users_table'])
     ->middleware('auth','hasProfile','control:system_online')
     ->name('users_table');
 
+// -- Table page
+Route::get('/users_table_page', [UserController::class, 'users_table_page'])
+    ->middleware('auth','hasProfile','control:system_online')
+    ->name('users_table_page');
+
 // -------------------------------------------------
 
 
@@ -1313,13 +1318,14 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
+    return Attendance::in_session();
     return Attendance::find(4)->attendance_users;
 
-    $users  = User::all();
-    foreach($users as $user){
-        $user->is_available = 1;
-        $user->save();
-    }
+    // $users  = User::all();
+    // foreach($users as $user){
+    //     $user->is_available = 1;
+    //     $user->save();
+    // }
 
     return today();
     return Semester::active_semester()->upcoming_programs;

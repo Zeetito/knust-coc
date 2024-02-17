@@ -10,7 +10,8 @@
                     
                     <div class="process-bar" id="table_replaceable">
                         
-                        <span  class="btn btn-info table_replace_button" data-url="{{route('users_table')}}" data-target="#table_replaceable" >Users Table</span>
+                        {{-- <span  class="btn btn-info table_replace_button" data-url="{{route('users_table')}}" data-target="#table_replaceable" >Users Table</span> --}}
+                        <a  class="btn btn-info table_replace_button" href="{{route('users_table_page')}}"  >Users Table</a>
 
 
                         <div class="process-order">
