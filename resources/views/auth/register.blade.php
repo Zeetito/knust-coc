@@ -99,12 +99,83 @@
                                
    
                                    {{-- Date of Birth --}}
+                                   <strong>NB:Your Year of birth will not be displayed publicly</strong>
                                    <div class="col-12 mb-3">
-                                       <strong>NB:Your Year of birth will not be displayed publicly</strong>
                                        
-                                       <input type="date" value="{{old('dob')}}" name="dob" class="form-control" required>
+                                       {{-- <input type="date" value="{{old('dob')}}" name="dob" class="form-control" required> --}}
+                                       
+                                       {{-- Day --}}
+                                       <select name="dob_day" class="col-3 " id="" value="{{old('dob_day')}}" required>
+                                            <option value="">Select Day</option>
+                                        
+                                            @php
+                                                for ($i = 1; $i <= 31; $i++) {
+                                                    $suffix = 'th';
+                                        
+                                                    if (in_array($i % 100, [11, 12, 13])) {
+                                                        // If the day is 11th, 12th, or 13th, use 'th'
+                                                        $suffix = 'th';
+                                                    } else {
+                                                        // For other days, determine the suffix based on the last digit
+                                                        $lastDigit = $i % 10;
+                                        
+                                                        switch ($lastDigit) {
+                                                            case 1:
+                                                                $suffix = 'st';
+                                                                break;
+                                                            case 2:
+                                                                $suffix = 'nd';
+                                                                break;
+                                                            case 3:
+                                                                $suffix = 'rd';
+                                                                break;
+                                                            default:
+                                                                $suffix = 'th';
+                                                                break;
+                                                        }
+                                                    }
+                                        
+                                                    echo "<option value='" . $i . "'>" . $i . $suffix . "</option>";
+                                                }
+                                            @endphp                                            
+                                    
+                                        </select>
+
+                                       {{-- Month --}}
+                                       <select name="dob_month" class="col-3 " value="{{old('dob_month')}}" id="" required>
+                                            <option value="">Select Month</option>
+                                        
+                                            @php
+                                                for ($i = 1; $i <= 12; $i++) {
+                                                
+                                                    echo "<option value='" . $i . "'>" . date("F", mktime(0, 0, 0, $i, 10)) . "</option>";
+                                                }
+                                            @endphp                                            
+                                    
+                                        </select>
+
+                                       {{-- Year --}}
+                                       <select name="dob_year" class="col-3 " value="{{old('dob_year')}}" id="" required>
+                                            <option value="">Select Year</option>
+                                        
+                                            @php
+                                                for ($i = date('Y'); $i >=1970 ; $i--) {
+                                                
+                                                    echo "<option value='" . $i . "'>" . $i . "</option>";
+                                                }
+                                            @endphp                                            
+                                    
+                                        </select>
+                                        
+
                                    </div>
-                                   @error('dob')
+                                   @error('dob_day')
+                                   <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                   @enderror
+                                   @error('dob_month')
+                                   <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
+                                   @enderror
+                                   @error('dob_year')
                                    <p class='m=0 small alert alert-danger shadow-sm'>{{$message}}</p>
                                    @enderror
    

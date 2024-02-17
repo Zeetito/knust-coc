@@ -128,21 +128,52 @@
                            <div class="card mx-4" style="border-radius:25px;">
                                <div class="card-body p-4 row">
                                 <strong>You could also confirm the existence of your hostel one more time</strong>
+
                                     {{-- Residence Id --}}
-                                    <div class="col-12 mb-3">
-                                        <h6>Residence</h6>
-                                        <input list="search_result_for_residence_list" autocomplete="off" id="for_residence_list" value="{{old('residence_id')}}"  data-url="{{route('profile_search_residences')}}" class="search_box form-control" name="residence_id" id="residence" placeholder="Residence search..." >
-                                        <datalist id="search_result_for_residence_list">
-
-                                            @foreach(App\Models\Residence::all() as $residence)
-                                                <option value="{{$residence->name}}">{{$residence->zone->name}}</option>
-                                            @endforeach
-
-
-                                        </datalist>
-
-                                        
+                                    <div class="col-md-12 mb-4 card">
+                                        <span class="fa fa-hand-pointer-o accordion accordion-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="accordionExampleTwo" style="font-size: 22px; font-weight:bold " >Tap Choose Residence</span>
+                                            <div class="accordion-body accordion-collapse collapse" id="collapseTwo" data-bs-parent="#accordionExampleTwo">
+        
+                                                <table   class="table  datatable table-striped " >
+                                                    {{-- Table Head --}}
+                                                    
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th data-searchable="false">Zone</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {{-- Table Body --}}
+                                                    <tbody class="search_result">
+                                                        @foreach(App\Models\Residence::all() as $residence)
+                                                        
+                                                        <tr id="tr_{{$residence->id}}">
+                                                            {{-- user Name --}}
+                                                            <td>
+                                                                {{$residence->name}}
+                                                            </td>
+                                                            <td>
+                                                                {{$residence->zone->name}}
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                <input type="radio"  name="residence_id" value="{{$residence->name}}">
+                                                            </td>
+                                                            {{-- Number of Users --}}
+                                                        </tr>
+                                                        @endforeach
+        
+        
+                                                      
+                                                    </tbody>
+                                                    {{-- Table Body Ends --}}
+                                                </table>
+                                            </div>
+                                            <br>
+                                           
                                     </div>
+
 
                                     <div class="col-12 mb-3">
                                         <strong>Room</strong>

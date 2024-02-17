@@ -83,8 +83,9 @@
 
                                         Current Residence:{{$user->residence()->name}} <br> <br>
 
-
-                                        Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
+                                        <strong>
+                                            Can't Find Your hostel or hostel? <input type="radio" class=""  name="residence_id" value="unknown">
+                                        </strong>
                                     </span>
                             </div>
 
@@ -203,7 +204,7 @@
                             {{-- <label class="col-md-3 mb-4 form-control-label" for="file-input">File input</label> --}}
                             <a href="{{route('edit_avatar_form',$user->id )}} ">
                                 <div class="btn col-md-9">
-                                Change Avatar
+                                {{-- Change Avatar --}}
                                 </div>
                             </a>
                         </div>

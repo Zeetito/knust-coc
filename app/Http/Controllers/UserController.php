@@ -53,7 +53,7 @@ class UserController extends Controller
             'username' => ['required', 'min:3', 'max:30', 'string', 'regex:/^[a-zA-Z0-9_]+$/',new UniqueAcrossTables(['users', 'guests'], 'username')],
             'email' => ['email', 'required', new UniqueAcrossTables(['users', 'guests'], 'email')],
             'password' => ['required', 'confirmed', 'max:225', 'min:6'],
-            'dob' => ['required'],
+
             'gender' => ['required'],
             'contact' => ['required','min:10','max:13'],
             'is_student' => ['required', 'numeric'],
@@ -62,6 +62,17 @@ class UserController extends Controller
             'is_baptized' => ['required', 'numeric'],
             'is_available' => ['nullable', 'numeric'],
         ]);
+
+        $validated_dob = $request->validate([
+            'dob_day' => ['required'],
+            'dob_month' => ['required'],
+            'dob_year' => ['required'],
+        ]);
+
+        $dob = $validated_dob['dob_year']."-".$validated_dob['dob_month']."-".$validated_dob['dob_day'];
+
+        $validated['dob'] = $dob;        
+
         $validated['password'] = bcrypt($validated['password']);
         // Initiate a Guest account
         $guest = new Guest;
@@ -138,7 +149,7 @@ class UserController extends Controller
             return redirect(route('home'))->with('success', 'You have successfully logged in');
 
             // Check if user has requested an account.
-        }else if(Guest::where('username',$validated['username'])->exists() ) {
+        }else if(Guest::where('username',$validated['username'])->orWhere('email',$validated['username'])->exists() ) {
             return redirect()->back()->with('warning','Account is still being processed. This may take a while');
         }else{
             return redirect()->back()->with('failure', 'password or username incorrect');
@@ -168,10 +179,38 @@ class UserController extends Controller
             'username' => ['required', 'min:3', 'max:30'],
             'email' => ['email', 'required'],
             // 'password' => ['required', 'confirmed', 'max:225', 'min:6'],
-            'dob' => ['required'],
+
             'gender' => ['required'],
             'is_baptized' => ['required', 'numeric'],
         ]);
+
+        if($request->input('dob_day') == null || $request->input('dob_month') == null || $request->input('dob_year') == null){
+            if($request->input('dob_day') != null || $request->input('dob_month') != null || $request->input('dob_year') != null){
+                $validated_dob = $request->validate([
+                    'dob_day' => ['required'],
+                    'dob_month' => ['required'],
+                    'dob_year' => ['required'],
+                ]);
+            }elseif($request->input('dob_day') == null && $request->input('dob_month') == null && $request->input('dob_year') == null){
+                $validated['dob'] = $user->dob;
+            }
+            
+
+        }else{
+            $validated_dob = $request->validate([
+                'dob_day' => ['required'],
+                'dob_month' => ['required'],
+                'dob_year' => ['required'],
+            ]);
+
+            $dob = $validated_dob['dob_year']."-".$validated_dob['dob_month']."-".$validated_dob['dob_day'];
+
+            $validated['dob'] = $dob;   
+        }
+
+      
+
+        
 
         $account_unchanged = $validated['username'] == $user->username
                         &&   $validated['firstname'] == $user->firstname

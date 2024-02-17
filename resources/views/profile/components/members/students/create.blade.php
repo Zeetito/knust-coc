@@ -184,7 +184,11 @@
 
 
 
-                                        Can't Find Your Residence? <input type="radio" class=""  name="residence_id" value="unknown">
+                                        <strong>
+                                            Can't Find hostel or homestel?
+                                            <input type="radio" class=""  name="residence_id" value="unknown">
+                                        </strong>
+                                        
                                     </span>
                             </div>
 
