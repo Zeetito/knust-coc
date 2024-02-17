@@ -18,6 +18,7 @@ class ProgramController extends Controller
     public function index()
     {
         //
+        return view('academia.programs.index');
     }
 
     /**
@@ -26,6 +27,8 @@ class ProgramController extends Controller
     public function create()
     {
         //
+        return view('academia.programs.create');
+
     }
 
     /**
@@ -34,6 +37,18 @@ class ProgramController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name'=>['required','min:5'],
+            'type'=>['required'],
+            'college_id'=>['required','numeric'],
+            'faculty_id'=>['nullable','numeric'],
+            'department_id'=>['nullable','numeric'],
+        ]);
+
+        Program::create($validated);
+
+        return redirect()->back()->with('success','New Program Added!');
+
     }
 
     /**

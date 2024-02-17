@@ -507,6 +507,24 @@ Route::delete('/program_outline/{semesterProgram}/{programOutline}/delete', [Pro
 // -------------
 // ACADEMIA
 
+
+// PROGRAMS
+// View All Programs
+Route::get('/programs', [ProgramController::class, 'index'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('programs');
+
+// Create New Program
+Route::get('/create_program', [ProgramController::class, 'create'])
+    ->middleware('auth','control:system_online','hasProfile', 'role:ministry_members_level')
+    ->name('create_program');
+
+// Store Program
+Route::post('/store_program', [ProgramController::class, 'store'])
+    ->middleware('auth','control:system_online','hasProfile', 'role:ministry_members_level')
+    ->name('store_program');
+
+
 // COLLEGES
 
 // View All Colleges
@@ -1294,6 +1312,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return Attendance::find(4)->attendance_users;
 
     $users  = User::all();
     foreach($users as $user){

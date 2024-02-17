@@ -545,4 +545,16 @@ class AttendanceController extends Controller
     }
 
 
+    // Sync Attendance Users
+    public function sync_attendance_instances(Attendance $attendance, array $off_instances){
+
+        if($attendance->attendance_users == $off_instances){
+            return redirect()->back()->with('warning','Nothing to be synched');
+        }
+
+        $on_instances = $attendance;
+
+    }
+
+
 }

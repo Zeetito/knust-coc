@@ -479,6 +479,8 @@ Account-email to related user to confirm (signed)
 
 Print Visitation Guide -  Logic
 
+Sync offline Attendance to online attendance.
+
 
 
 <!-- NOTIFICATIONS -->
