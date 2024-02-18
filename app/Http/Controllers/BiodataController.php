@@ -657,15 +657,10 @@ class BiodataController extends Controller
             if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
 
                 // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
-                if (now()->diffInDays($user->biodata->updated_at) >= 60) {
-                    $existingBiodata = DB::table('members_biodatas')
-                                        ->where('user_id', $user->id) // adjust the condition as needed
-                                        ->first();
-
-                    if (!$existingBiodata) {
+                if (now()->diffInDays($user->biodata->updated_at) >= 70) {
+ 
                         DB::table('members_biodatas')->insert($validated_profile);
-                        // return redirect()->back()->with('success', 'Biodata Updated Successfully');
-                    }
+
                     // If the latest update is less than 60 days, update the latest one
                 } else {
                     $latest_biodata_id = $user->biodata->id;
@@ -681,6 +676,7 @@ class BiodataController extends Controller
                         if(isset($validated_profile['year'])){
                             $instance->year = $validated_profile['year'];
                         }
+                        $instance->updated_at = now();
 
                         $instance->save();
 
