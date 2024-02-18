@@ -672,7 +672,9 @@ class BiodataController extends Controller
                         // $instance = DB::table('members_biodatas')->where('id', $latest_biodata_id)->first();
                         $instance = MembersBiodata::find($latest_biodata_id);
                         $instance->residence_id = $validated_profile['residence_id'];
+                        $instance->zone_id = $validated_profile['zone_id'];
                         $instance->program_id = $validated_profile['program_id'];
+                        $instance->college_id = $validated_profile['college_id'];
                         if(isset($validated_profile['room'])){
                             $instance->room = $validated_profile['room'];
                         }
@@ -681,7 +683,6 @@ class BiodataController extends Controller
                         }
 
                         $instance->save();
-
 
                     // return redirect()->back()->with('success', 'Biodata Updated Successfully');
                 }
