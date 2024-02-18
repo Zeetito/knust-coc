@@ -488,7 +488,7 @@ class User extends Authenticatable
             $users = User::
                             //Searching firstname,lastname and username
                             where((DB::raw("CONCAT(firstname, ' ', lastname, username)")), 'like', $str)
-                                ->orWhere((DB::raw("CONCAT(lastname, ' ', firstname, username)")), 'like', $str)
+                                ->orWhere((DB::raw("CONCAT(lastname, ' ', firstname, username,email)")), 'like', $str)
                                 ->orWhere((DB::raw("CONCAT(firstname, ' ', othername, ' ', lastname, username)")), 'like', $str)
                                 ->orWhere((DB::raw("CONCAT(lastname, ' ', othername, ' ', firstname, username)")), 'like', $str)
                                 ->orWhere((DB::raw("CONCAT(lastname, ' ', firstname, ' ', othername, username)")), 'like', $str)
