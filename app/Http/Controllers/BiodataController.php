@@ -658,13 +658,30 @@ class BiodataController extends Controller
 
                 // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
                 if (now()->diffInDays($user->biodata->updated_at) >= 60) {
-                    DB::table('members_biodatas')->insertOrIgnore($validated_profile);
-                    // return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                    $existingBiodata = DB::table('members_biodatas')
+                                        ->where('user_id', $user->id) // adjust the condition as needed
+                                        ->first();
 
+                    if (!$existingBiodata) {
+                        DB::table('members_biodatas')->insert($validated_profile);
+                        // return redirect()->back()->with('success', 'Biodata Updated Successfully');
+                    }
                     // If the latest update is less than 60 days, update the latest one
                 } else {
                     $latest_biodata_id = $user->biodata->id;
-                    DB::table('members_biodatas')->where('id', $latest_biodata_id)->update($validated_profile);
+                        // $instance = DB::table('members_biodatas')->where('id', $latest_biodata_id)->first();
+                        $instance = MembersBiodata::find($latest_biodata_id);
+                        $instance->residence_id = $validated_profile['residence_id'];
+                        $instance->program_id = $validated_profile['program_id'];
+                        if(isset($validated_profile['room'])){
+                            $instance->room = $validated_profile['room'];
+                        }
+                        if(isset($validated_profile['year'])){
+                            $instance->year = $validated_profile['year'];
+                        }
+
+                        $instance->save();
+
 
                     // return redirect()->back()->with('success', 'Biodata Updated Successfully');
                 }
