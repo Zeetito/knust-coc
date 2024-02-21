@@ -54,8 +54,9 @@
                                                         </tr>
                                                         @endforeach
 
-                                                        <input type="radio"  name="program_id" value="{{$user->program()->name}}" checked hidden>
-                                                      
+                                                        @if($user->program())
+                                                            <input type="radio"  name="program_id" value="{{$user->program()->name}}" checked hidden>
+                                                        @endif
                                                     </tbody>
                                                     {{-- Table Body Ends --}}
                                                 </table>
@@ -123,8 +124,9 @@
                                                     </tr>
                                                     @endforeach
 
-                                                    <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
-
+                                                    @if($user->residence())
+                                                        <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
+                                                    @endif
                                                   
                                                 </tbody>
                                                 {{-- Table Body Ends --}}

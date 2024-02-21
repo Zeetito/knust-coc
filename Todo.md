@@ -475,6 +475,8 @@ Find Users active biodata in a given semester✔️
 
 Set delete constraints on contacts table for users
 
+Send Emails to Guests
+
 Account-email to related user to confirm (signed)
 
 Print Visitation Guide -  Logic

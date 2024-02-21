@@ -71,8 +71,9 @@
                                                 </tr>
                                                 @endforeach
 
-                                                <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
-
+                                                @if($user->residence())
+                                                    <input type="radio"  name="residence_id" value="{{$user->residence()->name}}" checked hidden>
+                                                @endif
                                               
                                             </tbody>
                                             {{-- Table Body Ends --}}

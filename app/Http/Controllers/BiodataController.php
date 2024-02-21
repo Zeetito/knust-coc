@@ -654,7 +654,7 @@ class BiodataController extends Controller
 
             if(!$biodata_unchanged){ 
             // If the Current User is a Ministry Member/ Leader, update right away
-            if(Auth()->user()->hasAnyOf(Role::ministry_members_level()->get())){
+            if(Auth()->user()->is_ministry_member()){
 
                 // Check if the last update has been at least two months if so, create a new biodata else, update the existing one
                 if (now()->diffInDays($user->biodata->updated_at) >= 70) {
