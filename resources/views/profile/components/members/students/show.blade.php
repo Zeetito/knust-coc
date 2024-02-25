@@ -81,6 +81,39 @@
                             <li>
                                 Room: {{$user->room()}}
                             </li>
+
+
+                            {{-- Contacts Visible to the User and Leaders --}}
+                            @if(auth()->user()->is_ministry_member())
+                                <br>
+                                <strong>CONTACTS</strong>
+                                <br>
+                                <li>
+                                    {{-- Phone: {{$user->phone ? $user->phone->body : "None" }} <a href="tel.{{$user->phone->body}}" class="fa fa-phone" ></a> --}}
+                                    Phone: {{$user->phone ? $user->phone->body : "None" }}
+                                </li>
+
+                                <li>
+                                    Whatsapp: {{$user->whatsapp ? $user->whatsapp->body : "None" }}
+                                </li>
+
+                                <li>
+                                    School Voda: {{$user->school_voda ? $user->school_voda->body : "None" }}
+                                </li>
+
+                                <li>
+                                    Other Contact: {{$user->other_contact ? $user->other_contact->body : "None" }}
+                                </li>
+
+                                <li>
+                                    Guardian Contact  (A): {{$user->main_guardian_contact ? $user->main_guardian_contact->body." (".$user->main_guardian_contact->relation.")" : "None" }}
+                                </li>
+
+                                <li>
+                                    Guardian Contact  (B): {{$user->other_guardian_contact ? $user->other_guardian_contact->body." (".$user->other_guardian_contact->relation.")" : "None" }}
+                                </li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>
