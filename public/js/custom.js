@@ -1,14 +1,5 @@
 $(document).ready(function(){
 
-    //  // Show loading overlay when the page starts loading
-    //  $('#loading-overlay').show();
-
-    //  // Hide loading overlay when the page has finished loading
-    //  $(window).on('load', function() {
-    //      $('#loading-overlay').fadeOut('slow');
-    //  });
-     
-
     // Getting Info into Static modal/screen
     $(document.body).on('click', '.modal_button',function () {
         var url = $(this).data('url');
@@ -75,41 +66,6 @@ $(document).ready(function(){
  
     } );
 
-
-    // // Confrim Password
-    // $(document.body).on('click','.confirm_password', function () {
-    //     var formData = $('#myForm').serialize();
-    //     var url = $(this).data('url');
-    //     // var str = $(this).val();
-
-    //     // if (url.includes("?")) {
-
-    //     //     var url = (url+"&str="+str);
-    //     // }else{
-
-    //     //     var url = (url+"?str="+str);
-    //     // }
-
-
-
-    //     // console.log(url);
-    //     var data;
-    //     $.ajax({
-    //         type: "POST",
-    //         url: url,
-    //         data: formData,
-    //         cache: false,
-    //         success: function (data) {
-                
-    //             console.log(url);
-    //             $('.modal-content').html(data);
-    //             $('#myModal').modal('show');
-    //         },
-    //         error: function(err) {
-    //             console.log(err);
-    //         }
-    //     });
-    // });
 
     // Seach Box
     $(document.body).on('keyup','.search_box', function () {
@@ -302,17 +258,16 @@ $(document).ready(function(){
 
     // Qr Code
     var qrcode = new QRCode("qrcode");
-
     function makeCode () {    
-    var elText = document.getElementById("text");
-    
-    if (!elText.value) {
-        alert("Input a text");
-        elText.focus();
-        return;
-    }
-    
-    qrcode.makeCode(elText.value);
+        var elText = document.getElementById("text");
+        
+        if (!elText.value) {
+            alert("Input a text");
+            elText.focus();
+            return;
+        }
+        
+        qrcode.makeCode(elText.value);
     }
 
     makeCode();
@@ -342,6 +297,30 @@ $(document).ready(function(){
       $('.password-toggle').click(toggle_password);
 
     
+
+    //   Show or hide Menu content
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var menuContainer = document.querySelector('.menu-button');
+    //     var menuContent = menuContainer.querySelector('.menu-content');
+    
+    //     menuContainer.addEventListener('click', function() {
+    //         console.log('Hey')
+    //         menuContent.style.display = (menuContent.style.display == 'block') ? 'none' : 'block';
+    //     });
+    // });
+
+    $(document.ready).on('click', '.menu-container', function () {
+
+        console.log('hello');
+
+        // var menuContent = $(this).find('.menu-content');
+    
+        // // Toggle the display property of menuContent
+        // menuContent.toggle();
+    
+        // // If you want to add/remove a class on the menuContent based on its visibility
+        // menuContent.toggleClass('active');
+    });
 
 
 })

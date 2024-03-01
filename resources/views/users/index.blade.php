@@ -48,7 +48,7 @@
                                     <div class="card text-white bg-info" data-toggle="" data-target="#myModal" data-url="{{route('edit_inactive_account_status',['user'=>$user])}}">
                                         <div class="card-body">
 
-                                            <div class="menu-container">
+                                            <div class="btn btn-primary menu-container">
                                                 <button class="menu-button">&#8286;</button>
                                                 <div class="menu-content">
                                                   {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}

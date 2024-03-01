@@ -84,34 +84,7 @@
                             @endif
 
                         @endfor
-                       {{-- @foreach(App\Models\Role::ministries() as $ministry)
-                          @if($ministry->users->count() >0 )
-
-                              <div class="row">
-                                <span class="h6 col-12 font-weight-bold text-uppercase">{{$ministry->name}}</span>
-
-                                @foreach($ministry->users as $user)
-
-                                  <span class="card text-white bg-info mr-1 col-sm-4 col-md-5 mt-3"  >
-                                    <div class="card-body">
-                                        <div class="h1  text-right mb-4">
-                                            <i>
-                                              <a href="{{route('view_profile', $user)}}">
-                                                  <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
-                                              </a>
-                                            </i>
-                                        </div>
-                                        <small class="text-uppercase font-weight-bold">Name: {{$user->fullname()}}</small> <br>
-                                        <small class="text-uppercase font-weight-bold">Phone: {{$user->phone ? $user->phone->body : "None"}}</small> <br>
-                                        <small class="text-uppercase font-weight-bold">WhatsApp: {{$user->phone ? $user->phone->body : "None"}}</small> <br>
-
-                                    </div>
-                                  </span>
-                                @endforeach
-
-                              </div>
-                        @endif
-                       @endforeach --}}
+                     
                             
                     </div>
 
@@ -119,6 +92,48 @@
               </div>
             </div>
         </div>
+
+        {{-- For Documented Details --}}
+        <div class="accordion col-12" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <div class="accordion-button  btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                DOCUMENTED DETAILS
+              </div>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+
+                  <div class="card-body fa ">
+
+                        {{-- VISITATION GUIDE --}}
+                        <ul>
+                          <li>
+                            <a href="{{route('view_visitation_guide')}}" class="h3   mb-3">
+                              VISITATION GUIDE  <span class="fa fa-book"></span>
+                          </a class="" >
+                          </li>
+
+                          {{-- <li>
+                            <a href="#"  class="h3   mb-3">
+                              FULL DETAILS  <span class="fa fa-book"></span>
+                          </a class="" >
+                          </li> --}}
+
+                        </ul>
+                          
+                           {{-- <br> --}}
+
+                         
+                           {{-- <br> --}}
+              
+                          
+                  </div>
+
+              </div>
+            </div>
+          </div>
+      </div>
 
 
     </div>

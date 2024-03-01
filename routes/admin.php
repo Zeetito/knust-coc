@@ -25,6 +25,13 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('stats_members')
         ;
 
+        // DOCUMENTED DETAILS
+        // View Visitation Guide
+        Route::get('/view_visitation_guide',[UserController::class,'view_visitation_guide'])
+        ->name('view_visitation_guide')
+        ;
+
+
 
         // MINISTRIES SPACE
         // Landing Page

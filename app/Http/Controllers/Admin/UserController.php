@@ -253,9 +253,16 @@ class UserController extends Controller
     }
 
 
+    // USER STATISTICS
+
     // View Members Statistics Page
     public function stats_members(){
         return view('ADMIN.dashboard.components.users-statistics.members.index');
     }
     
+
+    // View Visitation Guide
+    public function view_visitation_guide(){
+        return view('ADMIN.dashboard.components.users-statistics.members.details.visitation-guide');
+    }
 }

@@ -1,5 +1,5 @@
 
-<span  class="btn btn-info table_replace_button" data-url="{{route('users_table')}}" data-target="#table_replaceable" >Users Table</span>
+{{-- <span  class="btn btn-info table_replace_button" data-url="{{route('users_table')}}" data-target="#table_replaceable" >Users Table</span> --}}
 
 <div  class="overflow-scroll">
 
@@ -20,9 +20,9 @@
             @foreach(App\Models\User::all() as $user)
 
             <tr>
-                <td>{{$user->fullname()}}</td>
-                {{-- <td>{{$user->phone? "Phone: ".$user->phone->body : $user->when_guest()->contact}}</td> --}}
-                <td>yes</td>
+                <td>{{$user->fullnames()}}</td>
+                <td>{{$user->phone? "Phone: ".$user->phone->body : ($user->when_guest() ? $user->when_guest()->contact : "None Given")}}</td>
+                {{-- <td>yes</td> --}}
                 <td>{{$user->email}}</td>
                 <td>{{$user->status()}}</td>
                 <td>
@@ -30,26 +30,25 @@
                         <a class="bg-danger btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('confirm_delete_user',['user'=>$user])}}"><i class="fa fa-trash"></i></a>
                         <a class="bg-secondary btn mt-1"  href="{{route('edit_user',['user'=>$user])}}"><i class="fa fa-pencil"></i></a>
                         <a class="bg-secondary btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('custom_email_single_user',['user'=>$user])}}" href="#"><i class="fa fa-envelope-square"></i></a>
-
                     @endallowedTo
 
-                    @if(App\Models\Attendance::in_session())
+                    {{-- @if(App\Models\Attendance::in_session())
                         @if($user->is_checked(App\Models\Attendance::in_session()))
-                            @can('check',$user)
+                            @can('check',$user) --}}
                                 {{-- Uncheck User button --}}
-                                <span type="button" data-toggle="modal" data-target="#myModal" id="{{$user->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>App\Models\Attendance::in_session() , 'user'=>$user])}}" >
+                                {{-- <span type="button" data-toggle="modal" data-target="#myModal" id="{{$user->id}}"  data-url="{{route('confirm_uncheck_user',['attendance'=>App\Models\Attendance::in_session() , 'user'=>$user])}}" >
                                     <i class="text-success fa fa-check"></i>
                                 </span> 
-                                @else
+                                @else --}}
                                 {{-- Not A button --}}
-                                <span type="button" class="button message"  >
+                                {{-- <span type="button" class="button message"  >
                                     <i class="text-success fa fa-check"></i>
                                 </span>
                             @endcan
 
-                            @else
+                            @else --}}
                             {{-- Check User Button --}}
-                            @can('check',$user)
+                            {{-- @can('check',$user)
                             <button class="check_button" id="{{$user->id}}" data-url="{{route('check_user',['attendance'=>App\Models\Attendance::in_session() , 'user'=>$user])}}" >
                                 <i class=" text-danger fa fa-check"></i>
                             </button>
@@ -63,7 +62,7 @@
 
                          @endif
 
-                    @endif
+                    @endif --}}
 
                 </td>
 
