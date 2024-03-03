@@ -140,6 +140,11 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('filter_users_without_biodata')
         ;
 
+        // Remind Profile Update Modal
+        Route::get('/remind_profile_update/{user}',[UserController::class,'remind_profile_update'])
+        ->name('remind_profile_update')
+        ;
+
         
         // USER REQUESTS
 

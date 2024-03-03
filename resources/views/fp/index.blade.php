@@ -29,36 +29,37 @@
                                             <tbody class="search_result">
                                                 @foreach(App\Models\FP::where('handled',0)->get() as $fp)
 
-                                                <tr id="tr_{{$fp->id}}">
-                                                        {{-- Role Name --}}
-                                                    <td>
-                                                       {{$fp->user()->fullname()}}
-                                                    </td>
-                                                    {{-- Number of Users --}}
-                                                    <td>
-                                                       {{$fp->email}}
-                                                    </td>
-                                                    
-                                                    {{-- Description --}}
-                                                    <td>
-                                                       Hello {{$fp->user()->firstname}}, Please Use the link below to reset your password. <br>
-                                                       <a href="{{route('fp_reset_page',['email'=>$fp->email])}}">{{route('fp_reset_page',['email'=>$fp->email])}}</a> 
-                                                    </td>
+                                                    @if($fp->user())
 
-                                                    {{-- Actions --}}
-                                                    <td>
-                                                        @if($fp->notified == 0)
-                                                            <a href="{{route('fp_notify',['fp'=>$fp])}}" class="btn btn-info">Mark Notified</a>
-                                                        @else
-                                                            <span class="btn btn-success">Notified</span>
-                                                        @endif
-                                                     </td>
-                                                    
+                                                        <tr id="tr_{{$fp->id}}">
+                                                                {{-- Role Name --}}
+                                                            <td>
+                                                            {{$fp->user()->fullname()}}
+                                                            </td>
+                                                            {{-- Number of Users --}}
+                                                            <td>
+                                                            {{$fp->email}}
+                                                            </td>
+                                                            
+                                                            {{-- Description --}}
+                                                            <td>
+                                                            Hello {{$fp->user()->firstname}}, Please Use the link below to reset your password. <br>
+                                                            <a href="{{route('fp_reset_page',['email'=>$fp->email])}}">{{route('fp_reset_page',['email'=>$fp->email])}}</a> 
+                                                            </td>
 
+                                                            {{-- Actions --}}
+                                                            <td>
+                                                                @if($fp->notified == 0)
+                                                                    <a href="{{route('fp_notify',['fp'=>$fp])}}" class="btn btn-info">Mark Notified</a>
+                                                                @else
+                                                                    <span class="btn btn-success">Notified</span>
+                                                                @endif
+                                                            </td>
+         
+                                                        </tr>
+                                                    @endif
 
-                                                   
-                                                </tr>
-                                              @endforeach
+                                                @endforeach
 
                                             </tbody>
                                             {{-- Table Body Ends --}}

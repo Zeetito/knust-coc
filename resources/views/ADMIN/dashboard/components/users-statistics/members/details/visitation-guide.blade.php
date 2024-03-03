@@ -15,7 +15,6 @@
             <th>Residence</th>
             <th>Zone</th>
             <th>Room</th>
-            <th>Email</th>
             <th>Status</th>
             <th>Action</th>
 
@@ -30,10 +29,9 @@
                 <td>{{$user->phone? $user->phone->body : ($user->when_guest() ? $user->when_guest()->contact : "None Given")}}</td>
                 {{-- <td>yes</td> --}}
                 <td>{{$user->whatsapp? $user->whatsapp->body : "None Given"}}</td>
-                <td>{{$user->member_biodata ? $user->residence()->name : "None Given"}}</td>
-                <td>{{$user->member_biodata ? $user->zone()->name : "None Given"}}</td>
+                <td>{{$user->member_biodata ?( $user->residence() ? $user->residence()->name : "None Given") : "None"}}</td>
+                <td>{{$user->residence()? ($user->zone() ? $user->zone()->name : "None Given") : "None"}}</td>
                 <td>{{$user->member_biodata ? $user->member_biodata->room : "None Given"}}</td>
-                <td>{{$user->email}}</td>
                 <td>{{$user->status()}}</td>
                 <td>
                     @allowedTo(['update_user'])

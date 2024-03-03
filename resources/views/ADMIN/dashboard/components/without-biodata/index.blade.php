@@ -44,6 +44,9 @@
                             <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+
+                            <span data-target="#myModal" data-url="{{route('remind_profile_update',['user'=>$user])}}" data-toggle="modal" class="btn btn-primary mt-3 fa fa-bell"></span>
+
                         </div>
                     </a>
 

@@ -265,4 +265,12 @@ class UserController extends Controller
     public function view_visitation_guide(){
         return view('ADMIN.dashboard.components.users-statistics.members.details.visitation-guide');
     }
+
+    // remind_profile_update
+    public function remind_profile_update(User $user){
+        return view('ADMIN.dashboard.components.without-biodata.reminder',['user'=>$user]);
+    }
+
+    
+
 }

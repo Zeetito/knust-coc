@@ -109,7 +109,7 @@
                         {{-- VISITATION GUIDE --}}
                         <ul>
                           <li>
-                            <a href="{{route('view_visitation_guide')}}" class="h3   mb-3">
+                            <a href="{{route('view_visitation_guide')}}" class="h3 mb-3">
                               VISITATION GUIDE  <span class="fa fa-book"></span>
                             </a>
                           </li>
