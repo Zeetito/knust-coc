@@ -162,7 +162,7 @@ class GuestRequestController extends Controller
                                 if($guest_request->table_name == "users"){
                                     //The user below has an error which return Ernest Agyare as the user instead of the actual user.
                                     $user = User::find($instance_id)->first();
-                                    Mail::to($guest_request->guest()->email)->send(new AccountCreated($user));
+                                    // Mail::to($guest_request->guest()->email)->send(new AccountCreated($user));
                                 }
                             $guest->save(); 
                         }
