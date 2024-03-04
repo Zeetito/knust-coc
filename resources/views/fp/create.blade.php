@@ -1,4 +1,4 @@
-
+<x-guest_layout>
             
             {{-- Form Begins --}}
             <form action="{{route('fp_save')}}" method="Post">
@@ -35,3 +35,4 @@
                    </div>
                </form>
 
+</x-guest_layout>
