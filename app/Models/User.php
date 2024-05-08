@@ -86,6 +86,11 @@ class User extends Authenticatable
 
     // RELATIONSHIPS
 
+    // Retrieve Remarks on this user
+    public function remarks(){
+        return $this->morphMany(Remark::class, 'remarkable');
+    }
+
     // Retrieve Images of a user.
     public function photos(): MorphMany
     {
@@ -703,6 +708,17 @@ class User extends Authenticatable
         return ($this->hasRoleAs(['preacher','edification_ministry_member','evangelism_ministry_member','welfare_ministry_member','finance_ministry_member','organising_ministry_member']) == true);
     }
 
+    
+    // Check for a user's active biodata in a particular Academic Year
+    public function profile_at($aca){
+        return MembersBiodata::where('academic_year_id',$aca)->where('user_id',$this->id)->latest()->first();
+    }
+
+    // Get the remark from a model at a particular sem
+    public function remark_from($remarkerable_type, $remarkerable_id, $semester_id){
+        return $this->remarks->where('remarkerable_type', $remarkerable_type)->where('remarkerable_id', $remarkerable_id)->where('semester_id', $semester_id)->first();
+    }
+
     // STATIC -  MEMBRES
     // Members
     public static function members(){
@@ -728,8 +744,6 @@ class User extends Authenticatable
             ;
     }
 
-    // Check for a user's active biodata in a particular Academic Year
-    public function profile_at($aca){
-        return MembersBiodata::where('academic_year_id',$aca)->where('user_id',$this->id)->latest()->first();
-    }
+
+    // Get all remarked user
 }

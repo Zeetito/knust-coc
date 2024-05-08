@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Share;
+use App\Models\Remark;
 use App\Models\Account;
+use App\Models\Semester;
 use Illuminate\Database\Eloquent\Model;
 use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -195,4 +197,31 @@ class Role extends Model
     public function files(){
         return $this->morphMany(File::class,'uploadable');
     }
+
+    // Check if role has Account records for a particular semester
+    public function has_account_for(Semester $semester){
+        return Account::where('accountable_id',$this->id)->where('accountable_type','App\Models\Role')->where('semester_id',$semester->id)->exists();
+    }
+    
+    // Retrieve all accounts of a role for a particular semester
+    public function accounts_for(Semester $semester){
+        return Account::where('accountable_id',$this->id)->where('accountable_type','App\Models\Role')->where('semester_id',$semester->id)->get();
+    }
+
+    // Get remarks for a role
+    public function remarks()
+    {
+        return $this->morphMany(Remark::class, 'remarkerable');
+    }
+
+    // Check if role has remarks for a Semester
+    public function has_remarks_for(Semester $semester){
+        return $this->remarks->where('semester_id',$semester->id)->count() > 0;
+    }
+
+    // Get remakrs of role for a specific sem
+    public function remarks_for(Semester $semester){
+        return $this->remarks->where('semester_id',$semester->id);
+    }
+
 }

@@ -42,6 +42,7 @@ use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ShareController;
+use App\Http\Controllers\RemarkController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CollegeController;
@@ -70,6 +71,45 @@ use App\Http\Controllers\SemesterProgramController;
 */
 
 Auth::routes();
+
+
+// REMARKS
+// Select Remark type to create -- Modal
+Route::get('select_remark_create/{model_type}/{remarkerable_id}',[RemarkController::class,'select_remark_type'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('select_remark_create');
+
+// // Create Remark
+// Route::post('create_remark',[RemarkController::class,'create'])
+//     ->middleware('auth','control:system_online','hasProfile')
+//     ->name('create_remark');
+
+    // -----
+    
+    // Create  Remarks/Notes
+    Route::get('create_remark/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'create'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('create_remark');
+
+    // Store Remark
+    Route::post('store_remark/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'store'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('store_remark');
+
+    // confirm Delete Remark
+    Route::get('confirm_delete_remark/{remark}',[RemarkController::class,'confirm_delete'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('confirm_delete_remark');
+
+    // Delete remark
+    Route::delete('delete_remark/{remark}',[RemarkController::class,'delete'])
+    ->middleware('auth','control:system_online','hasProfile')
+    ->name('delete_remark');
+    
+
+    // ------
+
+
 
 
 // SUPPORT PAGE
@@ -1139,12 +1179,12 @@ Route::get('/profile/{user}', [BiodataController::class, 'show'])
 
 // create User Profile form
 Route::get('/profile/{user}/new', [BiodataController::class, 'create'])
-    ->middleware('auth', 'can:update,user')
+    ->middleware('auth', 'can:update_profile,user')
     ->name('create_user_profile_form');
 
 // /store user profile
 Route::post('/profile/{user}/create', [BiodataController::class, 'store'])
-    ->middleware('auth','can:update,user')
+    ->middleware('auth','can:update_profile,user')
     ->name('store_profile');
 
 // edit user profile
@@ -1318,6 +1358,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return User::find(512)->biodata;
 
     return Attendance::in_session();
     return Attendance::find(4)->attendance_users;

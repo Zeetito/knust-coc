@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Remark;
 use App\Models\SemesterProgram;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -92,4 +93,13 @@ class Semester extends Model
 
     // Get Academic Period for any date
 
+    // Get all remarks for a particular semester
+    public function remarks(){
+        return $this->hasMany(Remark::class);
+    }
+
+    // Get the Academic name for a semester
+    public function academic_name(){
+        return $this->academicYear->start_year." - ".$this->academicYear->end_year." Semester".$this->name;
+    }
 }

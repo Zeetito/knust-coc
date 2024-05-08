@@ -32,4 +32,9 @@ class AcademicYear extends Model
     {
         return self::all()->sortByDesc('end_year')->first()->end_year;
     }
+
+    // return academic year name
+    public function name(){
+        return $this->start_year."-".$this->end_year;
+    }
 }

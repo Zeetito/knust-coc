@@ -43,6 +43,15 @@ class UserPolicy
 
     }
 
+    public function update_profile(User $user, User $model): bool
+    {
+        //
+        $roles = Role::ministry_members_level()->get();
+
+        return $model->is($user) || ($user->hasAnyOf($roles) && $model->biodata == null);
+
+    }
+
     /**
      * Determine whether the user can delete the model.
      */

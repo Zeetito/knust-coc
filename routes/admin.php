@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FPController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\RemarkController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GuestController;
 use App\Http\Controllers\Admin\ConfigController;
 use App\Http\Controllers\AccountRecordController;
-use App\Http\Controllers\Admin\UserRequestController;
 
+use App\Http\Controllers\Admin\UserRequestController;
 use App\Http\Controllers\Admin\GuestRequestController;
 use App\Http\Controllers\Admin\MinistrySpaceController;
 
@@ -31,6 +32,12 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('view_visitation_guide')
         ;
 
+        // View Full members details
+        Route::get('/view_full_member_details',[UserController::class,'view_full_member_details'])
+        ->name('view_full_member_details')
+        ;
+
+
 
 
         // MINISTRIES SPACE
@@ -43,6 +50,16 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('ministry_received_items')
         ;
 
+        // REMARKS OR NOTES
+        // View Semester sort for ministry remarks/notes
+        Route::get('/remarks_semester_sort/{ministry}',[RemarkController::class,'semester_sort'])
+        ->name('remarks_semester_sort')
+        ;
+
+        // Ministry remark session
+        Route::get('/ministry_remark_session/{ministry}/{semester}',[MinistrySpaceController::class,'ministry_remark_session'])
+        ->name('ministry_remark_session')
+        ;
 
         // ACCOUNTS-SESSIONS
 
@@ -52,8 +69,13 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ;
 
         // View Account Sessions for Ministry
-        Route::get('/ministry_account_sessions/{ministry}',[MinistrySpaceController::class,'account_sessions'])
+        Route::get('/ministry_account_sessions/{ministry}/{semester}',[MinistrySpaceController::class,'account_sessions'])
         ->name('ministry_account_sessions')
+        ;
+
+        // View Account Sessions related semesters for Ministry
+        Route::get('/ministry_account_sessions_semesters/{ministry}',[MinistrySpaceController::class,'account_sessions_semesters'])
+        ->name('ministry_account_sessions_semesters')
         ;
 
         // Create Account Session For A ministry

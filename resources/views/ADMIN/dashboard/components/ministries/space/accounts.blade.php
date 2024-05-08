@@ -5,7 +5,7 @@
             {{$ministry->name}} Account Sessions. 
         </span>
 
-        <a href="{{route('ministry_index',['ministry'=>$ministry])}}" class="btn-secondary btn float-right">Go Back</a>
+        <a href="{{route('ministry_account_sessions_semesters',['ministry'=>$ministry, 'semester'=>$semester])}}" class="btn-secondary btn float-right">Go Back</a>
 
         {{-- Content whether empty-message or Table or list goes in here --}}
         <div class="card-body">
@@ -34,7 +34,7 @@
                     </thead>
 
                     <tbody id="search_result_for_account_list">
-                        @foreach($ministry->account_sessions as $session)
+                        @foreach($ministry->accounts_for($semester) as $session)
 
                         <tr id="tr_{{$session->id}}">
                             <td>

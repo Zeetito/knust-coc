@@ -266,10 +266,17 @@ class UserController extends Controller
         return view('ADMIN.dashboard.components.users-statistics.members.details.visitation-guide');
     }
 
+    // View Full Members Detials
+    public function view_full_member_details(){
+        return view('ADMIN.dashboard.components.users-statistics.members.details.full-members-details');
+    }
+
     // remind_profile_update
     public function remind_profile_update(User $user){
         return view('ADMIN.dashboard.components.without-biodata.reminder',['user'=>$user]);
     }
+
+
 
     
 

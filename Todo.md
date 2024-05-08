@@ -483,6 +483,8 @@ Print Visitation Guide -  Logic
 
 Sync offline Attendance to online attendance.
 
+Admin able to edit user's profiles ✔️
+
 
 
 <!-- NOTIFICATIONS -->

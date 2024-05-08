@@ -235,17 +235,31 @@
 
                                 {{-- GUARDIAN CONTACTS --}}
                                 <h6 class="col-md-12 mb-4">These Contacts Are by Default Only Visible to you and the leadership</h6>
-                                
-                                <div class="col-md-6 mb-4">
-                                    <strong>Guardian Contact A</strong>
-                                    <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" required>
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <strong>Relation with Guardian A</strong>
-                                    <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
-                                </div>
 
-                                {{-- <div class="col-md-6 mb-4"> --}}
+                                {{-- Required for user --}}
+                                
+                                @if($user->is(auth()->user()))
+                                    <div class="col-md-6 mb-4">
+                                        <strong>Guardian Contact A</strong>
+                                        <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here" required>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <strong>Relation with Guardian A</strong>
+                                        <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc" required>
+                                    </div>
+                                @else
+                                    <div class="col-md-6 mb-4">
+                                        <strong>Guardian Contact A</strong>
+                                        <input type="text" class="form-control" value="{{old('guardian_a')}}" name="guardian_a" placeholder="Contact Here">
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <strong>Relation with Guardian A</strong>
+                                        <input type="text" class="form-control" value="{{old('relation_a')}}" name="relation_a" placeholder="Eg. Father, Mother, etc">
+                                    </div>
+                                @endif
+
+                          
+                            {{-- <div class="col-md-6 mb-4"> --}}
                                     {{-- <strong>Guardian Contact B (Optional) </strong> --}}
                                     <input type="text" class="form-control" value="{{old('guardian_b')}}" name="guardian_b" hidden placeholder="Contact Here" >
                                 {{-- </div> --}}
@@ -254,7 +268,7 @@
                                     <input type="text" class="form-control" value="{{old('relation_b')}}" name="relation_b" hidden placeholder="Eg. Father, Mother, etc">
                                 {{-- </div> --}}
                             {{-- </div> --}}
-
+                            
                         </div>
 
 

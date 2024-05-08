@@ -31,8 +31,25 @@
                 <div class="col-sm-3 col-md-2 mt-3">
                     {{-- If User is a Fresher --}}
                     {{-- @if($user->status() == 'fresher') --}}
-                    <a class="card text-white bg-info" data-toggle="" data-target="#myModal" data-url=""  >
+                    <div class="card text-white bg-info" data-toggle="" data-target="#myModal" data-url=""  >
                         <div class="card-body">
+
+                            {{-- Menu --}}
+                            <div class="btn btn-primary menu-container">
+                                <button class="menu-button">&#8286;</button>
+                                <div class="menu-content">
+                                  {{-- <a href="{{route('view_profile',['user'=>$user])}}">Profile</a> --}}
+                                  @allowedTo(['update_user'])
+                                  {{-- <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('mark_unavailable_confirm',['user'=>$user])}} href="{{route('mark_unavailable_confirm',['user'=>$user])}}">Mark Unavailable</a> --}}
+                                  {{-- <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Deactivate User</a> --}}
+                                  <a class="bg-warning btn mt-1"  href="{{route('create_user_profile_form',['user'=>$user])}}">Create Profile</a>
+                                  <a class="bg-warning btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
+                                  <a class="bg-danger btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('confirm_delete_user',['user'=>$user])}}">Delete Account</a>
+                                  @endallowedTo
+                                  {{-- <a href="#">Option 3</a> --}}
+                                </div>
+                            </div>
+
                             <div class="h1 text-muted text-right mb-4">
                                 {{-- <i>
                                     <img src="{{$user->get_avatar()}}"  style="width:35px; height:35px;"  class="img-avatar" alt="Profile Picture">
@@ -45,10 +62,11 @@
                                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
 
-                            <span data-target="#myModal" data-url="{{route('remind_profile_update',['user'=>$user])}}" data-toggle="modal" class="btn btn-primary mt-3 fa fa-bell"></span>
+                            {{-- Reminder of profile update modal button --}}
+                            {{-- <span data-target="#myModal" data-url="{{route('remind_profile_update',['user'=>$user])}}" data-toggle="modal" class="btn btn-primary mt-3 fa fa-bell"></span> --}}
 
                         </div>
-                    </a>
+                    </div>
 
               
                 </div>

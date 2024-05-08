@@ -14,6 +14,7 @@
             <th>WhatsApp</th>
             <th>Residence</th>
             <th>Zone</th>
+            <th>Year</th>
             <th>Room</th>
             <th>Status</th>
             <th>Action</th>
@@ -31,6 +32,7 @@
                 <td>{{$user->whatsapp? $user->whatsapp->body : "None Given"}}</td>
                 <td>{{$user->member_biodata ?( $user->residence() ? $user->residence()->name : "None Given") : "None"}}</td>
                 <td>{{$user->residence()? ($user->zone() ? $user->zone()->name : "None Given") : "None"}}</td>
+                <td>{{$user->biodata ? $user->year() : "n/a"}}</td>
                 <td>{{$user->member_biodata ? $user->member_biodata->room : "None Given"}}</td>
                 <td>{{$user->status()}}</td>
                 <td>

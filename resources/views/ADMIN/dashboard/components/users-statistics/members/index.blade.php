@@ -106,11 +106,17 @@
 
                   <div class="card-body fa ">
 
-                        {{-- VISITATION GUIDE --}}
-                        <ul>
+                    <ul>
+                          {{-- VISITATION GUIDE --}}
                           <li>
-                            <a href="{{route('view_visitation_guide')}}" class="h3 mb-3">
+                            <a href="{{route('view_visitation_guide')}}" class="h5 mb-3">
                               VISITATION GUIDE  <span class="fa fa-book"></span>
+                            </a>
+                          </li>
+                          {{-- FULL MEMBERS DETAILS --}}
+                          <li>
+                            <a href="{{route('view_full_member_details')}}" class="h5 mb-3">
+                              FULL MEMBERS DETAILS  <span class="fa fa-book"></span>
                             </a>
                           </li>
 

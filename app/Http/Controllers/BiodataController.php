@@ -99,8 +99,8 @@ class BiodataController extends Controller
                     'whatsapp' => ['nullable'],
                     'school_voda' => ['nullable'],
                     'other_contact' => ['nullable'],
-                    'guardian_a' => ['required'],
-                    'relation_a' => ['required'],
+                    'guardian_a' => ['nullable'],
+                    'relation_a' => ['nullable'],
                     'guardian_b' => ['nullable'],
                     'relation_b' => ['nullable'],
                 ]);
@@ -251,6 +251,8 @@ class BiodataController extends Controller
 
             ]);
 
+        }else{
+            return redirect()->back()->with('failure', 'Invalid User Account Status!');
         }
 
           // Create Contacts For this user
@@ -343,14 +345,14 @@ class BiodataController extends Controller
                     $email->save();
                     }
 
-                    if($user->is_available == 0){
-                        DB::table('unavailable_members')->insert([
-                            'user_id'=>$user->id,
-                            'category'=>"not_yet_in",
-                            'info'=>"No Info",
-                            'recorded_by'=>$user->id,
-                        ]);
-                    }
+                    // if($user->is_available == 0){
+                    //     DB::table('unavailable_members')->insert([
+                    //         'user_id'=>$user->id,
+                    //         'category'=>"not_yet_in",
+                    //         'info'=>"No Info",
+                    //         'recorded_by'=>$user->id,
+                    //     ]);
+                    // }
     
 
             return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
