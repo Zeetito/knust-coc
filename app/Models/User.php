@@ -436,7 +436,10 @@ class User extends Authenticatable
     public function get_avatar()
     {
         // return $this->avatar;
-        $path = asset('/') == 'http://127.0.0.1:8000/' ? 'storage/img/avatars/' : 'storage/app/public/img/avatars/';
+        // $path = asset('/') == 'http://127.0.0.1:8000/' ? 'storage/img/avatars/' : 'storage/app/public/img/avatars/';
+        
+        $path = 'storage/img/avatars/';
+        
         if ($this->avatar == 'default_avatar') {
             
             if ($this->gender == 'm') {
