@@ -42,11 +42,11 @@
                             </td>
                             <td>
                                 {{-- View Attendance Session --}}
-                                <a class="btn" href="{{route('show_ministry_account_session',['ministry'=>$ministry, 'account'=>$session])}}">
+                                <a class="btn" href="{{route('show_ministry_account_session',['ministry'=>$ministry, 'account'=>$session ,'semester'=>$semester])}}">
                                     <i class="fa fa-key"></i>
                                 </a>
                                 
-                                <a class="btn" href="{{route('share_account_sessions',['sendable'=>'App\Models\Role', 'ministry'=>$ministry, 'account'=>$session])}}">
+                                <a class="btn" href="{{route('share_account_sessions',['sendable'=>'App\Models\Role', 'ministry'=>$ministry, 'semester'=>$semester, 'account'=>$session ])}}">
                                 {{-- <span class="btn" data-url="" data-target="#myLargeModal" data-toggle="modal" > --}}
                                     <i class="fa fa-share-alt"></i>
                                 </a>

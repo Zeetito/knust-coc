@@ -34,7 +34,8 @@ class AccountController extends Controller
 
     // Show Ministry Account Session
     public function show_ministry_account_session(Account $account){
-        return view('ADMIN.dashboard.components.ministries.accounts.show',['ministry'=>$account->ministry, 'account'=>$account]);
+        // return $semester;
+        return view('ADMIN.dashboard.components.ministries.accounts.show',['ministry'=>$account->ministry, 'account'=>$account, 'semester'=>$account->semester]);
     }
 
     // edit Ministry Account Session
@@ -71,7 +72,7 @@ class AccountController extends Controller
     }
 
     // create Share instance
-    public function create_share(Account $account,Role $ministry, $sendable){
-        return view('ADMIN.dashboard.components.ministries.accounts.share',['account'=>$account,  'sharable_type'=>'App\Models\Account' , 'ministry'=>$ministry, 'sendable_type'=>$sendable]);
+    public function create_share(Account $account, Role $ministry, Semester $semester, $sendable, ){
+        return view('ADMIN.dashboard.components.ministries.accounts.share',['account'=>$account,  'sharable_type'=>'App\Models\Account' , 'ministry'=>$ministry, 'semester'=>$semester, 'sendable_type'=>$sendable]);
     }
 }

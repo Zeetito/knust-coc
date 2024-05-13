@@ -1,7 +1,7 @@
 <x-layout>
     {{-- Whole Page Begins --}}
     @if(auth()->user()->hasRole($account->ministry->slug))
-    <a href="{{route('ministry_account_sessions',$account->ministry)}}" class="btn-secondary btn float-right mr-2 mt-2">Go Back</a>
+        <a href="{{route('ministry_account_sessions',['ministry'=>$account->ministry,'semester'=>$semester] )}}" class="btn-secondary btn float-right mr-2 mt-2">Go Back</a>
     @endif
     <div class="card-body bg-white">
 

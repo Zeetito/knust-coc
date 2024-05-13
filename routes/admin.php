@@ -69,7 +69,7 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ;
 
         // View Account Sessions for Ministry
-        Route::get('/ministry_account_sessions/{ministry}/{semester}',[MinistrySpaceController::class,'account_sessions'])
+        Route::get('/view_ministry_account_sessions/{ministry}/{semester}',[MinistrySpaceController::class,'account_sessions'])
         ->name('ministry_account_sessions')
         ;
 

@@ -76,7 +76,7 @@
         
         <div class="modal-footer">
             <input type="submit" name="submit_user" value="Save" class=" btn btn-secondary">  
-            <a type="button" href="{{route('ministry_account_sessions',['ministry'=>$ministry])}}" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+            <a type="button" href="{{url()->previous()}}}}" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
         </div>                                  
 </form>
 </x-layout>

@@ -41,5 +41,9 @@ class Account extends Model
         return number_format(($this->values_sum() / $this->records->count()),2);
     }
 
+    // return related semster
+    public function semester(){
+        return $this->belongsTo(Semester::class,'semester_id');
+    }
 
 }
