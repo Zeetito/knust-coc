@@ -33,7 +33,27 @@ Route::prefix('admin')->middleware('auth:sanctum', 'role:ministry_members_level'
     // Route::prefix('admin')->group(function (){
 
     // USERS
-    Route::get('/users/{user}', [Admin\UserController::class, 'show']);
+    // Show User
+    Route::get('/show_user/{user}', [Admin\UserController::class, 'show']);
+    
+
+
+
+    // ADMIN TOOLS
+    // Get Users without Biodata
+    Route::get('/users_without_biodata', [Admin\UserController::class, 'without_biodata']);
+
+    // Unavailable Users
+    // Get all unavailable users
+    Route::get('/unavailable_members', [Admin\UserController::class, 'unavailable_members']);
+    
+    // Mark as unavailable
+    Route::post('/mark_unavaiable/{user}', [Admin\UserController::class, 'mark_unavailable']);
+
+
+
+    // PROFILE
+    
 
     Route::get('/users', [Admin\UserController::class, 'index']);
     Route::post('/users', [Admin\UserController::class, 'store']);

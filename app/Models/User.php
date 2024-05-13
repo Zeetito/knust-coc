@@ -582,6 +582,16 @@ class User extends Authenticatable
                 ->first()->info;
         }
     }
+    
+    // Get unavailable member instance
+    public function unavailable_member_instance()
+    {
+        if ($this->is_available == 0) {
+            return DB::table('unavailable_members')
+                ->where('user_id', $this->id)
+                ->first();
+        }
+    }
 
     // User Program Mates Get
     public function program_mates()

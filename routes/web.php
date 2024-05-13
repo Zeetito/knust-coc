@@ -1359,19 +1359,12 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    return User::find(512)->biodata;
+    // return asset('img');
 
-    return Attendance::in_session();
-    return Attendance::find(4)->attendance_users;
+    return UserResource::collection(User::unavailable_members()->get());
 
-    // $users  = User::all();
-    // foreach($users as $user){
-    //     $user->is_available = 1;
-    //     $user->save();
-    // }
 
-    return today();
-    return Semester::active_semester()->upcoming_programs;
+    
 
 
     return Attendance::find(42)->males_members_present();
