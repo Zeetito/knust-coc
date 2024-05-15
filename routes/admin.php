@@ -17,6 +17,13 @@ use App\Http\Controllers\Admin\MinistrySpaceController;
 // -------------------ADMIN PAGES GROUPS ROUTES--------------
 Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_reps_level')->group(function () {
     // DASHBOARD
+
+        // BIRTHDAYS
+        // View Today's brithday
+        Route::get('/birthdays_today',[UserController::class,'birthdays_today'])
+        ->name('birthdays_today')
+        ;
+
         // USER RELATED
 
         // USER STATISTICS

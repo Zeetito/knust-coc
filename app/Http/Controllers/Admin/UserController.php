@@ -277,6 +277,13 @@ class UserController extends Controller
     }
 
 
+    // Birthdays
+    // view brithdays today
+    public function birthdays_today(){
+        $users = User::with_birthday();
+        return view('ADMIN.dashboard.components.birthdays.today',['users'=>$users]);
+    }
+
 
     
 

@@ -1359,7 +1359,7 @@ Route::get('/search_user', [UserController::class, 'search_user'])
 
 Route::get('/hello', function () {
 
-    // return asset('img');
+    return User::with_birthday();
 
     return UserResource::collection(User::unavailable_members()->get());
 

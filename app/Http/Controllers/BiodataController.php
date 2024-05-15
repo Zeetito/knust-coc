@@ -621,7 +621,7 @@ class BiodataController extends Controller
         }
 
         $validated_contacts = $request->validate([
-            'phone'=>['required'],
+            'phone'=>['nullable'],
             'whatsapp'=>['nullable'],
             'school_voda'=>['nullable'],
             'other_contact'=>['nullable'],

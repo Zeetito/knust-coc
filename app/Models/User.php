@@ -23,16 +23,17 @@ use Illuminate\Http\Request;
 use App\Models\AlumniBiodata;
 use App\Models\UserResidence;
 use App\Models\MembersBiodata;
+use Illuminate\Support\Carbon;
 use App\Models\SemesterProgram;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use App\Permissions\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -757,6 +758,12 @@ class User extends Authenticatable
             ;
     }
 
+    // Get users with birthdays
+    public static function with_birthday(){
+        $today = today()->format('m-d');
+        
+        return User::where(DB::raw("SUBSTRING(dob, 6)"), '=', $today)->get();
+    } 
 
     // Get all remarked user
 }
