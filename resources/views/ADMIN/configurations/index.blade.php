@@ -39,6 +39,30 @@
                                                 </tr>
 
 
+                                                {{-- Semester --}}
+                                                <tr>
+                                                    <td>Semester</td>
+                                                    
+                                                    <td>None</td>
+                                                    
+                                                    <td class="btn btn-warning fa fa-power-off" >
+                                                        Action
+                                                        
+                                                        <div class="menu-container">
+                                                            <button class="menu-button">&#8286;</button>
+                                                            <div class="menu-content">
+
+                                                              <span  data-toggle='modal' data-target="#myModal" data-url="{{route('create_new_semester')}}" class="bg-info btn mt-1">Start New</span>
+                                                              {{-- <span  data-toggle='modal' data-target="#myModal" data-url="{{route('delete_current_academic_year')}}" class="bg-info btn mt-1">Delete Current</span> --}}
+
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+
+
                                                 {{-- Academic Year  --}}
                                                 <tr>
                                                     <td>Academic Year</td>

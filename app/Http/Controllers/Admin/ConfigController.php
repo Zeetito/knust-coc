@@ -10,6 +10,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Mail\CreateBiodataMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class ConfigController extends Controller
@@ -73,6 +74,55 @@ class ConfigController extends Controller
         AcademicYear::create($validated);
         $sem =  new Semester;
         $sem[''];
+
+    }
+
+    // SEMESTER
+    // Create New semester
+    public function create_new_semester(){
+        $current_sem = Semester::active_semester();
+        return view('ADMIN.configurations.semester.create',['current_sem'=>$current_sem]);
+    }
+
+    // Store New Semester
+    public function store_new_semester(Request $request){
+
+        $current_sem = Semester::active_semester();
+        $academic_year = $current_sem->academicYear();
+
+        $credentials['username'] = auth()->user()->username;
+        $credentials['password'] = $request->input('password');
+
+        if (Auth::attempt($credentials)) {
+
+                $validated = $request->validate([
+                    'start_date'=>['required'],
+                    'end_date'=>['required'],
+                ]);
+
+                $current_sem->is_active = 0;
+        
+                $new_sem = new Semester;
+                $new_sem->started_at = $validated['start_date'];
+                $new_sem->ended_at = $validated['end_date'];
+                $new_sem->academic_year_id = $current_sem->academic_year_id;
+                $new_sem->name = "2";
+                $new_sem->is_active = 1;
+                $new_sem->created_at = now();
+                $new_sem->updated_at = now();
+
+                $current_sem->save();
+                $new_sem->save();
+
+                return redirect()->back()->with('success','New Semester Started');
+
+
+        }else{
+
+                return redirect()->back()->with('failure','Could Not Start A new Semester!');
+                
+        }
+        
 
     }
 

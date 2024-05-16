@@ -12,9 +12,9 @@
 
         <div class="row nav">
 
-            @foreach(App\Models\Semester::all() as $semester)
+            @foreach(App\Models\Semester::all()->sortByDesc('created_at') as $semester)
 
-                @if($ministry->has_account_for($semester))
+                @if($ministry->has_account_for($semester) || $semester->is(App\Models\Semester::active_semester()))
 
                     <div class="col-4">
 

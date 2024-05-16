@@ -372,6 +372,19 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('delete_current_academic_year')
         ;
 
+        // SEMESTER
+        // Create New Semester 
+        Route::get('create_new_semester',[ConfigController::class,'create_new_semester'])
+        ->middleware('role:ministry_members_level')
+        ->name('create_new_semester')
+        ;
+        
+        // Store New Semester 
+        Route::post('store_new_semester',[ConfigController::class,'store_new_semester'])
+        ->middleware('role:ministry_members_level')
+        ->name('store_new_semester')
+        ;
+
 
         // View Forgot password Requests
         Route::get('fp_index',[FPController::class,'fp_index'])
