@@ -83,23 +83,84 @@ class BiodataController extends Controller
         // Check whether the user is member, student or alumni
         if ($user->is_member == 1) {
             // If User is a member, Check if Member is a Student
+            if($user->has_member_profile() == false && !$request->input('phone')){
+
+                $validated = $request->validate([
+                    'room' => ['nullable'],
+                    'year' => ['nullable'],
+                    'residence_id' => ['nullable'],
+                    'program_id' => ['nullable'],
+                    'college_id' => ['nullable'],
+                    'status' => ['nullable'],
+                ]);
+
+                // return $validated;
+
+
+
+                $program = Program::findProgramByName($validated['program_id']);
+                $residence = Residence::findResidenceByName($validated['residence_id']);
+            
+                if (!$program) {
+
+                    if($validated['program_id'] == 'unknown'){
+                        $validated['program_id'] = NULL;
+                        $validated['college_id'] = NULL;
+                    }else{
+                        // if not, He simply typed in some wrong thing
+                        return redirect()->back()->with('failure', 'Make sure to  Select the program from the List Provided');
+                    }
+                }else{
+                    $program_id = $program->id;
+                    $college_id = $program->college->id;
+                    $validated['program_id'] = $program_id;
+                    $validated['college_id'] = $college_id;
+                    
+                }
+
+                if (!$residence){
+                    // Check if user claims not to find hostel or comes from home
+                    if($validated['residence_id'] == 'unknown'){
+                        $validated['residence_id'] = NULL;
+                        $validated['zone_id'] = NULL;
+                    }else{
+                        // if not, He simply typed in some wrong thing
+                        return redirect()->back()->with('failure', 'Make sure to  Select the Residence from the List Provided');
+                    }
+
+                }else{
+                    // Required room If Residence exists
+                    $residence_id = $residence->id;
+                    // $room_validate = $request->validate(['room'=>['required']]);
+                    $zone_id = $residence->zone->id;
+                    $validated['residence_id'] = $residence_id;
+                    $validated['zone_id'] = $zone_id;
+                    
+                }
+
+                
+                $b = new MembersBiodata;
+                $b->user_id =  $user->id;
+                $b->academic_year_id =  Semester::active_semester()->academic_year_id;
+                $b->year =  $validated['year'];
+                $b->program_id =  $validated['program_id'];
+                $b->college_id =  $validated['college_id'];
+                $b->residence_id =  $validated['residence_id'];
+                $b->ns_status =  $validated['status'] == 'ns' ? 1:0;
+                $b->save();
+
+
+                return redirect()->back()->with('success','Successful');
+
+            }
 
             if ($user->is_student == 1 && $user->has_member_profile() == false) {
                 //  If user is student and does not have a student profile already
 
                 // Validate the input
 
-                // Check if it's from instant profile page
-                if(!$request->input('phone')){
-                    $instant =1;
-                    $validated = $request->validate([
-                        'room' => ['nullable'],
-                        'year' => ['required'],
-                        'residence_id' => ['required'],
-                        'program_id' => ['required'],
-                        'college_id' => ['nullable'],
-                    ]);
-                }else{
+                // Check if it's from instant profile page                  
+    
                     $instant = 0;
                     $validated = $request->validate([
                         'room' => ['nullable'],
@@ -116,14 +177,13 @@ class BiodataController extends Controller
                         'guardian_b' => ['nullable'],
                         'relation_b' => ['nullable'],
                     ]);
-                }
 
 
 
 
 
 
-                $program = Program::findProgramByName($validated['program_id']);
+                    $program = Program::findProgramByName($validated['program_id']);
                     $residence = Residence::findResidenceByName($validated['residence_id']);
                 
                     if (!$program) {
@@ -371,9 +431,7 @@ class BiodataController extends Controller
                     //     ]);
                     // }
             }
-                if($instant == 1){
-                    return redirect()->back()->with('success','Successful');
-                }
+
             return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
 
     }
