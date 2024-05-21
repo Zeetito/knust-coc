@@ -44,6 +44,12 @@ Route::prefix('admin')->middleware('auth', 'control:system_online', 'role:zone_r
         ->name('view_full_member_details')
         ;
 
+        // Create Instant profile
+        Route::get('/instant_profile/{user}',[UserController::class,'instant_profile'])
+        ->name('instant_profile')
+        ;
+
+
 
 
 

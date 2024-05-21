@@ -27,7 +27,7 @@
 
         <div id="search_result_for_user_list" class=" row ">
             {{-- Each Account will sit in this --}}
-            @foreach(App\Models\User::without_biodata()->get()->sortByDesc('created_at') as $user)
+            @foreach(App\Models\User::without_biodata()->get()->sortBy('firstname') as $user)
                 <div class="col-sm-3 col-md-2 mt-3">
                     {{-- If User is a Fresher --}}
                     {{-- @if($user->status() == 'fresher') --}}
@@ -42,7 +42,7 @@
                                   @allowedTo(['update_user'])
                                   {{-- <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url={{route('mark_unavailable_confirm',['user'=>$user])}} href="{{route('mark_unavailable_confirm',['user'=>$user])}}">Mark Unavailable</a> --}}
                                   {{-- <a class="bg-warning btn mt-1" data-toggle='modal' data-target="#myModal" data-url="{{route('mark_user_inactive_confirm',['user'=>$user])}}" href="#">Deactivate User</a> --}}
-                                  <a class="bg-warning btn mt-1"  href="{{route('create_user_profile_form',['user'=>$user])}}">Create Profile</a>
+                                  <a class="bg-warning btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('instant_profile',['user'=>$user])}}">Instant Profile</a>
                                   <a class="bg-warning btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Edit This Account</a>
                                   <a class="bg-danger btn mt-1"  data-target="#myModal" data-toggle="modal" data-url="{{route('confirm_delete_user',['user'=>$user])}}">Delete Account</a>
                                   @endallowedTo

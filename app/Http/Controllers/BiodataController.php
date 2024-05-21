@@ -89,21 +89,37 @@ class BiodataController extends Controller
 
                 // Validate the input
 
-                $validated = $request->validate([
-                    'room' => ['nullable'],
-                    'year' => ['required'],
-                    'residence_id' => ['required'],
-                    'program_id' => ['required'],
-                    'college_id' => ['nullable'],
-                    'phone' => ['required'],
-                    'whatsapp' => ['nullable'],
-                    'school_voda' => ['nullable'],
-                    'other_contact' => ['nullable'],
-                    'guardian_a' => ['nullable'],
-                    'relation_a' => ['nullable'],
-                    'guardian_b' => ['nullable'],
-                    'relation_b' => ['nullable'],
-                ]);
+                // Check if it's from instant profile page
+                if(!$request->input('phone')){
+                    $instant =1;
+                    $validated = $request->validate([
+                        'room' => ['nullable'],
+                        'year' => ['required'],
+                        'residence_id' => ['required'],
+                        'program_id' => ['required'],
+                        'college_id' => ['nullable'],
+                    ]);
+                }else{
+                    $instant = 0;
+                    $validated = $request->validate([
+                        'room' => ['nullable'],
+                        'year' => ['required'],
+                        'residence_id' => ['required'],
+                        'program_id' => ['required'],
+                        'college_id' => ['nullable'],
+                        'phone' => ['required'],
+                        'whatsapp' => ['nullable'],
+                        'school_voda' => ['nullable'],
+                        'other_contact' => ['nullable'],
+                        'guardian_a' => ['nullable'],
+                        'relation_a' => ['nullable'],
+                        'guardian_b' => ['nullable'],
+                        'relation_b' => ['nullable'],
+                    ]);
+                }
+
+
+
 
 
 
@@ -256,6 +272,7 @@ class BiodataController extends Controller
         }
 
           // Create Contacts For this user
+             if($instant == 0){
                 // Main Phone
                 
                 if(!$user->phone){
@@ -353,8 +370,10 @@ class BiodataController extends Controller
                     //         'recorded_by'=>$user->id,
                     //     ]);
                     // }
-    
-
+            }
+                if($instant == 1){
+                    return redirect()->back()->with('success','Successful');
+                }
             return redirect(route('view_profile', ['user' => $user]))->with('success', 'Profile Created Successfully');
 
     }

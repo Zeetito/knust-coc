@@ -284,6 +284,15 @@ class UserController extends Controller
         return view('ADMIN.dashboard.components.birthdays.today',['users'=>$users]);
     }
 
+    // Creat instant Profile for user
+    public function instant_profile(User $user){
+        if($user->is_member == 1){
+            return view('ADMIN.dashboard.components.without-biodata.instant-profile.member',['user'=>$user]);
+        }else{
+            return "Hey";
+        }
+    }
+
 
     
 
