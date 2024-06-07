@@ -222,7 +222,7 @@ class UserController extends Controller
 
     // Search Users without biodata
     public function search_users_without_biodata(Request $request){
-        $users = User::search_user($request)->get()->intersect(User::without_biodata()->get())->sortByDesc('created_at');
+        $users = User::search_user($request)->get()->intersect(User::without_biodata()->get());
 
         // $users = $users->where('is_activated',0)->get();
         return view('ADMIN.dashboard.components.without-biodata.search-results', ['users' => $users]);

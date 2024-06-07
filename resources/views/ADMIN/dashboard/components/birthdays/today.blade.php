@@ -27,7 +27,7 @@
 
                     <tr>
                         <td>{{$user->fullnames()}}</td>
-                        <td>{{$user->member_biodata ? $user->zone()->name : "N/A"}}</td>
+                        <td>{{$user->zone() ? $user->zone()->name : "N/A"}}</td>
                         <td>{{$user->member_biodata ? $user->year() : "N/A"}}</td>
                         <td>{{$user->phone? $user->phone->body : ($user->when_guest() ? $user->when_guest()->contact : "None Given")}}</td>
                         <td>{{$user->whatsapp? $user->whatsapp->body :"None"}}</td>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Role;
+use App\Models\RemarkRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,5 +30,10 @@ class Remark extends Model
     // return model doing the remark
     public function remarkerable(){
         return $this->morphTo();
+    }
+
+    // Get remark records
+    public function records(){
+        return $this->hasMany(RemarkRecord::class);
     }
 }

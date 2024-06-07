@@ -78,7 +78,7 @@
                                                 <div class="menu-content">
                                                     <span class="text-black" >Give remark / Note as</span>
                                                    @foreach(auth()->user()->roles as $role) 
-                                                     <a class="bg-warning btn mt-1" href="{{route('create_remark',['remarkerable_type'=>'App\\Models\\Role', 'remarkerable_id'=>$role->id, 'remarkable_id'=>$user->id, 'remarkable_type'=>'App\\Models\\User'])}}">{{$role->name}}</a>
+                                                     <a class="bg-warning btn mt-1" href="{{route('view_remarks',['remarkerable_type'=>'App\\Models\\Role', 'remarkerable_id'=>$role->id, 'remarkable_id'=>$user->id, 'remarkable_type'=>'App\\Models\\User'])}}">{{$role->name}}</a>
                                                     @endforeach
                                                   {{-- <a class="bg-info btn mt-1"  href="{{route('edit_user',['user'=>$user])}}">Remark/Note</a> --}}
                                                   

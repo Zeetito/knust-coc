@@ -1,4 +1,4 @@
-@foreach($users as $user)
+@foreach($users->sortBy('firstname') as $user)
 <div class="col-sm-3 col-md-2 mt-3">
     {{-- If User is a Fresher --}}
     {{-- @if($user->status() == 'fresher') --}}

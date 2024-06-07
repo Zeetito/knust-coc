@@ -55,6 +55,7 @@ use App\Http\Controllers\ResidenceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\DefaultImageController;
+use App\Http\Controllers\RemarkRecordController;
 use App\Http\Controllers\AccountRecordController;
 use App\Http\Controllers\ProgramOutlineController;
 use App\Http\Controllers\SemesterProgramController;
@@ -87,14 +88,14 @@ Route::get('select_remark_create/{model_type}/{remarkerable_id}',[RemarkControll
     // -----
     
     // Create  Remarks/Notes
-    Route::get('create_remark/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'create'])
+    Route::get('view_remarks/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'view'])
     ->middleware('auth','control:system_online','hasProfile')
-    ->name('create_remark');
+    ->name('view_remarks');
 
-    // Store Remark
-    Route::post('store_remark/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'store'])
-    ->middleware('auth','control:system_online','hasProfile')
-    ->name('store_remark');
+    // // Store Remark
+    // Route::post('store_remark/{remarkerable_type}/{remarkerable_id}/{remarkable_id}/{remarkable_type}',[RemarkController::class,'store'])
+    // ->middleware('auth','control:system_online','hasProfile')
+    // ->name('store_remark');
 
     // confirm Delete Remark
     Route::get('confirm_delete_remark/{remark}',[RemarkController::class,'confirm_delete'])
@@ -108,6 +109,32 @@ Route::get('select_remark_create/{model_type}/{remarkerable_id}',[RemarkControll
     
 
     // ------
+
+// REMARK RECORDS
+    // Store remark record
+        Route::post('store_remark_record',[RemarkRecordController::class,'store'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('store_remark_record');
+
+    // Edit Remark Record
+        Route::get('edit_remark_record/{remark_record}',[RemarkRecordController::class,'edit'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('edit_remark_record');
+
+    // update Remark Record
+    Route::put('update_remark_record/{remark_record}',[RemarkRecordController::class,'update'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('update_remark_record');
+
+    // confirm_delete Remark Record
+    Route::get('confirm_delete_remark_record/{remark_record}',[RemarkRecordController::class,'confirm_delete'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('confirm_delete_remark_record');
+
+    // Delete Remark REcord
+    Route::delete('delete_remark_record/{remark_record}',[RemarkRecordController::class,'delete'])
+        ->middleware('auth','control:system_online','hasProfile')
+        ->name('delete_remark_record');
 
 
 

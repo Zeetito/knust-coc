@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('remarkable_id');
             $table->unsignedBigInteger('remarkerable_id');
-            $table->longText('body');
             $table->string('remarkable_type');
             $table->string('remarkerable_type');
             $table->foreignId('semester_id');

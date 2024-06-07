@@ -31,17 +31,17 @@ class RemarkController extends Controller
 
     // ---------
 
-    // Create User Remark
-    public function create($remarkerable_type, $remarkerable_id, $remarkable_id, $remarkable_type){
+    // View User Remark
+    public function view($remarkerable_type, $remarkerable_id, $remarkable_id, $remarkable_type){
         $remarkable = ($remarkable_type)::find($remarkable_id);
         $remarkerable = ($remarkerable_type)::find($remarkerable_id);
-
-        return view('remarks.create',['remarkable'=>$remarkable, 'remarkerable'=>$remarkerable, 'remarkable_type'=>$remarkable_type, 'remarkerable_type'=>$remarkerable_type]);
+        $remark = $remarkable->remark_from($remarkerable_type, $remarkerable->id, Semester::active_semester()->id);
+        return view('remarks.index',['remarkable'=>$remarkable, 'remarkerable'=>$remarkerable, 'remarkable_type'=>$remarkable_type, 'remarkerable_type'=>$remarkerable_type, 'remark'=>$remark]);
 
     }
 
     // Store remark
-    public function store(Request $request, $remarkerable_type, $remarkerable_id, $remarkable_id, $remarkable_type){
+    public function store(Request $request, $remark_id){
             $validated = $request->validate([
                 'body'=>['required'], 
             ]);

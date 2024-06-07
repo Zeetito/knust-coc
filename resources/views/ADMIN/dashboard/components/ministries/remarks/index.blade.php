@@ -25,7 +25,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Note</th>
+                                {{-- <th>Note</th> --}}
                                 <th>Created On</th>
                                 <th>Actions</th>
                             </tr>
@@ -35,11 +35,11 @@
                             @foreach($ministry->remarks_for($semester) as $remark)
                                 <tr>
                                     <td>{{$remark->remarkable->fullname() ? $remark->remarkable->fullname() : $remark->remarkable->name}}</td>
-                                    <td>{{$remark->body}}</td>
+                                    {{-- <td>{{$remark->body}}</td> --}}
                                     <td>{{$remark->created_at}}</td>
                                     <td>
-                                        <a href="{{route('create_remark',['remarkable_type'=>'App\\Models\User','remarkable_id'=>$remark->remarkable->id, 'remarkerable_type'=>'App\\Models\\Role', 'remarkerable_id'=>$ministry->id])}}" class="mr-2 fa fa-pencil"></a>
-                                        <i  data-toggle="modal" data-target="#myModal" data-url = "{{route('confirm_delete_remark',['remark'=>$remark])}}" class="fa fa-trash"></i>
+                                        <a href="{{route('view_remarks',['remarkable_type'=>'App\\Models\User','remarkable_id'=>$remark->remarkable->id, 'remarkerable_type'=>'App\\Models\\Role', 'remarkerable_id'=>$ministry->id])}}" class="mr-2 fa fa-eye"></a>
+                                        {{-- <i  data-toggle="modal" data-target="#myModal" data-url = "{{route('confirm_delete_remark',['remark'=>$remark])}}" class="fa fa-trash"></i> --}}
                                     </td>
                                 </tr>
                             @endforeach

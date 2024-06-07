@@ -1,15 +1,15 @@
-<form action="{{route('delete_remark',['remark'=>$remark])}}" method="post">
+<form action="{{route('delete_remark_record',['remark_record'=>$remark_record])}}" method="post">
     @csrf
     @method('delete')
         <div class=" m-2 modal-title" id="myModalLabel">
-            <h6 style="text-align:center">Deleting this remark</h6>
+            <h6 style="text-align:center">Deleting this Entry</h6>
         </div>
         <div class="modal-body">
             
 
             <strong>Note</strong>
 
-            <input type="text" name="body" class="form-control" value="{{$remark->body}}" readonly>
+            <input type="text" name="body" class="form-control" value="{{$remark_record->body}}" readonly>
 
 
         </div>
