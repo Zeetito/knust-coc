@@ -18,6 +18,7 @@
                                 <thead>
                                     <th>Name</th>
                                     <th>Gender</th>
+                                    <th>Residence</th>
                                     <th>Congregation</th>
                                     <th>Actions</th>
                                 </thead>
@@ -27,6 +28,7 @@
                                         <tr>
                                             <td>{{$participant->firstname." ".$participant->lastname}}</td>
                                             <td>{{$participant->gender}}</td>
+                                            <td>{{$participant->residence? $participant->residence->name." - ".$participant->room : ''}}</td>
                                             <td>{{$participant->congregation}}</td>
                                             <td>
                                                 <div class="btn-group">

@@ -6,8 +6,9 @@
 
     <div class="card-body">
             {{-- Form Here --}}
-            <form action="#" method="POST">
+            <form action="{{route('update_special_program_participant',['special_program_participant'=>$participant])}}" method="POST">
                 @csrf
+                @method('PUT')
 
                 <label for="congregation">Congregation</label>
                 <input list="congregations" type="text" value="{{$participant->congregation ? $participant->congregation : " "}}" name="congregation" id="congregation" class="form-control mb-3" required>
@@ -57,11 +58,13 @@
                 </select>
 
                 {{-- Room --}}
-                <label for="room">Room</label><label class="text-danger"></label>
+                {{-- <label for="room">Room</label><label class="text-danger"></label>
                 <select class="form-control mb-3" name="room" id="room">
                     <option value="">Select Residence First</option>
-                </select>
-
+                </select> --}}
+                <label for="room">Room</label>
+                <input type="text" name="room" class="form-control mb-3">
+                
 
 
                 {{-- Submit --}}

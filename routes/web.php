@@ -90,6 +90,12 @@ Route::get('/create_special_program_participant/{special_program}',[SpecialProgr
 Route::post('/store_special_program_participant/{special_program}',[SpecialProgramParticipantController::class,'store'])
 // ->middleware('auth')
 ->name('store_special_program_participant');
+
+// Update Special program participant
+Route::put('/update_special_program_participant/{special_program_participant}',[SpecialProgramParticipantController::class,'update'])
+->middleware('auth')
+->name('update_special_program_participant');
+
     
 // Index
 Route::get('/special_program_participants/{special_program}',[SpecialProgramParticipantController::class,'index'])
@@ -98,9 +104,10 @@ Route::get('/special_program_participants/{special_program}',[SpecialProgramPart
 
 // Special Program Participant edit
 Route::get('/special_program_participant_edit/{special_program_participant}',[SpecialProgramParticipantController::class,'edit'])
-    // ->middleware('auth')
+    ->middleware('auth')
     ->name('special_program_participant_edit');
     
+
 
 
 

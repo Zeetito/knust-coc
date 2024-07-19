@@ -63,9 +63,21 @@ class SpecialProgramParticipantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SpecialProgramParticipant $SpecialProgramParticipant)
+    public function update(Request $request, SpecialProgramParticipant $special_program_participant)
     {
-        //
+        $participant = $special_program_participant;
+
+        $participant->firstname = $request->input('firstname');
+        $participant->lastname = $request->input('lastname');
+        $participant->othername = $request->input('othername');
+        $participant->phone = $request->input('phone');
+        $participant->residence = $request->input('residence_id');
+        $participant->room = $request->input('room');
+
+        $participant->save();
+
+        redirect()->back()->with('success','Participant Updated Successfully');
+        
     }
 
     /**
