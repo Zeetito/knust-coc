@@ -1,4 +1,4 @@
-<x-layout>
+<x-guest_layout>
         
     <div class="card">
             <div class="">
@@ -67,4 +67,4 @@
         </div>
         <!-- /.conainer-fluid -->
 
-</x-layout>
+</x-guest_layout>
