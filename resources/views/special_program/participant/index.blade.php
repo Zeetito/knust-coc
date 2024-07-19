@@ -14,7 +14,7 @@
 
                 <div class="card-body">
                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped datatable ">
+                            <table class="table table-bordered table-striped datatable_print ">
                                 <thead>
                                     <th>Name</th>
                                     <th>Gender</th>
