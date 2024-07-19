@@ -21,6 +21,33 @@ $(document).ready(function(){
         });
     });
 
+
+ // Fetch dynamic list
+$(document.body).on('change', '.fetch_list', function() {
+    var target = $(this).data('target');
+    var url = $(this).data('url');
+    var variable = $(this).val();
+
+    console.log(url);
+
+    // Check if variable is not null
+    if (variable) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: { variable: variable },
+            cache: false,
+            success: function (data) {
+                $('#' + target).html(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
+});
+
+
     // Content Reciever 
 
     $('#myModal').on('shown.bs.modal', handleModalShown);
@@ -321,6 +348,9 @@ $(document).ready(function(){
         // // If you want to add/remove a class on the menuContent based on its visibility
         // menuContent.toggleClass('active');
     });
+
+
+
 
 
 })

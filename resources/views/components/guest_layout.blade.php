@@ -37,9 +37,16 @@
    {{-- <script src={{asset("bower_components/chart.js/dist/Chart.min.js")}}></script> --}}
    {{-- <script src={{asset("js/views/charts.js")}}></script> --}}
    <script src={{asset("js/views/main.js")}}></script>
-   <script src={{asset("js/views/widgets.js")}}></script>
-   <script src={{asset("js/dataTables.min.js")}}></script>
-   <script src={{asset("js/dataTables.bootstrap5.min.js")}}></script>
+
+       {{-- DataTable Tools --}}
+    <script src={{asset("js/jquery.dataTables.min.js")}}></script>
+    <script src={{asset("js/dataTables.bootstrap5.min.js")}}></script>
+    <script src={{asset("js/jszip.js")}}></script>
+    <script src={{asset("js/pdfmake.js")}}></script>
+    <script src={{asset("js/dataTables.buttons.min.js")}}></script>
+    <script src={{asset("js/buttons.html5.min.js")}}></script>
+    <script src={{asset("js/buttons.print.min.js")}}></script>
+
 
 </head>
 <body class="app header-fixed  aside-menu-fixed aside-menu-hidden">

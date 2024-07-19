@@ -24,6 +24,7 @@ use App\Models\GuestRequest;
 use App\Models\AccountRecord;
 use App\Models\UserResidence;
 use App\Models\AttendanceUser;
+use App\Models\SpecialProgram;
 use App\Http\Controllers\Admin;
 use App\Mail\CreateBiodataMail;
 use App\Models\SemesterProgram;
@@ -58,7 +59,10 @@ use App\Http\Controllers\DefaultImageController;
 use App\Http\Controllers\RemarkRecordController;
 use App\Http\Controllers\AccountRecordController;
 use App\Http\Controllers\ProgramOutlineController;
+use App\Http\Controllers\SpecialProgramController;
 use App\Http\Controllers\SemesterProgramController;
+use App\Http\Controllers\SpecialProgramResidenceController;
+use App\Http\Controllers\SpecialProgramParticipantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +76,100 @@ use App\Http\Controllers\SemesterProgramController;
 */
 
 Auth::routes();
+
+// SPECIAL PROGRAM PARTICIPANTS
+// Create participants
+Route::get('/create_special_program_participant/{special_program}',[SpecialProgramParticipantController::class,'create'])
+    // ->middleware('auth')
+    ->name('create_special_program_participant');
+Route::get('/create_special_program_participant/{special_program}',[SpecialProgramParticipantController::class,'create'])
+    // ->middleware('auth')
+    ->name('create_special_program_participant');
+    
+// Store participants
+Route::post('/store_special_program_participant/{special_program}',[SpecialProgramParticipantController::class,'store'])
+// ->middleware('auth')
+->name('store_special_program_participant');
+    
+// Index
+Route::get('/special_program_participants/{special_program}',[SpecialProgramParticipantController::class,'index'])
+    // ->middleware('auth')
+    ->name('special_program_participants');
+
+// Special Program Participant edit
+Route::get('/special_program_participant_edit/{special_program_participant}',[SpecialProgramParticipantController::class,'edit'])
+    // ->middleware('auth')
+    ->name('special_program_participant_edit');
+    
+
+
+
+
+
+
+
+
+// SPECIAL PROGRAM
+// Create Special program
+Route::get('/create_special_program',[SpecialProgramController::class,'create'])
+    ->middleware('auth')
+    ->name('create_special_program');
+
+// Store Special Program
+Route::post('/store_special_program',[SpecialProgramController::class,'store'])
+    ->middleware('auth')
+    ->name('store_special_program');
+    
+    // Show Special Program
+Route::get('/show_special_program/{special_program}',[SpecialProgramController::class,'show'])
+    // ->middleware('auth')
+    ->name('show_special_program');
+
+// SPECIAL PROGRAM RESIDENCE
+
+// Create Special Program Residence
+Route::get('/create_special_program_residence/{special_program}',[SpecialProgramResidenceController::class,'create'])
+    // ->middleware('auth')
+    ->name('create_special_program_residence');
+
+// Store Special Program Residence
+Route::post('/store_special_program_residence/{special_program}',[SpecialProgramResidenceController::class,'store'])
+    // ->middleware('auth')
+    ->name('store_special_program_residence');
+
+// Show speical program Residecnce
+Route::get('/show_special_program_residence/{special_program_residence}',[SpecialProgramResidenceController::class,'show'])
+    // ->middleware('auth')
+    ->name('show_special_program_residence');
+
+// Create Special Program Residence Participant 
+Route::get('/create_special_program_residence_participant/{special_program_residence}',[SpecialProgramResidenceController::class,'create_participant'])
+    // ->middleware('auth')
+    ->name('create_special_program_residence_participant');
+
+// Create Special Program Residence Participant 
+Route::post('/store_special_program_residence_participant/{special_program_residence}',[SpecialProgramResidenceController::class,'store_participant'])
+    // ->middleware('auth')
+    ->name('store_special_program_residence_participant');
+    
+    // Create Special Program residence room
+Route::get('/create_special_program_residence_room/{special_program_residence}',[SpecialProgramResidenceController::class,'create_room'])
+    // ->middleware('auth')
+    ->name('create_special_program_residence_room');
+
+// Store Special Program residence room
+Route::post('/store_special_program_residence_room/{special_program_residence}',[SpecialProgramResidenceController::class,'store_room'])
+    // ->middleware('auth')
+    ->name('store_special_program_residence_room');
+
+// Get Special program Room list
+Route::get('/get_special_program_room_list/{special_program}',[SpecialProgramResidenceController::class,'get_special_program_room_list'])
+    // ->middleware('auth')
+    ->name('get_special_program_room_list');
+
+
+
+
 
 
 // REMARKS
@@ -1385,6 +1483,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return SpecialProgram::find(1)->residences;
 
     return User::with_birthday();
 
