@@ -94,7 +94,7 @@ Route::post('/store_special_program_participant/{special_program}',[SpecialProgr
 
 // Update Special program participant
 Route::put('/update_special_program_participant/{special_program_participant}',[SpecialProgramParticipantController::class,'update'])
-->middleware('auth')
+// ->middleware('auth')
 ->name('update_special_program_participant');
 
     
@@ -105,7 +105,7 @@ Route::get('/special_program_participants/{special_program}',[SpecialProgramPart
 
 // Special Program Participant edit
 Route::get('/special_program_participant_edit/{special_program_participant}',[SpecialProgramParticipantController::class,'edit'])
-    ->middleware('auth')
+    // ->middleware('auth')
     ->name('special_program_participant_edit');
     
 
