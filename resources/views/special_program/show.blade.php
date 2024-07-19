@@ -40,13 +40,13 @@
                 
                     <div class="row m-1">
                         {{-- Participants --}}
-                        <div class="rounded border border-solid border-secondary p-3 col-4">
+                        <div class="rounded border border-solid border-secondary p-3 col-12">
                             <a href="{{route('create_special_program_participant',['special_program'=>$special_program->id])}}">
                                 <div class="float-end fa fa-user-plus btn border border-solid"  >
 
                                 </div>
                             </a>
-                            
+
                             <h5 class="text-center card-title">Participants Details</h5>
 
                             <p>Number of Participants: {{$special_program->participants->count()}}</p>
@@ -56,7 +56,7 @@
                         </div>
 
                         {{-- Residences --}}
-                        <div class="rounded border border-solid border-secondary p-3 col-4 ml-1 overflow-auto">
+                        <div class="rounded border border-solid border-secondary p-3 col-12 ml-1 overflow-auto">
                             <div class="float-end fa fa-plus-square btn border border-solid" data-url="{{route('create_special_program_residence',$special_program->id)}}" data-target="#myModal" data-toggle="modal"></div>
                             <div class="h5 text-center card-title">Residences Details</div>
 
