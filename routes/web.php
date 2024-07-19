@@ -43,6 +43,7 @@ use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ShareController;
+use App\Models\SpecialProgramParticipant;
 use App\Http\Controllers\RemarkController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BiodataController;
@@ -1490,6 +1491,8 @@ Route::get('/search_user', [UserController::class, 'search_user'])
     ->name('search_user');
 
 Route::get('/hello', function () {
+
+    return SpecialProgramParticipant::find(1)->residence->name;
 
     return SpecialProgram::find(1)->residences;
 

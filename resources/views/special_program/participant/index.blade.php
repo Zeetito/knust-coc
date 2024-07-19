@@ -28,7 +28,7 @@
                                         <tr>
                                             <td>{{$participant->firstname." ".$participant->lastname}}</td>
                                             <td>{{$participant->gender}}</td>
-                                            <td>{{$participant->residence? $participant->residence->name." - ".$participant->room : ''}}</td>
+                                            <td>{{$participant->residence? $participant->residence->name." - Room: ".$participant->special_program_room_id_text : ''}}</td>
                                             <td>{{$participant->congregation}}</td>
                                             <td>
                                                 <div class="btn-group">

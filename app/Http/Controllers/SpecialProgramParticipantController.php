@@ -71,12 +71,12 @@ class SpecialProgramParticipantController extends Controller
         $participant->lastname = $request->input('lastname');
         $participant->othername = $request->input('othername');
         $participant->phone = $request->input('phone');
-        $participant->residence = $request->input('residence_id');
-        $participant->room = $request->input('room');
+        $participant->special_program_residence_id = $request->input('residence_id');
+        $participant->special_program_room_id_text = $request->input('room');
 
         $participant->save();
 
-        redirect()->back()->with('success','Participant Updated Successfully');
+        return redirect()->back()->with('success','Participant Updated Successfully');
         
     }
 

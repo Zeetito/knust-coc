@@ -32,11 +32,12 @@ class SpecialProgramParticipant extends Model
 
     // Get Room
     public function room(){
-        return $this->belongsTo(SpecialProgramRoom::class,'special_program_room_id');
+        // return $this->belongsTo(SpecialProgramRoom::class,'special_program_room_id');
     }
 
     // Get residence
     public function residence(){
+        // return SpecialProgramResidence::find($this->special_program_residence_id);
         return $this->belongsTo(SpecialProgramResidence::class,'special_program_residence_id');
     }
     
